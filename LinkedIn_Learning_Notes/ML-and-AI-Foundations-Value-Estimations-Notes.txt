@@ -1,0 +1,41 @@
+CHAPTER 1
+
+    What is Machine Learning?
+        - computer algorithms that have the ability to learn without being explicitly programmed
+
+    Filtering Program
+        ex. email -> filtering program -> real emails
+                                    -> spam emails
+
+    Machine Learning Algorithm
+        Emails
+        -> predicted real email
+        -> predicted spam email
+        based on the training data, it can predict what email is real or spam. 
+
+    Supervised Learning
+        - computer looks at labeled data to learn
+        - the data and outcome is already given for the computer to realize the relationship between the data and outcome
+        - if it sees enough examples, it can predict the outcome of the next data
+
+    Gradient Descent
+        - an iterative optimization algorithm that can be used to minimize cost function and find the best weights
+        - tweak components more and more until it gets as close as possible to the outcome that is wanted
+
+CHAPTER 2
+
+    Numpy
+        - array and linear algebra functions
+        - foundation for other ML libraries
+
+    scikit-learn
+        - machine learning library
+
+    pandas
+        - easy to load data w large data sets similar to spreadsheet
+
+    numpy => pandas +. scikit-learn
+
+    Gradient Boosting
+    - a ML algorithm that uses an ensemble of decision trees to predict values
+    

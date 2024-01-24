@@ -2,25 +2,7 @@ Python Machine Learning Foundations
 
 https://www.linkedin.com/learning/machine-learning-with-python-foundations/next-steps-with-applied-machine-learning?autoSkip=true&resume=false&u=2206009 ( Done by leo)
 
-Chapter 1 Quiz Answers:
-1.) Data preparation us the stage of the machine learning process that involves dealing with a data quality issue such as missing data.
-2.) Unsupervised machine learning is not a great use for spam filtering.
 
-Chapter 2 Quiz Answers:
-1.) When collecting data we SHOULD be overly concerned with potential bias in the training data
-2.) Velocity is not one of the 5 key considerations for good data collection.
-
-Chapter 3 Quiz Answers:
-1.) A pier char falls into a composition visualization	category
-2.) Not all numeric data is continuous.
-
-Chapter 4 Quiz Answers:
-1.) Don't use log transformations for negative values in data.
-2.) Stratified sampling is a sampling technique that maintains the same class distribution between the sample and the population.
-
-Chapter 5 Quiz Answers:
-1.) Mean absolute error is a useful metric for evaluatin ghte performance of a regression model.
-2.) Predicting whether a particular email is spam or am based on the words in the email
 
 https://www.linkedin.com/learning/paths/career-essentials-in-generative-ai-by-microsoft-and-linkedin?u=2206009
 
@@ -34,39 +16,7 @@ https://www.linkedin.com/learning/machine-learning-foundations-calculus/learn-ca
 
 https://www.linkedin.com/learning/machine-learning-foundations-statistics/introduction?u=2206009 (Done by leo)
 
-Chapter 1 Quiz Answers:
-1.) Two major branches of statistics = descriptive and inferential
-2.) Data types = Ordinal, Ratio, Nominal, Interval
-    Non Data Types = Computational
-3.) Example of statistical methods used in data cleaning = outlier detection and imputation
 
-Chapter 2 Quiz Answers:
-1.) Median is the middle value of all the values when sorted
-2.) Types of means = Arithmetic mean, geometric mean, and harmonic mean
-3.) The general rule is that if value X is at the kth percentile, then X is greater than K% of the values.
-4.) Measures of central tendency = Mean, median, and mode
-    Non measures of central tendency = variance
-5.) Variance is equal to the average of the differences of all numbers to the mean in a data set
-6.) Range represents the difference between the max and min values in a dataset
-7.) Standard error is the standard deviation of the set of means (the measure of the variability within a sample used to estimate a population parameter)
-8.) Standard deviation is the square root of the variance
-
-Chapter 3 Quiz Answers:
-1.) We use the box and whisker plot to: Understand the distribution of the data, determine if the data is skewed, and identify outliers
-2.) Quartiles represent the three values that divide a sorted datasset into four equal parts.
-3.) We deal with missing data by keeping it
-4.) Covariance is the relationship between two random variables
-5.) A negative correlation means as one variable increases, the other decreases
-6.) A perfect negative relationship is represented by -1
-
-Chapter 4 Quiz Answers:
-1.) Binomial distribution is used to model the number of successes in a fixed number of bernoulli trials.
-2.) Discrete and continuous are the two types of probability distributions
-3.) The standard deviation represents the spread of the data
-
-Chapter 5 Quiz Answers:
-1.) The purpose of bootstrapping is to generate multiple samples form a single sample by using sampling with replacements and sampling with replacement.
-2.) To collect samples staticians used selection with replacement and selection without replacement.
 
 https://www.linkedin.com/learning/nlp-with-python-for-machine-learning-essential-training?u=2206009
 

@@ -5,7 +5,7 @@ CHAPTER 1
 
     Filtering Program
         ex. email -> filtering program -> real emails
-                                    -> spam emails
+                                       -> spam emails
 
     Machine Learning Algorithm
         Emails
@@ -34,8 +34,56 @@ CHAPTER 2
     pandas
         - easy to load data w large data sets similar to spreadsheet
 
-    numpy => pandas +. scikit-learn
+    numpy => pandas => scikit-learn
 
     Gradient Boosting
     - a ML algorithm that uses an ensemble of decision trees to predict values
-    
+
+    Decision Tree
+    - option 1: complex decision tree
+        - tree with many branches of decisions and outcomes
+        - large tree does not work well with new data
+        - not v accurate w a lot of data in one big tree
+    - option 2: ensemble learning
+        - many small trees and combining the outcome of all the trees to make one final outcome
+
+CHAPTER 3
+
+    1. By convention, the features you feed into a machine learning algorithm are typically identified by which letter?
+        > X
+    2. By convention, what do you call the data attributes you feed into a machine learning algorithm?
+        > features
+    3.  > more training data is usually better than less training data
+        > a good starting point is to have 10 times as many data points in the training data set as the number of features in the model
+        > machine learning algorithms work best when your training data set covers a wide range of combinations of features in your model
+
+CHAPTER 4
+
+    1. What is one-hot encoding?
+        > a way to convert categorical data into a format suitable for use in a machine learning model
+    2. To get the best results from machine learning, what should you do?
+        > use features in your model that correlate strongly with the output values you want to predict
+    3. Because of the curse of dimensionality, you should _____.
+        > include as few features as possible in your model while still accurately modeling the problem
+
+CHAPTER 5
+
+    1. What is a training data set used for?
+        > it's used to do the initial training of your model
+    2. What is true about a test data set?
+        > it is used to verify that your model works accurately on data it has never seen before
+    3. Mean absolute error is _____.
+        > a measurement of the average prediction error across your data set
+
+CHAPTER 6
+
+    1. Underfitting is when: the model is too simple to fit the data
+    2. What is true about overfitting?
+        > it occurs when the model is too complex to fit the data
+        > it can be addressed by reducing the complexity of the model or using regularization
+        > it results in poor prediction accuracy
+    3. a way to find the best hyperparameters for a machine learning model by trying many different possible combinations
+    4. What is true about feature selection?
+        > help us understand which features are most important to your model
+        > find features that are not needed and can be removed from your model
+        > give us a better idea of which features your model is using most often to predict values

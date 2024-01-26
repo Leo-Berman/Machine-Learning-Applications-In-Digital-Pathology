@@ -24,3 +24,33 @@
     Vectorize - convert to numeric format
     Machine Learning Algorithm - fit/train model
     Spam Filter - system to filter emails
+
+    Quiz:
+
+    1) Which choice is an example of unstructured data?
+        > a PDF document
+          - A PDF document usually contains free flowing text with no defined patterns for punctuation and formatting.
+    2) When using pd.read_csv(), how can you tell it that you are using tabs as separators and there are no headers?
+        > sep="\t", header=None
+    3) What is the length of the list returned by the following split call: re.split('\s',"This is an interesting te+st")
+        > 5
+    4) What is the core component of natural language processing?
+        > extracting information from human language
+    5) What built-in Python function can be used to help remove special characters from a text file?
+        > string.punctuation
+    6) When would you use the + sign in a regular expression?
+        > when you need to return more than one character at a time
+    7) How would you describe the concept of stemming?
+        > Though they may have different affixes, words that share the same stem have similar semantic meaning. Stemming is able to determine that 'learned' and 'learning' , though they have different affixes, each contain the same root word 'learn'.
+    8) Besides manual parsing, what is an alternative method to parse a tab-delimited text file?
+        > Use the Pandas read csv function.
+    9) In the machine learning pipeline, _____ is about converting to numeric form.
+        > vectorizing
+    10) Before you begin to create a replacement expression, what should be true about your findall expression?
+        > It is able to capture the correct sequence and any misspellings.
+    11) What should be your first step when trying to read an unstructured text file into your code?
+        > Read the text file to see patterns and determine the next step.
+    12) What is the result of the following call: re.findall('[A-Z]+', "I like this test")
+        > ['I']
+    13) What is an important consideration when testing regular expressions?
+        > Make sure extra spaces and special characters are correctly handled.

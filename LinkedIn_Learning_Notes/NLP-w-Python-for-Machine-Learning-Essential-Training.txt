@@ -1,0 +1,26 @@
+1. NLP Basics
+
+    NLP = Natural Language Processing
+    field concerned w the ability of a computer to understand, analyze, manipulate, and potentially generate human language.
+
+    examples
+    - spam filtering
+    - auto-correct
+    - auto-complete
+
+    Natural Language Toolkit
+
+    findall() - finds the words/characters and returns those
+    split() - splits the string by specific characters and returns the splitted strings
+
+    REGEX
+        - \W and \w (word)
+        - \S and \s (space)
+        capital refers to non-[character] such as \W refers to non-word
+
+    Raw test - model can't distinguish words
+    Tokenize - tell the model what to look at
+    Clean text - remove stop words/ punctuation, stemming, etc.
+    Vectorize - convert to numeric format
+    Machine Learning Algorithm - fit/train model
+    Spam Filter - system to filter emails

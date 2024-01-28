@@ -54,3 +54,60 @@
         > ['I']
     13) What is an important consideration when testing regular expressions?
         > Make sure extra spaces and special characters are correctly handled.
+
+Chapter 2
+
+    Stemming -> two words that have some sort of relation
+        ex) electricity and electrical -> electric (stem)
+        - correlates words w similar meaning
+        - reduces the corpus of words the model is exposed to
+        panda's stem function
+    Lemmatizing
+        - process of grouping together the inflected forms of a word so they can be analyzed as a single term, identified by the word's lemma
+        - similar to stemming. both condenses derived words into their base forms.
+        NLTK's WordNetLemmatizer 
+
+    Stemming might make a non-existent word and is less accurate.
+    Lemmatizing is more accurate as it will always return a dictionary word, but it may be more computationally expensive
+
+    Quiz:
+
+    1) When might you use lemmatizing over stemming?
+        > when accuracy is preferred more than speed. Lemmatizing uses a more sophisticated algorithm to find root words at the expense of speed.
+
+Chapter 3
+
+    Vectorzing -> process of encoding text as integers to create feature vectors.
+    Feature vector -> An n-dimensional vector of numerical features that represent some object 
+    - counts how many times a word appears in a model
+    - raw text converted to numbers for python to understand such as
+        - counting how many times a word appears in a text
+
+    Sparse matrix, a matrix in which most entries are 0. In efficient storage, a sparse matrix will be stored by only storing the locations of non-zero elements.
+
+    Quiz
+
+    1) What does TF represent in the TF-IDF equation?
+        > the number of times a particular word appears in a sentence divided by the total number of words in the sentence
+    2) What will NOT change in a document term matrix when using different vectorizing methods?
+        > The number of rows will not change. It will always indicate the number of documents/messages in the data.
+    3) Which item is NOT found in a document term matrix?
+        > punctuation
+
+Chapter 4
+
+    Feature Engineering -> creating new features or transforming your existing features get the most out of your data
+    - features can be seen as things that we could use when it comes to classifying data such as which has capitalization.
+    - power transformations are features that are square or squareroot, and so on
+    - standardized data
+
+    Quiz
+
+    1) What feature can be used by a model to decipher spam from ham.
+        - length of the text
+        - percentage of characters that are capitalized
+        - percentage of characters that are punctuations
+    2) What result will you obtain from the histogram when you test "Create feature for text message length"?
+        > spam messages tend to be longer than non-spam messages
+    3) When creating a lambda expression, you need to count the characters and ignore white spaces. What expression that helps you accomplish the task.
+        > len(x) - x.count(" ")

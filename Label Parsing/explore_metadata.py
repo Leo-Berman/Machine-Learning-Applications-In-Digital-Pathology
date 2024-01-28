@@ -6,5 +6,6 @@ def main():
 
     print(metadata.head())
     print(metadata.info())
+    print(metadata.describe())
 
 main()

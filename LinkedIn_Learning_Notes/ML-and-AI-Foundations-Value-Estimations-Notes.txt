@@ -87,3 +87,10 @@ CHAPTER 6
         > help us understand which features are most important to your model
         > find features that are not needed and can be removed from your model
         > give us a better idea of which features your model is using most often to predict values
+
+CHAPTER 7
+
+    1. When using a machine learning model in a real application:
+        > you should test the accuracy of new models before using them to replace an existing model
+        > When using a machine learning model in a real application:
+        > you need to provide the input features in exactly the same format they were provided in during training

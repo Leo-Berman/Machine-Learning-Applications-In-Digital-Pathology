@@ -111,3 +111,53 @@ Chapter 4
         > spam messages tend to be longer than non-spam messages
     3) When creating a lambda expression, you need to count the characters and ignore white spaces. What expression that helps you accomplish the task.
         > len(x) - x.count(" ")
+
+Chapter 5
+
+    Machine Learning -> the field of study that gives computers to learn without being explicitly programmed
+
+    Supervised Learning
+        - inferring a function from labeled training data to make predictions on unseen data
+        - ex) spam filter of emails
+    Unsupervised Learning
+        - Deriving structure from data where we dont know the effect of any of the variables
+        - ex) based on content of email, group similar emails together in distinct folders
+
+    Holdout Test Set
+        - sample of data not used in fitting a model for the purpose of evaluating the model's ability to generalize unseen data
+
+    K-Fold Cross-Validation
+        - full data set divided into k-subsets and the holdout method is repeated k-times
+
+    ex) Fivefold Cross-Validation
+        - 1st iteration: 10,000 examples divided into five subsets (2000 examples each). first four subsets could be used as the training set, and last subset could be used as the test set  
+        - 2nd iteration, the fourth subset could be the test subset, while the other subsets are training sets.
+        - 3rd iteration, the third subset could be the test set, while the others are the training sets.
+        - and so forth
+
+        - outcome (performance) should increase after each iteration
+
+        accuracy = # predicted correctly / total # observations
+
+        precision = # predicted as spam that are actually spam / total # predicted as spam
+
+        recall = # predicted as spam that are actually spam / total # that are actually spam
+
+    Ensemble Method -> technique that creates multiple methods and combines them to produce better results of any of the single models individually
+        - model + model + ... + model = metamodel -> prediction
+        - random forest -> constructs a collection of decision trees and aggregates the predections of all trees to determine final prediction
+            > uses "bagging" method: samples randomly
+            > unweighted voting for final prediction
+            > easier to tune, harder to overfit
+        - gradient boosting -> an iterative approach that takes the mistakes of prior iterations to create a strong learner
+            > uses "boosting" method: higher weight on mistakes of prior iterations
+            > weighted voting for final prediction
+            > harder to tune, easier to overfit, but it's a lot more powerful if tuned right
+
+    Quiz
+
+    1) benefits of ensemble methods:
+        - can be used for classification
+        - accepts various types of inputs
+        - easily handles outliers
+    2) Accuracy is defined as # predicted correctly / total # observations

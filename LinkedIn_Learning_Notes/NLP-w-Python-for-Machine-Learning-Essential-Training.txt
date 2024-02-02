@@ -154,6 +154,8 @@ Chapter 5
             > weighted voting for final prediction
             > harder to tune, easier to overfit, but it's a lot more powerful if tuned right
 
+    Grid Search -> try out different values and test them to see which combination of input values give the best score/result.
+
     Quiz
 
     1) benefits of ensemble methods:

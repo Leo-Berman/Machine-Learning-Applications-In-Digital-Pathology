@@ -12,3 +12,5 @@ Use action words and deliverables in sprint stories title and show the deliverab
 Tried connecting github to Jira but decided to go with permalinks to github paths
 
 Ex. Instead of doing research x software say something like determine use cases of x software and track them
+
+Objective -> Outcome

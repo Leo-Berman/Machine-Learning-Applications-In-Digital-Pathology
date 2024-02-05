@@ -44,8 +44,8 @@ def main():
         # process files
         print("in")
         NIL.open(fname)
-        #NIL.read_data((xoff,yoff),width,height)
-        NIL.read_data()
+        NIL.read_data((xoff,yoff),width,height)
+        #NIL.read_data()
         NIL.write("demo","jpg")
         NIL.close()
         

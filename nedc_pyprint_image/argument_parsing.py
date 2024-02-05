@@ -5,14 +5,14 @@ implimenting their argument parsing tool.'''
 
 # parse arguments in this function
 def parse_args():
-    
+
     # parse arguments
+    pass
 
-
-
+        
 # test function from here
 def main():
-
+    
     # print parsed arguments from here 
-
+    pass
 main()

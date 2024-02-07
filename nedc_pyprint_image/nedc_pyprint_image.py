@@ -43,16 +43,38 @@ def main():
     
     if NIL.is_image(fname) == 2:
         # process files
-        print("in")
         NIL.open(fname)
         print("passed opening the file")
-        NIL.read_data((xoff,yoff),width,height)
-        #NIL.read_data()
+
+        if(NIL.is_image(fname) == 2):
+            print("is svs image")
+        else:
+            print("not svs image")
+
+
+        #print(NIL.read_metadata())
+        #print(NIL.read_data((100,100),100,100))
+        read_DATA = NIL.read_data()
         print("passed reading the data")
-        NIL.write("demo","JPEG")
-        print("passed the writing phase")
+
+
+
+        #if NIL.write("demo","JPEG") == False:
+        #    print("Writing Failed")
+        #print("passed the writing phase")
+
+        
+        print("Dimensions = ",NIL.get_dimension())
+    
+
         NIL.close()
-        print("passed closing")
+        
+        print("passed closing the data")
+        
+        if NIL.write("demo","JPEG") == True:
+            print("Successful Write")
+        else:
+            print("Failed Write")
         
         pass
     else:

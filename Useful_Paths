@@ -3,3 +3,8 @@ C program we are replicating /data/isip/tools/linux_x64/nfc/util/cpp/nedc_print_
 Python toolbox /data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools
 
 For argument parsing /data/isip/tools/linux_x64/nfc/util/python/nedc_pyprint_signal
+
+Data /data/isip/data/fccc_dpath/deidentified
+
+Test Data Points /data/isip/data/fccc_dpath/deidentified/v1.0.0/svs/00000/000000197/001003366/c50.2_c50.2/000000197_001003366_st065_xt1_t000.svs
+

@@ -10,12 +10,12 @@ def argument_parsing():
         description = 'prints the image values for an SVS file'
     )
 
-    parser.add_argument('--height')
-    parser.add_argument('--width')
-    parser.add_argument('-l','--level')
-    parser.add_argument('-x','--xoff')
-    parser.add_argument('-y','--yoff')
-    parser.add_argument('filename')
+    parser.add_argument('--height',default=10)
+    parser.add_argument('--width',default=10)
+    parser.add_argument('-l','--level',default=1)
+    parser.add_argument('-x','--xoff',default=0)
+    parser.add_argument('-y','--yoff',default=0)
+    parser.add_argument('-f','--filename',default="/data/isip/data/fccc_dpath/deidentified/v1.0.0/svs/00000/000000197/001003366/c50.2_c50.2/000000197_001003366_st065_xt1_t000.svs")
     args = parser.parse_args()
     return args
 
@@ -28,7 +28,8 @@ def main():
     print("beginning argument processing...")
 
     # get parses as variables
-    fname = args.filename
+    fname = str(args.filename)
+
     height = int(args.height)
     width = int(args.width)
     level = int(args.level)
@@ -44,10 +45,14 @@ def main():
         # process files
         print("in")
         NIL.open(fname)
+        print("passed opening the file")
         NIL.read_data((xoff,yoff),width,height)
         #NIL.read_data()
-        NIL.write("demo","jpg")
+        print("passed reading the data")
+        NIL.write("demo","JPEG")
+        print("passed the writing phase")
         NIL.close()
+        print("passed closing")
         
         pass
     else:

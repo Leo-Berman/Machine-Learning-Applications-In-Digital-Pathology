@@ -37,58 +37,61 @@ def windows_to_jpg(nil,size):
         im = Image.fromarray(window)
         im.save(f'./DATA/window_{index}.jpg', "JPEG")
 
+
+
+def single_file(filename, height, width, level, xoffset, yoffset):
+    NIL = phg.Nil()
+    if NIL.is_image(filename) == 2:
+        NIL.open(filename)
+        window = NIL.read_data((xoffset,yoffset), width, height,"RGBA")
+        print(("  {}: ").format(1)+filename)
+        for i,x in enumerate(window):
+            for j,y in enumerate(x):
+                print(("{:>12}").format(str(i*10+j)) + ": (a = " + str(y[3]) + ", r = " + str(y[0]) + ", b = " + str(y[1]) + ", g = " + str(y[2]))
+        NIL.close()
+        return True
+    else:
+        NIL.close()
+        return False
+
+def file_list(filelist,height,width,level,xoffset,yoffset):
+    processed = 0
+    for x in filelist:
+        if single_file(x,height,width,level,xoffset,yoffset) == True:
+            processed+=1
+    return processed
+
 def main():
-    # parse arguments
-    # Get argument parsing data here /data/isip/tools/linux_x64/nfc/util/python/nedc_pyprint_signal
-    args = argument_parsing()
 
     # print useful processing message
     print("beginning argument processing...")
 
     # get parses as variables
-    fname = str(args.filename)
-    height = int(args.height)
-    width = int(args.width)
-    level = int(args.level)
-    xoff = int(args.xoff)
-    yoff = int(args.yoff)
+    fname = "/data/isip/data/fccc_dpath/deidentified/v1.0.0/svs/00000/000000197/001003366/c50.2_c50.2/000000197_001003366_st065_xt1_t000.svs"
+    height = 10
+    width = 10
+    level = 0
+    xoff = 0
+    yoff = 0
 
     # Class for using tools from Phuykong's library
     NIL = phg.Nil()
 
+    # track how many need to be processed and how many need to be processed
+    processed = 0
+    toprocess = 1
+
     # Pixel size should be the parameter dont worry aobut frame number
-    
     if NIL.is_image(fname) == 2:
-        # process files
-        NIL.open(fname)
-        print("passed opening the file")
 
-        # Check if file is an svs file
-        if(NIL.is_image(fname) == 2):
-            print("is svs image")
-        else:
-            print("not svs image")
-        
-
-        # Read a windows for the coordinate of size WINDOW_FRAME x WINDOW_FRAME
-        window = NIL.read_data((xoff,yoff), width, height,"RGBA")
-        print(len(window))
-        for i,x in enumerate(window):
-            for j,y in enumerate(x):
-                print(str(i*10+j) + ": (a = " + str(y[0]) + ", r = " + str(y[1]) + ",b = " + str(y[2]) + ",g = " + str(y[3]))
-
-        
-        
-        
-        # if NIL.write("demo","png") == True:
-        #     print("Successful Write")
-        # else:
-        #     print("Failed Write")
-        
-        NIL.close()
-        print("passed closing the data")
-        
+        # process single file
+        if single_file(fname,height,width,level,xoff,yoff) == True:
+            processed+=1
     else:
-        # Treat as list
-        pass
+        
+        # Process each single file in list
+        processed += file_list(file,height,width,level,xoff,yoff)
+            
+    # final print statement
+    print("\nprocessed {} out of {} files successfully".format(processed,toprocess))
 main()

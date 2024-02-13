@@ -53,23 +53,43 @@ DEF_YOFF = float(0)
 
 def main(argv):
 
-
     parser = agp.ArgumentParser(
         prog = 'nedc_pypring_image.py',
         description = 'prints the image values for an SVS file'
     )
 
-    parser.add_argument(ARG_HEIGHT,default=DEF_HEIGHT)
-    parser.add_argument(ARG_WIDTH,default=DEF_WIDTH)
-    parser.add_argument(ARG_LVL,ARG_ABRV_LVL,default=DEF_LVL)
-    parser.add_argument(ARG_XOFF,ARG_ABR_XOFF,default=DEF_XOFF)
-    parser.add_argument(ARG_YOFF,ARG_ABR_YOFF,default=DEF_YOFF)
+    # create a command line parser
+
+    parser.add_argument(ARG_HEIGHT, type=int)
+    parser.add_argument(ARG_WIDTH, type=int)
+    parser.add_argument(ARG_LVL, ARG_ABRV_LVL, type=int)
+    parser.add_argument(ARG_XOFF, ARG_ABR_XOFF, type=float)
+    parser.add_argument(ARG_YOFF, ARG_ABR_YOFF, type=float)
     parser.add_argument('-f','--filename',default="/data/isip/data/fccc_dpath/deidentified/v1.0.0/svs/00000/000000197/001003366/c50.2_c50.2/000000197_001003366_st065_xt1_t000.svs")
     args = parser.parse_args()
-    return args
 
+    # get the parameter values
     
+    if args.height is None:
+        args.height = DEF_HEIGHT
+
+    if args.width is None:
+        args.width = DEF_WIDTH
     
+    if args.level is None:
+        args.level = DEF_LVL
+    
+    if args.xoff is None:
+        args.xoff = DEF_XOFF
+    
+    if args.yoff is None:
+        args.yoff = DEF_YOFF
+
     # print parsed arguments from here 
-    pass
+    print("height: {}, width: {}, level: {}, xoff: {}, yoff: {}".format(args.width,
+                                                                          args.height,
+                                                                          args.level,
+                                                                          args.xoff,
+                                                                          args.yoff))
+
 main()

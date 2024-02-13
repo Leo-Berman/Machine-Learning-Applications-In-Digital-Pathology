@@ -51,7 +51,7 @@ DEF_YOFF = float(0)
 # test function from here
 #---------------------------------------------------------------------------------------
 
-def main(argv):
+def main():
 
     parser = agp.ArgumentParser(
         prog = 'nedc_pypring_image.py',
@@ -86,8 +86,9 @@ def main(argv):
         args.yoff = DEF_YOFF
 
     # print parsed arguments from here 
-    print("height: {}, width: {}, level: {}, xoff: {}, yoff: {}".format(args.width,
-                                                                          args.height,
+        
+    print("height: {}, width: {}, level: {}, xoff: {}, yoff: {}".format(args.height,
+                                                                          args.width,
                                                                           args.level,
                                                                           args.xoff,
                                                                           args.yoff))

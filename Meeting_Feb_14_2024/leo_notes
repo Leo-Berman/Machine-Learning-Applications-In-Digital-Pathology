@@ -9,7 +9,7 @@ Need breast tissue corpus that has been labeled.
 Read annotation information from the breast tissue corpus
 
 Labeled data
-/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0.0
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0
 
 for every svs we want to load a csv file talk to phuykong about that file we don't know the name currently.
 

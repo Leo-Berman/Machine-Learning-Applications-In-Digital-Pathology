@@ -5,6 +5,7 @@ import numpy as np
 from PIL import Image
 import argument_parsing as argspy
 import nedc_printwindows as winprint 
+import os
 # add 
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 
@@ -53,12 +54,6 @@ def main():
 
     print("filename = ",fname,"height = ",height,"width = ",width,"level = ",level,"xoff = ",xoff,"yoff = ",yoff)
 
-    # Class for using tools from Phuykong's library
-    NIL = phg.Nil()
-
-    NIL2 = phg.Nil()
-    NIL2.open(fname)
-    
     # printing the image to a jpg
     #winprint.windows_to_jpg(NIL2)
 
@@ -66,8 +61,12 @@ def main():
     processed = 0
     toprocess = 1
 
+    # 
+    file,extension = os.path.splitext(fname)
+    print(extension)
+
     # Pixel size should be the parameter dont worry aobut frame number
-    if NIL.is_image(fname) == 2:
+    if extension == ".svs":
 
         # process single file
         if single_file(fname,height,width,level,xoff,yoff) == True:

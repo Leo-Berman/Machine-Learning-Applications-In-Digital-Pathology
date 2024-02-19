@@ -5,14 +5,10 @@ import numpy as np
 from PIL import Image
 import argument_parsing as argspy
 import nedc_printwindows as winprint 
+import nedc_classifycenter as classcent
 import os
 # add 
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
-
-
-
-
-
 
 def single_file(filename, height, width, level, xoffset, yoffset):
     NIL = phg.Nil()
@@ -45,14 +41,15 @@ def main():
     
 
     # get parses as variables
-    fname =  args.filename#"/data/isip/data/fccc_dpath/deidentified/v1.0.0/svs/00000/000000197/001003366/c50.2_c50.2/000000197_001003366_st065_xt1_t000.svs"
-    height = args.height#10
-    width =  args.width#10
-    level =  args.level#0
-    xoff =   args.xoff#0
-    yoff =   args.yoff#0
+    iname =  args.imagefilename
+    lname = args.labelfilename
+    fsize = args.framesize
+    wsize = args.winowsize
+    level =  args.level
+    xoff =   args.xoff
+    yoff =   args.yoff
 
-    print("filename = ",fname,"height = ",height,"width = ",width,"level = ",level,"xoff = ",xoff,"yoff = ",yoff)
+    print("imagefilename = ",iname,"labelfilename = ",lname,"fsize = ",fsize,"wsize = ",wsize,"level = ",level,"xoff = ",xoff,"yoff = ",yoff)
 
     # printing the image to a jpg
     #winprint.windows_to_jpg(NIL2)
@@ -62,20 +59,16 @@ def main():
     toprocess = 1
 
     # 
-    file,extension = os.path.splitext(fname)
-    print(extension)
+    file,extension = os.path.splitext(iname)
 
     # Pixel size should be the parameter dont worry aobut frame number
     if extension == ".svs":
 
         # process single file
-        if single_file(fname,height,width,level,xoff,yoff) == True:
-            processed+=1
-    else:
+        #if single_file(fname,height,width,level,xoff,yoff) == True:
         
-        # Process each single file in list
-        processed += file_list(fname,height,width,level,xoff,yoff)
-            
-    # final print statement
+        if classcent.classify_center(iname,lname,fsize)
+            processed+=1
+
     print("\nprocessed {} out of {} files successfully".format(processed,toprocess))
 main()

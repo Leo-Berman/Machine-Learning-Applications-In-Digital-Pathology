@@ -18,7 +18,7 @@ def classify_center(imgfile,labelfile,framesize = -1):
     xdim,ydim =NIL.get_dimension()
     #print("Dimensions = ",xdim,ydim)
     
-    
+
     if framesize == -1:
         frame = [xdim,ydim]
     else:
@@ -36,4 +36,10 @@ def classify_center(imgfile,labelfile,framesize = -1):
     for x in coordinates:
         if (x + frame[0]/2,x + frame[1]/2) in label:
             print("frame (upper left corner) is (label type))
-    '''
+    
+
+    if processed:
+        return True
+    else:
+        return False
+        '''

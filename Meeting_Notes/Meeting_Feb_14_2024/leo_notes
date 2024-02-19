@@ -1,0 +1,20 @@
+need to make the frame size larger than the windows size. 
+rotate images to check biases and make more training data.
+
+Next steps - 
+Build a classifier such as random forest for our data.
+Need breast tissue corpus that has been labeled.
+    Not every event is labeled.
+
+Read annotation information from the breast tissue corpus
+
+Labeled data
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0
+
+for every svs we want to load a csv file talk to phuykong about that file we don't know the name currently.
+
+Check to see if the frame is within the label. Play with the threshold like if 70% of frame has INDC data then its cancerous.
+
+If the center of the frame is inside that region consider the frame to be that label.
+
+Topology or geometry to check if a point is within bounds python.

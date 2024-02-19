@@ -1,0 +1,43 @@
+already have software that processes images at full resolution
+
+image is about 3000 MB
+
+breast tissue subset with 3500 images already annotated
+
+7-8 different types of tissues
+breast tissue already know how to annotate
+
+download image scope (on windows)
+
+identify 5-10 regions of image and one of it may have one fo the 9 cancers
+
+annotated images has coordinates that point to the regions of the image that may have cancer
+
+goal is to build an algorithm that corresponds to the regions that are annotated in the images
+however some images are not annotated
+
+start w/ fox chase material
+-> 
+
+write a proram (decoder) that takes a modeul and takes parameters that sets various thresholds, process the files and runs a score
+
+
+first, write a simple program that iterates over image
+
+principle component analysis
+
+
+two programs to create
+->  trainer -> iterates over all of the image
+->  decoder -> reads the model
+
+histogram of the rms value of the pixels in a wondow (for whole database)
+
+program -> give a list of image files, set the frame duration in pixels, and it iterates over images and compute sqr value fo the pixels or smething lese.
+
+analayze the data and chapters to be able to explain the 9 categories of cancer
+
+
+
+1. stats program to generate histogram of temple data of breast tissue
+2. familarize with 9 different labels of regions of the cancer

@@ -58,7 +58,9 @@ def main():
 
     NIL2 = phg.Nil()
     NIL2.open(fname)
-    winprint.windows_to_jpg(NIL2)
+    
+    # printing the image to a jpg
+    #winprint.windows_to_jpg(NIL2)
 
     # track how many need to be processed and how many need to be processed
     processed = 0
@@ -73,7 +75,7 @@ def main():
     else:
         
         # Process each single file in list
-        processed += file_list(file,height,width,level,xoff,yoff)
+        processed += file_list(fname,height,width,level,xoff,yoff)
             
     # final print statement
     print("\nprocessed {} out of {} files successfully".format(processed,toprocess))

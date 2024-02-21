@@ -70,7 +70,7 @@ def classify_center(imgfile,labelfile,framesize = -1):
     # #print("Dimensions = ",xdim,ydim)
     
 
-    if framesize == -1
+    if framesize == -1:
         # frame = [xdim,ydim]
         pass
     else:

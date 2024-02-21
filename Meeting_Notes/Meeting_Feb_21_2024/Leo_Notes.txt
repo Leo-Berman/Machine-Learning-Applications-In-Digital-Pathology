@@ -1,0 +1,14 @@
+We need to figure out a way to feed the data to the neural network
+
+
+Pre-built annotation tool:
+    * /data/isip/tools/lunx_x64/nfc/class/python/dec_ann_dpath_tools has tools to parse
+
+    * /data/isip/tools/lunx_x64/nfc/util/python/nedc_pyprint_dpath_ann test script
+
+DCT vs. Vector of Pixels
+
+Preprocessor
+List of images
+List of annotationfsize -> Prep -> csv
+wsize

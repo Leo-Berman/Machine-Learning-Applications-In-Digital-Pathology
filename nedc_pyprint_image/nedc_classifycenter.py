@@ -19,7 +19,7 @@ def parse_labels(file):
     # initialize empty lists
     image_size = []     # holds the width (idx=0) and height (idx=1) in pixels
     index = []          # empty list for all index values
-    region_id = []      # empty list for all regiod id values
+    region_id = []      # empty list for all region id values
     tissue = []         # empty list for all tissue type
     label = []          # empty list for all labels of regions
     coord_index = []    # empty list for all coodinate index values
@@ -59,19 +59,22 @@ def parse_labels(file):
     width = image_size[0]
     height  = image_size[1]
 
+    return headers, width, height
+
 def classify_center(imgfile,labelfile,framesize = -1):
 
-    labels = parse_labels(labelfile)
+    headers, w, h = parse_labels(labelfile)
     # NIL = phg.Nil(imgfile)
     # # Get dimensions
     # xdim,ydim =NIL.get_dimension()
     # #print("Dimensions = ",xdim,ydim)
     
 
-    # if framesize == -1:
-    #     frame = [xdim,ydim]
-    # else:
-    #     frame = [framesize,framesize]
+    if framesize == -1
+        # frame = [xdim,ydim]
+        pass
+    else:
+        frame = [framesize,framesize]
 
 
     # Get all the coordinates for each windows

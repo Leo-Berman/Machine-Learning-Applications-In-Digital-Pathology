@@ -50,9 +50,9 @@ def main():
     yoff =   args.yoff
 
     print("imagefilename = ",iname,"labelfilename = ",lname,"fsize = ",fsize,"wsize = ",wsize,"level = ",level,"xoff = ",xoff,"yoff = ",yoff)
-
+    NIL2 = phg.Nil(iname)
     # printing the image to a jpg
-    #winprint.windows_to_jpg(NIL2)
+    winprint.windows_to_jpg(NIL2)
 
     # track how many need to be processed and how many need to be processed
     processed = 0
@@ -67,7 +67,7 @@ def main():
         # process single file
         #if single_file(fname,height,width,level,xoff,yoff) == True:
         
-        if classcent.classify_center(iname,lname,fsize)
+        if classcent.classify_center(iname,lname,fsize):
             processed+=1
 
     print("\nprocessed {} out of {} files successfully".format(processed,toprocess))

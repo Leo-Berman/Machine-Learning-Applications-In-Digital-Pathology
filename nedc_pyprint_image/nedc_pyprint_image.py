@@ -50,6 +50,7 @@ def main():
     yoff =   args.yoff
 
     print("imagefilename = ",iname,"labelfilename = ",lname,"fsize = ",fsize,"wsize = ",wsize,"level = ",level,"xoff = ",xoff,"yoff = ",yoff)
+<<<<<<< HEAD
 
     NIL2 = phg.Nil()
     NIL2.open(iname)
@@ -57,6 +58,11 @@ def main():
     # printing the image to a jpg
     winprint.windows_to_jpg(NIL2)
     NIL2.close()
+=======
+    NIL2 = phg.Nil(iname)
+    # printing the image to a jpg
+    winprint.windows_to_jpg(NIL2)
+>>>>>>> main
 
     # track how many need to be processed and how many need to be processed
     processed = 0

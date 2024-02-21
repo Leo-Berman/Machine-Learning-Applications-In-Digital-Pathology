@@ -1,0 +1,16 @@
+# version = csv_v1.0.0
+# MicronsPerPixel = 0.502200
+# bname = aaaaaage_s000_0hne_0000_a001_lvl002_t000
+# width = 83664 pixels, height = 40453 pixels
+# tissue = breast
+#
+index,region_id,tissue,label,coord_index,row,column,depth,confidence
+0,1,breast,indc,0,22300,26881,0,1.0
+0,1,breast,indc,1,22257,27138,0,1.0
+0,1,breast,indc,2,22257,27162,0,1.0
+0,1,breast,indc,3,22257,27190,0,1.0
+0,1,breast,indc,4,22257,27214,0,1.0
+0,1,breast,indc,5,22262,27243,0,1.0
+0,1,breast,indc,6,22267,27271,0,1.0
+0,1,breast,indc,7,22267,27300,0,1.0
+0,1,breast,indc,8,22272,27328,0,1.0

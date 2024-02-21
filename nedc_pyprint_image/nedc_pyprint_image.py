@@ -44,15 +44,18 @@ def main():
     iname =  args.imagefilename
     lname = args.labelfilename
     fsize = args.framesize
-    wsize = args.winowsize
+    wsize = args.windowsize
     level =  args.level
     xoff =   args.xoff
     yoff =   args.yoff
 
     print("imagefilename = ",iname,"labelfilename = ",lname,"fsize = ",fsize,"wsize = ",wsize,"level = ",level,"xoff = ",xoff,"yoff = ",yoff)
 
+    NIL2 = phg.Nil()
+    NIL2.open(iname)
+
     # printing the image to a jpg
-    #winprint.windows_to_jpg(NIL2)
+    winprint.windows_to_jpg(NIL2)
 
     # track how many need to be processed and how many need to be processed
     processed = 0

@@ -67,7 +67,7 @@ def main():
         # process single file
         #if single_file(fname,height,width,level,xoff,yoff) == True:
         
-        if classcent.classify_center(iname,lname,fsize)
+        if classcent.classify_center(iname,lname,fsize):
             processed+=1
 
     print("\nprocessed {} out of {} files successfully".format(processed,toprocess))

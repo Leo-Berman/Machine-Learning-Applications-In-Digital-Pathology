@@ -15,8 +15,10 @@ def classify_center(imgfile,labelfile,framesize = -1):
     labels = parse_labels(labelfile)
     NIL = phg.Nil()
     NIL.open(imgfile)
+    
     # Get dimensions
     xdim,ydim =NIL.get_dimension()
+    
     #print("Dimensions = ",xdim,ydim)
     
 

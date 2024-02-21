@@ -56,6 +56,7 @@ def main():
 
     # printing the image to a jpg
     winprint.windows_to_jpg(NIL2)
+    NIL2.close()
 
     # track how many need to be processed and how many need to be processed
     processed = 0

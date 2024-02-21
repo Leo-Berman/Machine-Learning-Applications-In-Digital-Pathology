@@ -19,5 +19,5 @@ def main():
     
 
     #plt.imshow(image)
-    #plt.savefig("demo.png")
+    plt.savefig("demo.png")
 main()

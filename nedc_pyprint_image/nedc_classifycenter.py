@@ -1,7 +1,13 @@
 from PIL import Image
 import nedc_image_tools as phg
 import sys
+import csv
+import re
+
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
+# labelfile = "/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/00466205_aaaaaage/s000_2015_03_01/breast/00466205_aaaaaage_s000_0hne_0000_a001_lvl002_t000.csv"
+labelfile = "/home/tul16619/SD1/Machine-Learning-Applications-In-Digital-Pathology/nedc_pyprint_image/random_test.csv"
+imgfile =0
 
 def parse_labels(file):
     '''
@@ -10,23 +16,56 @@ def parse_labels(file):
     coordinates tbd up 2 u
     '''
 
+    # initialize empty lists
+    image_size = []
+    labels = []
+    
+
+    # open the CSV file in read mode
+    with open(labelfile, 'r', newline='') as lfile:
+        csvreader = csv.reader(lfile)
+
+        # extract labels and data
+        for row_index,row in enumerate(csvreader):
+            if row_index == 3:
+                for cell in row:
+                    pixel = re.findall('\d+', str(cell))
+                    image_size.append(int(pixel[0]))
+                print(image_size)
+            # elif row_index == 6:
+            #     for cell in row:
+            #         label = str(cell)
+            #         labels.append(label)
+            #     print(labels)
+            #     # associate the labels to variables
+            #     index = labels[0]
+
+                
+        # # extract the image size
+        # for _ in range(3):
+        #     next(line)
+        # pixels = re.findall('\d+',line)
+        # print(pixels)
+
+    lfile.close()
+
 def classify_center(imgfile,labelfile,framesize = -1):
 
     labels = parse_labels(labelfile)
-    NIL = phg.Nil(imgfile)
-    # Get dimensions
-    xdim,ydim =NIL.get_dimension()
-    #print("Dimensions = ",xdim,ydim)
+    # NIL = phg.Nil(imgfile)
+    # # Get dimensions
+    # xdim,ydim =NIL.get_dimension()
+    # #print("Dimensions = ",xdim,ydim)
     
 
-    if framesize == -1:
-        frame = [xdim,ydim]
-    else:
-        frame = [framesize,framesize]
+    # if framesize == -1:
+    #     frame = [xdim,ydim]
+    # else:
+    #     frame = [framesize,framesize]
 
 
     # Get all the coordinates for each windows
-    coordinates = [(x, y) for x in range(0, xdim, frame[0]) for y in range(0, ydim, frame[1])]
+    # coordinates = [(x, y) for x in range(0, xdim, frame[0]) for y in range(0, ydim, frame[1])]
     
     # Read all the windows for each coordinate WINDOW_FRAME x WINDOW_FRAME
     # windows = NIL.read_data_multithread(coordinates, window_frame[0], window_frame[1])
@@ -43,3 +82,5 @@ def classify_center(imgfile,labelfile,framesize = -1):
     else:
         return False
         '''
+    
+classify_center(imgfile, labelfile)

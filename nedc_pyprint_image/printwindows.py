@@ -3,7 +3,11 @@ import nedc_image_tools as phg
 import sys
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 
-def windows_to_jpg(NIL,window_frame=[-1,-1]):
+def windows_to_jpg(imagefile,window_frame=[-1,-1]):
+
+    # open the imagefile
+    NIL = phg.Nil()
+    NIL.open(imagefile)
 
     # Get dimensions
     xdim,ydim =NIL.get_dimension()

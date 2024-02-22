@@ -5,6 +5,7 @@ sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/
 
 def windows_to_jpg(imagefile,window_frame=[-1,-1]):
 
+    # open the imagefile
     NIL = phg.Nil()
     NIL.open(imagefile)
 

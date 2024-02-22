@@ -1,36 +1,26 @@
+# Imports Phuykong's tools for opening svs file
 import nedc_image_tools as phg
+
+# Import sys module for file paths
 import sys
-import argparse as agp
-import numpy as np
-from PIL import Image
-import argument_parsing as argspy
-import nedc_printwindows as winprint 
-import nedc_classifycenter as classcent
+
+# Import argument parsing
+import arguments as argspy
+
+# Writing an svs to a jpeg
+import printwindows as winprint 
+
+# Classifies an image
+import classify
+
+# For splitting files into their name and extensions
 import os
-# add 
+
+# For printing svs RGBA values
+import printrgba as prgba
+
+# add phuykongs library path
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
-
-def single_file(filename, height, width, level, xoffset, yoffset):
-    NIL = phg.Nil()
-    if NIL.is_image(filename) == 2:
-        NIL.open(filename)
-        window = NIL.read_data((xoffset,yoffset), width, height,"RGBA")
-        print(("  {}: ").format(1)+filename)
-        for i,x in enumerate(window):
-            for j,y in enumerate(x):
-                print(("{:>12}").format(str(i*10+j)) + ": (a = " + str(y[3]) + ", r = " + str(y[0]) + ", b = " + str(y[1]) + ", g = " + str(y[2]))
-        NIL.close()
-        return True
-    else:
-        NIL.close()
-        return False
-
-def file_list(filelist,height,width,level,xoffset,yoffset):
-    processed = 0
-    for x in filelist:
-        if single_file(x,height,width,level,xoffset,yoffset) == True:
-            processed+=1
-    return processed
 
 def main():
 
@@ -39,7 +29,6 @@ def main():
 
     args = argspy.parse_args()
     
-
     # get parses as variables
     iname =  args.imagefilename
     lname = args.labelfilename
@@ -49,36 +38,35 @@ def main():
     xoff =   args.xoff
     yoff =   args.yoff
 
+    # prints parsed arguments
     print("imagefilename = ",iname,"labelfilename = ",lname,"fsize = ",fsize,"wsize = ",wsize,"level = ",level,"xoff = ",xoff,"yoff = ",yoff)
-<<<<<<< HEAD
 
+    # opens an svs file
     NIL2 = phg.Nil()
     NIL2.open(iname)
 
     # printing the image to a jpg
     winprint.windows_to_jpg(NIL2)
+
+    # closes svs file
     NIL2.close()
-=======
-    NIL2 = phg.Nil(iname)
-    # printing the image to a jpg
-    winprint.windows_to_jpg(NIL2)
->>>>>>> main
 
     # track how many need to be processed and how many need to be processed
     processed = 0
     toprocess = 1
 
-    # 
-    file,extension = os.path.splitext(iname)
+    # splits the file path into name and file extension
+    ifile,iextension = os.path.splitext(iname)
+    lfile,lextension = os.path.splitext(lname)
 
-    # Pixel size should be the parameter dont worry aobut frame number
-    if extension == ".svs":
-
-        # process single file
-        #if single_file(fname,height,width,level,xoff,yoff) == True:
+    # if file is an svs file and label file is a csv file
+    if iextension == ".svs" and (lextension == ".csv" or lextension == ".xml"):
         
-        if classcent.classify_center(iname,lname,fsize):
+        # try classifying it
+        if classify.classify_center(iname,lname,fsize):
             processed+=1
 
+    # print number succesfully classified
     print("\nprocessed {} out of {} files successfully".format(processed,toprocess))
+
 main()

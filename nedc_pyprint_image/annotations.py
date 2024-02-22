@@ -8,12 +8,12 @@ def parse_annotations(file):
     
     # read the data 
     header,data = nadt.read(file)
-
-    # create lists for data
+    
+    # create lists for 
     region_ids = []
     labels = []
     coords = []
-
+    
     # append to the lists
     for i in data:
         region_ids.append(data[i]['region_id'])
@@ -21,7 +21,7 @@ def parse_annotations(file):
         coords.append(data[i]['coordinates'])
 
     # return the lists
-    return region_ids,labels,coords
+    return header,region_ids,labels,coords
 
 # def main():
 #     filepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.csv"

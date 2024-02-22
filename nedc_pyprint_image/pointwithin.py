@@ -18,8 +18,3 @@ def create_grid():
     plt.plot(square_x,square_y)
     plt.plot(amorphous_x,amorphous_y)
     plt.savefig("DATA/demo.png")
-
-def main():
-    create_grid()
-
-main()

@@ -41,12 +41,8 @@ def main():
     # prints parsed arguments
     print("imagefilename = ",iname,"labelfilename = ",lname,"fsize = ",fsize,"wsize = ",wsize,"level = ",level,"xoff = ",xoff,"yoff = ",yoff)
 
-    # opens an svs file
-    NIL2 = phg.Nil()
-    NIL2.open(iname)
-
     # printing the image to a jpg
-    winprint.windows_to_jpg(NIL2)
+    winprint.windows_to_jpg(iname)
 
     # closes svs file
     NIL2.close()

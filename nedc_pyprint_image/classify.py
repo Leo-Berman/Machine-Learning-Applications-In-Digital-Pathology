@@ -13,7 +13,8 @@ def classify_center(imgfile,labelfile,framesize = -1):
     # IDS = list of ints
     # LABELS = list of strings
     # COORDS = list of list of ints
-    IDS,LABELS,COORDS = annotations.parse_annotations(labelfile)
+    # HEADER of file hey Yuan don't worry about the header I made an adjustment in the parsing for something else
+    HEADER,IDS,LABELS,COORDS = annotations.parse_annotations(labelfile)
     NIL = phg.Nil()
     NIL.open(imgfile)
     

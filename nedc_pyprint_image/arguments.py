@@ -22,10 +22,10 @@ def parse_args():
     # define default argument values #
 
     # number of pixels in the vertical direction [-1=all]
-    ARG_HEIGHT = "--height"
+    ARG_FRAMESIZE = "--framesize"
 
     # number of pixels in the horizontal direction [-1=all]
-    ARG_WIDTH = "--width"
+    ARG_WINDOWSIZE = "--windowsize"
 
     # the level to be read [0]
     ARG_LVL = "--level"
@@ -41,8 +41,8 @@ def parse_args():
 
     # define default argument values #
 
-    DEF_HEIGHT = int(-1)
-    DEF_WIDTH = int(-1)
+    DEF_FRAMESIZE = int(-1)
+    DEF_WINDOWSIZE = int(-1)
     DEF_LVL = int(0)
     DEF_XOFF = float(0)
     DEF_YOFF = float(0)
@@ -59,21 +59,22 @@ def parse_args():
 
     # create a command line parser
 
-    parser.add_argument(ARG_HEIGHT, type=int)
-    parser.add_argument(ARG_WIDTH, type=int)
+    parser.add_argument(ARG_FRAMESIZE, type=int)
+    parser.add_argument(ARG_WINDOWSIZE, type=int)
     parser.add_argument(ARG_LVL, ARG_ABRV_LVL, type=int)
     parser.add_argument(ARG_XOFF, ARG_ABR_XOFF, type=int)
     parser.add_argument(ARG_YOFF, ARG_ABR_YOFF, type=int)
-    parser.add_argument('-f','--filename',default="/data/isip/data/fccc_dpath/deidentified/v1.0.0/svs/00000/000000197/001003366/c50.2_c50.2/000000197_001003366_st065_xt1_t000.svs")
+    parser.add_argument('-if','--imagefilename',default="/data/isip/data/fccc_dpath/deidentified/v1.0.0/svs/00000/000000197/001003366/c50.2_c50.2/000000197_001003366_st065_xt1_t000.svs")
+    parser.add_argument('-lf','--labelfilename',default="/data/isip/data/fccc_dpath/deidentified/v1.0.0/svs/00000/000000197/001003366/c50.2_c50.2/000000197_001003366_st065_xt1_t000.csv")
     args = parser.parse_args()
 
     # get the parameter values
     
-    if args.height is None:
-        args.height = DEF_HEIGHT
+    if args.framesize is None:
+        args.framesize = DEF_FRAMESIZE
 
-    if args.width is None:
-        args.width = DEF_WIDTH
+    if args.windowsize is None:
+        args.windowsize = DEF_WINDOWSIZE
     
     if args.level is None:
         args.level = DEF_LVL

@@ -7,8 +7,8 @@ def windows_to_jpg(NIL,window_frame=[-1,-1]):
 
     # Get dimensions
     xdim,ydim =NIL.get_dimension()
-    #print("Dimensions = ",xdim,ydim)
-    
+
+    #
     if window_frame == [-1,-1]:
         window_frame = [xdim,ydim]
 

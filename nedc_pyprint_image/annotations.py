@@ -24,6 +24,7 @@ def parse_annotations(file):
         for j in range(len(coords[i])):
             coords[i][j][1] = int(header['height'])-coords[i][j][1]
             coords[i][j].pop()
+            coords[i][j].reverse()
     
     # return the lists
     return header,region_ids,labels,coords

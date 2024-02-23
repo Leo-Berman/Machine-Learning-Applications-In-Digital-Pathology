@@ -20,10 +20,16 @@ def parse_annotations(file):
         labels.append(data[i]['text'])
         coords.append(data[i]['coordinates'])
 
+    for i in range(len(coords)):
+        for j in range(len(coords[i])):
+            coords[i][j][1] = int(header['height'])-coords[i][j][1]
+            coords[i][j].pop()
+    
     # return the lists
     return header,region_ids,labels,coords
 
 # def main():
-#     filepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.csv"
-#     IDS,LABELS,COORDS = parse_annotations(filepath)
-# main()
+# filepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.csv"
+# #     IDS,LABELS,COORDS = parse_annotations(filepath)
+# # main()
+# parse_annotations(filepath)

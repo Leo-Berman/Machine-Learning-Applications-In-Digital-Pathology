@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from svstojpg import svs_to_jpg as stj
 import svsdimensions as sd
 def main():
-    filepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a004_lvl000_t000.csv"
-    imagepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a004_lvl000_t000.svs"
+    filepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.csv"
+    imagepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.svs"
     HEADER,IDS,LABELS,COORDS = annotations.parse_annotations(filepath)
     
     
@@ -13,13 +13,6 @@ def main():
     
     shapes = []
     coords = []
-
-    # remove element z (depth)
-    # reverse order of elements so it is (x,y)
-    for x in COORDS:
-        for y in x:
-            y.pop()
-            y.reverse()
 
     # generates border of the image
     x,y = pointwithin.get_border(pointwithin.generate_polygon(COORDS[0]))

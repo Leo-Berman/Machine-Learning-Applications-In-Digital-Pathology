@@ -13,6 +13,9 @@ def main():
     
     shapes = []
     coords = []
+
+    # remove element z (depth)
+    # reverse order of elements so it is (x,y)
     for x in COORDS:
         for y in x:
             y.pop()
@@ -37,6 +40,6 @@ def main():
     plt.imshow(im,extent=[0,w,0,h])
     plt.savefig("./DATA/demo.png")
 
-    return shapes
+    return COORDS
 
 main()

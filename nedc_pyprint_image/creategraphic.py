@@ -18,8 +18,11 @@ def main():
             y.pop()
             y.reverse()
 
+    # generates border of the image
     x,y = pointwithin.get_border(pointwithin.generate_polygon(COORDS[0]))
     plt.plot(x,y)
+    
+    # generates polygon of regions within the image
     for i in range(len(COORDS)):
         shapes.append(pointwithin.generate_polygon(COORDS[i]))
         x,y = pointwithin.get_border(shapes[i])
@@ -29,10 +32,11 @@ def main():
     
     plt.xlim(0,w)
     plt.ylim(0,h)
-    # stj(imagepath,"./DATA/graphic")
+    stj(imagepath,"./DATA/graphic")
     im = plt.imread("./DATA/graphic.jpg")
     plt.imshow(im,extent=[0,w,0,h])
     plt.savefig("./DATA/demo.png")
 
+    return shapes
 
 main()

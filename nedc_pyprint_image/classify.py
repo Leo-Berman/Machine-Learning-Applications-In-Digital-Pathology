@@ -5,63 +5,77 @@ import pointwithin
 import matplotlib.pyplot as plt
 from svstojpg import svs_to_jpg as stj
 import creategraphic
+import shapely
 
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
-labelfile = "/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/00466205_aaaaaage/s000_2015_03_01/breast/00466205_aaaaaage_s000_0hne_0000_a001_lvl002_t000.csv"
-#labelfile = "/home/tul16619/SD1/Machine-Learning-Applications-In-Digital-Pathology/nedc_pyprint_image/random_test.csv"
-imgfile = "/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/00466205_aaaaaage/s000_2015_03_01/breast/00466205_aaaaaage_s000_0hne_0000_a001_lvl002_t000.svs"
-
-#imagefile = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a004_lvl000_t000.svs"
+labelfile = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a004_lvl000_t000.csv"
+imagefile = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a004_lvl000_t000.svs"
 
 
-def get_center_frame(height, width, framesize, coordinates):
-    '''get the center coodinates of the frame'''
 
-    y = coordinates[0]  # coordinates from the ROW header
-    x = coordinates[1]  # cooridnates from the COLUMN header
+def get_center_frame(height, width, framesize):
+    '''get the center coodinates of the top-left-most frame'''
 
-    # start from the top-left of the image
     center_x = height + framesize/2
     center_y = width - framesize/2
     center = [center_x, center_y]
 
-def reposition(height, width, framesize):
+    return center
+
+def classification(IDS, height, width, framesize, shapes):
     '''
-    slide the frame (starting from the top-left) to the right until it reaches the end of the image.
-    slide the image down and start from the left and repeat.
+    objective: classify whether the center fo the first frame (top-left-most) is within a labeled region
+        if within labeled region -> set coordinate to 'labeled' status
+        if not within labeled region -> set coordinate to 'unlabeled' status
+        status is set by storing these coordinates into
     '''
-    y = height - framesize
-    x = width + framesize
 
-    # if the x-coordinate (on the right-hand side of frame) is out of bounds of the image (greater than the width),
-    # reset it back to left-hand side and slide frame down (by framesize)
-    if (x+framesize > width):
-        # if the y-coordinate is out of bounds of the image (less than zero), finish iteration
-        # otherwise, reposition
-        if (y-framesize < 0) is False:
-            x = 0
-            y = y - framesize
-    # if x-coordinate is not out of bounds, slide it over to the right (by framesize)
-    else:
-        x = x + framesize
+    # get number of unique region IDS
+    num_regions = len(set(IDS))
 
-def draw_square(height,width,framesize):
+    # create empty list for coordinates of each region
+    region = [[] for _ in range(len(num_regions))]
+    
+    # get the coordinate at the center of the top-left-most frame
+    center = get_center_frame(height,width)
 
-    x_left = 0
-    x_right = x_left + framesize
-    y_top = height
-    y_bottom = height - framesize
-    frame = [(x_left,y_top), (x_right,y_top), (x_left,y_bottom), (x_right,y_bottom)]
-    print(pointwithin.generate_polygon(frame))
+    def reposition():
+        # if the next center coordinate is out of bounds of the image (towards the right)
+        if (center[0] + framesize) > width:
+            # if the next center coordinate is out of bounds of the image (towards the bottom)
+            # iteration complete
+            if (center[1] - framesize) < 0:
+                pass
+            # else if the center coordinate is only out of bounds on the right,
+            # slide frame back to the left and bottom by one framesize
+            else:
+                center = [0,center[1]-framesize]
+        # else if not out of bounds, only move frame to the right
+        else:
+            center = [center[0]+framesize,center[1]]
+    
+    def within_region():
+        '''
+        objective: check whether the coordinate is within any of the regions.
+            1. split the list of coordinates by the region.
+            2. check if the coordinate falls within region.
+        '''
+        # initialize region id to the first ID in the file
+        region_id = IDS[0]
 
-    plt.xlim(0,width)
-    plt.ylim(0,height)
-    stj(imgfile,"./DATA/graphic")
-    im = plt.imread("./DATA/graphic.jpg")
-    plt.imshow(im,extent=[0,width,0,height])
-    plt.savefig("./DATA/drawframe.png")
+        # separate all the regions
+        for i in range(len(shapes)):
+            # if this is the same region, add coordinate to the list
+            if region_id == IDS[i]:
+                region[region_id].append(shapes[i])
+            # else if this is a different region, add it to the next list
+            else:
+                region_id = IDS[i]
+                region[region_id].append(shapes[i])
 
-            
+        for r in range(len(num_regions)):
+            polygon = Polygon.
+
 
 def classify_center(imgfile,labelfile,framesize = -1):
     
@@ -74,7 +88,7 @@ def classify_center(imgfile,labelfile,framesize = -1):
     NIL = phg.Nil()
     NIL.open(imgfile)
 
-    # get height and width from the header
+    # get height and width of image (in pixels) from the header
     height = int(HEADER['height'])
     width = int(HEADER['width'])
     
@@ -90,8 +104,8 @@ def classify_center(imgfile,labelfile,framesize = -1):
     else:
         frame = [framesize,framesize]
 
-    draw_square(height,width,framesize)
-
+    
+    classification(IDS, height, width, framesize, creategraphic.main())
 
     # Get all the coordinates for each windows
     # coordinates = [(x, y) for x in range(0, xdim, frame[0]) for y in range(0, ydim, frame[1])]
@@ -112,4 +126,4 @@ def classify_center(imgfile,labelfile,framesize = -1):
         return False
         '''
     
-classify_center(imgfile, labelfile)
+classify_center(imagefile, labelfile)

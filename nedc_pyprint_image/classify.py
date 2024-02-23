@@ -4,11 +4,10 @@ import annotations
 import pointwithin
 import matplotlib.pyplot as plt
 from svstojpg import svs_to_jpg as stj
-import creategraphic
-import shapely
+from shapely.geometry import Point
 
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
-labelfile = "/home/tul16619/SD1/Machine-Learning-Applications-In-Digital-Pathology/nedc_pyprint_image/DATA/random_test.csv"
+labelfile = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a004_lvl000_t000.csv"
 imagefile = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a004_lvl000_t000.svs"
 
 
@@ -18,11 +17,11 @@ def get_center_frame(height, width, framesize):
 
     center_x = height + framesize/2
     center_y = width - framesize/2
-    center = [center_x, center_y]
+    center = Point(center_x, center_y)
 
     return center
 
-def classification(IDS, height, width, framesize, coordinates):
+def classification(IDS, height, width, framesize, regions):
     '''
     objective: classify whether the center fo the first frame (top-left-most) is within a labeled region
         if within labeled region -> set coordinate to 'labeled' status
@@ -30,82 +29,73 @@ def classification(IDS, height, width, framesize, coordinates):
         status is set by storing these coordinates into
     '''
 
-    def reposition():
+    def reposition(coord):
         # if the next center coordinate is out of bounds of the image (towards the right)
-        if (center[0] + framesize) > width:
+        if (coord.x + framesize) > width:
             # if the next center coordinate is out of bounds of the image (towards the bottom)
             # iteration complete
-            if (center[1] - framesize) < 0:
+            if (coord.y - framesize) < 0:
                 pass
             # else if the center coordinate is only out of bounds on the right,
             # slide frame back to the left and bottom by one framesize
             else:
-                center = [0,center[1]-framesize]
+                center = Point(0, coord.y-framesize)
         # else if not out of bounds, only move frame to the right
         else:
-            center = [center[0]+framesize,center[1]]
-        return tuple(center)
+            center = Point(coord.x+framesize, coord.y)
+        return center
     
     def within_region(coord):
         '''
         objective: check whether the coordinate is within any of the regions.
-            1. split the list of coordinates by the region.
-            2. check if the coordinate falls within region.
         '''
 
         for r in range(num_regions):
-            for i in range(len(shapes)):
-                if region[r].contains(coord) is True:
-                    labeled.append()
-                else:
-                    unlabeled.append()
+            if regions[r].contains(coord) is True:
+                labeled.append(coord)
+            else:
+                unlabeled.append(coord)
+            reposition(coord)
 
     labeled = []
     unlabeled = []
-    shapes = []
 
     # get number of unique region IDS
-    num_regions = len(set(IDS))
+    num_regions = len(regions)
     print(num_regions)
 
     # create empty list for coordinates of each region
-    region = [[] for _ in range(num_regions)]
-    #print(shapes)
-    print(region)
+    # region = [[] for _ in range(num_regions)]
+    # print(shapes)
+    # print(region)
     
     # get the coordinate at the center of the top-left-most frame
-    center = get_center_frame(height,width,framesize)
-    print(center)
+    # center = get_center_frame(height,width,framesize)
+    # print(center)
 
     # initialize region id to the first ID in the file
     region_id = IDS[0]
 
     # separate all the regions
-    for i in range(len(coordinates)):
-        # if this is the same region, add coordinate to the list
-        if region_id == IDS[i]:
-            region[int(region_id)-1].append(coordinates[i])
-        # else if this is a different region, add it to the next list
-        else:
-            region_id = IDS[i]
-            region[int(region_id)-1].append(coordinates[i])
-
-    print(region)
-    print(region[0])
+    # for i in range(len(coordinates)):
+    #     # if this is the same region, add coordinate to the list
+    #     if region_id == IDS[i]:
+    #         region[int(region_id)-1].append(coordinates[i])
+    #     # else if this is a different region, add it to the next list
+    #     else:
+    #         region_id = IDS[i]
+    #         region[int(region_id)-1].append(coordinates[i])
     
-    # create the polygons
-    for r in range(num_regions):
-        shapes.append(shapely.Polygon(region[r]))
-
-    
-    print(shapes[0])
 
     # first center coordinate
+    center = get_center_frame(height,width,framesize)
+    print(type(center))
     within_region(center)
 
     # the rest of the center coordinates
-    for k in range(len(shapes) - 1):
-        within_region(reposition())
+    while(True):
+        within_region(reposition(center))
+        break
 
     # total number of frames
     total_frames = (height/framesize) * (width/framesize)
@@ -143,8 +133,14 @@ def classify_center(imgfile,labelfile,framesize = -1):
     else:
         frame = [framesize,framesize]
 
+    shapes = []
+
+    # generates polygon of regions within the image
+    for i in range(len(COORDS)):
+        shapes.append(pointwithin.generate_polygon(COORDS[i]))
     
-    classification(IDS, height, width, framesize, COORDS)
+    # classify the frames based on if it is within any region (shape)
+    classification(IDS, height, width, framesize, shapes)
 
     # Get all the coordinates for each windows
     # coordinates = [(x, y) for x in range(0, xdim, frame[0]) for y in range(0, ydim, frame[1])]

@@ -30,6 +30,9 @@ def classification(IDS, height, width, framesize, shapes):
         status is set by storing these coordinates into
     '''
 
+    labeled = []
+    unlabeled = []
+
     # get number of unique region IDS
     num_regions = len(set(IDS))
 
@@ -38,6 +41,26 @@ def classification(IDS, height, width, framesize, shapes):
     
     # get the coordinate at the center of the top-left-most frame
     center = get_center_frame(height,width)
+
+    # initialize region id to the first ID in the file
+    region_id = IDS[0]
+
+    # separate all the regions
+    for i in range(len(shapes)):
+        # if this is the same region, add coordinate to the list
+        if region_id == IDS[i]:
+            region[region_id].append(shapes[i])
+        # else if this is a different region, add it to the next list
+        else:
+            region_id = IDS[i]
+            region[region_id].append(shapes[i])
+
+    # first center coordinate
+    within_region(center)
+
+    # the rest of the center coordinates
+    for k in range(len(shapes) - 1):
+        within_region(reposition())
 
     def reposition():
         # if the next center coordinate is out of bounds of the image (towards the right)
@@ -53,28 +76,26 @@ def classification(IDS, height, width, framesize, shapes):
         # else if not out of bounds, only move frame to the right
         else:
             center = [center[0]+framesize,center[1]]
+        return tuple(center)
     
-    def within_region():
+    def within_region(coord):
         '''
         objective: check whether the coordinate is within any of the regions.
             1. split the list of coordinates by the region.
             2. check if the coordinate falls within region.
         '''
-        # initialize region id to the first ID in the file
-        region_id = IDS[0]
-
-        # separate all the regions
-        for i in range(len(shapes)):
-            # if this is the same region, add coordinate to the list
-            if region_id == IDS[i]:
-                region[region_id].append(shapes[i])
-            # else if this is a different region, add it to the next list
-            else:
-                region_id = IDS[i]
-                region[region_id].append(shapes[i])
 
         for r in range(len(num_regions)):
-            polygon = Polygon.
+            polygon = shapely.Polygon(region[r])
+            for i in range(len(shapes)):
+                if polygon.contains(coord) is True:
+                    labeled.append()
+                else:
+                    unlabeled.append()
+    
+    print("labeled coordinates:", labeled)
+    print("unlabeled coordinates:", unlabeled)
+
 
 
 def classify_center(imgfile,labelfile,framesize = -1):

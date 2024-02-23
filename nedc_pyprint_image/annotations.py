@@ -16,7 +16,7 @@ def parse_annotations(file):
     
     # append to the lists
     for i in data:
-        region_ids.append(data[i]['region_id'])
+        region_ids.append(int(data[i]['region_id']))
         labels.append(data[i]['text'])
         coords.append(data[i]['coordinates'])
 

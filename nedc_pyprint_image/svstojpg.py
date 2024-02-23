@@ -3,24 +3,43 @@ import nedc_image_tools as phg
 import sys
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 
-def svs_to_jpg(imagefile,name,compress=True):
+# convert an svs file to compressed jpeg file
+#
+def svs_to_jpg(imagefile,name):
 
+    # Use Nil library to open up the file
+    #
     NIL = phg.Nil()
     NIL.open(imagefile)
 
-    # Get dimensions
+    # Get dimensions of the svs image in pixels
+    #
     xdim,ydim =NIL.get_dimension()
 
-    # window_frame = [xdim,ydim]
-
     # Read the single frame
+    #
     windows = NIL.read_data_multithread([[0,0]], xdim, ydim)
     
-    # save all the images as JPEGS
-    for index, window in enumerate(windows):
-        im = Image.fromarray(window)
-        if compress == True:
-            im=im.resize((xdim//40,ydim//40))
-        im.save(name+'.jpg', "JPEG")
+    # save the images as JPEGS
+    # generate the image from RGBA values
+    #
+    im = Image.fromarray(window[0])
+
+    # compress the image
+    #
+    im=im.resize((xdim//40,ydim//40))
     
+    # save the image
+    #
+    im.save(name+'.jpg', "JPEG")
+    
+    # return the dimensions of the file for use in plotting
+    #
     return xdim,ydim
+
+'''
+Ex: 
+    filepath= *.svs
+    name="nameofimage"
+    width,height = svs_to_jph(filepath,name)
+'''

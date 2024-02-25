@@ -23,7 +23,7 @@ def svs_to_jpg(imagefile,name):
     # save the images as JPEGS
     # generate the image from RGBA values
     #
-    im = Image.fromarray(window[0])
+    im = Image.fromarray(windows[0])
 
     # compress the image
     #

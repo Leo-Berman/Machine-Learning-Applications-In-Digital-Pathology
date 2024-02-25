@@ -2,7 +2,6 @@ import pointwithin
 import annotations
 import matplotlib.pyplot as plt
 from svstojpg import svs_to_jpg as stj
-import svsdimensions as sd
 import returnframeborders as rfb
 
 # function to generate an svs file with label borders drawn and labeled
@@ -13,8 +12,8 @@ def main():
     
     # set the path to the annotations and image file
     #
-    filepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.csv"
-    imagepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.svs"
+    filepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_b003_lvl000_t000.csv"
+    imagepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_b003_lvl000_t000.svs"
     
     # Parses the annotations
     #
@@ -22,8 +21,12 @@ def main():
     
     # Gets the dimensions of the image file
     #
-    w,h = HEADERS['width'],HEADERS['height']
+    w,h = HEADER['width'],HEADER['height']
     
+    # create list for label borders
+    #
+    shapes = []
+
     # iterate through the coordinates
     #
     for i in range(len(COORDS)):
@@ -45,19 +48,19 @@ def main():
     # Set the limits of the plot to be equal to the dimensions of the 
     # svs images
     #
-    plt.xlim(0,w)
-    plt.ylim(0,h)
+    plt.xlim(0,int(w))
+    plt.ylim(0,int(h))
     
     # generate the compressed imagefile to be used 
     # in the backgroudn of the plot
     #
-    stj(imagepath,"./DATA/graphic")
+    # stj(imagepath,"./DATA/graphic")
 
     # Read the image in and set it as the background
     # of the plot
     #
     im = plt.imread("./DATA/graphic.jpg")
-    plt.imshow(im,extent=[0,w,0,h])
+    plt.imshow(im,extent=[0,int(w),0,int(h)])
 
     # plot squares of frame size 5000x5000 pixels
     # these represent frames

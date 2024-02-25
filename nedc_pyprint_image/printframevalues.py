@@ -1,6 +1,8 @@
 # Import phuykongs library
 import nedc_image_tools as phg
 import sys
+import csv
+
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 
 # convert a single window to a list of rgb values
@@ -24,6 +26,11 @@ def window_to_rgb(imagefile,label,coord = (0,0), window_frame = [50,50]):
     
     # save all the images as JPEGS
     print(window)
+
+    with open('DATA/dctoutput.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(window)
+
 
 # call the function
 window_to_rgb("/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.svs",1,(0,0),[50,50])

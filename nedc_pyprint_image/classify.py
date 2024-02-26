@@ -13,88 +13,127 @@ imagefile = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/0070
 
 
 def get_center_frame(height, width, framesize):
-    '''get the center coodinates of the top-left-most frame'''
+    '''
+    objective:
+        get the center coodinate of the top-left-most frame
+    return:
+        center coordinate of top-left-most frame in shapely-point format.
+    '''
 
-    # print("height:", height, ", width:", width)
     center_x = 0 + framesize/2
     center_y = height - framesize/2
     center = Point(center_x, center_y)
-    # print("center coodinate of top-left frame:", center)
 
     return center
 
 def classification(labels, height, width, framesize, regions):
     '''
-    objective: classify whether the center fo the first frame (top-left-most) is within a labeled region
-        if within labeled region -> set coordinate to 'labeled' status
-        if not within labeled region -> set coordinate to 'unlabeled' status
-        status is set by storing these coordinates into
+    objective: classify whether the center of each frame is within a labeled or unlabeled region.
+        - if within labeled region -> set coordinate to 'labeled' status.
+        - if not within labeled region -> set coordinate to 'unlabeled' status.
+        - status is set by storing these coordinates into.
+
+    functions:
+        within_region:
+            the first coordinate (the center of the top-left frame) gets passed in the function.
+            the function checks if the coordinate is in any of the labeled regions.
+            if it is, the coordinate and the label gets appended to the 'labeled' list.
+            otherwise, the coordinate is appended to the 'unlabeled' list.
+            the coordinate gets passed to the 'reposition' function.
+        repostion:
+            a coordinate gets passed in the function.
+            the coordinate is repositioned accordingly:
+                - if the next coordinate is out-of-bounds ONLY from the right side of the image,
+                    move to the next row of frames and start from the left again.
+                - if the next coordinate is out-of-bounds from the right side AND bottom side of the image,
+                    all frames were iterated through.
+                - otherwise, move the coordinate to the right (by framesize).
     '''
 
     def reposition(coord):
-        # if the next center coordinate is out of bounds of the image (towards the right)
-        if (coord.x + framesize) > width:
-            # if the next center coordinate is out of bounds of the image (towards the bottom)
-            # iteration complete
-            if (coord.y - framesize) < 0:
-                center = False
-                
-            # else if the center coordinate is only out of bounds on the right,
-            # slide frame back to the left and bottom by one framesize
-            else:
-                center = Point(framesize/2, coord.y-framesize)
-                # print(2)
-        # else if not out of bounds, only move frame to the right
-        else:
-            center = Point((coord.x+framesize), coord.y)
-            # print(3)
-            # print(center)
-        return center
-    
-    def within_region(point):
         '''
-        objective: check whether the coordinate is within any of the regions.
+        objective:
+            - repostion the coordinate according to the conditions met.
         '''
 
-        coord = point
+        # if the next center coordinate is out of bounds of the image (towards the right).
+        if (coord.x + framesize) > width:
+            # if the next center coordinate is out of bounds of the image (towards the bottom).
+            # iteration complete. return false.
+            if (coord.y - framesize) < 0:
+                center = False
+            # else if the center coordinate is only out of bounds on the right,
+            # slide frame back to the left and bottom by one framesize.
+            else:
+                center = Point(framesize/2, coord.y-framesize)
+        # else if not out of bounds, only move frame to the right.
+        else:
+            center = Point((coord.x+framesize), coord.y)
+        return center
+    
+    def within_region(coord):
+        '''
+        objective:
+            - check whether the coordinate is within any of the regions.
+            - coordinates organized into 'labeled' and 'unlabeled' lists,
+                - along with the coordinates' corresponding label
+
+        format:
+            - 'labeled' (list) = [[coordinate, label], ...]
+        '''
         
         while(True):
-            # print()
-            # print("original coodrinate:", coord)
-            
+            # check if the coordinate is within region[r].
             for r in range(num_regions):
+                # if it within one of the regions, add to the labeled list with its corresponding label and move to the next coordinate.
                 if regions[r].contains(coord) is True:
-                    labeled.append([Point((coord.x-framesize/2), (coord.y+framesize/2)), labels[r]])
+                    labeled.append([((coord.x-framesize/2), (coord.y+framesize/2)), labels[r]])
                     break
+                # if not in any regions, classify as unlabeled.
                 else:
                     unlabeled.append(coord)
+            # reposition to the next frame.
             coord = reposition(coord)
+            # if the new coordinate is false, terminate the loop.
             if reposition(coord) is False:
                 break
 
+    # initialize 'labled' and 'unlabeled' list
     labeled = []
     unlabeled = []
 
-    # get number of unique region IDS
+    # get total number of unique region IDS
     num_regions = len(regions)
-    # print(num_regions)
 
+    # get the center coordinate of the top-left frame.
     center = get_center_frame(height,width,framesize)
+
+    # start classification of all center coordinates.
     within_region(center)
 
     # total number of frames
     total_frames = (height/framesize) * (width/framesize)
 
-    print(labeled)
-    
-    print("there are {} frames total".format(total_frames))
-    print("there are {} that are within a labeled region".format(len(labeled)))
-    print("there are {} that are not within a labeled region". format(len(set(unlabeled))))
+    # TEST PRINTS
+    # print(labeled)
+    # print("there are {} frames total".format(total_frames))
+    # print("there are {} that are within a labeled region".format(len(labeled)))
+    # print("there are {} that are not within a labeled region". format(len(set(unlabeled))))
+
+    return labeled
 
 
 
 def classify_center(imgfile,labelfile,framesize = -1):
-    
+    '''
+        MAIN FUNCTON
+        objective:
+            get the headers, region ids, labels, and coordinates from annotations
+
+        return:
+            list of list coordinates and labels, framesize
+    '''
+
     # output is
     # IDS = list of ints
     # LABELS = list of strings
@@ -108,40 +147,24 @@ def classify_center(imgfile,labelfile,framesize = -1):
     height = int(HEADER['height'])
     width = int(HEADER['width'])
     
-    # Get dimensions
-    xdim,ydim =NIL.get_dimension()
-    
     if framesize == -1:
         # frame = [xdim,ydim]
         pass
     else:
+        # generate polygon of regions within the image
         shapes = []
-
-        # generates polygon of regions within the image
         for i in range(len(COORDS)):
             shapes.append(pointwithin.generate_polygon(COORDS[i]))
 
         # classify the frames based on if it is within any region (shape)
-        classification(LABELS, height, width, framesize, shapes)
+        labeled_list = classification(LABELS, height, width, framesize, shapes)
 
-    
+        return(labeled_list, framesize)
 
-    # Get all the coordinates for each windows
-    # coordinates = [(x, y) for x in range(0, xdim, frame[0]) for y in range(0, ydim, frame[1])]
-    
-    # Read all the windows for each coordinate WINDOW_FRAME x WINDOW_FRAME
-    # windows = NIL.read_data_multithread(coordinates, window_frame[0], window_frame[1])
-    
-    # save all the images as JPEGS
-    '''
-    for x in coordinates:
-        if (x + frame[0]/2,x + frame[1]/2) in label:
-            print("frame (upper left corner) is (label type))
-    
-
+    '''  
     if processed:
         return True
     else:
         return False
-        '''
-classify_center(imagefile, labelfile, 1000)
+    '''
+classify_center(imagefile, labelfile, 100)

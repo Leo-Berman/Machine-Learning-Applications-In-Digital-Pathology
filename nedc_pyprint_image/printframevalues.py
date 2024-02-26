@@ -18,6 +18,9 @@ def window_to_rgb(imagefile,label,coord = (0,0), window_frame = [50,50]):
     # open the imagefile
     NIL = phg.Nil()
     NIL.open(imagefile)
+    xdim,ydim = NIL.get_dimension()
+    coord = (coord[0],ydim - coord[1] + window_frame[1])
+
 
     # read the single frame
     window = NIL.read_data_multithread([coord],window_frame[0],window_frame[1],color_mode="RGBA")

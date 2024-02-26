@@ -30,7 +30,7 @@ def getframestart(imagefile,frame=None):
     #
     NIL = phg.Nil()
     NIL.open(imagefile)
-
+    
     # Get dimensions
     #
     xdim,ydim =NIL.get_dimension()
@@ -42,7 +42,7 @@ def getframestart(imagefile,frame=None):
 
     # Get all the coordinates for each windows
     #
-    coordinates = [(x, y) for x in range(0, xdim, frame[0]) for y in range(0, ydim, frame[1])]
+    coordinates = [(x, ydim-y+frame[1]) for x in range(0, xdim, frame[0]) for y in range(0, ydim, frame[1])]
     return coordinates
 
 

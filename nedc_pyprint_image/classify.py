@@ -15,13 +15,15 @@ imagefile = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/0070
 def get_center_frame(height, width, framesize):
     '''get the center coodinates of the top-left-most frame'''
 
-    center_x = height + framesize/2
-    center_y = width - framesize/2
+    # print("height:", height, ", width:", width)
+    center_x = 0 + framesize/2
+    center_y = height - framesize/2
     center = Point(center_x, center_y)
+    # print("center coodinate of top-left frame:", center)
 
     return center
 
-def classification(IDS, height, width, framesize, regions):
+def classification(labels, height, width, framesize, regions):
     '''
     objective: classify whether the center fo the first frame (top-left-most) is within a labeled region
         if within labeled region -> set coordinate to 'labeled' status
@@ -35,74 +37,59 @@ def classification(IDS, height, width, framesize, regions):
             # if the next center coordinate is out of bounds of the image (towards the bottom)
             # iteration complete
             if (coord.y - framesize) < 0:
-                pass
+                center = False
+                
             # else if the center coordinate is only out of bounds on the right,
             # slide frame back to the left and bottom by one framesize
             else:
-                center = Point(0, coord.y-framesize)
+                center = Point(framesize/2, coord.y-framesize)
+                # print(2)
         # else if not out of bounds, only move frame to the right
         else:
-            center = Point(coord.x+framesize, coord.y)
+            center = Point((coord.x+framesize), coord.y)
+            # print(3)
+            # print(center)
         return center
     
-    def within_region(coord):
+    def within_region(point):
         '''
         objective: check whether the coordinate is within any of the regions.
         '''
 
-        for r in range(num_regions):
-            if regions[r].contains(coord) is True:
-                labeled.append(coord)
-            else:
-                unlabeled.append(coord)
-            reposition(coord)
+        coord = point
+        
+        while(True):
+            # print()
+            # print("original coodrinate:", coord)
+            
+            for r in range(num_regions):
+                if regions[r].contains(coord) is True:
+                    labeled.append([Point((coord.x-framesize/2), (coord.y+framesize/2)), labels[r]])
+                    break
+                else:
+                    unlabeled.append(coord)
+            coord = reposition(coord)
+            if reposition(coord) is False:
+                break
 
     labeled = []
     unlabeled = []
 
     # get number of unique region IDS
     num_regions = len(regions)
-    print(num_regions)
+    # print(num_regions)
 
-    # create empty list for coordinates of each region
-    # region = [[] for _ in range(num_regions)]
-    # print(shapes)
-    # print(region)
-    
-    # get the coordinate at the center of the top-left-most frame
-    # center = get_center_frame(height,width,framesize)
-    # print(center)
-
-    # initialize region id to the first ID in the file
-    region_id = IDS[0]
-
-    # separate all the regions
-    # for i in range(len(coordinates)):
-    #     # if this is the same region, add coordinate to the list
-    #     if region_id == IDS[i]:
-    #         region[int(region_id)-1].append(coordinates[i])
-    #     # else if this is a different region, add it to the next list
-    #     else:
-    #         region_id = IDS[i]
-    #         region[int(region_id)-1].append(coordinates[i])
-    
-
-    # first center coordinate
     center = get_center_frame(height,width,framesize)
-    print(type(center))
     within_region(center)
-
-    # the rest of the center coordinates
-    while(True):
-        within_region(reposition(center))
-        break
 
     # total number of frames
     total_frames = (height/framesize) * (width/framesize)
+
+    print(labeled)
     
     print("there are {} frames total".format(total_frames))
     print("there are {} that are within a labeled region".format(len(labeled)))
-    print("there are {} that are not within a labeled region". format(len(unlabeled)))
+    print("there are {} that are not within a labeled region". format(len(set(unlabeled))))
 
 
 
@@ -124,23 +111,20 @@ def classify_center(imgfile,labelfile,framesize = -1):
     # Get dimensions
     xdim,ydim =NIL.get_dimension()
     
-    #print("Dimensions = ",xdim,ydim)
-    
-
     if framesize == -1:
         # frame = [xdim,ydim]
         pass
     else:
-        frame = [framesize,framesize]
+        shapes = []
 
-    shapes = []
+        # generates polygon of regions within the image
+        for i in range(len(COORDS)):
+            shapes.append(pointwithin.generate_polygon(COORDS[i]))
 
-    # generates polygon of regions within the image
-    for i in range(len(COORDS)):
-        shapes.append(pointwithin.generate_polygon(COORDS[i]))
+        # classify the frames based on if it is within any region (shape)
+        classification(LABELS, height, width, framesize, shapes)
+
     
-    # classify the frames based on if it is within any region (shape)
-    classification(IDS, height, width, framesize, shapes)
 
     # Get all the coordinates for each windows
     # coordinates = [(x, y) for x in range(0, xdim, frame[0]) for y in range(0, ydim, frame[1])]
@@ -160,5 +144,4 @@ def classify_center(imgfile,labelfile,framesize = -1):
     else:
         return False
         '''
-    
-classify_center(imagefile, labelfile, 20)
+classify_center(imagefile, labelfile, 1000)

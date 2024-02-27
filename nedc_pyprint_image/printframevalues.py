@@ -25,11 +25,29 @@ def window_to_rgb(imagefile,label,coord = (0,0), window_frame = [50,50]):
     window = NIL.read_data_multithread([coord],window_frame[0],window_frame[1],color_mode="RGBA")
     
     # save all the images as JPEGS
-    print(window)
+    window_list = []
+    for i in window[0]:
+        for j in i:
+            window_list.extend(j)
+
+    print(window_list)
+
+    print(int(len(window[0][0])))
+    print(type(window))
+    column_labels = ["label"]
+    for i in range (0, int(len(window_list)/4) - 1):
+        column_labels.append(f"r{i}")
+        column_labels.append(f"g{i}")
+        column_labels.append(f"b{i}")
+        column_labels.append(f"a{i}")
+    
+    #print(column_labels)
+
 
     with open('DATA/dctoutput.csv', 'w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(window)
+        writer.writerow(column_labels)
+        writer.writerow(window_list)
 
 
 # call the function

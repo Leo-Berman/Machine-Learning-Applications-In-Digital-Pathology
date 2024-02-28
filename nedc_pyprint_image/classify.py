@@ -2,9 +2,8 @@ import nedc_image_tools as phg
 import sys
 import annotations
 import pointwithin
-import matplotlib.pyplot as plt
-from svstojpg import svs_to_jpg as stj
 from shapely.geometry import Point
+from printframevalues import window_to_rgb
 
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 labelfile = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a004_lvl000_t000.csv"
@@ -158,7 +157,13 @@ def classify_center(imgfile,labelfile,framesize = -1):
         # classify the frames based on if it is within any region (shape)
         labeled_list = classification(LABELS, height, width, framesize, shapes)
 
-        return(labeled_list, framesize)
+        # pass the image file, all the top-left labeled coordinates, and framesize to the window_to_rgb file
+        for x in range(len(labeled_list)):
+            window_to_rgb(imagefile,labeled_list[1][x],labeled_list[0][x],[framesize,framesize])
+
+
+
+        # return(labeled_list, framesize)
 
     '''  
     if processed:
@@ -166,4 +171,4 @@ def classify_center(imgfile,labelfile,framesize = -1):
     else:
         return False
     '''
-classify_center(imagefile, labelfile, 100)
+classify_center(imagefile, labelfile, 1000)

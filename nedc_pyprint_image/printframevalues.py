@@ -29,13 +29,14 @@ def window_to_rgb(imagefile,labels,coords = [(0,0)], window_frame = [50,50],name
     #
     window = NIL.read_data_multithread(coords,npixx = window_frame[0],npixy = window_frame[1],color_mode="RGBA")
     print("past")
-    # print(window)
+    print(len(window[0][0][0]))
     window_list = []
     # save all the images as JPEGS
     for i in range(len(window)):
         workwindow = [labels[i]]
         for j in window[i]:
-            workwindow.extend(j.tolist()[0])
+            for k in j:
+                workwindow.extend(k.tolist())
         window_list.append(workwindow)
     print(len(window_list[0]))
     print("past")

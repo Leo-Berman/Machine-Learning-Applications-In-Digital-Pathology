@@ -54,4 +54,4 @@ def window_to_rgb(imagefile,label,coord = (0,0), window_frame = [50,50]):
 
 
 # call the function
-window_to_rgb("/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.svs",1,(0,0),[50,50])
+#window_to_rgb("/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.svs",1,(0,0),[50,50])

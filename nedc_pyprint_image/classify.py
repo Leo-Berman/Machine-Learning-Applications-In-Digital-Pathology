@@ -156,10 +156,11 @@ def classify_center(imgfile,labelfile,framesize = -1):
 
         # classify the frames based on if it is within any region (shape)
         labeled_list = classification(LABELS, height, width, framesize, shapes)
+        print(labeled_list)
 
         # pass the image file, all the top-left labeled coordinates, and framesize to the window_to_rgb file
-        for x in range(len(labeled_list)):
-            window_to_rgb(imagefile,labeled_list[1][x],labeled_list[0][x],[framesize,framesize])
+        # for x in range(len(labeled_list)):
+        #     window_to_rgb(imagefile,labeled_list[1][x],labeled_list[0][x],[framesize,framesize])
 
 
 

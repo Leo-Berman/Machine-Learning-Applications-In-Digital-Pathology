@@ -25,6 +25,8 @@ def window_to_rgb(imagefile,label,coord = (0,0), window_frame = [50,50]):
 
 
     # read the single frame
+    # this is the proble I think the frame might need to be put in differently ?
+    #
     window = NIL.read_data_multithread([coord],window_frame[0],window_frame[1],color_mode="RGBA")
     
     # save all the images as JPEGS

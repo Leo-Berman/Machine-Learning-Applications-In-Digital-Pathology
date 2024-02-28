@@ -134,7 +134,6 @@ def classify_center(imgfile,labelfile,framesize = -1):
             list of list coordinates and labels, framesize
     '''
 
-    # output is
     # IDS = list of ints
     # LABELS = list of strings
     # COORDS = list of list of ints
@@ -147,9 +146,9 @@ def classify_center(imgfile,labelfile,framesize = -1):
     height = int(HEADER['height'])
     width = int(HEADER['width'])
     
+    # if framesize is not given, don't do anything for now.
     if framesize == -1:
-        # frame = [xdim,ydim]
-        pass
+        print("default frame size: {} x {}".format(height,width))
     else:
         # generate polygon of regions within the image
         shapes = []

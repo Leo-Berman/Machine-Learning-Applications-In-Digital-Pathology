@@ -28,35 +28,38 @@ def window_to_rgb(imagefile,labels,coords = [(0,0)], window_frame = [50,50],name
     # this is the proble I think the frame might need to be put in differently ?
     #
     window = NIL.read_data_multithread(coords,npixx = window_frame[0],npixy = window_frame[1],color_mode="RGBA")
-    
+    print("past")
+    # print(window)
     window_list = []
     # save all the images as JPEGS
     for i in range(len(window)):
         workwindow = [labels[i]]
         for j in window[i]:
-            workwindow.extend(j)
+            workwindow.extend(j.tolist()[0])
         window_list.append(workwindow)
-
+    print(len(window_list[0]))
+    print("past")
     # print(window_list)
 
     # print(int(len(window[0][0])))
     # print(type(window))
-    column_labels = ["label"]
-    for i in range (0, int(len(window_list[0])/4) - 1):
-        column_labels.append(f"r{i}")
-        column_labels.append(f"g{i}")
-        column_labels.append(f"b{i}")
-        column_labels.append(f"a{i}")
+    # column_labels = ["label"]
+    # for i in range (0, int(len(window_list[0])/4) - 1):
+    #     column_labels.append(f"r{i}")
+    #     column_labels.append(f"g{i}")
+    #     column_labels.append(f"b{i}")
+    #     column_labels.append(f"a{i}")
     
     #print(column_labels)
 
 
-    with open("DATA/"+name + "dctoutput.csv", 'w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(column_labels)
-        writer.writerow(window_list)
+    # with open("DATA/"+name + "dctoutput.csv", 'w', newline='') as file:
+    #     writer = csv.writer(file)
+    #     writer.writerow(column_labels)
+    #     writer.writerow(window_list)
 
-    print("Wrote to DATA/"+name + "dctoutput.csv")
+    # print("Wrote to DATA/"+name + "dctoutput.csv")
 
+    # print(labels,window_list)
 # call the function
 # window_to_rgb("/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.svs",1,(0,0),[50,50])

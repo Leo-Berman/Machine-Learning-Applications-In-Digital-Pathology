@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 
 def rgba_to_dct(framevalues):
-    path = 'DATA/dctoutput.csv'
+    # path = 'DATA/dctoutput.csv'
 
     # Open CSV file in read mode with newline to skip "/n"
     # Create a list from the CSV reader object
@@ -25,11 +25,11 @@ def rgba_to_dct(framevalues):
     # Append corresponding list values in separate RGBA lists
     #
 
-    for i in range(0,len(framevalues)-1,4):
-        red.append(int(read[1][i]))
-        green.append(int(read[1][i+1]))
-        blue.append(int(read[1][i+2]))
-        alpha.append(int(read[1][i+3]))
+    for i in range(1,len(framevalues)-1,4):
+        red.append(framevalues[i])
+        green.append(framevalues[i+1])
+        blue.append(framevalues[i+2])
+        alpha.append(framevalues[i+3])
 
   
     #Display the RGBA lists
@@ -66,8 +66,8 @@ def rgba_to_dct(framevalues):
     # 75th percentile
     #
 
-    threshold = np.percentile(magnitude_coeffs, 90)
-    print(threshold)
+    threshold = np.percentile(magnitude_coeffs, 99.999999)
+    # print(threshold)
 
 
     # Performing an Inverse DCT to reconstruct original vector
@@ -83,8 +83,10 @@ def rgba_to_dct(framevalues):
     # As Higher Frequencies denote texture boundaries
 
     High_Freq_Coeffs = vector_numpy[magnitude_coeffs < threshold]
-    print(len(High_Freq_Coeffs))
-
+    High_Freq_Coeffs = High_Freq_Coeffs.tolist()
+    # print(High_Freq_Coeffs)
+    High_Freq_Coeffs.insert(0,framevalues[0])
+    # High_Freq_Coeffs.insert(0,framevalues[0])
     # Do an Inverse DCT 
     #
 
@@ -111,7 +113,7 @@ def rgba_to_dct(framevalues):
     # write the vector to a file
     #
 
-    file = open("DATA/PCATest.csv",'w')
+    file = open("DATA/PCATest.csv",'a')
     writer = csv.writer(file)
     writer.writerow(High_Freq_Coeffs)
 

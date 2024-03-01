@@ -2,7 +2,6 @@
 import nedc_image_tools as phg
 import sys
 import csv
-from rgbatodct import rgba_to_dct
 
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 
@@ -41,8 +40,7 @@ def window_to_rgb(imagefile,labels,coords = [(0,0)], window_frame = [50,50],name
         window_list.append(workwindow)
 
 
-    for x in window_list:
-        rbga_to_dct(x)
+    return window_list
     # print(len(window_list[0]))
     # print("past")
     # print(window_list)

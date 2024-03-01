@@ -4,6 +4,7 @@ import annotations
 import pointwithin
 from shapely.geometry import Point
 from printframevalues import window_to_rgb
+from rgbatodct import rgba_to_dct
 
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 labelfile = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a004_lvl000_t000.csv"
@@ -156,7 +157,7 @@ def classify_center(imgfile,labelfile,framesize = -1):
 
         # classify the frames based on if it is within any region (shape)
         labeled_list = classification(LABELS, height, width, framesize, shapes)
-        print(labeled_list)
+        # print(labeled_list)
 
         outlabels = []
         outcoords = []

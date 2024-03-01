@@ -4,18 +4,14 @@ import numpy as np
 from scipy.fftpack import dct, idct
 import matplotlib.pyplot as plt
 
-def main():
+
+def rgba_to_dct(framevalues):
     path = 'DATA/dctoutput.csv'
 
     # Open CSV file in read mode with newline to skip "/n"
     # Create a list from the CSV reader object
 
-    read = []
-    with open(path, 'r', newline="") as file:
-        data = csv.reader(file)
-        for row in data:
-            read.append(row)
-    #print(read)
+
 
 
     # Create individual lists for each value of RGBA
@@ -29,7 +25,7 @@ def main():
     # Append corresponding list values in separate RGBA lists
     #
 
-    for i in range(0,len(read[1])-1,4):
+    for i in range(0,len(framevalues)-1,4):
         red.append(int(read[1][i]))
         green.append(int(read[1][i+1]))
         blue.append(int(read[1][i+2]))
@@ -70,7 +66,7 @@ def main():
     # 75th percentile
     #
 
-    threshold = np.percentile(magnitude_coeffs, 75)
+    threshold = np.percentile(magnitude_coeffs, 90)
     print(threshold)
 
 
@@ -119,8 +115,8 @@ def main():
     writer = csv.writer(file)
     writer.writerow(High_Freq_Coeffs)
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+    # main()
 
 
 

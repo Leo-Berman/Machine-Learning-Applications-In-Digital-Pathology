@@ -158,10 +158,15 @@ def classify_center(imgfile,labelfile,framesize = -1):
         labeled_list = classification(LABELS, height, width, framesize, shapes)
         print(labeled_list)
 
+        outlabels = []
+        outcoords = []
         # pass the image file, all the top-left labeled coordinates, and framesize to the window_to_rgb file
         for x in range(len(labeled_list)):
-            window_to_rgb(imagefile,label = labeled_list[x][1],coord = labeled_list[x][0],window_frame = [framesize,framesize],name = str(x))
-
+            outlabels.append(labeled_list[x][1])
+            outcoords.append((int(labeled_list[x][0][0]),int(height - labeled_list[x][0][1]+framesize)))
+            # window_to_rgb(imagefile,label = labeled_list[x][1],coord = labeled_list[x][0],window_frame = [framesize,framesize],name = "file")
+        # print(outcoords)
+        window_to_rgb(imagefile,labels = outlabels,coords = outcoords,window_frame = [framesize,framesize],name = "file")
 
 
         # return(labeled_list, framesize)

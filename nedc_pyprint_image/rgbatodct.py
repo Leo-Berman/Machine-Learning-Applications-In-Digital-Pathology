@@ -46,27 +46,27 @@ def rgba_to_dct(framevalues):
     #
     
     vector = []
-    vector.extend(dct(red))
-    vector.extend(dct(green))
-    vector.extend(dct(blue))
-    vector.extend(dct(alpha))
+    vector.extend(dct(red)[0:10])
+    vector.extend(dct(green)[0:10])
+    vector.extend(dct(blue)[0:10])
+    vector.extend(dct(alpha)[0:10])
 
     #print(len(vector))
 
     # Convert vector to numpy array
-    vector_numpy = np.array(vector)
+    vector_numpy = np.array(vector).tolist()
 
     # Get absolute values of coefficients
     #
 
-    magnitude_coeffs = np.abs(vector)
+    # magnitude_coeffs = np.abs(vector)
     #print(magnitude_coeffs)
 
     # Determine a high pass threshold
     # 75th percentile
     #
 
-    threshold = np.percentile(magnitude_coeffs, 99.999999)
+    # threshold = np.percentile(magnitude_coeffs, 99.999)
     # print(threshold)
 
 
@@ -82,10 +82,10 @@ def rgba_to_dct(framevalues):
     # Preserving Higher Frequencies (Lower Magnitudes/ Energies)
     # As Higher Frequencies denote texture boundaries
 
-    High_Freq_Coeffs = vector_numpy[magnitude_coeffs < threshold]
-    High_Freq_Coeffs = High_Freq_Coeffs.tolist()
+    # High_Freq_Coeffs = vector_numpy[magnitude_coeffs < threshold]
+    # High_Freq_Coeffs = High_Freq_Coeffs.tolist()
     # print(High_Freq_Coeffs)
-    High_Freq_Coeffs.insert(0,framevalues[0])
+    vector_numpy.insert(0,framevalues[0])
     # High_Freq_Coeffs.insert(0,framevalues[0])
     # Do an Inverse DCT 
     #
@@ -115,7 +115,7 @@ def rgba_to_dct(framevalues):
 
     file = open("DATA/PCATest.csv",'a')
     writer = csv.writer(file)
-    writer.writerow(High_Freq_Coeffs)
+    writer.writerow(vector_numpy)
 
 # if __name__ == "__main__":
     # main()

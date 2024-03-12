@@ -26,20 +26,26 @@ def get_center_frame(height, width, framesize):
 
     return center
 
-def classification(labels, height, width, framesize, regions):
+def classification(labels, height, width, windowsize, framesize, regions):
     '''
     objective: classify whether the center of each frame is within a labeled or unlabeled region.
         - if within labeled region -> set coordinate to 'labeled' status.
         - if not within labeled region -> set coordinate to 'unlabeled' status.
         - status is set by storing these coordinates into.
+    
+    return:
+        - list of label-classified windows as x and y coordinates with corresponding label.
+        - format: list of lists -> [[x-coord, y-coord, label], [...],...].
+            - x-coordinate and y-coordinate is the coordinate of the top-left corner of the window (not frame).
+            - 'label' is the label that the center-coordinate of the frame falls within, such as NORM, BKG, SUSP, etc.
 
     functions:
         within_region:
-            the first coordinate (the center of the top-left frame) gets passed in the function.
+            the first center-coordinate (the center of the top-left frame) gets passed in the function.
             the function checks if the coordinate is in any of the labeled regions.
-            if it is, the coordinate and the label gets appended to the 'labeled' list.
+            if it is, the top-left coordinate of the corresponding WINDOW and the label gets appended to the 'labeled' list.
             otherwise, the coordinate is appended to the 'unlabeled' list.
-            the coordinate gets passed to the 'reposition' function.
+            the current center-coordinate gets passed to the 'reposition' function.
         repostion:
             a coordinate gets passed in the function.
             the coordinate is repositioned accordingly:
@@ -48,6 +54,7 @@ def classification(labels, height, width, framesize, regions):
                 - if the next coordinate is out-of-bounds from the right side AND bottom side of the image,
                     all frames were iterated through.
                 - otherwise, move the coordinate to the right (by framesize).
+                  ex) if frame size is 100, move the coordinate to the right by 100.
     '''
 
     def reposition(coord):
@@ -87,7 +94,7 @@ def classification(labels, height, width, framesize, regions):
             for r in range(num_regions):
                 # if it within one of the regions, add to the labeled list with its corresponding label and move to the next coordinate.
                 if regions[r].contains(coord) is True:
-                    labeled.append([((coord.x-framesize/2), (coord.y+framesize/2)), labels[r]])
+                    labeled.append([((coord.x-windowsize/2), (coord.y+windowsize/2)), labels[r]])
                     break
                 # if not in any regions, classify as unlabeled.
                 else:
@@ -124,7 +131,7 @@ def classification(labels, height, width, framesize, regions):
 
 
 
-def classify_center(imgfile,labelfile,framesize = -1):
+def classify_center(imgfile,labelfile,windowsize,framesize = -1):
     '''
         MAIN FUNCTON
         objective:
@@ -156,7 +163,7 @@ def classify_center(imgfile,labelfile,framesize = -1):
             shapes.append(pointwithin.generate_polygon(COORDS[i]))
 
         # classify the frames based on if it is within any region (shape)
-        labeled_list = classification(LABELS, height, width, framesize, shapes)
+        labeled_list = classification(LABELS, height, width, windowsize, framesize, shapes)
         # print(labeled_list)
 
         outlabels = []
@@ -179,4 +186,4 @@ def classify_center(imgfile,labelfile,framesize = -1):
     else:
         return False
     '''
-classify_center(imagefile, labelfile, 1000)
+classify_center(imagefile, labelfile, 5000, 1000)

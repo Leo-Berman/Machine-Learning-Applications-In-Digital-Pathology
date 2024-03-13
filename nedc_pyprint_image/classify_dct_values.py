@@ -4,8 +4,8 @@ import csv
 import numpy as np
 def main():
 
-    # train_list = ["QDATrain1", "QDATrain2"]
-    train_list = ["QDATrain2"]
+    train_list = ["QDATrain1", "QDATrain2"]
+    # train_list = ["QDATrain2"]
     read = []
     for x in train_list:
         # read the rows into memory
@@ -39,13 +39,16 @@ def main():
     #
     labels = np.array(labels).ravel()
     mydata = np.array(mydata)
-
+    print(len(labels))
     # Fit the model
     #
     QDA = QuadraticDiscriminantAnalysis()
     QDA.fit(mydata, labels)
-    # eval_list = ["QDATrain1", "QDATrain2","QDAEval1","QDAEval2"]
-    eval_list = ["QDATrain2","QDAEval1","QDAEval2"]
+
+    print(427 * QDA.score(mydata,labels))
+    print(420/427)
+    eval_list = ["QDATrain1", "QDATrain2","QDAEval1","QDAEval2"]
+    # eval_list = ["QDATrain2","QDAEval1","QDAEval2"]
     for x in eval_list:
         
         # read the rows into memory
@@ -89,7 +92,7 @@ def main():
 
 
         result = filter(lambda x: x != 'bckg',guesses)
-        print(list(result))
+        # print(list(result))
     
     
 

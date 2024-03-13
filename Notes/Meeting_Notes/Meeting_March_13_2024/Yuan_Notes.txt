@@ -1,0 +1,12 @@
+framesize 32, 64, 128, 256
+window 50% more than framesize
+
+random forest
+use v3.0.0 data
+
+look at confusion matrix
+
+match how well our labels match the labels of the annotators based on majority vote
+number has to be high like 99% (but get lots of false alarms)
+
+when run on dev and eval, system has not seen this data so performance will drop

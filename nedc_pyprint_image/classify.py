@@ -7,10 +7,10 @@ from printframevalues import window_to_rgb
 from rgbatodct import rgba_to_dct
 
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
-labelfile = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a004_lvl000_t000.csv"
-imagefile = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a004_lvl000_t000.svs"
 
-
+# TEST FILES
+# labelfile = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a004_lvl000_t000.csv"
+# imagefile = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a004_lvl000_t000.svs"
 
 def get_center_frame(height, width, framesize):
     '''
@@ -131,7 +131,7 @@ def classification(labels, height, width, windowsize, framesize, regions):
 
 
 
-def classify_center(imgfile,labelfile,windowsize,framesize = -1):
+def classify_center(imagefile,labelfile,windowsize,framesize = -1):
     '''
         MAIN FUNCTON
         objective:
@@ -147,7 +147,7 @@ def classify_center(imgfile,labelfile,windowsize,framesize = -1):
     # HEADER of file
     HEADER,IDS,LABELS,COORDS = annotations.parse_annotations(labelfile)
     NIL = phg.Nil()
-    NIL.open(imgfile)
+    NIL.open(imagefile)
 
     # get height and width of image (in pixels) from the header
     height = int(HEADER['height'])
@@ -155,8 +155,9 @@ def classify_center(imgfile,labelfile,windowsize,framesize = -1):
     
     # if framesize is not given, don't do anything for now.
     if framesize == -1:
-        print("default frame size: {} x {}".format(height,width))
+        print("Default frame size: {} x {}".format(height,width))
     else:
+        print("Processing files and classifiying each {} x {} window...".format(windowsize,windowsize))
         # generate polygon of regions within the image
         shapes = []
         for i in range(len(COORDS)):
@@ -164,7 +165,6 @@ def classify_center(imgfile,labelfile,windowsize,framesize = -1):
 
         # classify the frames based on if it is within any region (shape)
         labeled_list = classification(LABELS, height, width, windowsize, framesize, shapes)
-        # print(labeled_list)
 
         outlabels = []
         outcoords = []
@@ -172,18 +172,14 @@ def classify_center(imgfile,labelfile,windowsize,framesize = -1):
         for x in range(len(labeled_list)):
             outlabels.append(labeled_list[x][1])
             outcoords.append((int(labeled_list[x][0][0]),int(height - labeled_list[x][0][1]+framesize)))
-            # window_to_rgb(imagefile,label = labeled_list[x][1],coord = labeled_list[x][0],window_frame = [framesize,framesize],name = "file")
-        # print(outcoords)
+
+        print("Classification completed. Sending data to window_to_rgb module...")
+
         window_list = window_to_rgb(imagefile,labels = outlabels,coords = outcoords,window_frame = [framesize,framesize],name = "file")
         for x in window_list:
             rgba_to_dct(x)
 
+
         # return(labeled_list, framesize)
 
-    '''  
-    if processed:
-        return True
-    else:
-        return False
-    '''
-classify_center(imagefile, labelfile, 5000, 1000)
+# classify_center(imagefile, labelfile, 5000, 1000)

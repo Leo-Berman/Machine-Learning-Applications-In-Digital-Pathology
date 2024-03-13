@@ -12,8 +12,8 @@ def main():
     
     # set the path to the annotations and image file
     #
-    filepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_b003_lvl000_t000.csv"
-    imagepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_b003_lvl000_t000.svs"
+    filepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.csv"
+    imagepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.svs"
     
     # Parses the annotations
     #
@@ -54,7 +54,7 @@ def main():
     # generate the compressed imagefile to be used 
     # in the backgroudn of the plot
     #
-    # stj(imagepath,"./DATA/graphic")
+    stj(imagepath,"./DATA/graphic")
 
     # Read the image in and set it as the background
     # of the plot
@@ -69,6 +69,6 @@ def main():
     
     # save the plot as demo.png in the DATA directory
     #
-    plt.savefig("./DATA/demo.png")
+    plt.savefig("./DATA/Train1.png")
 
 main()

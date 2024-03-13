@@ -4,8 +4,8 @@ import csv
 import numpy as np
 def main():
 
-    train_list = ["QDATrain1", "QDATrain2"]
-    
+    # train_list = ["QDATrain1", "QDATrain2"]
+    train_list = ["QDATrain2"]
     read = []
     for x in train_list:
         # read the rows into memory
@@ -24,7 +24,7 @@ def main():
     
     #  iterate through the data
     #
-    for i,x in enumerate(read):
+    for x in read:
 
         # add the label to a list
         #
@@ -33,22 +33,19 @@ def main():
 
         # add the data into a separate list
         #
-        mydata.append(x)
+        mydata.append(np.array([float(z) for z in x]))
 
     # reshape the arrays
     #
     labels = np.array(labels).ravel()
-    print(len(labels))
     mydata = np.array(mydata)
-    print(len(mydata))
 
     # Fit the model
     #
     QDA = QuadraticDiscriminantAnalysis()
     QDA.fit(mydata, labels)
-    
-    eval_list = ["QDATrain1", "QDATrain2","QDAEval1","QDAEval2"]
-    
+    # eval_list = ["QDATrain1", "QDATrain2","QDAEval1","QDAEval2"]
+    eval_list = ["QDATrain2","QDAEval1","QDAEval2"]
     for x in eval_list:
         
         # read the rows into memory
@@ -74,23 +71,28 @@ def main():
 
             # add the data into a separate list
             #
-            mydata.append(y)
+            mydata.append(np.array([float(z) for z in y]))
         
         labels = np.array(labels).ravel()
         mydata = np.array(mydata)
     
         
-        print(x + "score = ",QDA.score(mydata,labels))
+        print(x + " score = ",QDA.score(mydata,labels))
         # print the score 
         #
+
+        # get a list of guesses
+        # 
+        guesses = []
+        for x in mydata:
+            guesses.append(QDA.predict(x.reshape(1,-1))[0])
+
+
+        result = filter(lambda x: x != 'bckg',guesses)
+        print(list(result))
     
     
 
-    # get a list of guesses
-    #
-    # guesses = []
-    # for x in mydata:
-    #     guesses.append(QDA.predict(x.reshape(1,-1))[0])
-    # print(guesses)
+    
 
 main()

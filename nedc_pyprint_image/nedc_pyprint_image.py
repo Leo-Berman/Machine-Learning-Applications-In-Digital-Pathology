@@ -56,11 +56,11 @@ def main():
 
     # printing the image to a jpg
     #
-    svstojpg.svs_to_jpg(iname,"name")
+    # svstojpg.svs_to_jpg(iname,"name")
 
     # closes svs file
     #
-    NIL2.close()
+    # NIL2.close()
 
     # track how many need to be processed and how many need to be processed
     #

@@ -78,7 +78,7 @@ def main():
         
         # try classifying it
         #
-        if classify.classify_center(iname,lname,fsize):
+        if classify.classify_center(iname,lname,wsize,fsize):
             processed+=1
 
     # print number succesfully classified

@@ -113,7 +113,7 @@ def rgba_to_dct(framevalues):
     # write the vector to a file
     #
 
-    file = open("DATA/PCATest.csv",'a')
+    file = open("DATA/QDAEval2.csv",'a')
     writer = csv.writer(file)
     writer.writerow(vector_numpy)
 

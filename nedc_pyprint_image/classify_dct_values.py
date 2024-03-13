@@ -4,14 +4,18 @@ import csv
 import numpy as np
 def main():
 
-    # read the rows into memory
-    #
-    relpath = "./DATA/PCATest.csv"
-    file = open(relpath,'r')
-    data = csv.reader(file)
+    train_list = ["QDATrain1", "QDATrain2"]
+    
     read = []
-    for row in data:
-        read.append(row)
+    for x in train_list:
+        # read the rows into memory
+        #
+        relpath = "./DATA/"+x+".csv"
+        file = open(relpath,'r')
+        data = csv.reader(file)
+        for row in data:
+            read.append(row)
+        file.close()
 
     # list for holding the labels and data
     #
@@ -30,14 +34,6 @@ def main():
         # add the data into a separate list
         #
         mydata.append(x)
-        # row_length = (len(x))//4
-        # red = x[0:row_length]
-        # green = x[row_length:row_length*2]
-        # blue = x[row_length*2:row_length*3]
-        # alpha = x[row_length*3:row_length*4]
-
-        # applist = [red,green,blue,alpha]
-        # mydata.append(applist)
 
     # reshape the arrays
     #
@@ -51,22 +47,50 @@ def main():
     QDA = QuadraticDiscriminantAnalysis()
     QDA.fit(mydata, labels)
     
-    # print the score 
-    #
-    print(QDA.score(mydata,labels))
-    guesses = []
+    eval_list = ["QDATrain1", "QDATrain2","QDAEval1","QDAEval2"]
+    
+    for x in eval_list:
+        
+        # read the rows into memory
+        
+        relpath = "./DATA/"+x+".csv"
+        file = open(relpath,'r')
+        data = csv.reader(file)
+        read = []
+        for row in data:
+            read.append(row)
+        file.close()
+
+        #  iterate through the data
+        #
+        labels = []
+        mydata = []
+        for y in read:
+
+            # add the label to a list
+            #
+            label = y.pop(0)
+            labels.append(label)
+
+            # add the data into a separate list
+            #
+            mydata.append(y)
+        
+        labels = np.array(labels).ravel()
+        mydata = np.array(mydata)
+    
+        
+        print(x + "score = ",QDA.score(mydata,labels))
+        # print the score 
+        #
+    
+    
 
     # get a list of guesses
     #
-    for x in mydata:
-        guesses.append(QDA.predict(x.reshape(1,-1))[0])
-    print(guesses)
-
-    # print("label = ", mydata[0][0])
-    # print("red length = ",len(mydata[0][1]))
-    # print("green length = ",len(mydata[0][2]))
-    # print("blue length = ",len(mydata[0][3]))
-    # print("alpha length = ",len(mydata[0][4]))
-
+    # guesses = []
+    # for x in mydata:
+    #     guesses.append(QDA.predict(x.reshape(1,-1))[0])
+    # print(guesses)
 
 main()

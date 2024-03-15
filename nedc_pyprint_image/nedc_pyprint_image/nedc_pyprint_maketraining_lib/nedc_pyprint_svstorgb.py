@@ -3,8 +3,7 @@ import nedc_image_tools as phg
 import sys
 import csv
 import numpy as np
-from scipy.fftpack import dct, idct
-import matplotlib.pyplot as plt
+from scipy.fftpack import dct
 
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 
@@ -24,9 +23,10 @@ def window_to_rgb(imagefile,labels,coords = [(0,0)], window_frame = [50,50],name
     NIL = phg.Nil()
     NIL.open(imagefile)
     xdim,ydim = NIL.get_dimension()
-#
+    
     window = NIL.read_data_multithread(coords,npixx = window_frame[0],npixy = window_frame[1],color_mode="RGBA")
     window_list = []
+
     # save all the images as JPEGS
     for i in range(len(window)):
         workwindow = [labels[i]]
@@ -41,13 +41,6 @@ def window_to_rgb(imagefile,labels,coords = [(0,0)], window_frame = [50,50],name
 
 
 def rgba_to_dct(framevalues):
-    # path = 'DATA/dctoutput.csv'
-
-    # Open CSV file in read mode with newline to skip "/n"
-    # Create a list from the CSV reader object
-
-
-
 
     # Create individual lists for each value of RGBA
     #
@@ -65,15 +58,6 @@ def rgba_to_dct(framevalues):
         green.append(framevalues[i+1])
         blue.append(framevalues[i+2])
         alpha.append(framevalues[i+3])
-
-  
-    #Display the RGBA lists
-    #
-        
-    #print(f"Red: {red}")
-    #print(f"Green: {green}")
-    #print(f"Blue: {blue}")
-    #print(f"Alpha: {alpha}")
     
     # concatenate the dcts of each vector
     # probably need to index each DCT for the most
@@ -86,40 +70,9 @@ def rgba_to_dct(framevalues):
     vector.extend(dct(blue)[0:10])
     vector.extend(dct(alpha)[0:10])
 
-    #print(len(vector))
-
     # Convert vector to numpy array
     vector_numpy = np.array(vector).tolist()
 
-    # Get absolute values of coefficients
-    #
-
-    # magnitude_coeffs = np.abs(vector)
-    #print(magnitude_coeffs)
-
-    # Determine a high pass threshold
-    # 75th percentile
-    #
-
-    # threshold = np.percentile(magnitude_coeffs, 99.999)
-    # print(threshold)
-
-
-    # Performing an Inverse DCT to reconstruct original vector
-    # Many of the transformed DCT coefficients are close to zero
-    # After inverse DCT those coefficients are automatically getting discarded
-    
-    # reconstructed_vector = idct(vector)
-
-    # print(type(reconstructed_vector))
-
-    # High Pass Filter
-    # Preserving Higher Frequencies (Lower Magnitudes/ Energies)
-    # As Higher Frequencies denote texture boundaries
-
-    # High_Freq_Coeffs = vector_numpy[magnitude_coeffs < threshold]
-    # High_Freq_Coeffs = High_Freq_Coeffs.tolist()
-    # print(High_Freq_Coeffs)
     vector_numpy.insert(0,framevalues[0])
 
 

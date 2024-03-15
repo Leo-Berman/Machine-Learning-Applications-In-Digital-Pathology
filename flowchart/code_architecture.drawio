@@ -1,119 +1,125 @@
-<mxfile host="Electron" modified="2024-03-14T14:10:30.679Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.0.4 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="BRxUoVSVvi_LJiGXjvAc" version="24.0.4" type="device">
+<mxfile host="Electron" modified="2024-03-15T15:23:45.295Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.0.4 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="I7YFNaejT1AYjAAOcSMl" version="24.0.4" type="device">
   <diagram name="Page-1" id="Pn_B5uRz9UyzJfgRzdLi">
-    <mxGraphModel dx="2214" dy="843" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1364" dy="843" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="R12fR0HURLkSJvz07A9B-2" value="&lt;span style=&quot;font-size: 23px;&quot;&gt;Code Architecture&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="320" y="10" width="210" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-1" target="A-Pw-RAtUNQ02SP3cXzz-9">
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-1" target="A-Pw-RAtUNQ02SP3cXzz-9" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="220" y="280" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-1" value="nedc_pyprint_image.py&lt;div&gt;args:&lt;/div&gt;&lt;div&gt;--imagefilename&lt;/div&gt;&lt;div&gt;--labelfilename&lt;/div&gt;&lt;div&gt;--framesize&lt;/div&gt;&lt;div&gt;--windowsize&lt;/div&gt;&lt;div&gt;--level (-l)&lt;/div&gt;&lt;div&gt;--xoff (-x)&lt;/div&gt;&lt;div&gt;--yoff (-y)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-1" value="nedc_pyprint_image.py&lt;div&gt;args:&lt;/div&gt;&lt;div&gt;--imagefilename&lt;/div&gt;&lt;div&gt;--labelfilename&lt;/div&gt;&lt;div&gt;--framesize&lt;/div&gt;&lt;div&gt;--windowsize&lt;/div&gt;&lt;div&gt;--level (-l)&lt;/div&gt;&lt;div&gt;--xoff (-x)&lt;/div&gt;&lt;div&gt;--yoff (-y)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
           <mxGeometry x="90" y="60" width="260" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-2" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;Function Library&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-2" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;nedc_pyprint_image.py&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 24px;&quot;&gt;function library&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
           <mxGeometry x="531" y="60" width="260" height="150" as="geometry" />
         </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-3" target="A-Pw-RAtUNQ02SP3cXzz-9">
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-3" target="A-Pw-RAtUNQ02SP3cXzz-9" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="320" y="280" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-3" value="nedc_pyprint_getargs.py" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-3" value="nedc_pyprint_getargs.py" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
           <mxGeometry x="560" y="240" width="200" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-7" value="Get Arguments From Command Line" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-7" value="Get Arguments From Command Line" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="370" y="250" width="150" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-9" target="A-Pw-RAtUNQ02SP3cXzz-12">
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-9" target="A-Pw-RAtUNQ02SP3cXzz-12" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-9" value="Call classify function" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="160" y="250" width="120" height="60" as="geometry" />
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-9" value="Call nedc_pyprint_getargs.py function" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="120" y="250" width="200" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-10" target="A-Pw-RAtUNQ02SP3cXzz-12">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-10" value="nedc_pyprint_maketraining.py&lt;div&gt;(currently classify.py)&lt;/div&gt;&lt;div&gt;calls:&lt;/div&gt;&lt;div&gt;nedc_pyprint_parseannotiations.py&lt;br&gt;&lt;/div&gt;&lt;div&gt;nedc_pyprint_geometry.py&lt;br&gt;&lt;/div&gt;&lt;div&gt;nedc_pyprint_svstorgb.py&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="560" y="350" width="200" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-12" target="A-Pw-RAtUNQ02SP3cXzz-27">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-12" value="Call:&lt;div&gt;nedc_pyprint_maketraining.py&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="120" y="370" width="200" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-14">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="440" y="400" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-14" value="nedc_pyprint_parseannotiations.py" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="560" y="480" width="200" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-19">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="440" y="400" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-19" value="nedc_pyprint_geometry.py&lt;div&gt;(currently pointwithin.py)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="561" y="600" width="200" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-21">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="440" y="400" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-21" value="nedc_pyprint_svstorgb.py&lt;div&gt;(currently printframevalues.py)&lt;br&gt;&lt;div&gt;calls:&lt;/div&gt;&lt;div&gt;nedc_pyprint_rgbtodct.py&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="560" y="720" width="200" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-23">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="440" y="760" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-23" value="nedc_pyprint_rgbtodct.py" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="560" y="840" width="200" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-27" target="A-Pw-RAtUNQ02SP3cXzz-39">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="220" y="640" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-27" value="Call:&lt;div&gt;nedc_pyprint_classify.py&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="120" y="490" width="200" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-28" target="A-Pw-RAtUNQ02SP3cXzz-27">
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-10" target="A-Pw-RAtUNQ02SP3cXzz-12" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="380" y="1000" />
-              <mxPoint x="380" y="520" />
+              <mxPoint x="430" y="400" />
+              <mxPoint x="430" y="400" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-28" value="nedc_pyprint_classify.py&lt;div&gt;(will access the csv files of labelled sections)&lt;br&gt;&lt;div&gt;(currently classify_dct_values)&lt;/div&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="560" y="960" width="200" height="80" as="geometry" />
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-10" value="nedc_pyprint_maketraining.py&lt;div&gt;(currently classify.py)&lt;/div&gt;&lt;div&gt;calls:&lt;/div&gt;&lt;div&gt;nedc_pyprint_parseannotiations.py&lt;br&gt;&lt;/div&gt;&lt;div&gt;nedc_pyprint_geometry.py&lt;br&gt;&lt;/div&gt;&lt;div&gt;nedc_pyprint_svstorgb.py&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="560" y="350" width="200" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-31" value="csv files of labelled sections" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
-          <mxGeometry x="-140" y="335" width="110" height="130" as="geometry" />
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-12" value="Call:&lt;div&gt;nedc_pyprint_maketraining.py&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" vertex="1">
+          <mxGeometry x="120" y="370" width="200" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-35" value="csv files" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="10" y="370" width="70" height="30" as="geometry" />
+        <mxCell id="s8Gx7B9oiF_B--dZA-3K-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-14" target="A-Pw-RAtUNQ02SP3cXzz-10">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-39" value="Error Rates and confusion matrix" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="120" y="610" width="200" height="60" as="geometry" />
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-14" value="nedc_pyprint_parseannotiations.py" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+          <mxGeometry x="959.5" y="240" width="200" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-45" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-12" target="A-Pw-RAtUNQ02SP3cXzz-31">
+        <mxCell id="s8Gx7B9oiF_B--dZA-3K-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-19" target="A-Pw-RAtUNQ02SP3cXzz-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-19" value="nedc_pyprint_geometry.py&lt;div&gt;(currently pointwithin.py)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+          <mxGeometry x="960.5" y="360" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="s8Gx7B9oiF_B--dZA-3K-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-21" target="A-Pw-RAtUNQ02SP3cXzz-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-21" value="nedc_pyprint_svstorgb.py&lt;div&gt;(currently printframevalues.py and consolidate with rgbtodct.py)&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+          <mxGeometry x="959.5" y="480" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="s8Gx7B9oiF_B--dZA-3K-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-31" target="s8Gx7B9oiF_B--dZA-3K-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-31" value="Evaluation csv files of labelled sections" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="165" y="570" width="110" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-45" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-12" target="A-Pw-RAtUNQ02SP3cXzz-31" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="310" y="460" as="sourcePoint" />
             <mxPoint x="410" y="460" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-46" value="" style="shape=message;html=1;outlineConnect=0;" vertex="1" parent="A-Pw-RAtUNQ02SP3cXzz-45">
+        <mxCell id="A-Pw-RAtUNQ02SP3cXzz-46" value="" style="shape=message;html=1;outlineConnect=0;" parent="A-Pw-RAtUNQ02SP3cXzz-45" vertex="1">
+          <mxGeometry width="20" height="14" relative="1" as="geometry">
+            <mxPoint x="-10" y="-7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s8Gx7B9oiF_B--dZA-3K-11" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;nedc_pyprint_maketraining.py&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;font-size: 24px;&quot;&gt;function library&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="880" y="60" width="360" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="s8Gx7B9oiF_B--dZA-3K-16" value="nedc_pyprint_classify.py&lt;div&gt;(will access the csv files of labelled sections)&lt;br&gt;&lt;div&gt;(currently classify_dct_values)&lt;/div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="90" y="770" width="260" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="s8Gx7B9oiF_B--dZA-3K-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="s8Gx7B9oiF_B--dZA-3K-18" target="s8Gx7B9oiF_B--dZA-3K-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s8Gx7B9oiF_B--dZA-3K-18" value="Developer csv files of labelled sections" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="30" y="570" width="110" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="s8Gx7B9oiF_B--dZA-3K-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="s8Gx7B9oiF_B--dZA-3K-19" target="s8Gx7B9oiF_B--dZA-3K-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s8Gx7B9oiF_B--dZA-3K-19" value="Training csv files of labelled sections" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="302" y="570" width="107" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="s8Gx7B9oiF_B--dZA-3K-20" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-12" target="s8Gx7B9oiF_B--dZA-3K-18">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="230" y="440" as="sourcePoint" />
+            <mxPoint x="230" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s8Gx7B9oiF_B--dZA-3K-21" value="" style="shape=message;html=1;outlineConnect=0;" vertex="1" parent="s8Gx7B9oiF_B--dZA-3K-20">
+          <mxGeometry width="20" height="14" relative="1" as="geometry">
+            <mxPoint x="-10" y="-7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s8Gx7B9oiF_B--dZA-3K-22" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="A-Pw-RAtUNQ02SP3cXzz-12" target="s8Gx7B9oiF_B--dZA-3K-19">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="230" y="440" as="sourcePoint" />
+            <mxPoint x="230" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s8Gx7B9oiF_B--dZA-3K-23" value="" style="shape=message;html=1;outlineConnect=0;" vertex="1" parent="s8Gx7B9oiF_B--dZA-3K-22">
           <mxGeometry width="20" height="14" relative="1" as="geometry">
             <mxPoint x="-10" y="-7" as="offset" />
           </mxGeometry>

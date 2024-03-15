@@ -1,10 +1,8 @@
 import nedc_image_tools as phg
 import sys
-import annotations
-import pointwithin
 from shapely.geometry import Point
-from printframevalues import window_to_rgb
-from rgbatodct import rgba_to_dct
+from nedc_pyprint_maketraining import nedc_pyprint_geometry, nedc_pyprint_parseannotations, nedc_pyprint_svstorgb as geometry, annotations, svstorgb
+
 
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 
@@ -161,7 +159,7 @@ def classify_center(imagefile,labelfile,windowsize,framesize = -1):
         # generate polygon of regions within the image
         shapes = []
         for i in range(len(COORDS)):
-            shapes.append(pointwithin.generate_polygon(COORDS[i]))
+            shapes.append(geometry.generate_polygon(COORDS[i]))
 
         # classify the frames based on if it is within any region (shape)
         labeled_list = classification(LABELS, height, width, windowsize, framesize, shapes)
@@ -175,9 +173,10 @@ def classify_center(imagefile,labelfile,windowsize,framesize = -1):
 
         print("Classification completed. Sending data to window_to_rgb module...")
 
-        window_list = window_to_rgb(imagefile,labels = outlabels,coords = outcoords,window_frame = [framesize,framesize],name = "file")
+        window_list = svstorgb.window_to_rgb(imagefile,labels = outlabels,coords = outcoords,window_frame = [framesize,framesize],name = "file")
         for x in window_list:
-            rgba_to_dct(x)
+            svstorgb.rgba_to_dct(x)
+
 
 
         # return(labeled_list, framesize)

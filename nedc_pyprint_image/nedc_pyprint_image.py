@@ -6,17 +6,13 @@ import nedc_image_tools as phg
 #
 import sys
 
-# Import argument parsing
-#
-import arguments as argspy
-
 # Writing an svs to a jpeg
 #
 import svstojpg
 
-# Classifies an image
+# Import argungment parsing and image classifier
 #
-import classify
+from nedc_pyprint_image import nedc_pyprint_getargs, nedc_pyprint_maketraining as argspy, classify
 
 # For splitting files into their name and extensions
 #

@@ -1,3 +1,17 @@
+'''
+    @file
+    This module makes the training data based on the inputs into the main function of this file [classify_center]
+
+    @details    
+    It consists of three functions:
+        - classify_center (main fucntion)
+        - get_center_frame
+        - classification (with two nested functions):
+            - repostion
+            - within region
+
+'''
+
 import nedc_image_tools as phg
 import sys
 from shapely.geometry import Point
@@ -8,9 +22,53 @@ from nedc_pyprint_image.nedc_labels_lib import svstorgb as svstorgb
 
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 
-# TEST FILES
-# labelfile = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a004_lvl000_t000.csv"
-# imagefile = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a004_lvl000_t000.svs"
+def classify_center(imagefile,labelfile,windowsize,framesize = -1):
+    '''
+        MAIN FUNCTON
+        objective:
+            get the headers, region ids, labels, and coordinates from annotations
+
+        return:
+            list of list coordinates and labels, framesize
+    '''
+
+    # IDS = list of ints
+    # LABELS = list of strings
+    # COORDS = list of list of ints
+    # HEADER of file
+    HEADER,IDS,LABELS,COORDS = annotations.parse_annotations(labelfile)
+    NIL = phg.Nil()
+    NIL.open(imagefile)
+
+    # get height and width of image (in pixels) from the header
+    height = int(HEADER['height'])
+    width = int(HEADER['width'])
+    
+    # if framesize is not given, don't do anything for now.
+    if framesize == -1:
+        print("Default frame size: {} x {}".format(height,width))
+    else:
+        print("Processing files and classifiying each {} x {} window...".format(windowsize,windowsize))
+        # generate polygon of regions within the image
+        shapes = []
+        for i in range(len(COORDS)):
+            shapes.append(geometry.generate_polygon(COORDS[i]))
+
+        # classify the frames based on if it is within any region (shape)
+        labeled_list = classification(LABELS, height, width, windowsize, framesize, shapes)
+
+        outlabels = []
+        outcoords = []
+        # pass the image file, all the top-left labeled coordinates, and framesize to the window_to_rgb file
+        for x in range(len(labeled_list)):
+            outlabels.append(labeled_list[x][1])
+            outcoords.append((int(labeled_list[x][0][0]),int(height - labeled_list[x][0][1]+framesize)))
+
+        print("Classification completed. Sending data to window_to_rgb module...")
+
+        window_list = svstorgb.window_to_rgb(imagefile,labels = outlabels,coords = outcoords,window_frame = [framesize,framesize],name = "file")
+        for x in window_list:
+            svstorgb.rgba_to_dct(x)
 
 def get_center_frame(height, width, framesize):
     '''
@@ -131,56 +189,4 @@ def classification(labels, height, width, windowsize, framesize, regions):
 
 
 
-def classify_center(imagefile,labelfile,windowsize,framesize = -1):
-    '''
-        MAIN FUNCTON
-        objective:
-            get the headers, region ids, labels, and coordinates from annotations
 
-        return:
-            list of list coordinates and labels, framesize
-    '''
-
-    # IDS = list of ints
-    # LABELS = list of strings
-    # COORDS = list of list of ints
-    # HEADER of file
-    HEADER,IDS,LABELS,COORDS = annotations.parse_annotations(labelfile)
-    NIL = phg.Nil()
-    NIL.open(imagefile)
-
-    # get height and width of image (in pixels) from the header
-    height = int(HEADER['height'])
-    width = int(HEADER['width'])
-    
-    # if framesize is not given, don't do anything for now.
-    if framesize == -1:
-        print("Default frame size: {} x {}".format(height,width))
-    else:
-        print("Processing files and classifiying each {} x {} window...".format(windowsize,windowsize))
-        # generate polygon of regions within the image
-        shapes = []
-        for i in range(len(COORDS)):
-            shapes.append(geometry.generate_polygon(COORDS[i]))
-
-        # classify the frames based on if it is within any region (shape)
-        labeled_list = classification(LABELS, height, width, windowsize, framesize, shapes)
-
-        outlabels = []
-        outcoords = []
-        # pass the image file, all the top-left labeled coordinates, and framesize to the window_to_rgb file
-        for x in range(len(labeled_list)):
-            outlabels.append(labeled_list[x][1])
-            outcoords.append((int(labeled_list[x][0][0]),int(height - labeled_list[x][0][1]+framesize)))
-
-        print("Classification completed. Sending data to window_to_rgb module...")
-
-        window_list = svstorgb.window_to_rgb(imagefile,labels = outlabels,coords = outcoords,window_frame = [framesize,framesize],name = "file")
-        for x in window_list:
-            svstorgb.rgba_to_dct(x)
-
-
-
-        # return(labeled_list, framesize)
-
-# classify_center(imagefile, labelfile, 5000, 1000)

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+"""! @brief Example Python program with Doxygen style comments."""
+
 # Imports Phuykong's tools for opening svs file
 #
 import nedc_image_tools as phg

@@ -1,43 +1,32 @@
-## Program for reading svs files and their associated csv labels
-
-## @section notes_main Notes
-# - This is going to be used in conjuction with a classifier to get patch level analysis of the data going.
-
-## @Copyright (c) 2024 LYM.  All rights reserved.
-#
-
-## @file nedc_pyprint_image.py
-#
-
-## @brief Python program for creating feature vectors of labelled data.
-#
-
-## @section description_doxygen_example Description
-# Driver function
-#
-
-from nedc_pyprint_image import getargs as argspy
-from nedc_pyprint_image import maketraining as classify
+from nedc_pyprint_image_lib import getargs as argspy
+from nedc_pyprint_image_lib import maketraining as classify
 
 # For splitting files into their name and extensions
 #
 import os
 
 def main():
-    """Main driver function for running the program.
+    
+    """
+    Program for reading svs files and their associated csv labels
+
+
+    This is the Main driver function for running the program. It takes in command line arguments. It reads those images, and outputs feature vectors in accordance to the defined labels.
         
-    Takes in command line arguments. It reads those images, and outputs feature vectors in accordance to the defined labels.
+        Notes:
+            This is going to be used in conjuction with a classifier to get patch level analysis of the data going.
     
-    Args:
-        --imagefilename/-if = image file name
-        --labelfilename/-lf = label file name 
-        --framesize = frame size 
-        --windowsize = window size
-        --level/-l = level
-        --xoff/-x = x offset 
-        --yoff/-y = y offset
-        """
-    
+
+        Args:
+            --imagefilename/-if = image file name
+            --labelfilename/-lf = label file name 
+            --framesize = frame size 
+            --windowsize = window size
+            --level/-l = level
+            --xoff/-x = x offset 
+            --yoff/-y = y offset
+    """
+
     # print useful processing message
     #
     print("beginning argument processing...")

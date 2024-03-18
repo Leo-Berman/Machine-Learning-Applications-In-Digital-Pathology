@@ -2,9 +2,9 @@ import nedc_image_tools as phg
 import sys
 from shapely.geometry import Point
 
-from nedc_pyprint_image.nedc_pyprint_maketraining_lib import nedc_pyprint_geometry as geometry
-from nedc_pyprint_image.nedc_pyprint_maketraining_lib import nedc_pyprint_parseannotations as annotations
-from nedc_pyprint_image.nedc_pyprint_maketraining_lib import nedc_pyprint_svstorgb as svstorgb
+from nedc_pyprint_image.nedc_labels_lib import geometry
+from nedc_pyprint_image.nedc_labels_lib import parseannotations as annotations
+from nedc_pyprint_image.nedc_labels_lib import svstorgb as svstorgb
 
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 

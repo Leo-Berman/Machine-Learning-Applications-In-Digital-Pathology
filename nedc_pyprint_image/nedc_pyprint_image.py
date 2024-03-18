@@ -12,8 +12,8 @@ import svstojpg
 
 # Import argungment parsing and image classifier
 #
-from nedc_pyprint_image import nedc_pyprint_getargs as argspy
-from nedc_pyprint_image import nedc_pyprint_maketraining as classify
+from nedc_pyprint_image import getargs as argspy
+from nedc_pyprint_image import maketraining as classify
 
 # For splitting files into their name and extensions
 #

@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+"""! @brief Clasifies the DCT values into different labeled regions"""
+##
+# @file classify_dct_values.py
+#
+# @brief Classify the DCT values into different labeled regions
+#
+# 
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 import csv

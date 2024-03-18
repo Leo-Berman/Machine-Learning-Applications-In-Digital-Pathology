@@ -1,17 +1,38 @@
 #!/usr/bin/env python3
-"""! @brief Example Python program with Doxygen style comments."""
+"""! @ Function for reading svs files and their associated csv labels """
 
-# Imports Phuykong's tools for opening svs file
+# @section description_main Description
+# Function for printing out labelled data in the form of feature vectors
 #
-import nedc_image_tools as phg
+
+# @section notes_main Notes
+# - This is going to be used in conjuction with a classifier to get patch level analysis of the data going.
+#
+
+# Copyright (c) 2024 LYM.  All rights reserved.
+#
+
+# @file nedc_pyprint_image.py
+#
+
+# @brief Python program for creating feature vectors of labelled data.
+#
+# @section description_doxygen_example Description
+# Driver function
+#
+
+# @section nedcy_pyprint_image Imports
+# sys is a standard library that allows us to adds the nedc_image_tools to our system path so we could access it.
+# nedc_pyprint_image.getargs is for parsing commandline arguments
+# nedc_pyprint_image.maketraining is a file that generates labelled data as feature vectors in csv format.
+# os is a standard library we are using to check file extensions
+#  
+
+
 
 # Import sys module for file paths
 #
 import sys
-
-# Writing an svs to a jpeg
-#
-import svstojpg
 
 # Import argungment parsing and image classifier
 #
@@ -21,10 +42,6 @@ from nedc_pyprint_image import maketraining as classify
 # For splitting files into their name and extensions
 #
 import os
-
-# For printing svs RGBA values
-#
-import printrgba as prgba
 
 # add phuykongs library path
 #
@@ -52,17 +69,7 @@ def main():
 
     # prints parsed arguments
     #
-    print("imagefilename = ",iname,"labelfilename = ",lname,"fsize = ",fsize,"wsize = ",wsize,"level = ",level,"xoff = ",xoff,"yoff = ",yoff)
-
-    # printing the image to a jpg
-    #
-
-    # svstojpg.svs_to_jpg(iname,"name")
-
-    # closes svs file
-    #
-    # NIL2.close()
-
+    # print("imagefilename = ",iname,"labelfilename = ",lname,"fsize = ",fsize,"wsize = ",wsize,"level = ",level,"xoff = ",xoff,"yoff = ",yoff)
 
     # track how many need to be processed and how many need to be processed
     #

@@ -1,16 +1,17 @@
-.. nedc_pyprint_image documentation master file, created by
-   sphinx-quickstart on Wed Mar 20 11:20:26 2024.
+.. MLProject documentation master file, created by
+   sphinx-quickstart on Wed Mar 20 13:11:15 2024.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to nedc_pyprint_image's documentation!
-==============================================
+Welcome to MLProject's documentation!
+=====================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    modules
+
 
 Indices and tables
 ==================

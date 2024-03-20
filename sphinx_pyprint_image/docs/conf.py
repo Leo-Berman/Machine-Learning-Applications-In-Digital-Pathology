@@ -12,17 +12,21 @@
 #
 import os
 import sys
+import mock
 sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0,os.path.abspath('../nedc_pyprint_image/'))
+sys.path.insert(0,os.path.abspath('../nedc_pyprint_image/nedc_pyprint_image_lib/'))
+sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools")
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'nedc_pyprint_image'
+project = 'MLProject'
 copyright = '2024, Leo, Yuan, Muho'
 author = 'Leo, Yuan, Muho'
 
 # The full version, including alpha/beta/rc tags
-release = 'v1.0'
+release = 'v1.0.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -31,6 +35,9 @@ release = 'v1.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.napoleon'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -47,9 +54,13 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'classic'
+html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+MOCK_MODULES=['nedc_image_tools', 'shapely', 'nedc_ann_dpath_tools', 'scipy', 'matplotlib']
+for module_name in MOCK_MODULES:
+    sys.modules[module_name] = mock.Mock()

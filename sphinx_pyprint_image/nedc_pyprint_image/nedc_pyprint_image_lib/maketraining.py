@@ -4,22 +4,18 @@ The maketraining.py module will classify each frame as labeled or unlabeled whet
 
 import nedc_image_tools as phg
 import sys
-from shapely.geometry import Point
+import shapely
 
-from nedc_pyprint_image.nedc_labels_lib import geometry
-from nedc_pyprint_image.nedc_labels_lib import parseannotations as annotations
-from nedc_pyprint_image.nedc_labels_lib import svstorgb as svstorgb
+import nedc_pyprint_image_lib
 
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 
 def classify_center(imagefile,labelfile,windowsize,framesize = -1):
-    """
-        MAIN FUNCTON
-        objective:
-            get the headers, region ids, labels, and coordinates from annotations
+    """MAIN FUNCTON
+        
+        objective: get the headers, region ids, labels, and coordinates from annotations
 
-        return:
-            list of list coordinates and labels, framesize
+        return: list of list coordinates and labels, framesize
 
         :param imagefile: Image file of the tissue in the form of a svs file.
         :type imagefile: String (ends with .svs)
@@ -39,7 +35,7 @@ def classify_center(imagefile,labelfile,windowsize,framesize = -1):
     # LABELS = list of strings
     # COORDS = list of list of ints
     # HEADER of file
-    HEADER,IDS,LABELS,COORDS = annotations.parse_annotations(labelfile)
+    HEADER,IDS,LABELS,COORDS = nedc_pyprint_image_lib.nedc_labels_lib.parseannotations(labelfile)
     NIL = phg.Nil()
     NIL.open(imagefile)
 
@@ -55,7 +51,7 @@ def classify_center(imagefile,labelfile,windowsize,framesize = -1):
         # generate polygon of regions within the image
         shapes = []
         for i in range(len(COORDS)):
-            shapes.append(geometry.generate_polygon(COORDS[i]))
+            shapes.append(nedc_pyprint_image_lib.nedc_labels_lib.generate_polygon(COORDS[i]))
 
         # classify the frames based on if it is within any region (shape)
         labeled_list = classification(LABELS, height, width, windowsize, framesize, shapes)
@@ -69,9 +65,9 @@ def classify_center(imagefile,labelfile,windowsize,framesize = -1):
 
         print("Classification completed. Sending data to window_to_rgb module...")
 
-        window_list = svstorgb.window_to_rgb(imagefile,labels = outlabels,coords = outcoords,window_frame = [framesize,framesize],name = "file")
+        window_list = nedc_pyprint_image_lib.nedc_labels_lib.svstorgb.window_to_rgb(imagefile,labels = outlabels,coords = outcoords,window_frame = [framesize,framesize],name = "file")
         for x in window_list:
-            svstorgb.rgba_to_dct(x)
+            nedc_pyprint_image_lib.nedc_labels_lib.svstorgb.rgba_to_dct(x)
 
 def get_center_frame(height, width, framesize):
     '''
@@ -83,7 +79,7 @@ def get_center_frame(height, width, framesize):
 
     center_x = 0 + framesize/2
     center_y = height - framesize/2
-    center = Point(center_x, center_y)
+    center = shapely.geometry.Point(center_x, center_y)
 
     return center
 
@@ -133,10 +129,10 @@ def classification(labels, height, width, windowsize, framesize, regions):
             # else if the center coordinate is only out of bounds on the right,
             # slide frame back to the left and bottom by one framesize.
             else:
-                center = Point(framesize/2, coord.y-framesize)
+                center = shapely.geometry.Point(framesize/2, coord.y-framesize)
         # else if not out of bounds, only move frame to the right.
         else:
-            center = Point((coord.x+framesize), coord.y)
+            center = shapely.geometry.Point((coord.x+framesize), coord.y)
         return center
     
     def within_region(coord):

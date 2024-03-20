@@ -3,7 +3,6 @@ and use this directory /data/isip/tools/linux_x64/nfc/util/python/nedc_pyprint_s
 as a framework on how to use their tools for our argument parsing. All we're doing is
 implimenting their argument parsing tool.'''
 
-import nedc_cmdl_parser as ncp
 import argparse as agp
 
 #---------------------------------------------------------------------------------------

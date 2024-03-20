@@ -6,4 +6,3 @@ nedc_pyprint_image
 
    nedc_pyprint_image
    nedc_pyprint_image_lib
-   test

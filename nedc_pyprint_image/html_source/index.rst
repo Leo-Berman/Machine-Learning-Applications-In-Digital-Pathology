@@ -10,6 +10,8 @@ Welcome to nedc_pyprint_image's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   modules
+
 
 
 Indices and tables

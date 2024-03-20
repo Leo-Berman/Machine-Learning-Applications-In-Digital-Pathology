@@ -1,16 +1,6 @@
-'''
-    @file
-    This module makes the training data based on the inputs into the main function of this file [classify_center]
-
-    @details    
-    It consists of three functions:
-        - classify_center (main fucntion)
-        - get_center_frame
-        - classification (with two nested functions):
-            - repostion
-            - within region
-
-'''
+"""
+The maketraining.py module will classify each frame as labeled or unlabeled whether it falls within a labeled or unlabeled region, respectively.
+"""
 
 import nedc_image_tools as phg
 import sys
@@ -23,14 +13,27 @@ from nedc_pyprint_image.nedc_labels_lib import svstorgb as svstorgb
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 
 def classify_center(imagefile,labelfile,windowsize,framesize = -1):
-    '''
+    """
         MAIN FUNCTON
         objective:
             get the headers, region ids, labels, and coordinates from annotations
 
         return:
             list of list coordinates and labels, framesize
-    '''
+
+        :param imagefile: Image file of the tissue in the form of a svs file.
+        :type imagefile: String (ends with .svs)
+
+        :param labelfile: Label file of tissue in the form of a CSV file. Consists of headers and values of the headers, such as region indices, x- and y- coordinates, and labels.
+        :type param2: String (ends with .csv)
+
+        :param windowsize: Length and width of the window. Must be 1.5x bigger than framesize.
+        :type windowsize: Int
+
+        :param framesize: Length and width of the frame that is used to iterate over the whole image.
+        :type framesize: Int
+
+    """
 
     # IDS = list of ints
     # LABELS = list of strings

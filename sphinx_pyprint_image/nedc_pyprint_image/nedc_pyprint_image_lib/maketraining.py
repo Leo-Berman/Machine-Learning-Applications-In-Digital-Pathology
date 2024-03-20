@@ -11,31 +11,36 @@ import nedc_pyprint_image_lib
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 
 def classify_center(imagefile,labelfile,windowsize,framesize = -1):
-    """MAIN FUNCTON
-        
-        objective: get the headers, region ids, labels, and coordinates from annotations
+    """
+        Based on the parameters inputted, this function will do pre-measures before calling the 'classification' function.
+        1. Calls a function that parses the annotations of the given label file, and returns the headers, labels, and coordinates (x,y).
+        2. Creates a list of shapes based on the coordinates.
+        It extracts the height and width of the image from the header.
 
-        return: list of list coordinates and labels, framesize
+        After the pre-measures, this function will call the 'classification' function and receive a list of lists containing a label and coordinate of the top-left corner of each window.
+        The 'classification' function will output a list of list of a coordinate and label.
+
+        The 'labeled' coordinates get fed to the 'svstorgb' module to get the RGBA values.
+        The RGBA are put into a DCT
 
         :param imagefile: Image file of the tissue in the form of a svs file.
-        :type imagefile: String (ends with .svs)
+        :type imagefile: string (ends with .svs)
 
         :param labelfile: Label file of tissue in the form of a CSV file. Consists of headers and values of the headers, such as region indices, x- and y- coordinates, and labels.
-        :type param2: String (ends with .csv)
+        :type param2: string (ends with .csv)
 
         :param windowsize: Length and width of the window. Must be 1.5x bigger than framesize.
-        :type windowsize: Int
+        :type windowsize: int
 
         :param framesize: Length and width of the frame that is used to iterate over the whole image.
-        :type framesize: Int
-
+        :type framesize: int
     """
 
     # IDS = list of ints
     # LABELS = list of strings
     # COORDS = list of list of ints
     # HEADER of file
-    HEADER,IDS,LABELS,COORDS = nedc_pyprint_image_lib.nedc_labels_lib.parseannotations(labelfile)
+    HEADER,LABELS,COORDS = nedc_pyprint_image_lib.nedc_labels_lib.parseannotations.parse_annotations(labelfile)
     NIL = phg.Nil()
     NIL.open(imagefile)
 
@@ -51,7 +56,7 @@ def classify_center(imagefile,labelfile,windowsize,framesize = -1):
         # generate polygon of regions within the image
         shapes = []
         for i in range(len(COORDS)):
-            shapes.append(nedc_pyprint_image_lib.nedc_labels_lib.generate_polygon(COORDS[i]))
+            shapes.append(nedc_pyprint_image_lib.nedc_labels_lib.geometry.generate_polygon(COORDS[i]))
 
         # classify the frames based on if it is within any region (shape)
         labeled_list = classification(LABELS, height, width, windowsize, framesize, shapes)
@@ -69,56 +74,71 @@ def classify_center(imagefile,labelfile,windowsize,framesize = -1):
         for x in window_list:
             nedc_pyprint_image_lib.nedc_labels_lib.svstorgb.rgba_to_dct(x)
 
-def get_center_frame(height, width, framesize):
-    '''
-    objective:
-        get the center coodinate of the top-left-most frame
-    return:
-        center coordinate of top-left-most frame in shapely-point format.
-    '''
-
-    center_x = 0 + framesize/2
-    center_y = height - framesize/2
-    center = shapely.geometry.Point(center_x, center_y)
-
-    return center
-
 def classification(labels, height, width, windowsize, framesize, regions):
-    '''
-    objective: classify whether the center of each frame is within a labeled or unlabeled region.
-        - if within labeled region -> set coordinate to 'labeled' status.
-        - if not within labeled region -> set coordinate to 'unlabeled' status.
-        - status is set by storing these coordinates into.
-    
-    return:
-        - list of label-classified windows as x and y coordinates with corresponding label.
-        - format: list of lists -> [[x-coord, y-coord, label], [...],...].
-            - x-coordinate and y-coordinate is the coordinate of the top-left corner of the window (not frame).
-            - 'label' is the label that the center-coordinate of the frame falls within, such as NORM, BKG, SUSP, etc.
+    """
+        This function's objective is to classify whether the center of each frame is within a labeled or unlabeled region.
+        1) Calls the 'get_top_left' function to get the center coordinate of the top-left-most frame.
+        2) Calls the 'within_region' function to check if the coordinate is in a region.
+            - The coordinate will go through a loop between 'within_region' and 'repostion' as the coordinate gets repositioned until all the frames are iterated through.
 
-    functions:
-        within_region:
-            the first center-coordinate (the center of the top-left frame) gets passed in the function.
-            the function checks if the coordinate is in any of the labeled regions.
-            if it is, the top-left coordinate of the corresponding WINDOW and the label gets appended to the 'labeled' list.
-            otherwise, the coordinate is appended to the 'unlabeled' list.
-            the current center-coordinate gets passed to the 'reposition' function.
-        repostion:
-            a coordinate gets passed in the function.
-            the coordinate is repositioned accordingly:
+        :param labels: List of labels of each coordinate pair.
+        :type labels: list of strings
+
+        :param height: Height of image.
+        :type height: int
+
+        :param width: Width of image.
+        :type width: int
+
+        :param windowsize: Length and width of the window. Must be 1.5x bigger than framesize.
+        :type windowsize: int
+
+        :param framesize: Length or width of the frame
+        :type framesize: int
+
+        :param regions: List (of each region (or shape)) of lists (of coordinates of the specific region)
+        :type regions: list of list of tuples
+
+        :return: Returns a list of lists of a 'labeled' coordinate and its label.
+        :rtype: list of lists: [[coordinate(tuple), label(string)], [coordinate(tuple), label(string)], ...] 
+    """
+
+    def get_top_left(height, framesize):
+        """
+            This subfunction gets the center coodinate of the top-left-most frame.
+
+            :param height: Height of the image.
+            :type height: int
+
+            :param framesize: Length or width of the frame
+            :type framesize: int
+
+            :return: Returns the center coordinate of the top-left-most.
+            :rtype: tuple of floats: (x,y)
+        """
+
+        center_x = 0 + framesize/2
+        center_y = height - framesize/2
+        center = shapely.geometry.Point(center_x, center_y)
+
+        return center
+
+    def reposition(coord):
+        """
+            This function repositions the given coordinate accordingly:
                 - if the next coordinate is out-of-bounds ONLY from the right side of the image,
                     move to the next row of frames and start from the left again.
                 - if the next coordinate is out-of-bounds from the right side AND bottom side of the image,
                     all frames were iterated through.
                 - otherwise, move the coordinate to the right (by framesize).
                   ex) if frame size is 100, move the coordinate to the right by 100.
-    '''
 
-    def reposition(coord):
-        '''
-        objective:
-            - repostion the coordinate according to the conditions met.
-        '''
+            :param coord: x- and y- coordinate of the center of the current frame.
+            :type coord: tuple of floats: (x,y)
+
+            :return: Returns the repostioned coordinate.
+            :rtype: tuple of floats: (x,y)
+        """
 
         # if the next center coordinate is out of bounds of the image (towards the right).
         if (coord.x + framesize) > width:
@@ -136,15 +156,15 @@ def classification(labels, height, width, windowsize, framesize, regions):
         return center
     
     def within_region(coord):
-        '''
-        objective:
-            - check whether the coordinate is within any of the regions.
-            - coordinates organized into 'labeled' and 'unlabeled' lists,
-                - along with the coordinates' corresponding label
+        """
+            This function checks whether the coordinate is within any of the regions.
+            The top-left coordinate of each WINDOW gets organized into:
+                'labeled' list if the center coordinate is inside a region along with the coordinates' corresponding label as pair.
+                'unlabeled' list if the center coordinate is not inside a region.
 
-        format:
-            - 'labeled' (list) = [[coordinate, label], ...]
-        '''
+            :param coord: x- and y- coordinate of the center of the current frame.
+            :type coord: tuple of floats: (x,y)
+        """
         
         while(True):
             # check if the coordinate is within region[r].
@@ -170,19 +190,13 @@ def classification(labels, height, width, windowsize, framesize, regions):
     num_regions = len(regions)
 
     # get the center coordinate of the top-left frame.
-    center = get_center_frame(height,width,framesize)
+    center = get_top_left(height,framesize)
 
     # start classification of all center coordinates.
     within_region(center)
 
     # total number of frames
     total_frames = (height/framesize) * (width/framesize)
-
-    # TEST PRINTS
-    # print(labeled)
-    # print("there are {} frames total".format(total_frames))
-    # print("there are {} that are within a labeled region".format(len(labeled)))
-    # print("there are {} that are not within a labeled region". format(len(set(unlabeled))))
 
     return labeled
 

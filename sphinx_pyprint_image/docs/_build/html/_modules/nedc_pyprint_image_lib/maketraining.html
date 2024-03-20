@@ -86,31 +86,36 @@
 <div class="viewcode-block" id="classify_center">
 <a class="viewcode-back" href="../../nedc_pyprint_image_lib.html#nedc_pyprint_image_lib.maketraining.classify_center">[docs]</a>
 <span class="k">def</span> <span class="nf">classify_center</span><span class="p">(</span><span class="n">imagefile</span><span class="p">,</span><span class="n">labelfile</span><span class="p">,</span><span class="n">windowsize</span><span class="p">,</span><span class="n">framesize</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;MAIN FUNCTON</span>
-<span class="sd">        </span>
-<span class="sd">        objective: get the headers, region ids, labels, and coordinates from annotations</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Based on the parameters inputted, this function will do pre-measures before calling the &#39;classification&#39; function.</span>
+<span class="sd">        1. Calls a function that parses the annotations of the given label file, and returns the headers, labels, and coordinates (x,y).</span>
+<span class="sd">        2. Creates a list of shapes based on the coordinates.</span>
+<span class="sd">        It extracts the height and width of the image from the header.</span>
 
-<span class="sd">        return: list of list coordinates and labels, framesize</span>
+<span class="sd">        After the pre-measures, this function will call the &#39;classification&#39; function and receive a list of lists containing a label and coordinate of the top-left corner of each window.</span>
+<span class="sd">        The &#39;classification&#39; function will output a list of list of a coordinate and label.</span>
+
+<span class="sd">        The &#39;labeled&#39; coordinates get fed to the &#39;svstorgb&#39; module to get the RGBA values.</span>
+<span class="sd">        The RGBA are put into a DCT</span>
 
 <span class="sd">        :param imagefile: Image file of the tissue in the form of a svs file.</span>
-<span class="sd">        :type imagefile: String (ends with .svs)</span>
+<span class="sd">        :type imagefile: string (ends with .svs)</span>
 
 <span class="sd">        :param labelfile: Label file of tissue in the form of a CSV file. Consists of headers and values of the headers, such as region indices, x- and y- coordinates, and labels.</span>
-<span class="sd">        :type param2: String (ends with .csv)</span>
+<span class="sd">        :type param2: string (ends with .csv)</span>
 
 <span class="sd">        :param windowsize: Length and width of the window. Must be 1.5x bigger than framesize.</span>
-<span class="sd">        :type windowsize: Int</span>
+<span class="sd">        :type windowsize: int</span>
 
 <span class="sd">        :param framesize: Length and width of the frame that is used to iterate over the whole image.</span>
-<span class="sd">        :type framesize: Int</span>
-
+<span class="sd">        :type framesize: int</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># IDS = list of ints</span>
     <span class="c1"># LABELS = list of strings</span>
     <span class="c1"># COORDS = list of list of ints</span>
     <span class="c1"># HEADER of file</span>
-    <span class="n">HEADER</span><span class="p">,</span><span class="n">IDS</span><span class="p">,</span><span class="n">LABELS</span><span class="p">,</span><span class="n">COORDS</span> <span class="o">=</span> <span class="n">nedc_pyprint_image_lib</span><span class="o">.</span><span class="n">nedc_labels_lib</span><span class="o">.</span><span class="n">parseannotations</span><span class="p">(</span><span class="n">labelfile</span><span class="p">)</span>
+    <span class="n">HEADER</span><span class="p">,</span><span class="n">LABELS</span><span class="p">,</span><span class="n">COORDS</span> <span class="o">=</span> <span class="n">nedc_pyprint_image_lib</span><span class="o">.</span><span class="n">nedc_labels_lib</span><span class="o">.</span><span class="n">parseannotations</span><span class="o">.</span><span class="n">parse_annotations</span><span class="p">(</span><span class="n">labelfile</span><span class="p">)</span>
     <span class="n">NIL</span> <span class="o">=</span> <span class="n">phg</span><span class="o">.</span><span class="n">Nil</span><span class="p">()</span>
     <span class="n">NIL</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">imagefile</span><span class="p">)</span>
 
@@ -126,7 +131,7 @@
         <span class="c1"># generate polygon of regions within the image</span>
         <span class="n">shapes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">COORDS</span><span class="p">)):</span>
-            <span class="n">shapes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nedc_pyprint_image_lib</span><span class="o">.</span><span class="n">nedc_labels_lib</span><span class="o">.</span><span class="n">generate_polygon</span><span class="p">(</span><span class="n">COORDS</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+            <span class="n">shapes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nedc_pyprint_image_lib</span><span class="o">.</span><span class="n">nedc_labels_lib</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">generate_polygon</span><span class="p">(</span><span class="n">COORDS</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
 
         <span class="c1"># classify the frames based on if it is within any region (shape)</span>
         <span class="n">labeled_list</span> <span class="o">=</span> <span class="n">classification</span><span class="p">(</span><span class="n">LABELS</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">windowsize</span><span class="p">,</span> <span class="n">framesize</span><span class="p">,</span> <span class="n">shapes</span><span class="p">)</span>
@@ -145,61 +150,73 @@
             <span class="n">nedc_pyprint_image_lib</span><span class="o">.</span><span class="n">nedc_labels_lib</span><span class="o">.</span><span class="n">svstorgb</span><span class="o">.</span><span class="n">rgba_to_dct</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_center_frame">
-<a class="viewcode-back" href="../../nedc_pyprint_image_lib.html#nedc_pyprint_image_lib.maketraining.get_center_frame">[docs]</a>
-<span class="k">def</span> <span class="nf">get_center_frame</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">framesize</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    objective:</span>
-<span class="sd">        get the center coodinate of the top-left-most frame</span>
-<span class="sd">    return:</span>
-<span class="sd">        center coordinate of top-left-most frame in shapely-point format.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-
-    <span class="n">center_x</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">+</span> <span class="n">framesize</span><span class="o">/</span><span class="mi">2</span>
-    <span class="n">center_y</span> <span class="o">=</span> <span class="n">height</span> <span class="o">-</span> <span class="n">framesize</span><span class="o">/</span><span class="mi">2</span>
-    <span class="n">center</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">center_x</span><span class="p">,</span> <span class="n">center_y</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">center</span></div>
-
-
 <div class="viewcode-block" id="classification">
 <a class="viewcode-back" href="../../nedc_pyprint_image_lib.html#nedc_pyprint_image_lib.maketraining.classification">[docs]</a>
 <span class="k">def</span> <span class="nf">classification</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">windowsize</span><span class="p">,</span> <span class="n">framesize</span><span class="p">,</span> <span class="n">regions</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    objective: classify whether the center of each frame is within a labeled or unlabeled region.</span>
-<span class="sd">        - if within labeled region -&gt; set coordinate to &#39;labeled&#39; status.</span>
-<span class="sd">        - if not within labeled region -&gt; set coordinate to &#39;unlabeled&#39; status.</span>
-<span class="sd">        - status is set by storing these coordinates into.</span>
-<span class="sd">    </span>
-<span class="sd">    return:</span>
-<span class="sd">        - list of label-classified windows as x and y coordinates with corresponding label.</span>
-<span class="sd">        - format: list of lists -&gt; [[x-coord, y-coord, label], [...],...].</span>
-<span class="sd">            - x-coordinate and y-coordinate is the coordinate of the top-left corner of the window (not frame).</span>
-<span class="sd">            - &#39;label&#39; is the label that the center-coordinate of the frame falls within, such as NORM, BKG, SUSP, etc.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function&#39;s objective is to classify whether the center of each frame is within a labeled or unlabeled region.</span>
+<span class="sd">        1) Calls the &#39;get_top_left&#39; function to get the center coordinate of the top-left-most frame.</span>
+<span class="sd">        2) Calls the &#39;within_region&#39; function to check if the coordinate is in a region.</span>
+<span class="sd">            - The coordinate will go through a loop between &#39;within_region&#39; and &#39;repostion&#39; as the coordinate gets repositioned until all the frames are iterated through.</span>
 
-<span class="sd">    functions:</span>
-<span class="sd">        within_region:</span>
-<span class="sd">            the first center-coordinate (the center of the top-left frame) gets passed in the function.</span>
-<span class="sd">            the function checks if the coordinate is in any of the labeled regions.</span>
-<span class="sd">            if it is, the top-left coordinate of the corresponding WINDOW and the label gets appended to the &#39;labeled&#39; list.</span>
-<span class="sd">            otherwise, the coordinate is appended to the &#39;unlabeled&#39; list.</span>
-<span class="sd">            the current center-coordinate gets passed to the &#39;reposition&#39; function.</span>
-<span class="sd">        repostion:</span>
-<span class="sd">            a coordinate gets passed in the function.</span>
-<span class="sd">            the coordinate is repositioned accordingly:</span>
+<span class="sd">        :param labels: List of labels of each coordinate pair.</span>
+<span class="sd">        :type labels: list of strings</span>
+
+<span class="sd">        :param height: Height of image.</span>
+<span class="sd">        :type height: int</span>
+
+<span class="sd">        :param width: Width of image.</span>
+<span class="sd">        :type width: int</span>
+
+<span class="sd">        :param windowsize: Length and width of the window. Must be 1.5x bigger than framesize.</span>
+<span class="sd">        :type windowsize: int</span>
+
+<span class="sd">        :param framesize: Length or width of the frame</span>
+<span class="sd">        :type framesize: int</span>
+
+<span class="sd">        :param regions: List (of each region (or shape)) of lists (of coordinates of the specific region)</span>
+<span class="sd">        :type regions: list of list of tuples</span>
+
+<span class="sd">        :return: Returns a list of lists of a &#39;labeled&#39; coordinate and its label.</span>
+<span class="sd">        :rtype: list of lists: [[coordinate(tuple), label(string)], [coordinate(tuple), label(string)], ...] </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">get_top_left</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">framesize</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This subfunction gets the center coodinate of the top-left-most frame.</span>
+
+<span class="sd">            :param height: Height of the image.</span>
+<span class="sd">            :type height: int</span>
+
+<span class="sd">            :param framesize: Length or width of the frame</span>
+<span class="sd">            :type framesize: int</span>
+
+<span class="sd">            :return: Returns the center coordinate of the top-left-most.</span>
+<span class="sd">            :rtype: tuple of floats: (x,y)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">center_x</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">+</span> <span class="n">framesize</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">center_y</span> <span class="o">=</span> <span class="n">height</span> <span class="o">-</span> <span class="n">framesize</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">center_x</span><span class="p">,</span> <span class="n">center_y</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">center</span>
+
+    <span class="k">def</span> <span class="nf">reposition</span><span class="p">(</span><span class="n">coord</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This function repositions the given coordinate accordingly:</span>
 <span class="sd">                - if the next coordinate is out-of-bounds ONLY from the right side of the image,</span>
 <span class="sd">                    move to the next row of frames and start from the left again.</span>
 <span class="sd">                - if the next coordinate is out-of-bounds from the right side AND bottom side of the image,</span>
 <span class="sd">                    all frames were iterated through.</span>
 <span class="sd">                - otherwise, move the coordinate to the right (by framesize).</span>
 <span class="sd">                  ex) if frame size is 100, move the coordinate to the right by 100.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">def</span> <span class="nf">reposition</span><span class="p">(</span><span class="n">coord</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        objective:</span>
-<span class="sd">            - repostion the coordinate according to the conditions met.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">            :param coord: x- and y- coordinate of the center of the current frame.</span>
+<span class="sd">            :type coord: tuple of floats: (x,y)</span>
+
+<span class="sd">            :return: Returns the repostioned coordinate.</span>
+<span class="sd">            :rtype: tuple of floats: (x,y)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># if the next center coordinate is out of bounds of the image (towards the right).</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">coord</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">framesize</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">width</span><span class="p">:</span>
@@ -217,15 +234,15 @@
         <span class="k">return</span> <span class="n">center</span>
     
     <span class="k">def</span> <span class="nf">within_region</span><span class="p">(</span><span class="n">coord</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        objective:</span>
-<span class="sd">            - check whether the coordinate is within any of the regions.</span>
-<span class="sd">            - coordinates organized into &#39;labeled&#39; and &#39;unlabeled&#39; lists,</span>
-<span class="sd">                - along with the coordinates&#39; corresponding label</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This function checks whether the coordinate is within any of the regions.</span>
+<span class="sd">            The top-left coordinate of each WINDOW gets organized into:</span>
+<span class="sd">                &#39;labeled&#39; list if the center coordinate is inside a region along with the coordinates&#39; corresponding label as pair.</span>
+<span class="sd">                &#39;unlabeled&#39; list if the center coordinate is not inside a region.</span>
 
-<span class="sd">        format:</span>
-<span class="sd">            - &#39;labeled&#39; (list) = [[coordinate, label], ...]</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">            :param coord: x- and y- coordinate of the center of the current frame.</span>
+<span class="sd">            :type coord: tuple of floats: (x,y)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="k">while</span><span class="p">(</span><span class="kc">True</span><span class="p">):</span>
             <span class="c1"># check if the coordinate is within region[r].</span>
@@ -251,19 +268,13 @@
     <span class="n">num_regions</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">regions</span><span class="p">)</span>
 
     <span class="c1"># get the center coordinate of the top-left frame.</span>
-    <span class="n">center</span> <span class="o">=</span> <span class="n">get_center_frame</span><span class="p">(</span><span class="n">height</span><span class="p">,</span><span class="n">width</span><span class="p">,</span><span class="n">framesize</span><span class="p">)</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="n">get_top_left</span><span class="p">(</span><span class="n">height</span><span class="p">,</span><span class="n">framesize</span><span class="p">)</span>
 
     <span class="c1"># start classification of all center coordinates.</span>
     <span class="n">within_region</span><span class="p">(</span><span class="n">center</span><span class="p">)</span>
 
     <span class="c1"># total number of frames</span>
     <span class="n">total_frames</span> <span class="o">=</span> <span class="p">(</span><span class="n">height</span><span class="o">/</span><span class="n">framesize</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">width</span><span class="o">/</span><span class="n">framesize</span><span class="p">)</span>
-
-    <span class="c1"># TEST PRINTS</span>
-    <span class="c1"># print(labeled)</span>
-    <span class="c1"># print(&quot;there are {} frames total&quot;.format(total_frames))</span>
-    <span class="c1"># print(&quot;there are {} that are within a labeled region&quot;.format(len(labeled)))</span>
-    <span class="c1"># print(&quot;there are {} that are not within a labeled region&quot;. format(len(set(unlabeled))))</span>
 
     <span class="k">return</span> <span class="n">labeled</span></div>
 

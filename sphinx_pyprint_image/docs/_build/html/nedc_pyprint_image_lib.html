@@ -61,7 +61,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#module-nedc_pyprint_image_lib.maketraining">nedc_pyprint_image_lib.maketraining module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#nedc_pyprint_image_lib.maketraining.classification"><code class="docutils literal notranslate"><span class="pre">classification()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nedc_pyprint_image_lib.maketraining.classify_center"><code class="docutils literal notranslate"><span class="pre">classify_center()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#nedc_pyprint_image_lib.maketraining.get_center_frame"><code class="docutils literal notranslate"><span class="pre">get_center_frame()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-nedc_pyprint_image_lib">Module contents</a></li>
@@ -145,58 +144,30 @@ implimenting their argument parsing tool.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_pyprint_image_lib.maketraining.classification">
 <span class="sig-prename descclassname"><span class="pre">nedc_pyprint_image_lib.maketraining.</span></span><span class="sig-name descname"><span class="pre">classification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">windowsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framesize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nedc_pyprint_image_lib/maketraining.html#classification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_pyprint_image_lib.maketraining.classification" title="Link to this definition"></a></dt>
-<dd><dl class="simple">
-<dt>objective: classify whether the center of each frame is within a labeled or unlabeled region.</dt><dd><ul class="simple">
-<li><p>if within labeled region -&gt; set coordinate to ‘labeled’ status.</p></li>
-<li><p>if not within labeled region -&gt; set coordinate to ‘unlabeled’ status.</p></li>
-<li><p>status is set by storing these coordinates into.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><ul class="simple">
-<li><p>list of label-classified windows as x and y coordinates with corresponding label.</p></li>
-<li><dl class="simple">
-<dt>format: list of lists -&gt; [[x-coord, y-coord, label], […],…].</dt><dd><ul>
-<li><p>x-coordinate and y-coordinate is the coordinate of the top-left corner of the window (not frame).</p></li>
-<li><p>’label’ is the label that the center-coordinate of the frame falls within, such as NORM, BKG, SUSP, etc.</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-</p>
-</dd>
-</dl>
-<dl>
-<dt>functions:</dt><dd><dl>
-<dt>within_region:</dt><dd><p>the first center-coordinate (the center of the top-left frame) gets passed in the function.
-the function checks if the coordinate is in any of the labeled regions.
-if it is, the top-left coordinate of the corresponding WINDOW and the label gets appended to the ‘labeled’ list.
-otherwise, the coordinate is appended to the ‘unlabeled’ list.
-the current center-coordinate gets passed to the ‘reposition’ function.</p>
-</dd>
-<dt>repostion:</dt><dd><p>a coordinate gets passed in the function.
-the coordinate is repositioned accordingly:</p>
+<dd><p>This function’s objective is to classify whether the center of each frame is within a labeled or unlabeled region.
+1) Calls the ‘get_top_left’ function to get the center coordinate of the top-left-most frame.
+2) Calls the ‘within_region’ function to check if the coordinate is in a region.</p>
 <blockquote>
 <div><ul class="simple">
-<li><dl class="simple">
-<dt>if the next coordinate is out-of-bounds ONLY from the right side of the image,</dt><dd><p>move to the next row of frames and start from the left again.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>if the next coordinate is out-of-bounds from the right side AND bottom side of the image,</dt><dd><p>all frames were iterated through.</p>
-</dd>
-</dl>
-</li>
-<li><p>otherwise, move the coordinate to the right (by framesize).
-ex) if frame size is 100, move the coordinate to the right by 100.</p></li>
+<li><p>The coordinate will go through a loop between ‘within_region’ and ‘repostion’ as the coordinate gets repositioned until all the frames are iterated through.</p></li>
 </ul>
 </div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>labels</strong> (<em>list</em><em> of </em><em>strings</em>) – List of labels of each coordinate pair.</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – Height of image.</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – Width of image.</p></li>
+<li><p><strong>windowsize</strong> (<em>int</em>) – Length and width of the window. Must be 1.5x bigger than framesize.</p></li>
+<li><p><strong>framesize</strong> (<em>int</em>) – Length or width of the frame</p></li>
+<li><p><strong>regions</strong> (<em>list</em><em> of </em><em>list</em><em> of </em><em>tuples</em>) – List (of each region (or shape)) of lists (of coordinates of the specific region)</p></li>
+</ul>
 </dd>
-</dl>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns a list of lists of a ‘labeled’ coordinate and its label.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of lists: [[coordinate(tuple), label(string)], [coordinate(tuple), label(string)], …]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -204,31 +175,22 @@ ex) if frame size is 100, move the coordinate to the right by 100.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_pyprint_image_lib.maketraining.classify_center">
 <span class="sig-prename descclassname"><span class="pre">nedc_pyprint_image_lib.maketraining.</span></span><span class="sig-name descname"><span class="pre">classify_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imagefile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labelfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">windowsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framesize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nedc_pyprint_image_lib/maketraining.html#classify_center"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_pyprint_image_lib.maketraining.classify_center" title="Link to this definition"></a></dt>
-<dd><p>MAIN FUNCTON</p>
-<p>objective: get the headers, region ids, labels, and coordinates from annotations</p>
-<p>return: list of list coordinates and labels, framesize</p>
+<dd><p>Based on the parameters inputted, this function will do pre-measures before calling the ‘classification’ function.
+1. Calls a function that parses the annotations of the given label file, and returns the headers, labels, and coordinates (x,y).
+2. Creates a list of shapes based on the coordinates.
+It extracts the height and width of the image from the header.</p>
+<p>After the pre-measures, this function will call the ‘classification’ function and receive a list of lists containing a label and coordinate of the top-left corner of each window.
+The ‘classification’ function will output a list of list of a coordinate and label.</p>
+<p>The ‘labeled’ coordinates get fed to the ‘svstorgb’ module to get the RGBA values.
+The RGBA are put into a DCT</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>imagefile</strong> (<em>String</em><em> (</em><em>ends with .svs</em><em>)</em>) – Image file of the tissue in the form of a svs file.</p></li>
+<li><p><strong>imagefile</strong> (<em>string</em><em> (</em><em>ends with .svs</em><em>)</em>) – Image file of the tissue in the form of a svs file.</p></li>
 <li><p><strong>labelfile</strong> – Label file of tissue in the form of a CSV file. Consists of headers and values of the headers, such as region indices, x- and y- coordinates, and labels.</p></li>
-<li><p><strong>windowsize</strong> (<em>Int</em>) – Length and width of the window. Must be 1.5x bigger than framesize.</p></li>
-<li><p><strong>framesize</strong> (<em>Int</em>) – Length and width of the frame that is used to iterate over the whole image.</p></li>
+<li><p><strong>windowsize</strong> (<em>int</em>) – Length and width of the window. Must be 1.5x bigger than framesize.</p></li>
+<li><p><strong>framesize</strong> (<em>int</em>) – Length and width of the frame that is used to iterate over the whole image.</p></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="nedc_pyprint_image_lib.maketraining.get_center_frame">
-<span class="sig-prename descclassname"><span class="pre">nedc_pyprint_image_lib.maketraining.</span></span><span class="sig-name descname"><span class="pre">get_center_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framesize</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nedc_pyprint_image_lib/maketraining.html#get_center_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_pyprint_image_lib.maketraining.get_center_frame" title="Link to this definition"></a></dt>
-<dd><dl class="simple">
-<dt>objective:</dt><dd><p>get the center coodinate of the top-left-most frame</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>center coordinate of top-left-most frame in shapely-point format.</p>
 </dd>
 </dl>
 </dd></dl>

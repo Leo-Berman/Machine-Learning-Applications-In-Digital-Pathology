@@ -115,7 +115,7 @@
     <span class="c1"># LABELS = list of strings</span>
     <span class="c1"># COORDS = list of list of ints</span>
     <span class="c1"># HEADER of file</span>
-    <span class="n">HEADER</span><span class="p">,</span><span class="n">LABELS</span><span class="p">,</span><span class="n">COORDS</span> <span class="o">=</span> <span class="n">nedc_pyprint_image_lib</span><span class="o">.</span><span class="n">nedc_labels_lib</span><span class="o">.</span><span class="n">parseannotations</span><span class="o">.</span><span class="n">parse_annotations</span><span class="p">(</span><span class="n">labelfile</span><span class="p">)</span>
+    <span class="n">HEADER</span><span class="p">,</span><span class="n">IDS</span><span class="p">,</span><span class="n">LABELS</span><span class="p">,</span><span class="n">COORDS</span> <span class="o">=</span> <span class="n">annotations</span><span class="o">.</span><span class="n">parse_annotations</span><span class="p">(</span><span class="n">labelfile</span><span class="p">)</span>
     <span class="n">NIL</span> <span class="o">=</span> <span class="n">phg</span><span class="o">.</span><span class="n">Nil</span><span class="p">()</span>
     <span class="n">NIL</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">imagefile</span><span class="p">)</span>
 
@@ -154,10 +154,11 @@
 <a class="viewcode-back" href="../../nedc_pyprint_image_lib.html#nedc_pyprint_image_lib.maketraining.classification">[docs]</a>
 <span class="k">def</span> <span class="nf">classification</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">windowsize</span><span class="p">,</span> <span class="n">framesize</span><span class="p">,</span> <span class="n">regions</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This function&#39;s objective is to classify whether the center of each frame is within a labeled or unlabeled region.</span>
-<span class="sd">        1) Calls the &#39;get_top_left&#39; function to get the center coordinate of the top-left-most frame.</span>
-<span class="sd">        2) Calls the &#39;within_region&#39; function to check if the coordinate is in a region.</span>
-<span class="sd">            - The coordinate will go through a loop between &#39;within_region&#39; and &#39;repostion&#39; as the coordinate gets repositioned until all the frames are iterated through.</span>
+<span class="sd">        objective:</span>
+<span class="sd">            This function&#39;s objective is to classify whether the center of each frame is within a labeled or unlabeled region.\n</span>
+<span class="sd">            1) Calls the &#39;get_top_left&#39; function to get the center coordinate of the top-left-most frame.\n</span>
+<span class="sd">            2) Calls the &#39;within_region&#39; function to check if the coordinate is in a region.\n</span>
+<span class="sd">            3) The coordinate will go through a loop between &#39;within_region&#39; and &#39;repostion&#39; as the coordinate gets repositioned until all the frames are iterated through.\n</span>
 
 <span class="sd">        :param labels: List of labels of each coordinate pair.</span>
 <span class="sd">        :type labels: list of strings</span>

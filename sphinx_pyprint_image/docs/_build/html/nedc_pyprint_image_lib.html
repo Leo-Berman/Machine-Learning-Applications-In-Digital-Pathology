@@ -144,14 +144,15 @@ implimenting their argument parsing tool.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_pyprint_image_lib.maketraining.classification">
 <span class="sig-prename descclassname"><span class="pre">nedc_pyprint_image_lib.maketraining.</span></span><span class="sig-name descname"><span class="pre">classification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">windowsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framesize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nedc_pyprint_image_lib/maketraining.html#classification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_pyprint_image_lib.maketraining.classification" title="Link to this definition"></a></dt>
-<dd><p>This function’s objective is to classify whether the center of each frame is within a labeled or unlabeled region.
-1) Calls the ‘get_top_left’ function to get the center coordinate of the top-left-most frame.
-2) Calls the ‘within_region’ function to check if the coordinate is in a region.</p>
-<blockquote>
-<div><ul class="simple">
+<dd><dl class="simple">
+<dt>objective:</dt><dd><p>This function’s objective is to classify whether the center of each frame is within a labeled or unlabeled region.</p>
+<ol class="arabic simple">
+<li><p>Calls the ‘get_top_left’ function to get the center coordinate of the top-left-most frame.</p></li>
+<li><p>Calls the ‘within_region’ function to check if the coordinate is in a region.</p></li>
 <li><p>The coordinate will go through a loop between ‘within_region’ and ‘repostion’ as the coordinate gets repositioned until all the frames are iterated through.</p></li>
-</ul>
-</div></blockquote>
+</ol>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

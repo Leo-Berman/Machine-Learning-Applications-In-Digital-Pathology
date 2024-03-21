@@ -76,10 +76,11 @@ def classify_center(imagefile,labelfile,windowsize,framesize = -1):
 
 def classification(labels, height, width, windowsize, framesize, regions):
     """
-        This function's objective is to classify whether the center of each frame is within a labeled or unlabeled region.
-        1) Calls the 'get_top_left' function to get the center coordinate of the top-left-most frame.
-        2) Calls the 'within_region' function to check if the coordinate is in a region.
-            - The coordinate will go through a loop between 'within_region' and 'repostion' as the coordinate gets repositioned until all the frames are iterated through.
+        objective:
+            This function's objective is to classify whether the center of each frame is within a labeled or unlabeled region.\n
+            1) Calls the 'get_top_left' function to get the center coordinate of the top-left-most frame.\n
+            2) Calls the 'within_region' function to check if the coordinate is in a region.\n
+            3) The coordinate will go through a loop between 'within_region' and 'repostion' as the coordinate gets repositioned until all the frames are iterated through.\n
 
         :param labels: List of labels of each coordinate pair.
         :type labels: list of strings
@@ -117,9 +118,9 @@ def classification(labels, height, width, windowsize, framesize, regions):
             :rtype: tuple of floats: (x,y)
         """
 
-    center_x = 0 + framesize/2
-    center_y = height - framesize/2
-    center = Point(center_x, center_y)
+        center_x = 0 + framesize/2
+        center_y = height - framesize/2
+        center = shapely.geometry.Point(center_x, center_y)
 
         return center
 

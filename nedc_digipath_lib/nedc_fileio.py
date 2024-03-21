@@ -12,4 +12,8 @@ def read_from_csv(csv_file:str):
 def parse_annotations(annotation_file:str):
     pass
 
-def svs_windows_to_RGBA_values(image_file:str,labels:list,coords:list = [(0,0)], window_frame:list = [50,50],name:str="")
+def svs_windows_to_RGBA(image_file:str,labels:list,coords:list = [(0,0)], window_frame:list = [50,50],name:str=""):
+    pass
+
+def RGBA_to_dct():
+    pass

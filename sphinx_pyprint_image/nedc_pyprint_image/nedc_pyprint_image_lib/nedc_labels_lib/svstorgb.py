@@ -3,7 +3,7 @@ import nedc_image_tools as phg
 import sys
 import csv
 import numpy as np
-from scipy.fftpack import dct
+import scipy
 
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 
@@ -65,10 +65,10 @@ def rgba_to_dct(framevalues):
     #
     
     vector = []
-    vector.extend(dct(red)[0:10])
-    vector.extend(dct(green)[0:10])
-    vector.extend(dct(blue)[0:10])
-    vector.extend(dct(alpha)[0:10])
+    vector.extend(scipy.fftpack.dct(red)[0:10])
+    vector.extend(scipy.fftpack.dct(green)[0:10])
+    vector.extend(scipy.fftpack.dct(blue)[0:10])
+    vector.extend(scipy.fftpack.dct(alpha)[0:10])
 
     # Convert vector to numpy array
     vector_numpy = np.array(vector).tolist()

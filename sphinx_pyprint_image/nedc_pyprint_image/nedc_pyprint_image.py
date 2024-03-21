@@ -1,30 +1,38 @@
-from nedc_pyprint_image_lib import getargs as argspy
-from nedc_pyprint_image_lib import maketraining as classify
-
-# For splitting files into their name and extensions
-#
+import nedc_pyprint_image_lib
 import os
 
-def main():
-    
+def main():   
     """
-    Program for reading svs files and their associated csv labels
 
-
-    This is the Main driver function for running the program. It takes in command line arguments. It reads those images, and outputs feature vectors in accordance to the defined labels.
+        objective:
+            This is the Main driver function for running the program. It takes in command line arguments. It reads those images, and outputs feature vectors in accordance to the defined labels.
         
-        Notes:
-            This is going to be used in conjuction with a classifier to get patch level analysis of the data going.
-    
-
-        Args:
+        Return:
+            Feature vectors in the form of dct coefficients for svs files
+        
+        Param:
             --imagefilename/-if = image file name
+        
+        Param:
             --labelfilename/-lf = label file name 
+        
+        Param:
             --framesize = frame size 
+        
+        Param:
             --windowsize = window size
+        
+        Param:
             --level/-l = level
+        
+        Param:
             --xoff/-x = x offset 
+        
+        Param:
             --yoff/-y = y offset
+
+        Example:
+            
     """
 
     # print useful processing message
@@ -33,7 +41,7 @@ def main():
 
     # Parse arguments
     #
-    args = argspy.parse_args()
+    args = nedc_pyprint_image_lib.getargs.parse_args()
     
     # Load each parsed argument as a variable
     #
@@ -65,11 +73,12 @@ def main():
         
         # try classifying it
         #
-        if classify.classify_center(iname,lname,wsize,fsize):
+        if nedc_pyprint_image_lib.maketraining.classify_center(iname,lname,wsize,fsize):
             processed+=1
 
     # print number succesfully classified
     #
     print("\nprocessed {} out of {} files successfully".format(processed,toprocess))
 
-main()
+if __name__ == "__main__":
+    main()

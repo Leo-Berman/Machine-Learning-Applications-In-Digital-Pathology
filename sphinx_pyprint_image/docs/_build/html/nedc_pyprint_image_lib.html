@@ -1,145 +1,235 @@
-
 <!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nedc_pyprint_image_lib package &mdash; MLProject v1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
-    <title>nedc_pyprint_image_lib package &#8212; nedc_pyprint_image v1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
-    
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=76e2d817"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="nedc_pyprint_image_lib.nedc_labels_lib package" href="nedc_pyprint_image_lib.nedc_labels_lib.html" />
     <link rel="prev" title="nedc_pyprint_image module" href="nedc_pyprint_image.html" /> 
-  </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="nedc_pyprint_image_lib.nedc_labels_lib.html" title="nedc_pyprint_image_lib.nedc_labels_lib package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="nedc_pyprint_image.html" title="nedc_pyprint_image module"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">nedc_pyprint_image v1.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">nedc_pyprint_image</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">nedc_pyprint_image_lib package</a></li> 
-      </ul>
-    </div>  
+</head>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            MLProject
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">nedc_pyprint_image</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="nedc_pyprint_image.html">nedc_pyprint_image module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">nedc_pyprint_image_lib package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html">nedc_pyprint_image_lib.nedc_labels_lib package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-nedc_pyprint_image_lib.getargs">nedc_pyprint_image_lib.getargs module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nedc_pyprint_image_lib.getargs.parse_args"><code class="docutils literal notranslate"><span class="pre">parse_args()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-nedc_pyprint_image_lib.maketraining">nedc_pyprint_image_lib.maketraining module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nedc_pyprint_image_lib.maketraining.classification"><code class="docutils literal notranslate"><span class="pre">classification()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nedc_pyprint_image_lib.maketraining.classify_center"><code class="docutils literal notranslate"><span class="pre">classify_center()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-nedc_pyprint_image_lib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MLProject</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">nedc_pyprint_image</a></li>
+      <li class="breadcrumb-item active">nedc_pyprint_image_lib package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/nedc_pyprint_image_lib.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <section id="nedc-pyprint-image-lib-package">
-<h1>nedc_pyprint_image_lib package<a class="headerlink" href="#nedc-pyprint-image-lib-package" title="Permalink to this headline">¶</a></h1>
+<h1>nedc_pyprint_image_lib package<a class="headerlink" href="#nedc-pyprint-image-lib-package" title="Link to this heading"></a></h1>
 <section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html">nedc_pyprint_image_lib.nedc_labels_lib package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#nedc-pyprint-image-lib-nedc-labels-lib-geometry-module">nedc_pyprint_image_lib.nedc_labels_lib.geometry module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#nedc-pyprint-image-lib-nedc-labels-lib-parseannotations-module">nedc_pyprint_image_lib.nedc_labels_lib.parseannotations module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#nedc-pyprint-image-lib-nedc-labels-lib-svstorgb-module">nedc_pyprint_image_lib.nedc_labels_lib.svstorgb module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#module-nedc_pyprint_image_lib.nedc_labels_lib.geometry">nedc_pyprint_image_lib.nedc_labels_lib.geometry module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#nedc_pyprint_image_lib.nedc_labels_lib.geometry.generate_polygon"><code class="docutils literal notranslate"><span class="pre">generate_polygon()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#nedc_pyprint_image_lib.nedc_labels_lib.geometry.get_border"><code class="docutils literal notranslate"><span class="pre">get_border()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#module-nedc_pyprint_image_lib.nedc_labels_lib.parseannotations">nedc_pyprint_image_lib.nedc_labels_lib.parseannotations module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#nedc_pyprint_image_lib.nedc_labels_lib.parseannotations.parse_annotations"><code class="docutils literal notranslate"><span class="pre">parse_annotations()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#module-nedc_pyprint_image_lib.nedc_labels_lib.svstorgb">nedc_pyprint_image_lib.nedc_labels_lib.svstorgb module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#nedc_pyprint_image_lib.nedc_labels_lib.svstorgb.rgba_to_dct"><code class="docutils literal notranslate"><span class="pre">rgba_to_dct()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#nedc_pyprint_image_lib.nedc_labels_lib.svstorgb.window_to_rgb"><code class="docutils literal notranslate"><span class="pre">window_to_rgb()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#module-nedc_pyprint_image_lib.nedc_labels_lib">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </section>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="nedc-pyprint-image-lib-getargs-module">
-<h2>nedc_pyprint_image_lib.getargs module<a class="headerlink" href="#nedc-pyprint-image-lib-getargs-module" title="Permalink to this headline">¶</a></h2>
+<section id="module-nedc_pyprint_image_lib.getargs">
+<span id="nedc-pyprint-image-lib-getargs-module"></span><h2>nedc_pyprint_image_lib.getargs module<a class="headerlink" href="#module-nedc_pyprint_image_lib.getargs" title="Link to this heading"></a></h2>
+<p>Make a parsing system using the help function form the C program
+and use this directory /data/isip/tools/linux_x64/nfc/util/python/nedc_pyprint_signal
+as a framework on how to use their tools for our argument parsing. All we’re doing is
+implimenting their argument parsing tool.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="nedc_pyprint_image_lib.getargs.parse_args">
+<span class="sig-prename descclassname"><span class="pre">nedc_pyprint_image_lib.getargs.</span></span><span class="sig-name descname"><span class="pre">parse_args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nedc_pyprint_image_lib/getargs.html#parse_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_pyprint_image_lib.getargs.parse_args" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
-<section id="nedc-pyprint-image-lib-maketraining-module">
-<h2>nedc_pyprint_image_lib.maketraining module<a class="headerlink" href="#nedc-pyprint-image-lib-maketraining-module" title="Permalink to this headline">¶</a></h2>
+<section id="module-nedc_pyprint_image_lib.maketraining">
+<span id="nedc-pyprint-image-lib-maketraining-module"></span><h2>nedc_pyprint_image_lib.maketraining module<a class="headerlink" href="#module-nedc_pyprint_image_lib.maketraining" title="Link to this heading"></a></h2>
+<p>The maketraining.py module will classify each frame as labeled or unlabeled whether it falls within a labeled or unlabeled region, respectively.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="nedc_pyprint_image_lib.maketraining.classification">
+<span class="sig-prename descclassname"><span class="pre">nedc_pyprint_image_lib.maketraining.</span></span><span class="sig-name descname"><span class="pre">classification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">windowsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framesize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nedc_pyprint_image_lib/maketraining.html#classification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_pyprint_image_lib.maketraining.classification" title="Link to this definition"></a></dt>
+<dd><p>This function’s objective is to classify whether the center of each frame is within a labeled or unlabeled region.
+1) Calls the ‘get_top_left’ function to get the center coordinate of the top-left-most frame.
+2) Calls the ‘within_region’ function to check if the coordinate is in a region.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The coordinate will go through a loop between ‘within_region’ and ‘repostion’ as the coordinate gets repositioned until all the frames are iterated through.</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>labels</strong> (<em>list</em><em> of </em><em>strings</em>) – List of labels of each coordinate pair.</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – Height of image.</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – Width of image.</p></li>
+<li><p><strong>windowsize</strong> (<em>int</em>) – Length and width of the window. Must be 1.5x bigger than framesize.</p></li>
+<li><p><strong>framesize</strong> (<em>int</em>) – Length or width of the frame</p></li>
+<li><p><strong>regions</strong> (<em>list</em><em> of </em><em>list</em><em> of </em><em>tuples</em>) – List (of each region (or shape)) of lists (of coordinates of the specific region)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns a list of lists of a ‘labeled’ coordinate and its label.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of lists: [[coordinate(tuple), label(string)], [coordinate(tuple), label(string)], …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="nedc_pyprint_image_lib.maketraining.classify_center">
+<span class="sig-prename descclassname"><span class="pre">nedc_pyprint_image_lib.maketraining.</span></span><span class="sig-name descname"><span class="pre">classify_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imagefile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labelfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">windowsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framesize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nedc_pyprint_image_lib/maketraining.html#classify_center"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_pyprint_image_lib.maketraining.classify_center" title="Link to this definition"></a></dt>
+<dd><p>Based on the parameters inputted, this function will do pre-measures before calling the ‘classification’ function.
+1. Calls a function that parses the annotations of the given label file, and returns the headers, labels, and coordinates (x,y).
+2. Creates a list of shapes based on the coordinates.
+It extracts the height and width of the image from the header.</p>
+<p>After the pre-measures, this function will call the ‘classification’ function and receive a list of lists containing a label and coordinate of the top-left corner of each window.
+The ‘classification’ function will output a list of list of a coordinate and label.</p>
+<p>The ‘labeled’ coordinates get fed to the ‘svstorgb’ module to get the RGBA values.
+The RGBA are put into a DCT</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>imagefile</strong> (<em>string</em><em> (</em><em>ends with .svs</em><em>)</em>) – Image file of the tissue in the form of a svs file.</p></li>
+<li><p><strong>labelfile</strong> – Label file of tissue in the form of a CSV file. Consists of headers and values of the headers, such as region indices, x- and y- coordinates, and labels.</p></li>
+<li><p><strong>windowsize</strong> (<em>int</em>) – Length and width of the window. Must be 1.5x bigger than framesize.</p></li>
+<li><p><strong>framesize</strong> (<em>int</em>) – Length and width of the frame that is used to iterate over the whole image.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<section id="module-nedc_pyprint_image_lib">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-nedc_pyprint_image_lib" title="Link to this heading"></a></h2>
 </section>
 </section>
 
 
-            <div class="clearer"></div>
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">nedc_pyprint_image_lib package</a><ul>
-<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#nedc-pyprint-image-lib-getargs-module">nedc_pyprint_image_lib.getargs module</a></li>
-<li><a class="reference internal" href="#nedc-pyprint-image-lib-maketraining-module">nedc_pyprint_image_lib.maketraining module</a></li>
-<li><a class="reference internal" href="#module-contents">Module contents</a></li>
-</ul>
-</li>
-</ul>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="nedc_pyprint_image.html" class="btn btn-neutral float-left" title="nedc_pyprint_image module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="nedc_pyprint_image_lib.nedc_labels_lib.html" class="btn btn-neutral float-right" title="nedc_pyprint_image_lib.nedc_labels_lib package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="nedc_pyprint_image.html"
-                        title="previous chapter">nedc_pyprint_image module</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="nedc_pyprint_image_lib.nedc_labels_lib.html"
-                        title="next chapter">nedc_pyprint_image_lib.nedc_labels_lib package</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/nedc_pyprint_image_lib.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Leo, Yuan, Muho.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="nedc_pyprint_image_lib.nedc_labels_lib.html" title="nedc_pyprint_image_lib.nedc_labels_lib package"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="nedc_pyprint_image.html" title="nedc_pyprint_image module"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">nedc_pyprint_image v1.0 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="modules.html" >nedc_pyprint_image</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">nedc_pyprint_image_lib package</a></li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2024, Leo, Yuan, Muho.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2.
-    </div>
-  </body>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
 </html>

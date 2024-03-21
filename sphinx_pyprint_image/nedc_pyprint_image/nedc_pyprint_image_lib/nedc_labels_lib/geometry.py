@@ -1,5 +1,4 @@
 import shapely
-import matplotlib.pyplot as plt
 
 # given a set of coordinates this will return a shapley shape data type of
 # those coordinates

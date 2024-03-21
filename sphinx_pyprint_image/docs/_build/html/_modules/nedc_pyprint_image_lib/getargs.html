@@ -71,10 +71,9 @@
            <div itemprop="articleBody">
              
   <h1>Source code for nedc_pyprint_image_lib.getargs</h1><div class="highlight"><pre>
-<span></span><span class="sd">&#39;&#39;&#39;Make a parsing system using the help function form the C program</span>
-<span class="sd">and use this directory /data/isip/tools/linux_x64/nfc/util/python/nedc_pyprint_signal </span>
-<span class="sd">as a framework on how to use their tools for our argument parsing. All we&#39;re doing is</span>
-<span class="sd">implimenting their argument parsing tool.&#39;&#39;&#39;</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The **getargs.py** module will parse through the arguments for each for each input in the input file and return the arguments to the calling function.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">argparse</span> <span class="k">as</span> <span class="nn">agp</span>
 
@@ -85,36 +84,49 @@
 <div class="viewcode-block" id="parse_args">
 <a class="viewcode-back" href="../../nedc_pyprint_image_lib.html#nedc_pyprint_image_lib.getargs.parse_args">[docs]</a>
 <span class="k">def</span> <span class="nf">parse_args</span><span class="p">():</span>
-    <span class="c1"># define the location of the help files #</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :Objective:</span>
+<span class="sd">            This function declares the arguments with keywords and default values.\n</span>
+<span class="sd">            Through the commandline, it reads the arguments inputted. If any argument is not inputted, it is equal to its default value.</span>
 
+<span class="sd">        :Arguments: </span>
+<span class="sd">            - **- -framesize** (*int*) - Length and width of the frame. Default: -1 (all)</span>
+<span class="sd">            - **- -windowsize** (*int*) - Length and width of the window. Default: -1 (all)</span>
+<span class="sd">            - **- -level** or **-l** (*float*) - Level to be read. Default: 0</span>
+<span class="sd">            - **- -xoff** or **-x** (*float*) - Offset on the x-axis. Default: 0</span>
+<span class="sd">            - **- -yoff** or **-y** (*float*) - Offset on the y-axis. Default: 0</span>
+<span class="sd">            *Note: No space between the two hyphens. Only set there for visual purposes.*</span>
+<span class="sd">        :return: Returns the values of the parsed arguments.</span>
+<span class="sd">        :rtype: arguments of ints and floats</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># define the location of the help and usage files</span>
     <span class="n">HELP_FILE</span> <span class="o">=</span> \
         <span class="s2">&quot;/data/isip/tools/linux_x64/nfc/util/cpp/nedc_print_image/nedc_print_image.help&quot;</span>
 
     <span class="n">USAGE_FILE</span> <span class="o">=</span> \
         <span class="s2">&quot;/data/isip/tools/linux_x64/nfc/util/cpp/nedc_print_image/nedc_print_image.usage&quot;</span>
 
-    <span class="c1"># define default argument values #</span>
+    <span class="c1"># define argument keywords</span>
 
-    <span class="c1"># number of pixels in the vertical direction [-1=all]</span>
+    <span class="c1"># the frame size in pixels [-1=all]</span>
     <span class="n">ARG_FRAMESIZE</span> <span class="o">=</span> <span class="s2">&quot;--framesize&quot;</span>
 
-    <span class="c1"># number of pixels in the horizontal direction [-1=all]</span>
+    <span class="c1"># the window size in pixels [-1=all]</span>
     <span class="n">ARG_WINDOWSIZE</span> <span class="o">=</span> <span class="s2">&quot;--windowsize&quot;</span>
 
     <span class="c1"># the level to be read [0]</span>
     <span class="n">ARG_LVL</span> <span class="o">=</span> <span class="s2">&quot;--level&quot;</span>
     <span class="n">ARG_ABRV_LVL</span> <span class="o">=</span> <span class="s2">&quot;-l&quot;</span>
 
-    <span class="c1"># the upper left horizontal coordinate of the rectangle [0]</span>
+    <span class="c1"># the offset in the x-axis [0]</span>
     <span class="n">ARG_XOFF</span> <span class="o">=</span> <span class="s2">&quot;--xoff&quot;</span>
     <span class="n">ARG_ABR_XOFF</span> <span class="o">=</span> <span class="s2">&quot;-x&quot;</span>
 
-    <span class="c1"># the upper left vertical coordinate of the rectangle [0]</span>
+    <span class="c1"># the offset in the y-axis [0]</span>
     <span class="n">ARG_YOFF</span> <span class="o">=</span> <span class="s2">&quot;--yoff&quot;</span>
     <span class="n">ARG_ABR_YOFF</span> <span class="o">=</span> <span class="s2">&quot;-y&quot;</span>
 
-    <span class="c1"># define default argument values #</span>
-
+    <span class="c1"># define default argument values</span>
     <span class="n">DEF_FRAMESIZE</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">DEF_WINDOWSIZE</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">DEF_LVL</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -125,14 +137,12 @@
     <span class="c1"># test function from here</span>
     <span class="c1">#---------------------------------------------------------------------------------------</span>
 
-
     <span class="n">parser</span> <span class="o">=</span> <span class="n">agp</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
         <span class="n">prog</span> <span class="o">=</span> <span class="s1">&#39;nedc_pyprint_image.py&#39;</span><span class="p">,</span>
         <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;prints the image values for an SVS file&#39;</span>
     <span class="p">)</span>
 
     <span class="c1"># create a command line parser</span>
-
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">ARG_FRAMESIZE</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">ARG_WINDOWSIZE</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">ARG_LVL</span><span class="p">,</span> <span class="n">ARG_ABRV_LVL</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
@@ -143,7 +153,6 @@
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
     <span class="c1"># get the parameter values</span>
-    
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">framesize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">args</span><span class="o">.</span><span class="n">framesize</span> <span class="o">=</span> <span class="n">DEF_FRAMESIZE</span>
 
@@ -159,13 +168,6 @@
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">yoff</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">args</span><span class="o">.</span><span class="n">yoff</span> <span class="o">=</span> <span class="n">DEF_YOFF</span>
 
-    <span class="c1"># print parsed arguments from here </span>
-        
-    <span class="c1">#print(&quot;height: {}, width: {}, level: {}, xoff: {}, yoff: {}&quot;.format(args.height,</span>
-                                                                          <span class="c1">#args.width,</span>
-                                                                          <span class="c1">#args.level,</span>
-                                                                          <span class="c1">#args.xoff,</span>
-                                                                          <span class="c1">#args.yoff))</span>
     <span class="k">return</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></div>
 
 </pre></div>

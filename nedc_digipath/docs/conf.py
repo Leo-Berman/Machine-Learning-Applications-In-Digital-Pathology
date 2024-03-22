@@ -62,5 +62,5 @@ html_static_path = ['_static']
 
 # mock_list = ['nedc_fileio','nedc_geometry','nedc_regionid','nedc_digipath_lib']
 
-for module_name in mock_list:
-    sys.modules[module_name] = mock.Mock()
+# for module_name in mock_list:
+#     sys.modules[module_name] = mock.Mock()

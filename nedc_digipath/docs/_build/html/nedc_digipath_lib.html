@@ -48,10 +48,10 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">source</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">nedc_digipath_lib package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-nedc_digipath_lib.nedc_fileio">nedc_digipath_lib.nedc_fileio module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-nedc_digipath_lib.nedc_geometry">nedc_digipath_lib.nedc_geometry module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-nedc_digipath_lib.nedc_regionid">nedc_digipath_lib.nedc_regionid module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-nedc_digipath_lib">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nedc-digipath-lib-nedc-fileio-module">nedc_digipath_lib.nedc_fileio module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nedc-digipath-lib-nedc-geometry-module">nedc_digipath_lib.nedc_geometry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nedc-digipath-lib-nedc-regionid-module">nedc_digipath_lib.nedc_regionid module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -88,209 +88,17 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="module-nedc_digipath_lib.nedc_fileio">
-<span id="nedc-digipath-lib-nedc-fileio-module"></span><h2>nedc_digipath_lib.nedc_fileio module<a class="headerlink" href="#module-nedc_digipath_lib.nedc_fileio" title="Link to this heading"></a></h2>
-<p>Create a new <cite>Mock</cite> object. <cite>Mock</cite> takes several optional arguments
-that specify the behaviour of the Mock object:</p>
-<ul>
-<li><p><cite>spec</cite>: This can be either a list of strings or an existing object (a
-class or instance) that acts as the specification for the mock object. If
-you pass in an object then a list of strings is formed by calling dir on
-the object (excluding unsupported magic attributes and methods). Accessing
-any attribute not in this list will raise an <cite>AttributeError</cite>.</p>
-<p>If <cite>spec</cite> is an object (rather than a list of strings) then
-<cite>mock.__class__</cite> returns the class of the spec object. This allows mocks
-to pass <cite>isinstance</cite> tests.</p>
-</li>
-<li><p><cite>spec_set</cite>: A stricter variant of <cite>spec</cite>. If used, attempting to <em>set</em>
-or get an attribute on the mock that isn’t on the object passed as
-<cite>spec_set</cite> will raise an <cite>AttributeError</cite>.</p></li>
-<li><p><cite>side_effect</cite>: A function to be called whenever the Mock is called. See
-the <cite>side_effect</cite> attribute. Useful for raising exceptions or
-dynamically changing return values. The function is called with the same
-arguments as the mock, and unless it returns <cite>DEFAULT</cite>, the return
-value of this function is used as the return value.</p>
-<p>If <cite>side_effect</cite> is an iterable then each call to the mock will return
-the next value from the iterable. If any of the members of the iterable
-are exceptions they will be raised instead of returned.</p>
-</li>
-<li><p><cite>return_value</cite>: The value returned when the mock is called. By default
-this is a new Mock (created on first access). See the
-<cite>return_value</cite> attribute.</p></li>
-<li><p><cite>unsafe</cite>: By default, accessing any attribute whose name starts with
-<em>assert</em>, <em>assret</em>, <em>asert</em>, <em>aseert</em>, or <em>assrt</em> raises an AttributeError.
-Additionally, an AttributeError is raised when accessing
-attributes that match the name of an assertion method without the prefix
-<cite>assert_</cite>, e.g. accessing <cite>called_once</cite> instead of <cite>assert_called_once</cite>.
-Passing <cite>unsafe=True</cite> will allow access to these attributes.</p></li>
-<li><p><cite>wraps</cite>: Item for the mock object to wrap. If <cite>wraps</cite> is not None then
-calling the Mock will pass the call through to the wrapped object
-(returning the real result). Attribute access on the mock will return a
-Mock object that wraps the corresponding attribute of the wrapped object
-(so attempting to access an attribute that doesn’t exist will raise an
-<cite>AttributeError</cite>).</p>
-<p>If the mock has an explicit <cite>return_value</cite> set then calls are not passed
-to the wrapped object and the <cite>return_value</cite> is returned instead.</p>
-</li>
-<li><p><cite>name</cite>: If the mock has a name then it will be used in the repr of the
-mock. This can be useful for debugging. The name is propagated to child
-mocks.</p></li>
-</ul>
-<p>Mocks can also be called with arbitrary keyword arguments. These will be
-used to set attributes on the mock after it is created.</p>
+<section id="nedc-digipath-lib-nedc-fileio-module">
+<h2>nedc_digipath_lib.nedc_fileio module<a class="headerlink" href="#nedc-digipath-lib-nedc-fileio-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-nedc_digipath_lib.nedc_geometry">
-<span id="nedc-digipath-lib-nedc-geometry-module"></span><h2>nedc_digipath_lib.nedc_geometry module<a class="headerlink" href="#module-nedc_digipath_lib.nedc_geometry" title="Link to this heading"></a></h2>
-<p>Create a new <cite>Mock</cite> object. <cite>Mock</cite> takes several optional arguments
-that specify the behaviour of the Mock object:</p>
-<ul>
-<li><p><cite>spec</cite>: This can be either a list of strings or an existing object (a
-class or instance) that acts as the specification for the mock object. If
-you pass in an object then a list of strings is formed by calling dir on
-the object (excluding unsupported magic attributes and methods). Accessing
-any attribute not in this list will raise an <cite>AttributeError</cite>.</p>
-<p>If <cite>spec</cite> is an object (rather than a list of strings) then
-<cite>mock.__class__</cite> returns the class of the spec object. This allows mocks
-to pass <cite>isinstance</cite> tests.</p>
-</li>
-<li><p><cite>spec_set</cite>: A stricter variant of <cite>spec</cite>. If used, attempting to <em>set</em>
-or get an attribute on the mock that isn’t on the object passed as
-<cite>spec_set</cite> will raise an <cite>AttributeError</cite>.</p></li>
-<li><p><cite>side_effect</cite>: A function to be called whenever the Mock is called. See
-the <cite>side_effect</cite> attribute. Useful for raising exceptions or
-dynamically changing return values. The function is called with the same
-arguments as the mock, and unless it returns <cite>DEFAULT</cite>, the return
-value of this function is used as the return value.</p>
-<p>If <cite>side_effect</cite> is an iterable then each call to the mock will return
-the next value from the iterable. If any of the members of the iterable
-are exceptions they will be raised instead of returned.</p>
-</li>
-<li><p><cite>return_value</cite>: The value returned when the mock is called. By default
-this is a new Mock (created on first access). See the
-<cite>return_value</cite> attribute.</p></li>
-<li><p><cite>unsafe</cite>: By default, accessing any attribute whose name starts with
-<em>assert</em>, <em>assret</em>, <em>asert</em>, <em>aseert</em>, or <em>assrt</em> raises an AttributeError.
-Additionally, an AttributeError is raised when accessing
-attributes that match the name of an assertion method without the prefix
-<cite>assert_</cite>, e.g. accessing <cite>called_once</cite> instead of <cite>assert_called_once</cite>.
-Passing <cite>unsafe=True</cite> will allow access to these attributes.</p></li>
-<li><p><cite>wraps</cite>: Item for the mock object to wrap. If <cite>wraps</cite> is not None then
-calling the Mock will pass the call through to the wrapped object
-(returning the real result). Attribute access on the mock will return a
-Mock object that wraps the corresponding attribute of the wrapped object
-(so attempting to access an attribute that doesn’t exist will raise an
-<cite>AttributeError</cite>).</p>
-<p>If the mock has an explicit <cite>return_value</cite> set then calls are not passed
-to the wrapped object and the <cite>return_value</cite> is returned instead.</p>
-</li>
-<li><p><cite>name</cite>: If the mock has a name then it will be used in the repr of the
-mock. This can be useful for debugging. The name is propagated to child
-mocks.</p></li>
-</ul>
-<p>Mocks can also be called with arbitrary keyword arguments. These will be
-used to set attributes on the mock after it is created.</p>
+<section id="nedc-digipath-lib-nedc-geometry-module">
+<h2>nedc_digipath_lib.nedc_geometry module<a class="headerlink" href="#nedc-digipath-lib-nedc-geometry-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-nedc_digipath_lib.nedc_regionid">
-<span id="nedc-digipath-lib-nedc-regionid-module"></span><h2>nedc_digipath_lib.nedc_regionid module<a class="headerlink" href="#module-nedc_digipath_lib.nedc_regionid" title="Link to this heading"></a></h2>
-<p>Create a new <cite>Mock</cite> object. <cite>Mock</cite> takes several optional arguments
-that specify the behaviour of the Mock object:</p>
-<ul>
-<li><p><cite>spec</cite>: This can be either a list of strings or an existing object (a
-class or instance) that acts as the specification for the mock object. If
-you pass in an object then a list of strings is formed by calling dir on
-the object (excluding unsupported magic attributes and methods). Accessing
-any attribute not in this list will raise an <cite>AttributeError</cite>.</p>
-<p>If <cite>spec</cite> is an object (rather than a list of strings) then
-<cite>mock.__class__</cite> returns the class of the spec object. This allows mocks
-to pass <cite>isinstance</cite> tests.</p>
-</li>
-<li><p><cite>spec_set</cite>: A stricter variant of <cite>spec</cite>. If used, attempting to <em>set</em>
-or get an attribute on the mock that isn’t on the object passed as
-<cite>spec_set</cite> will raise an <cite>AttributeError</cite>.</p></li>
-<li><p><cite>side_effect</cite>: A function to be called whenever the Mock is called. See
-the <cite>side_effect</cite> attribute. Useful for raising exceptions or
-dynamically changing return values. The function is called with the same
-arguments as the mock, and unless it returns <cite>DEFAULT</cite>, the return
-value of this function is used as the return value.</p>
-<p>If <cite>side_effect</cite> is an iterable then each call to the mock will return
-the next value from the iterable. If any of the members of the iterable
-are exceptions they will be raised instead of returned.</p>
-</li>
-<li><p><cite>return_value</cite>: The value returned when the mock is called. By default
-this is a new Mock (created on first access). See the
-<cite>return_value</cite> attribute.</p></li>
-<li><p><cite>unsafe</cite>: By default, accessing any attribute whose name starts with
-<em>assert</em>, <em>assret</em>, <em>asert</em>, <em>aseert</em>, or <em>assrt</em> raises an AttributeError.
-Additionally, an AttributeError is raised when accessing
-attributes that match the name of an assertion method without the prefix
-<cite>assert_</cite>, e.g. accessing <cite>called_once</cite> instead of <cite>assert_called_once</cite>.
-Passing <cite>unsafe=True</cite> will allow access to these attributes.</p></li>
-<li><p><cite>wraps</cite>: Item for the mock object to wrap. If <cite>wraps</cite> is not None then
-calling the Mock will pass the call through to the wrapped object
-(returning the real result). Attribute access on the mock will return a
-Mock object that wraps the corresponding attribute of the wrapped object
-(so attempting to access an attribute that doesn’t exist will raise an
-<cite>AttributeError</cite>).</p>
-<p>If the mock has an explicit <cite>return_value</cite> set then calls are not passed
-to the wrapped object and the <cite>return_value</cite> is returned instead.</p>
-</li>
-<li><p><cite>name</cite>: If the mock has a name then it will be used in the repr of the
-mock. This can be useful for debugging. The name is propagated to child
-mocks.</p></li>
-</ul>
-<p>Mocks can also be called with arbitrary keyword arguments. These will be
-used to set attributes on the mock after it is created.</p>
+<section id="nedc-digipath-lib-nedc-regionid-module">
+<h2>nedc_digipath_lib.nedc_regionid module<a class="headerlink" href="#nedc-digipath-lib-nedc-regionid-module" title="Link to this heading"></a></h2>
 </section>
-<section id="module-nedc_digipath_lib">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-nedc_digipath_lib" title="Link to this heading"></a></h2>
-<p>Create a new <cite>Mock</cite> object. <cite>Mock</cite> takes several optional arguments
-that specify the behaviour of the Mock object:</p>
-<ul>
-<li><p><cite>spec</cite>: This can be either a list of strings or an existing object (a
-class or instance) that acts as the specification for the mock object. If
-you pass in an object then a list of strings is formed by calling dir on
-the object (excluding unsupported magic attributes and methods). Accessing
-any attribute not in this list will raise an <cite>AttributeError</cite>.</p>
-<p>If <cite>spec</cite> is an object (rather than a list of strings) then
-<cite>mock.__class__</cite> returns the class of the spec object. This allows mocks
-to pass <cite>isinstance</cite> tests.</p>
-</li>
-<li><p><cite>spec_set</cite>: A stricter variant of <cite>spec</cite>. If used, attempting to <em>set</em>
-or get an attribute on the mock that isn’t on the object passed as
-<cite>spec_set</cite> will raise an <cite>AttributeError</cite>.</p></li>
-<li><p><cite>side_effect</cite>: A function to be called whenever the Mock is called. See
-the <cite>side_effect</cite> attribute. Useful for raising exceptions or
-dynamically changing return values. The function is called with the same
-arguments as the mock, and unless it returns <cite>DEFAULT</cite>, the return
-value of this function is used as the return value.</p>
-<p>If <cite>side_effect</cite> is an iterable then each call to the mock will return
-the next value from the iterable. If any of the members of the iterable
-are exceptions they will be raised instead of returned.</p>
-</li>
-<li><p><cite>return_value</cite>: The value returned when the mock is called. By default
-this is a new Mock (created on first access). See the
-<cite>return_value</cite> attribute.</p></li>
-<li><p><cite>unsafe</cite>: By default, accessing any attribute whose name starts with
-<em>assert</em>, <em>assret</em>, <em>asert</em>, <em>aseert</em>, or <em>assrt</em> raises an AttributeError.
-Additionally, an AttributeError is raised when accessing
-attributes that match the name of an assertion method without the prefix
-<cite>assert_</cite>, e.g. accessing <cite>called_once</cite> instead of <cite>assert_called_once</cite>.
-Passing <cite>unsafe=True</cite> will allow access to these attributes.</p></li>
-<li><p><cite>wraps</cite>: Item for the mock object to wrap. If <cite>wraps</cite> is not None then
-calling the Mock will pass the call through to the wrapped object
-(returning the real result). Attribute access on the mock will return a
-Mock object that wraps the corresponding attribute of the wrapped object
-(so attempting to access an attribute that doesn’t exist will raise an
-<cite>AttributeError</cite>).</p>
-<p>If the mock has an explicit <cite>return_value</cite> set then calls are not passed
-to the wrapped object and the <cite>return_value</cite> is returned instead.</p>
-</li>
-<li><p><cite>name</cite>: If the mock has a name then it will be used in the repr of the
-mock. This can be useful for debugging. The name is propagated to child
-mocks.</p></li>
-</ul>
-<p>Mocks can also be called with arbitrary keyword arguments. These will be
-used to set attributes on the mock after it is created.</p>
+<section id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading"></a></h2>
 </section>
 </section>
 

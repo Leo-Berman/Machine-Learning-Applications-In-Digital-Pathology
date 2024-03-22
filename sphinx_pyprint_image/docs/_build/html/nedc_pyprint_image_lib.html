@@ -112,11 +112,7 @@
 <li class="toctree-l3"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#nedc_pyprint_image_lib.nedc_labels_lib.parseannotations.parse_annotations"><code class="docutils literal notranslate"><span class="pre">parse_annotations()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#module-nedc_pyprint_image_lib.nedc_labels_lib.svstorgb">nedc_pyprint_image_lib.nedc_labels_lib.svstorgb module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#nedc_pyprint_image_lib.nedc_labels_lib.svstorgb.rgba_to_dct"><code class="docutils literal notranslate"><span class="pre">rgba_to_dct()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#nedc_pyprint_image_lib.nedc_labels_lib.svstorgb.window_to_rgb"><code class="docutils literal notranslate"><span class="pre">window_to_rgb()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#nedc-pyprint-image-lib-nedc-labels-lib-svstorgb-module">nedc_pyprint_image_lib.nedc_labels_lib.svstorgb module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="nedc_pyprint_image_lib.nedc_labels_lib.html#module-nedc_pyprint_image_lib.nedc_labels_lib">Module contents</a></li>
 </ul>
 </li>
@@ -128,47 +124,65 @@
 </section>
 <section id="module-nedc_pyprint_image_lib.getargs">
 <span id="nedc-pyprint-image-lib-getargs-module"></span><h2>nedc_pyprint_image_lib.getargs module<a class="headerlink" href="#module-nedc_pyprint_image_lib.getargs" title="Link to this heading"></a></h2>
-<p>Make a parsing system using the help function form the C program
-and use this directory /data/isip/tools/linux_x64/nfc/util/python/nedc_pyprint_signal
-as a framework on how to use their tools for our argument parsing. All we’re doing is
-implimenting their argument parsing tool.</p>
+<p>The <strong>getargs.py</strong> module will parse through the arguments for each for each input in the input file and return the arguments to the calling function.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_pyprint_image_lib.getargs.parse_args">
 <span class="sig-prename descclassname"><span class="pre">nedc_pyprint_image_lib.getargs.</span></span><span class="sig-name descname"><span class="pre">parse_args</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nedc_pyprint_image_lib/getargs.html#parse_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_pyprint_image_lib.getargs.parse_args" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list">
+<dt class="field-odd">Objective<span class="colon">:</span></dt>
+<dd class="field-odd"><p>This function declares the arguments with keywords and default values.</p>
+<p>Through the commandline, it reads the arguments inputted. If any argument is not inputted, it is equal to its default value.</p>
+</dd>
+<dt class="field-even">Arguments<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>- -framesize</strong> (<em>int</em>) - Length and width of the frame. Default: -1 (all)</p></li>
+<li><p><strong>- -windowsize</strong> (<em>int</em>) - Length and width of the window. Default: -1 (all)</p></li>
+<li><p><strong>- -level</strong> or <strong>-l</strong> (<em>float</em>) - Level to be read. Default: 0</p></li>
+<li><p><strong>- -xoff</strong> or <strong>-x</strong> (<em>float</em>) - Offset on the x-axis. Default: 0</p></li>
+<li><p><strong>- -yoff</strong> or <strong>-y</strong> (<em>float</em>) - Offset on the y-axis. Default: 0</p></li>
+</ul>
+<p><em>Note: No space between the two hyphens. Only set there for visual purposes.</em></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Returns the values of the parsed arguments.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>arguments of ints and floats</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 <section id="module-nedc_pyprint_image_lib.maketraining">
 <span id="nedc-pyprint-image-lib-maketraining-module"></span><h2>nedc_pyprint_image_lib.maketraining module<a class="headerlink" href="#module-nedc_pyprint_image_lib.maketraining" title="Link to this heading"></a></h2>
-<p>The maketraining.py module will classify each frame as labeled or unlabeled whether it falls within a labeled or unlabeled region, respectively.</p>
+<p>The <strong>maketraining.py</strong> module will classify each frame as ‘labeled’ or ‘unlabeled’ whether it falls within a labeled or unlabeled region, respectively.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_pyprint_image_lib.maketraining.classification">
 <span class="sig-prename descclassname"><span class="pre">nedc_pyprint_image_lib.maketraining.</span></span><span class="sig-name descname"><span class="pre">classification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">windowsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framesize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nedc_pyprint_image_lib/maketraining.html#classification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_pyprint_image_lib.maketraining.classification" title="Link to this definition"></a></dt>
-<dd><dl class="simple">
-<dt>objective:</dt><dd><p>This function’s objective is to classify whether the center of each frame is within a labeled or unlabeled region.</p>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Objective<span class="colon">:</span></dt>
+<dd class="field-odd"><p>This function’s objective is to classify whether the center of each frame is within a labeled or unlabeled region.</p>
 <ol class="arabic simple">
-<li><p>Calls the ‘get_top_left’ function to get the center coordinate of the top-left-most frame.</p></li>
-<li><p>Calls the ‘within_region’ function to check if the coordinate is in a region.</p></li>
-<li><p>The coordinate will go through a loop between ‘within_region’ and ‘repostion’ as the coordinate gets repositioned until all the frames are iterated through.</p></li>
+<li><p>Calls the <strong>get_top_left</strong> function to get the center coordinate of the top-left-most frame.</p></li>
+<li><p>Calls the <strong>within_region</strong> function to check if the coordinate is in a region.</p></li>
+<li><p>The coordinate will go through a loop between <strong>within_region</strong> and ‘repostion’ as the coordinate gets repositioned until all the frames are iterated through.</p></li>
 </ol>
 </dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
 <li><p><strong>labels</strong> (<em>list</em><em> of </em><em>strings</em>) – List of labels of each coordinate pair.</p></li>
 <li><p><strong>height</strong> (<em>int</em>) – Height of image.</p></li>
 <li><p><strong>width</strong> (<em>int</em>) – Width of image.</p></li>
 <li><p><strong>windowsize</strong> (<em>int</em>) – Length and width of the window. Must be 1.5x bigger than framesize.</p></li>
 <li><p><strong>framesize</strong> (<em>int</em>) – Length or width of the frame</p></li>
-<li><p><strong>regions</strong> (<em>list</em><em> of </em><em>list</em><em> of </em><em>tuples</em>) – List (of each region (or shape)) of lists (of coordinates of the specific region)</p></li>
+<li><p><strong>regions</strong> (<em>list</em><em> of </em><em>list</em><em> of </em><em>tuples</em>) – List (of each region) of lists (of coordinates of the specific region)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Returns a list of lists of a ‘labeled’ coordinate and its label.</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Returns a list of lists of a ‘labeled’ coordinate and its label.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list of lists: [[coordinate(tuple), label(string)], [coordinate(tuple), label(string)], …]</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of lists: [[coordinate(tuple), label(string)], [coordinate(tuple), label(string)], …]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -176,17 +190,21 @@ implimenting their argument parsing tool.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_pyprint_image_lib.maketraining.classify_center">
 <span class="sig-prename descclassname"><span class="pre">nedc_pyprint_image_lib.maketraining.</span></span><span class="sig-name descname"><span class="pre">classify_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imagefile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labelfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">windowsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framesize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nedc_pyprint_image_lib/maketraining.html#classify_center"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_pyprint_image_lib.maketraining.classify_center" title="Link to this definition"></a></dt>
-<dd><p>Based on the parameters inputted, this function will do pre-measures before calling the ‘classification’ function.
-1. Calls a function that parses the annotations of the given label file, and returns the headers, labels, and coordinates (x,y).
-2. Creates a list of shapes based on the coordinates.
-It extracts the height and width of the image from the header.</p>
-<p>After the pre-measures, this function will call the ‘classification’ function and receive a list of lists containing a label and coordinate of the top-left corner of each window.
-The ‘classification’ function will output a list of list of a coordinate and label.</p>
-<p>The ‘labeled’ coordinates get fed to the ‘svstorgb’ module to get the RGBA values.
-The RGBA are put into a DCT</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
+<dd><dl class="field-list">
+<dt class="field-odd">Objective<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Based on the parameters inputted, this function will do pre-measures before calling the <strong>classification</strong> function.</p>
+<ol class="arabic simple">
+<li><p>Calls a function that parses the annotations of the given label file, and returns the headers, labels, and coordinates (x,y).</p></li>
+<li><p>Creates a list of shapes based on the coordinates.</p></li>
+<li><p>Extracts the height and width of the image from the header.</p></li>
+</ol>
+<p>After the pre-measures, this function will call the <strong>classification</strong> function and receive a list of lists containing a label and coordinate of the top-left corner of each window.
+The <strong>classification</strong> function will output a list of list of a coordinate and label.</p>
+<p>The ‘labeled’ coordinates get fed to the <strong>svstorgb.py</strong> module to get the RGBA values.
+The RGBA are put into a DCT.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
 <li><p><strong>imagefile</strong> (<em>string</em><em> (</em><em>ends with .svs</em><em>)</em>) – Image file of the tissue in the form of a svs file.</p></li>
 <li><p><strong>labelfile</strong> – Label file of tissue in the form of a CSV file. Consists of headers and values of the headers, such as region indices, x- and y- coordinates, and labels.</p></li>
 <li><p><strong>windowsize</strong> (<em>int</em>) – Length and width of the window. Must be 1.5x bigger than framesize.</p></li>

@@ -1,12 +1,16 @@
 import sys
-sys.path.append("/data/isip/tools/linux_x64/nfc/class/python/nedc_sys_tools/nedc_file_tools")
-import nedc_file_tools
-import pandas
-def parse_parameters():
-    nedc_file_tools.load_parameters("param_format.txt")
-    pandas.read_csv("parameters.csv")
+sys.path.append("../nedc_digipath_lib")
+import nedc_digipath_lib
+
+
+
 def main():
-    parse_parameters()
+    svs_list_file, csv_list_file, window_size, frame_size = nedc_digipath_lib.fileio.parse_parameters()
+
+    for svs,csv in zip(svs_list_file,csv_list_file):
+        pass
+
+
 if __name__ == "__main__":
     main()
                 

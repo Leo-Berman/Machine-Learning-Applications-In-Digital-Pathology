@@ -7,14 +7,16 @@ import sys
 import csv
 import numpy as np
 import scipy
+import pandas
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 # Import phuykongs library
 import nedc_image_tools as phg
 def parse_parameters(parameter_file:str):
-    pass
+    pandas.read_csv("parameters.csv")
 
-def read_from_csv(csv_file:str):
-    pass
+def read_list_of_files(csv_file:str):
+    return(pandas.read_csv(csv_file).to_list())
+
 
 def parse_annotations(annotation_file:str):
     pass

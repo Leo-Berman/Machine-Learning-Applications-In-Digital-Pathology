@@ -1,7 +1,6 @@
-'''Make a parsing system using the help function form the C program
-and use this directory /data/isip/tools/linux_x64/nfc/util/python/nedc_pyprint_signal 
-as a framework on how to use their tools for our argument parsing. All we're doing is
-implimenting their argument parsing tool.'''
+"""
+    The **getargs.py** module will parse through the arguments for each for each input in the input file and return the arguments to the calling function.
+"""
 
 import argparse as agp
 
@@ -10,36 +9,49 @@ import argparse as agp
 #---------------------------------------------------------------------------------------
 
 def parse_args():
-    # define the location of the help files #
+    """
+        :Objective:
+            This function declares the arguments with keywords and default values.\n
+            Through the commandline, it reads the arguments inputted. If any argument is not inputted, it is equal to its default value.
 
+        :Arguments: 
+            - **- -framesize** (*int*) - Length and width of the frame. Default: -1 (all)
+            - **- -windowsize** (*int*) - Length and width of the window. Default: -1 (all)
+            - **- -level** or **-l** (*float*) - Level to be read. Default: 0
+            - **- -xoff** or **-x** (*float*) - Offset on the x-axis. Default: 0
+            - **- -yoff** or **-y** (*float*) - Offset on the y-axis. Default: 0
+            *Note: No space between the two hyphens. Only set there for visual purposes.*
+        :return: Returns the values of the parsed arguments.
+        :rtype: arguments of ints and floats
+    """
+    # define the location of the help and usage files
     HELP_FILE = \
         "/data/isip/tools/linux_x64/nfc/util/cpp/nedc_print_image/nedc_print_image.help"
 
     USAGE_FILE = \
         "/data/isip/tools/linux_x64/nfc/util/cpp/nedc_print_image/nedc_print_image.usage"
 
-    # define default argument values #
+    # define argument keywords
 
-    # number of pixels in the vertical direction [-1=all]
+    # the frame size in pixels [-1=all]
     ARG_FRAMESIZE = "--framesize"
 
-    # number of pixels in the horizontal direction [-1=all]
+    # the window size in pixels [-1=all]
     ARG_WINDOWSIZE = "--windowsize"
 
     # the level to be read [0]
     ARG_LVL = "--level"
     ARG_ABRV_LVL = "-l"
 
-    # the upper left horizontal coordinate of the rectangle [0]
+    # the offset in the x-axis [0]
     ARG_XOFF = "--xoff"
     ARG_ABR_XOFF = "-x"
 
-    # the upper left vertical coordinate of the rectangle [0]
+    # the offset in the y-axis [0]
     ARG_YOFF = "--yoff"
     ARG_ABR_YOFF = "-y"
 
-    # define default argument values #
-
+    # define default argument values
     DEF_FRAMESIZE = int(-1)
     DEF_WINDOWSIZE = int(-1)
     DEF_LVL = int(0)
@@ -50,14 +62,12 @@ def parse_args():
     # test function from here
     #---------------------------------------------------------------------------------------
 
-
     parser = agp.ArgumentParser(
         prog = 'nedc_pyprint_image.py',
         description = 'prints the image values for an SVS file'
     )
 
     # create a command line parser
-
     parser.add_argument(ARG_FRAMESIZE, type=int)
     parser.add_argument(ARG_WINDOWSIZE, type=int)
     parser.add_argument(ARG_LVL, ARG_ABRV_LVL, type=int)
@@ -68,7 +78,6 @@ def parse_args():
     args = parser.parse_args()
 
     # get the parameter values
-    
     if args.framesize is None:
         args.framesize = DEF_FRAMESIZE
 
@@ -84,11 +93,4 @@ def parse_args():
     if args.yoff is None:
         args.yoff = DEF_YOFF
 
-    # print parsed arguments from here 
-        
-    #print("height: {}, width: {}, level: {}, xoff: {}, yoff: {}".format(args.height,
-                                                                          #args.width,
-                                                                          #args.level,
-                                                                          #args.xoff,
-                                                                          #args.yoff))
     return(args)

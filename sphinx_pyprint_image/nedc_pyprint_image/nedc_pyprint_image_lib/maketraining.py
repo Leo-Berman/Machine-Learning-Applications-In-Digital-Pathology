@@ -1,5 +1,5 @@
 """
-The maketraining.py module will classify each frame as labeled or unlabeled whether it falls within a labeled or unlabeled region, respectively.
+The **maketraining.py** module will classify each frame as 'labeled' or 'unlabeled' whether it falls within a labeled or unlabeled region, respectively.
 """
 
 import nedc_image_tools as phg
@@ -12,16 +12,17 @@ sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/
 
 def classify_center(imagefile,labelfile,windowsize,framesize = -1):
     """
-        Based on the parameters inputted, this function will do pre-measures before calling the 'classification' function.
-        1. Calls a function that parses the annotations of the given label file, and returns the headers, labels, and coordinates (x,y).
-        2. Creates a list of shapes based on the coordinates.
-        It extracts the height and width of the image from the header.
+        :Objective:
+            Based on the parameters inputted, this function will do pre-measures before calling the **classification** function.\n
+            1. Calls a function that parses the annotations of the given label file, and returns the headers, labels, and coordinates (x,y).\n
+            2. Creates a list of shapes based on the coordinates.\n
+            3. Extracts the height and width of the image from the header.\n
 
-        After the pre-measures, this function will call the 'classification' function and receive a list of lists containing a label and coordinate of the top-left corner of each window.
-        The 'classification' function will output a list of list of a coordinate and label.
+            After the pre-measures, this function will call the **classification** function and receive a list of lists containing a label and coordinate of the top-left corner of each window.
+            The **classification** function will output a list of list of a coordinate and label.
 
-        The 'labeled' coordinates get fed to the 'svstorgb' module to get the RGBA values.
-        The RGBA are put into a DCT
+            The 'labeled' coordinates get fed to the **svstorgb.py** module to get the RGBA values.
+            Through the same module, the RGBA values are put into a DCT function.
 
         :param imagefile: Image file of the tissue in the form of a svs file.
         :type imagefile: string (ends with .svs)
@@ -76,11 +77,11 @@ def classify_center(imagefile,labelfile,windowsize,framesize = -1):
 
 def classification(labels, height, width, windowsize, framesize, regions):
     """
-        objective:
+        :Objective:
             This function's objective is to classify whether the center of each frame is within a labeled or unlabeled region.\n
-            1) Calls the 'get_top_left' function to get the center coordinate of the top-left-most frame.\n
-            2) Calls the 'within_region' function to check if the coordinate is in a region.\n
-            3) The coordinate will go through a loop between 'within_region' and 'repostion' as the coordinate gets repositioned until all the frames are iterated through.\n
+            1) Calls the **get_top_left** function to get the center coordinate of the top-left-most frame.\n
+            2) Calls the **within_region** function to check if the coordinate is in a region.\n
+            3) The coordinate will go through a loop between **within_region** and 'repostion' as the coordinate gets repositioned until all the frames are iterated through.\n
 
         :param labels: List of labels of each coordinate pair.
         :type labels: list of strings
@@ -97,7 +98,7 @@ def classification(labels, height, width, windowsize, framesize, regions):
         :param framesize: Length or width of the frame
         :type framesize: int
 
-        :param regions: List (of each region (or shape)) of lists (of coordinates of the specific region)
+        :param regions: List (of each region) of lists (of coordinates of the specific region)
         :type regions: list of list of tuples
 
         :return: Returns a list of lists of a 'labeled' coordinate and its label.

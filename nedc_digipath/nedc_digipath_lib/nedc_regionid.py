@@ -1,13 +1,12 @@
 """
 The maketraining.py module will classify each frame as labeled or unlabeled whether it falls within a labeled or unlabeled region, respectively.
 """
-
-import nedc_image_tools as phg
 import sys
+sys.path.append("/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools")
+import nedc_image_tools as phg
 import shapely
-
 import nedc_digipath_lib
-sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
+
 
 def classify_frames(imagefile,labelfile,windowsize,framesize = -1):
     """
@@ -49,9 +48,10 @@ def classify_frames(imagefile,labelfile,windowsize,framesize = -1):
     
     # if framesize is not given, don't do anything for now.
     if framesize == -1:
-        print("Default frame size: {} x {}".format(height,width))
+        # print("Default frame size: {} x {}".format(height,width))
+        pass
     else:
-        print("Processing files and classifiying each {} x {} window...".format(windowsize,windowsize))
+        # print("Processing files and classifiying each {} x {} window...".format(windowsize,windowsize))
         # generate polygon of regions within the image
         shapes = []
         for i in range(len(COORDS)):
@@ -75,7 +75,7 @@ def classify_frames(imagefile,labelfile,windowsize,framesize = -1):
             #
             outcoords.append((int(labeled_list[x][0][0]),int(height - labeled_list[x][0][1]+framesize)))
 
-        print("Classification completed. Sending data to window_to_rgb module...")
+        # print("Classification completed. Sending data to window_to_rgb module...")
         
         # pass the image file, all the top-left labeled coordinates, and framesize to the window_to_rgb file
         # this generates RGBA values for each frame 

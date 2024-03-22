@@ -1,0 +1,8 @@
+parameter,value
+window_size,##
+frame_size,##
+x_offset,##
+y_offset,##
+level,##
+image_file_list,**
+image_label_list,**

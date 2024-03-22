@@ -52,29 +52,29 @@ def parse_parameters(parameter_file:str):
         # elif parameter == "yoff":
         #     value = DEF_YOFF
 
-    def parse_param(parameter_file):
-        param1 = "framesize"
-        framesize = parameter_search(param1, parameter_file)
 
-        param2 = "windowsize"
-        windowsize = parameter_search(param2, parameter_file)
+    param1 = "framesize"
+    framesize = parameter_search(param1, parameter_file)
 
-        # param3 = "level"
-        # level = parameter_search(param3, parameter_file)
+    param2 = "windowsize"
+    windowsize = parameter_search(param2, parameter_file)
 
-        # param4 = "xoff"
-        # xoff = parameter_search(param4, parameter_file)
+    # param3 = "level"
+    # level = parameter_search(param3, parameter_file)
 
-        # param5 = "yoff"
-        # yoff = parameter_search(param5, parameter_file)
+    # param4 = "xoff"
+    # xoff = parameter_search(param4, parameter_file)
 
-        param6 = "imagefile_list"
-        imagefile_list = parameter_search(param6, parameter_file)
+    # param5 = "yoff"
+    # yoff = parameter_search(param5, parameter_file)
 
-        param7 = "labelfile_list"
-        labelfile_list = parameter_search(param7, parameter_file)
+    param6 = "imagefile_list"
+    imagefile_list = parameter_search(param6, parameter_file)
 
-        return (imagefile_list, labelfile_list, int(windowsize), int(framesize))
+    param7 = "labelfile_list"
+    labelfile_list = parameter_search(param7, parameter_file)
+
+    return (imagefile_list, labelfile_list, int(windowsize), int(framesize))
 
 
 def read_list_of_files(csv_file:str):

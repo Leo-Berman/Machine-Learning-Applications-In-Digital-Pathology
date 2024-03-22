@@ -1,0 +1,5 @@
+parameter,value
+windowsize,250
+framesize,200
+imagefile_list,"/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/tuh_im_train.list"
+labelfile_list,"/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/tuh_lbl_train.list"

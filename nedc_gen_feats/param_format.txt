@@ -1,5 +1,5 @@
 parameter,value
-window_size,##
-frame_size,##
-image_file_list,**
-image_label_list,**
+windowsize,##
+framesize,##
+imagefile_list,**
+labelfile_list,**

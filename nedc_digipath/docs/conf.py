@@ -12,21 +12,20 @@
 #
 import os
 import sys
-import mock
 sys.path.insert(0, os.path.abspath('..'))
-sys.path.insert(0,os.path.abspath('../nedc_pyprint_image/'))
-sys.path.insert(0,os.path.abspath('../nedc_pyprint_image/nedc_pyprint_image_lib/'))
-sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools")
-
+sys.path.insert(0, os.path.abspath('../nedc_digipath'))
+sys.path.insert(0,os.path.abspath('../nedc_digipath_lib'))
+sys.path.insert(0, os.path.abspath('../nedc_digipath/nedc_gen_feats'))
+import mock
 
 # -- Project information -----------------------------------------------------
 
-project = 'MLProject'
-copyright = '2024, Leo, Yuan, Muho'
+project = 'nedc_digipath'
+copyright = 'nedc_lab'
 author = 'Leo, Yuan, Muho'
 
 # The full version, including alpha/beta/rc tags
-release = 'v1.0.0'
+release = '1.0.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -61,6 +60,7 @@ html_theme = 'sphinx_rtd_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-MOCK_MODULES=['nedc_image_tools', 'shapely', 'nedc_ann_dpath_tools', 'scipy', 'matplotlib']
-for module_name in MOCK_MODULES:
+# mock_list = ['nedc_fileio','nedc_geometry','nedc_regionid','nedc_digipath_lib']
+
+for module_name in mock_list:
     sys.modules[module_name] = mock.Mock()

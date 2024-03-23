@@ -1,5 +1,9 @@
-import pointwithin
-import annotations
+import sys
+
+sys.path.append('../nedc_digipath_lib/')
+import nedc_geometry as pointwithin
+from nedc_fileio import parse_annotations as annotations
+
 import matplotlib.pyplot as plt
 from svstojpg import svs_to_jpg as stj
 import returnframeborders as rfb
@@ -12,12 +16,12 @@ def main():
     
     # set the path to the annotations and image file
     #
-    filepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.csv"
-    imagepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.svs"
+    filepath = "/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/00466205_aaaaaage/s000_2015_03_01/breast/00466205_aaaaaage_s000_0hne_0000_a001_lvl001_t000.csv"
+    imagepath = "/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/00466205_aaaaaage/s000_2015_03_01/breast/00466205_aaaaaage_s000_0hne_0000_a001_lvl001_t000.svs"
     
     # Parses the annotations
     #
-    HEADER,IDS,LABELS,COORDS = annotations.parse_annotations(filepath)
+    HEADER,IDS,LABELS,COORDS = annotations(filepath)
     
     # Gets the dimensions of the image file
     #
@@ -54,12 +58,12 @@ def main():
     # generate the compressed imagefile to be used 
     # in the backgroudn of the plot
     #
-    stj(imagepath,"./DATA/graphic")
+    stj(imagepath,"./nedc_pyprint_image/DATA/graphic")
 
     # Read the image in and set it as the background
     # of the plot
     #
-    im = plt.imread("./DATA/graphic.jpg")
+    im = plt.imread("./nedc_pyprint_image/DATA/graphic.jpg")
     plt.imshow(im,extent=[0,int(w),0,int(h)])
 
     # plot squares of frame size 5000x5000 pixels
@@ -69,6 +73,6 @@ def main():
     
     # save the plot as demo.png in the DATA directory
     #
-    plt.savefig("./DATA/Train1.png")
+    plt.savefig("./nedc_pyprint_image/DATA/Train1.png")
 
 main()

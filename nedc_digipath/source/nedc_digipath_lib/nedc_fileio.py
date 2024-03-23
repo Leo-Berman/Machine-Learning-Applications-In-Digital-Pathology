@@ -11,9 +11,44 @@ import numpy as np
 import scipy
 import pandas
 import os
+import argparse as agp
 
-# search for the specific parameter through the parameter file 
+def getargs():
+    """
+        :Objective:
+            Read the argument inputted. Only one argument which is a parameter file in the .csv format.
+
+        :return: Returns the parameter file.
+        :rtype: str (.csv format)
+    """
+
+    parser = agp.ArgumentParser(
+        prog = 'nedc_pyprint_image.py',
+        description = 'prints the image values for an SVS file'
+    )
+
+    # only parameter file input
+    parser.add_argument('-f', type=str)
+    parameter_file = parser.parse_args()
+
+    # return the file
+    return(parameter_file)
+
 def parameter_search(parameter, parameter_file):
+    """
+        :Objective:
+        This function searches for the specific parameter through the parameter file.
+
+        :param parameter: The specified parameter.
+        :type parameter: str
+
+        :param parameter_file: csv file containing parameters.
+        :type parameter_file: str (.csv format)
+
+        :return: Returns the value of the specific parameter or 0 if None.
+        :rtype: int, float, or string.
+    """
+
     # read the parameter file
     with open(parameter_file, mode='r') as csv_file:
         csv_reader = csv.reader(csv_file)
@@ -28,6 +63,14 @@ def parameter_search(parameter, parameter_file):
                     return row[1]
 
 def default_value(parameter):
+    """
+        :Description:
+        Default values of parameters if parameter value is None.
+
+        :param parameter: The specified parameter.
+        :type parameter: str
+    """
+
     DEF_FRAMESIZE = int(-1)
     DEF_WINDOWSIZE = int(-1)
     
@@ -46,6 +89,17 @@ def default_value(parameter):
     #     value = DEF_YOFF
 
 def parse_parameters(parameter_file:str):
+    """
+        :Objective:
+            This function parses through the parameter file which is a csv file containing different parameters with associated values.
+            The parameter file contains the framesize (frame size), windowsize (window size), level, xoff (x-offset), yoff (y-offset), imagefile_list (text file of .svs files), and labelfile_list (text file of .csv files).
+    
+    :param parameter_file: csv file containing parameters.
+    :type parameter_file: str (.csv format)
+            
+    :return: Returns the values of the parsed parameters.
+    :rtype: text files, ints, and floats
+    """
     # define default argument values
     
     # DEF_LVL = int(0)

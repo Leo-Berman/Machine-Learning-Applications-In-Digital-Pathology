@@ -94,11 +94,11 @@ def parse_parameters(parameter_file:str):
             This function parses through the parameter file which is a csv file containing different parameters with associated values.
             The parameter file contains the framesize (frame size), windowsize (window size), level, xoff (x-offset), yoff (y-offset), imagefile_list (text file of .svs files), and labelfile_list (text file of .csv files).
     
-    :param parameter_file: csv file containing parameters.
-    :type parameter_file: str (.csv format)
-            
-    :return: Returns the values of the parsed parameters.
-    :rtype: text files, ints, and floats
+        :param parameter_file: csv file containing parameters.
+        :type parameter_file: str (.csv format)
+                
+        :return: Returns the values of the parsed parameters.
+        :rtype: text files, ints, and floats
     """
     # define default argument values
     

@@ -1,0 +1,17 @@
+in dir /exp/exp_<exp_num>
+    data
+    
+    lib
+        mladp_fileio.py
+        mladp_geometry.py
+        mladp_regionid.py
+    
+    bin
+        <currently empty>
+    
+    src
+        mladp_gen_feats.py
+        mladp_train_model.py
+        mladp_eval_data.py
+
+Need to find and use parameter parsing

@@ -37,7 +37,6 @@ def main():
         
         file.close()
 
-    
     # list for holding the labels and data
     #
     mydata = []

@@ -13,11 +13,11 @@ import returnframeborders as rfb
 # and an imagepath set to the correlating svs files
 #
 def main():
-    
+
     # set the path to the annotations and image file
     #
-    filepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.csv"
-    imagepath = "/data/isip/data/tuh_dpath_breast/deidentified/v2.0.0/svs/train/00707578/s000_2015_04_01/breast/00707578_s000_0hne_0000_a001_lvl000_t000.svs"
+    filepath = "/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/00545871_aaaaaagm/s000_2018_01_01/breast/00545871_aaaaaagm_s000_0hne_0000_a001_lvl001_t000.csv"
+    imagepath = "/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/00545871_aaaaaagm/s000_2018_01_01/breast/00545871_aaaaaagm_s000_0hne_0000_a001_lvl001_t000.svs"
     
     # Parses the annotations
     #

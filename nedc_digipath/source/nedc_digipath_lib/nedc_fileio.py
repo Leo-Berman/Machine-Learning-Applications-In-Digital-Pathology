@@ -130,6 +130,17 @@ def parse_parameters(parameter_file:str):
     return (imagefile_list, labelfile_list, int(windowsize), int(framesize))
 
 def read_list_of_files(csv_file:str):
+    """
+        :Objective:
+        This function reads the file of files and outputs all the files as one list using the pandas library.
+
+        :param csv_file: file of csv files.
+        :type csv_file: str
+
+        :return: Returns list of csv files.
+        :rtype: list of strings
+    """
+
     return(pandas.read_csv(csv_file).to_list())
 
 def parse_annotations(file):
@@ -235,7 +246,17 @@ def svs_windows_to_RGBA(image_file:str,labels:list,coords:list = [(0,0)], window
     return window_list
 
 def RGBA_to_dct(framelist,imagename):
-    
+    """
+        :Objective:
+        This function applies DCT to all the RGBA values of each frame and sends the coefficients (features) with the label to the writer module.
+
+        :param framelist: list of RGBA values and label of each frame.
+        :type framelist: list.
+
+        :param imagename: image file.
+        :type imagename: str
+    """
+
     list_of_rows = []
     for framevalues in framelist:        
         red = []

@@ -5,21 +5,29 @@ import numpy as np
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA
 def main():
     trained_model = joblib.load('../nedc_train_model/trained_models/Trained_RNF.joblib')
-    # change directory to the appropriate train data file
+    
+    # change directory to the appropriate eval data file
     #
     data_file = "../nedc_gen_feats/EVAL_DATA"
+    
+    # set the directory to that data path
+    #
     os.chdir(data_file)
     
     # set the list of datapoints to all the files within that directory
     #
     eval_list = os.listdir()
     
-    
+    # list to hold vectors in [name,feature1,feature2, .. featuren] format
+    #
     read = []
+    
+    # iterate through all the datafiles
+    #
     for x in eval_list:
+        
         # read the rows into memory
         #
-
         file = open(x,'r')
         data = csv.reader(file)
         for row in data:
@@ -52,6 +60,9 @@ def main():
     #
     labels = np.array(labels).ravel()
     mydata = np.array(mydata)
+
+    # print the overall score
+    #
     print(trained_model.score(mydata,labels))
 if __name__ == "__main__":
     main()

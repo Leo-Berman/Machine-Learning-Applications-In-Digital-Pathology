@@ -23,11 +23,9 @@ def main():
     #
     train_list = os.listdir()
     
-    # train_list = ["QDATrain2"]
+    # list to hold vectors in [name,feature1,feature2, .. featuren] format
+    #
     read = []
-
-
-    print(len(train_list))
 
     # iterate through the entire training list
     #
@@ -35,7 +33,6 @@ def main():
 
         # read the rows into memory
         #
-
         file = open(x,'r')
         data = csv.reader(file)
         for row in data:
@@ -74,8 +71,12 @@ def main():
     model.fit(mydata, labels)
     print(model.score(mydata,labels))
 
+    # change the directory to output themodel
+    #
     os.chdir("../../nedc_train_model/trained_models")
 
+    # dump the model there
+    #
     joblib.dump(model,'Trained_RNF.joblib')
 
     

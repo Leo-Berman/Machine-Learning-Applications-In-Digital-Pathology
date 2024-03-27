@@ -1,38 +1,22 @@
-#!/usr/bin/env python3
-"""! @brief Clasifies the DCT values into different labeled regions"""
-##
-# @file classify_dct_values.py
-#
-# @brief Classify the DCT values into different labeled regions
-#
-# 
-from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA
-from sklearn.ensemble import RandomForestClassifier as RNF
+import joblib
+import os
 import csv
 import numpy as np
-import os
-import joblib
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA
 def main():
-
+    trained_model = joblib.load('../nedc_train_model/trained_models/Trained_RNF.joblib')
     # change directory to the appropriate train data file
     #
-    data_file = "../nedc_gen_feats/TRAIN_DATA"
+    data_file = "../nedc_gen_feats/EVAL_DATA"
     os.chdir(data_file)
     
     # set the list of datapoints to all the files within that directory
     #
-    train_list = os.listdir()
+    eval_list = os.listdir()
     
-    # train_list = ["QDATrain2"]
+    
     read = []
-
-
-    print(len(train_list))
-
-    # iterate through the entire training list
-    #
-    for x in train_list:
-
+    for x in eval_list:
         # read the rows into memory
         #
 
@@ -45,6 +29,7 @@ def main():
         
         file.close()
 
+    
     # list for holding the labels and data
     #
     mydata = []
@@ -67,17 +52,6 @@ def main():
     #
     labels = np.array(labels).ravel()
     mydata = np.array(mydata)
-    
-    # Fit the model
-    #
-    model = RNF()
-    model.fit(mydata, labels)
-    print(model.score(mydata,labels))
-
-    os.chdir("../../nedc_train_model/trained_models")
-
-    joblib.dump(model,'Trained_RNF.joblib')
-
-    
-
-main()
+    print(trained_model.score(mydata,labels))
+if __name__ == "__main__":
+    main()

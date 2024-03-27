@@ -271,7 +271,7 @@ def RGBA_to_dct(framelist,imagename):
         list_of_rows.append(vector_numpy)
 
     ifile,iextension = os.path.splitext(os.path.basename(os.path.normpath(imagename)))
-    file = open("DATA/"+ifile+"_RGBAVALUES.csv",'w')
+    file = open("../dat/EVAL_DATA2/"+ifile+"_RGBAVALUES.csv",'w')
     writer = csv.writer(file)
     for x in list_of_rows:
         writer.writerow(x)

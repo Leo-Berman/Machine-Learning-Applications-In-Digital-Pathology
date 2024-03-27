@@ -4,7 +4,7 @@ import csv
 import numpy as np
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA
 def main():
-    trained_model = joblib.load('../dat/TRAINED_MODELS/Trained_RNF.joblib')
+    trained_model = joblib.load('../dat/TRAINED_MODELS/Trained_QDA.joblib')
     
     # change directory to the appropriate eval data file
     #

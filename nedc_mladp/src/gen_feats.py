@@ -1,10 +1,18 @@
 import sys
-sys.path.append("../lib")
-sys.path.append("/data/isip/tools/linux_x64/nfc/class/python/nedc_sys_tools")
 import pandas
+import os
+import polars
+# our libraries
+#
+sys.path.append("../lib")
+import nedc_fileio
 import nedc_regionid
+import nedc_svsfeatures
+
+# picones libraries
+#
+sys.path.append("/data/isip/tools/linux_x64/nfc/class/python/nedc_sys_tools")
 import nedc_file_tools
-import nedc_cmdl_parser
 
 
 def read_file_lists(file_name):
@@ -12,17 +20,61 @@ def read_file_lists(file_name):
     return df.iloc[:, 0].to_list()
 
 def main():
+
+    # set argument parsing
+    #
     args_usage = "gen_feats_usage.txt"
     args_help = "gen_feats_help.txt"
-    argparser = nedc_cmdl_parser.Cmdl(args_usage,args_help)
-    argparser.add_argument('-p', type = str)
-    parsed_args = argparser.parse_args()
-    print(print(parsed_args))
-    # parsed_parameters = nedc_file_tools.load_parameters("picone_params_try.txt","gen_feats")
-    # svs_list = read_file_lists(parsed_parameters['imagefile_list'])
-    # csv_list = read_file_lists(parsed_parameters['labelfile_list'])
-    # for svs,csv in zip(svs_list,csv_list):
-    #     nedc_regionid.classify_frames(svs,csv,parsed_parameters['windowsize'],parsed_parameters['framesize'])
+    parameter_file = nedc_fileio.parameters_only_args(args_usage,args_help)
+
+    # parse parameters
+    #
+    parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
+    windowsize = int(parsed_parameters['windowsize'])
+    framesize =  int(parsed_parameters['framesize'])
+    output_path = parsed_parameters['output_file']
+
+    # read list of files
+    #
+    svs_list = read_file_lists(parsed_parameters['imagefile_list'])
+    csv_list = read_file_lists(parsed_parameters['labelfile_list'])
+
+    # iterate through and create a feature vector file for each file
+    #
+    for svs,csv in zip(svs_list,csv_list):
+
+        # parse annotations
+        #
+        header, ids, labels, coordinates = nedc_fileio.parse_annotations(csv)
+        
+        # get height and width of image (in pixels) from the header
+        #
+        height = int(header['height'])
+        width = int(header['width'])
+
+        # get labeled regions
+        #
+        labeled_regions = nedc_regionid.labeled_regions(coordinates)
+
+        # return top left coordinates of frames that fall within labelled regions
+        #
+        labeled_frames,frame_labels = nedc_regionid.labeled_frames(labels,height,width,windowsize,framesize,labeled_regions)
+
+        # get list of rgba values
+        #
+        frame_rgbas = nedc_regionid.frame_rgba_values(svs,frame_labels,labeled_frames,windowsize)
+
+        # perform dct on rgba values
+        #
+        frame_dcts = nedc_svsfeatures.rgba_to_dct(frame_rgbas)
+
+        # print dct frames to csv
+        #
+        df = polars.DataFrame(frame_dcts)
+        print(df)
+        ifile,iextension = os.path.splitext(os.path.basename(os.path.normpath(svs)))
+        write_path = output_path+ifile+"_RGBADCT.csv"
+        df.write_csv(write_path)
 
 
 if __name__ == "__main__":

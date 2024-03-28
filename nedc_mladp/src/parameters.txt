@@ -1,7 +1,20 @@
 # version=param_v1.0.0
+
 gen_feats{
     windowsize=250
     framesize=200
     imagefile_list="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/tuh_im_eval.list"
     labelfile_list="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/tuh_lbl_eval.list"
+    output_file="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/DATA/"
+}
+
+train_model{
+    model_type="RNF"
+    data_directory="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TRAIN_DATA2/"
+    model_output_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TRAINED_MODELS/"
+}
+
+eval_model{
+    data_directory="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/EVAL_DATA2/"
+    model="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TRAINED_MODELS/Trained_RNF.joblib"
 }

@@ -9,83 +9,67 @@ import nedc_geometry
 import nedc_fileio
 
 
-def classify_frames(imagefile,labelfile,windowsize,framesize = -1):
+def labeled_regions(coordinates:list):
     """
-        Based on the parameters inputted, this function will do pre-measures before calling the 'classification' function.
-        1. Calls a function that parses the annotations of the given label file, and returns the headers, labels, and coordinates (x,y).
-        2. Creates a list of shapes based on the coordinates.
-        It extracts the height and width of the image from the header.
-
-        After the pre-measures, this function will call the 'classification' function and receive a list of lists containing a label and coordinate of the top-left corner of each window.
-        The 'classification' function will output a list of list of a coordinate and label.
-
-        The 'labeled' coordinates get fed to the 'svstorgb' module to get the RGBA values.
-        The RGBA are put into a DCT
-
-        :param imagefile: Image file of the tissue in the form of a svs file.
-        :type imagefile: string (ends with .svs)
-
-        :param labelfile: Label file of tissue in the form of a CSV file. Consists of headers and values of the headers, such as region indices, x- and y- coordinates, and labels.
-        :type param2: string (ends with .csv)
-
-        :param windowsize: Length and width of the window. Must be 1.5x bigger than framesize.
-        :type windowsize: int
-
-        :param framesize: Length and width of the frame that is used to iterate over the whole image.
-        :type framesize: int
+        Takes a list of list of coordinates and generates a list of correlating shapes
     """
 
-    # IDS = list of ints
-    # LABELS = list of strings
-    # COORDS = list of list of ints
-    # HEADER of file
-    HEADER,IDS,LABELS,COORDS = nedc_fileio.parse_annotations(labelfile)
-    NIL = phg.Nil()
-    NIL.open(imagefile)
+    # generate polygon of regions within the image
+    ret_shapes = []
+    for i in range(len(coordinates)):
+        ret_shapes.append(nedc_geometry.generate_polygon(coordinates[i]))
 
-    # get height and width of image (in pixels) from the header
-    height = int(HEADER['height'])
-    width = int(HEADER['width'])
+    return ret_shapes
+
+def labeled_frames(labels:list,height:int,width:int,windowsize:int,framesize:int,shapes:list):
     
-    # if framesize is not given, don't do anything for now.
-    if framesize == -1:
-        # print("Default frame size: {} x {}".format(height,width))
-        pass
-    else:
-        # print("Processing files and classifiying each {} x {} window...".format(windowsize,windowsize))
-        # generate polygon of regions within the image
-        shapes = []
-        for i in range(len(COORDS)):
-            shapes.append(nedc_geometry.generate_polygon(COORDS[i]))
+    # classify the frames based on if it is within any region (shape)
+    #
+    labeled_list = classify_center(labels, height, width, windowsize, framesize, shapes)
 
-        # classify the frames based on if it is within any region (shape)
-        labeled_list = classify_center(LABELS, height, width, windowsize, framesize, shapes)
+    ret_labels = []
+    ret_coords = []
 
-        outlabels = []
-        outcoords = []
+    # iterate through labeled list
+    for x in range(len(labeled_list)):
 
-        # iterate through labeled list
-        for x in range(len(labeled_list)):
-
-            # create list of labels
-            #
-            outlabels.append(labeled_list[x][1])
-
-            # create list of tuples of coordinates compensating for column row format vs traditional
-            # x,y format
-            #
-            outcoords.append((int(labeled_list[x][0][0]),int(height - labeled_list[x][0][1]+framesize)))
-
-        # print("Classification completed. Sending data to window_to_rgb module...")
-        
-        # pass the image file, all the top-left labeled coordinates, and framesize to the window_to_rgb file
-        # this generates RGBA values for each frame 
+        # create list of labels
         #
-        window_list = nedc_fileio.svs_windows_to_RGBA(imagefile,labels = outlabels,coords = outcoords,window_frame = [framesize,framesize],name = "file")
-        
-        # iterate through each frame and append that to a file for training
+        ret_labels.append(labeled_list[x][1])
+
+        # create list of tuples of coordinates compensating for column row format vs traditional
+        # x,y format
         #
-        nedc_fileio.RGBA_to_dct(window_list,imagefile)
+        ret_coords.append((int(labeled_list[x][0][0]),int(height - labeled_list[x][0][1]+framesize)))
+
+    return ret_coords,ret_labels
+
+def frame_rgba_values(image_file:str,labels:list,coords:list, windowsize:int):
+    # open the imagefile
+    # 
+    NIL = phg.Nil()
+    NIL.open(image_file)
+
+    # read all of the windows into memory
+    #
+    window = NIL.read_data_multithread(coords,npixx = windowsize,npixy = windowsize,color_mode="RGBA")
+    
+    # create a list of rgba values for the frame
+    #
+    window_list = []
+    for i in range(len(window)):
+        workwindow = [labels[i]]
+        for j in window[i]:
+            for k in j:
+                workwindow.extend(k.tolist())
+        window_list.append(workwindow)
+
+
+    return window_list
+    
+    # iterate through each frame and append that to a file for training
+    #
+    nedc_fileio.RGBA_to_dct(window_list,imagefile)
 
 def classify_center(labels, height, width, windowsize, framesize, regions):
     """

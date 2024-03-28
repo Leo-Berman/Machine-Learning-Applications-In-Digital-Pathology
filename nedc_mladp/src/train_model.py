@@ -8,78 +8,87 @@
 # 
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA
 from sklearn.ensemble import RandomForestClassifier as RNF
-import csv
 import numpy as np
 import os
 import joblib
+import csv
+import sys
+
+sys.path.append("../lib")
+import nedc_fileio
+
+#picone
+import nedc_file_tools
+
 def main():
 
+    # set argument parsing
+    #
+    args_usage = "train_model_usage.txt"
+    args_help = "train_model_help.txt"
+    parameter_file = nedc_fileio.parameters_only_args(args_usage,args_help)
+
+    # parse parameters
+    #
+    parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"train_model")
+    model_type=parsed_parameters['model_type']
+    input_data_directory=parsed_parameters['data_directory']
+    output_model_directory=parsed_parameters['model_output_path']
+    
     # change directory to the appropriate train data file
     #
-    data_file = "../dat/TRAIN_DATA"
-    os.chdir(data_file)
+    os.chdir(input_data_directory)
     
     # set the list of datapoints to all the files within that directory
     #
     train_list = os.listdir()
-    
-    # list to hold vectors in [name,feature1,feature2, .. featuren] format
+
+    # lists for holding the labels and data
     #
-    read = []
+    mydata = []
+    labels = []
 
     # iterate through the entire training list
     #
     for x in train_list:
 
-        # read the rows into memory
-        #
-        file = open(x,'r')
-        data = csv.reader(file)
-        for row in data:
-            for j in range(len(row)):
-                row[j] = row[j][1:len(row[j])-1].replace("'","").split(",")
-                read.append(row[j])
-        
-        file.close()
-
-
-    # list for holding the labels and data
-    #
-    mydata = []
-    labels = []
-
-    #  iterate through the data
-    #
-    for x in read:
-
-        # add the label to a list
-        #
-        label = x.pop(0)
-        labels.append(label)
-
-        # add the data into a separate list
-        #
-        mydata.append(np.array([float(z) for z in x]))
+        # rea
+        with open (x) as file:
+            reader = csv.reader(file)
+            next(reader,None)
+            for row in reader:
+                row_list = list(row)
+                labels.append(row_list.pop(0))
+                mydata.append([float(x) for x in row_list])
 
     # reshape the arrays
     #
     labels = np.array(labels).ravel()
     mydata = np.array(mydata)
     
+    
     # Fit the model
     #
-    model = RNF()
+    model = None
+    if model_type == "QDA":
+        model = QDA()
+    elif model_type == "RNF":
+        model = RNF()
+    else:
+        print("No model supplied")
+        return
     model.fit(mydata, labels)
     print(model.score(mydata,labels))
 
     # change the directory to output themodel
     #
-    os.chdir("../TRAINED_MODELS")
+    os.chdir(output_model_directory)
 
     # dump the model there
     #
-    joblib.dump(model,'Trained_RNF.joblib')
+    joblib.dump(model,'Trained_'+model_type+'.joblib')
 
     
 
-main()
+if __name__ == "__main__":
+    main()

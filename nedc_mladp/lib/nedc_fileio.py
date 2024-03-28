@@ -3,36 +3,17 @@ import sys
 sys.path.append('/data/isip/tools/linux_x64/nfc/class/python/nedc_ann_dpath_tools')
 import nedc_ann_dpath_tools as nadt
 
-sys.path.append("/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/")
-import nedc_image_tools as phg
+sys.path.append("/data/isip/tools/linux_x64/nfc/class/python/nedc_sys_tools")
+import nedc_cmdl_parser
 
-import csv
-import numpy as np
-import scipy
 import pandas
-import os
-import argparse as agp
 
-def getargs():
-    """
-        :Objective:
-            Read the argument inputted. Only one argument which is a parameter file in the .csv format.
-
-        :return: Returns the parameter file.
-        :rtype: str (.csv format)
-    """
-
-    parser = agp.ArgumentParser(
-        prog = 'nedc_pyprint_image.py',
-        description = 'prints the image values for an SVS file'
-    )
-
-    # only parameter file input
-    parser.add_argument('-f', type=str)
-    parameter_file = parser.parse_args()
-
-    # return the file
-    return(parameter_file)
+def parameters_only_args(usage,help):
+    argparser = nedc_cmdl_parser.Cmdl(usage,help)
+    argparser.add_argument('-p', type = str)
+    parsed_args = argparser.parse_args()
+    parameter_file = parsed_args.p
+    return parameter_file
 
 def read_list_of_files(csv_file:str):
     return(pandas.read_csv(csv_file).to_list())
@@ -119,65 +100,3 @@ def parse_annotations(file):
     #
     return header,region_ids,labels,coords
 
-def svs_windows_to_RGBA(image_file:str,labels:list,coords:list = [(0,0)], window_frame:list = [50,50],name:str=""):
-    # open the imagefile
-    NIL = phg.Nil()
-    NIL.open(image_file)
-    xdim,ydim = NIL.get_dimension()
-    
-    window = NIL.read_data_multithread(coords,npixx = window_frame[0],npixy = window_frame[1],color_mode="RGBA")
-    window_list = []
-
-    # save all the images as JPEGS
-    for i in range(len(window)):
-        workwindow = [labels[i]]
-        for j in window[i]:
-            for k in j:
-                workwindow.extend(k.tolist())
-        window_list.append(workwindow)
-
-
-    return window_list
-
-def RGBA_to_dct(framelist,imagename):
-    
-    list_of_rows = []
-    for framevalues in framelist:        
-        red = []
-        green = []
-        blue = []
-        alpha = []
-
-        # Append corresponding list values in separate RGBA lists
-        #
-
-        for i in range(1,len(framevalues)-1,4):
-            red.append(framevalues[i])
-            green.append(framevalues[i+1])
-            blue.append(framevalues[i+2])
-            alpha.append(framevalues[i+3])
-
-        # concatenate the dcts of each vector
-        # probably need to index each DCT for the most
-        # signifcant terms
-        #
-
-        vector = []
-        vector.extend(scipy.fftpack.dct(red)[0:10])
-        vector.extend(scipy.fftpack.dct(green)[0:10])
-        vector.extend(scipy.fftpack.dct(blue)[0:10])
-        vector.extend(scipy.fftpack.dct(alpha)[0:10])
-
-        # Convert vector to numpy array
-        vector_numpy = np.array(vector).tolist()
-
-        vector_numpy.insert(0,framevalues[0])
-
-        list_of_rows.append(vector_numpy)
-
-    ifile,iextension = os.path.splitext(os.path.basename(os.path.normpath(imagename)))
-    file = open("../dat/DATA/"+ifile+"_RGBAVALUES.csv",'w')
-    writer = csv.writer(file)
-    for x in list_of_rows:
-        writer.writerow(x)
-    pass

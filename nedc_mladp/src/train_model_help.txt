@@ -1,0 +1,12 @@
+With usage:
+    
+    ./gen_feats -p <parameter file>
+
+Parameter file format:
+
+    # version=param_v1.0.0
+    train_model{
+        model_type="QDA"
+        data_directory="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TRAIN_DATA2/"
+        model_output_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TRAINED_MODELS/"
+    }

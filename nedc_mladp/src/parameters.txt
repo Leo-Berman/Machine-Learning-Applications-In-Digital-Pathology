@@ -12,9 +12,12 @@ train_model{
     model_type="RNF"
     data_directory="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TRAIN_DATA2/"
     model_output_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TRAINED_MODELS/"
+    compression=0
 }
 
 eval_model{
     data_directory="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/EVAL_DATA2/"
-    model="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TRAINED_MODELS/Trained_RNF.joblib"
+    model="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TRAINED_MODELS/Trained_QDA.joblib"
+    confusion_matrix=0
+    output_graphics_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/CONFUSION_MATRIXES/RNFConfusionMatrix.png"
 }

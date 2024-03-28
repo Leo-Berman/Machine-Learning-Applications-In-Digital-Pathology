@@ -8,10 +8,8 @@
 # 
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA
 from sklearn.ensemble import RandomForestClassifier as RNF
-import numpy as np
 import os
 import joblib
-import csv
 import sys
 
 sys.path.append("../lib")
@@ -34,7 +32,7 @@ def main():
     model_type=parsed_parameters['model_type']
     input_data_directory=parsed_parameters['data_directory']
     output_model_directory=parsed_parameters['model_output_path']
-    
+    compression=int(parsed_parameters['compression'])
     # change directory to the appropriate train data file
     #
     os.chdir(input_data_directory)
@@ -43,29 +41,7 @@ def main():
     #
     train_list = os.listdir()
 
-    # lists for holding the labels and data
-    #
-    mydata = []
-    labels = []
-
-    # iterate through the entire training list
-    #
-    for x in train_list:
-
-        # rea
-        with open (x) as file:
-            reader = csv.reader(file)
-            next(reader,None)
-            for row in reader:
-                row_list = list(row)
-                labels.append(row_list.pop(0))
-                mydata.append([float(x) for x in row_list])
-
-    # reshape the arrays
-    #
-    labels = np.array(labels).ravel()
-    mydata = np.array(mydata)
-    
+    labels,mydata = nedc_fileio.read_feature_files(train_list)
     
     # Fit the model
     #
@@ -78,7 +54,6 @@ def main():
         print("No model supplied")
         return
     model.fit(mydata, labels)
-    print(model.score(mydata,labels))
 
     # change the directory to output themodel
     #
@@ -86,7 +61,7 @@ def main():
 
     # dump the model there
     #
-    joblib.dump(model,'Trained_'+model_type+'.joblib')
+    joblib.dump(model,'Trained_'+model_type+'.joblib',compress=compression)
 
     
 

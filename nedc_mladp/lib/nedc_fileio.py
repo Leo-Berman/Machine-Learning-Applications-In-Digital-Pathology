@@ -8,6 +8,36 @@ import nedc_cmdl_parser
 
 import pandas
 
+import csv
+
+import numpy
+
+def read_feature_files(feature_file_list:list):
+    # lists for holding the labels and data
+    #
+    mydata = []
+    labels = []
+
+    # iterate through the entire training list
+    #
+    for x in feature_file_list:
+
+        # rea
+        with open (x) as file:
+            reader = csv.reader(file)
+            next(reader,None)
+            for row in reader:
+                row_list = list(row)
+                labels.append(row_list.pop(0))
+                mydata.append([float(x) for x in row_list])
+
+    # reshape the arrays
+    #
+    labels = numpy.array(labels).ravel()
+    mydata = numpy.array(mydata)
+
+    return labels,mydata
+
 def parameters_only_args(usage,help):
     argparser = nedc_cmdl_parser.Cmdl(usage,help)
     argparser.add_argument('-p', type = str)

@@ -6,14 +6,13 @@
 # @brief Classify the DCT values into different labeled regions
 #
 # 
-import numpy as np
 import os
 import joblib
-import csv
 import sys
 
 sys.path.append("../lib")
 import nedc_fileio
+import nedc_model_metrics
 
 #picone
 import nedc_file_tools
@@ -31,7 +30,9 @@ def main():
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"eval_model")
     input_data_directory=parsed_parameters['data_directory']
     model_path=parsed_parameters['model']
-    
+    generate_confusion_matrix=int(parsed_parameters['confusion_matrix'])
+    confusion_matrix_path=parsed_parameters['output_graphics_path']
+    print(model_path)
     # load the model
     #
     model = joblib.load(model_path)        
@@ -43,33 +44,12 @@ def main():
     # set the list of datapoints to all the files within that directory
     #
     train_list = os.listdir()
+    labels,mydata = nedc_fileio.read_feature_files(train_list)
+    if generate_confusion_matrix == 1:
+        nedc_model_metrics.plot_confusion_matrix(model,labels,mydata,confusion_matrix_path)
 
-    # lists for holding the labels and data
-    #
-    mydata = []
-    labels = []
-
-    # iterate through the entire training list
-    #
-    for x in train_list:
-
-        # rea
-        with open (x) as file:
-            reader = csv.reader(file)
-            next(reader,None)
-            for row in reader:
-                row_list = list(row)
-                labels.append(row_list.pop(0))
-                mydata.append([float(x) for x in row_list])
-
-    # reshape the arrays
-    #
-    labels = np.array(labels).ravel()
-    mydata = np.array(mydata)
-    
-    
     print(model.score(mydata,labels))
-
+    print(nedc_model_metrics.zscore(model,labels,mydata))
     
 
 if __name__ == "__main__":

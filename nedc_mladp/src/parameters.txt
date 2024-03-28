@@ -1,0 +1,7 @@
+# version=param_v1.0.0
+gen_feats{
+    windowsize=250
+    framesize=200
+    imagefile_list="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/tuh_im_eval.list"
+    labelfile_list="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/tuh_lbl_eval.list"
+}

@@ -3,9 +3,9 @@
 gen_feats{
     windowsize=250
     framesize=200
-    imagefile_list="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/tuh_im_eval.list"
-    labelfile_list="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/tuh_lbl_eval.list"
-    output_file="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/DATA/"
+    imagefile_list="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/tuh_im_train.list"
+    labelfile_list="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/tuh_lbl_train.list"
+    output_file="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/DATA/TRAIN_DATA"
 }
 
 train_model{

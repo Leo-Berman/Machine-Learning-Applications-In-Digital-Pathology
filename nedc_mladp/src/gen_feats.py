@@ -71,7 +71,6 @@ def main():
         # print dct frames to csv
         #
         df = polars.DataFrame(frame_dcts)
-        print(df)
         ifile,iextension = os.path.splitext(os.path.basename(os.path.normpath(svs)))
         write_path = output_path+ifile+"_RGBADCT.csv"
         df.write_csv(write_path)

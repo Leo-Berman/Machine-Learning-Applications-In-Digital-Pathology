@@ -21,8 +21,8 @@ def main():
 
     # set argument parsing
     #
-    args_usage = "gen_feats_usage.txt"
-    args_help = "gen_feats_help.txt"
+    args_usage = "evaluate_model_usage.txt"
+    args_help = "evaluate_model_help.txt"
     parameter_file = nedc_fileio.parameters_only_args(args_usage,args_help)
 
     # parse parameters
@@ -48,8 +48,8 @@ def main():
     if generate_confusion_matrix == 1:
         nedc_model_metrics.plot_confusion_matrix(model,labels,mydata,confusion_matrix_path)
 
-    print(model.score(mydata,labels))
-    print(nedc_model_metrics.zscore(model,labels,mydata))
+    print("Error rate = ",model.score(mydata,labels))
+    print("Mean confidence %",nedc_model_metrics.mean_confidence(model,mydata))
     
 
 if __name__ == "__main__":

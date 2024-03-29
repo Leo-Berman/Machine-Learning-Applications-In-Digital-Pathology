@@ -17,7 +17,7 @@ train_model{
 
 eval_model{
     data_directory="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/EVAL_DATA2/"
-    model="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TRAINED_MODELS/Trained_QDA.joblib"
+    model="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TRAINED_MODELS/Trained_RNF.joblib"
     confusion_matrix=0
     output_graphics_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/CONFUSION_MATRIXES/RNFConfusionMatrix.png"
 }

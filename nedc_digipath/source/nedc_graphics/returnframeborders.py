@@ -101,7 +101,7 @@ plt.savefig("name.jpg")
 name.jpy will be a file that is a plot of the squares overlayed
 on a blank plot
 '''
-def plt_frames(imagefile,frame=None):
+def plt_frames(imagefile,frame):
     starts = getframestart(imagefile,frame)
     shapes = createboxshapes(starts,frame)
     for x in shapes:

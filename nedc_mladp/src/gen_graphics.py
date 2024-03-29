@@ -82,7 +82,7 @@ def getframestart(imagefile:str,frame:int):
 
     # Get all the coordinates for each windows
     #
-    coordinates = [(x, ydim-y+frame) for x in range(0, xdim, frame) for y in range(0, ydim, frame)]
+    coordinates = [(x, ydim-y+frame) for x in range(0, xdim, frame) for y in range(0, ydim+frame, frame)]
     return coordinates
 
 

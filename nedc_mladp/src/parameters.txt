@@ -23,7 +23,7 @@ eval_model{
 }
 
 gen_graphics{
-    framesize=600
+    framesize=6000
     imagefile="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/00000739_aaaaaadc/s000_2017_08_01/breast/00000739_aaaaaadc_s000_0hne_0000_a001_lvl001_t000.svs"
     labelfile="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/00000739_aaaaaadc/s000_2017_08_01/breast/00000739_aaaaaadc_s000_0hne_0000_a001_lvl001_t000.csv"
     output_file="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/GRAPHICS/test.png"

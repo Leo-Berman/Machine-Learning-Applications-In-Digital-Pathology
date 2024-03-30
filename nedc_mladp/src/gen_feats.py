@@ -56,7 +56,7 @@ def main():
         # get labeled regions
         #
         labeled_regions = nedc_regionid.labeled_regions(coordinates)
-        print(labeled_regions)
+
         # return top left coordinates of frames that fall within labelled regions
         #
         # labeled_frames,frame_labels = nedc_regionid.labeled_frames(labels,height,width,windowsize,framesize,labeled_regions)
@@ -71,7 +71,6 @@ def main():
 
         my_schema = []
         for i in range(len(frame_dcts[0])):
-            print(i)
             if i == 0:
                 my_schema.append('label')
             elif i == 1:

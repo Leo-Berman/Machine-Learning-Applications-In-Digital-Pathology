@@ -118,7 +118,16 @@ def main():
         plt_frames(image_file,framesize)
 
     if show_decisions == 1:
+
+        # get all the label information
+        #
         decisions = nedc_fileio.read_decisions(decisions_filepath)
+        
+        # assign the labels to a colors
+        labels = {'artf':'black','nneo':'lightgray','bckg':'lightcoral','norm':'salmon','indc':'orange','nneo':'yellow','null':'green','infl':'aqua','dcis':'deepskyblue','susp':'pink'}
+
+
+        # plot the labelled frames
         currentAxis=plt.gca()
         for i,x in enumerate(decisions):
             if i > 1:
@@ -126,11 +135,7 @@ def main():
                 framesize = int(x[1])
                 xpos = int(x[2])
                 ypos = height-int(x[3])
-                
-                labels = {'artf':'black','nneo':'lightgray','bckg':'lightcoral','norm':'salmon','indc':'orange','nneo':'yellow','null':'green','infl':'aqua','dcis':'deepskyblue','susp':'pink'}
-
                 currentAxis.add_patch(Rectangle((xpos,ypos),framesize,framesize,facecolor=labels[label]))
-        pass
 
     # save the image
     #

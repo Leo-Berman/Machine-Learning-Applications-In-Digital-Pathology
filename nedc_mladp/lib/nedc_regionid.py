@@ -207,6 +207,7 @@ def classify_center(labels, height, width, windowsize, framesize, regions):
 
 # consider frames labelled if more than 50% are in a labelled area
 # this may not be working
+#
 def classify_frame(imagefile, framesize, labels, shapes:list):
     
     # create lists to hod labelled frames and their coordinates

@@ -32,6 +32,9 @@ def main():
     model_path=parsed_parameters['model']
     generate_confusion_matrix=int(parsed_parameters['confusion_matrix'])
     confusion_matrix_path=parsed_parameters['output_graphics_path']
+    
+    # only a single image applies
+    #
     generate_decisions=int(parsed_parameters['decisions'])
     decisions_path=parsed_parameters['output_decisions_path']
     
@@ -48,6 +51,8 @@ def main():
     if generate_confusion_matrix == 1:
         nedc_model_metrics.plot_confusion_matrix(model,labels,mydata,confusion_matrix_path)
 
+    # generates a list of guess and their top level coordinates only applies to single image
+    # 
     if generate_decisions == 1:
         nedc_model_metrics.plot_decisions(model,mydata,decisions_path,frame_locations,framesizes)
 

@@ -44,13 +44,19 @@ def mean_confidence(model,data):
     return total_max_predictions/len(class_predictions)
 
 def plot_decisions(model,data,output_path,frame_locs,framesizes):
+    
+    # get the predictions
+    #
     class_predictions=model.predict(data)
-    print(class_predictions)
     rows = []
 
+    # append the predictions and the guesses
+    #
     for i,x in enumerate(class_predictions):
         rows.append([x,framesizes[i],frame_locs[i][0],frame_locs[i][1]])
 
+    # set the column titles and write to csv
+    #
     MySchem = ["labels",'framesizes','top_left_x','top_left_y']
     df = polars.DataFrame(rows,schema=MySchem)
     df.write_csv(output_path)

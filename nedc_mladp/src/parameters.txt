@@ -16,17 +16,21 @@ train_model{
 }
 
 eval_model{
-    data_directory="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/EVAL_DATA2/"
+    data_list="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TEST/TEST_FEATS.txt"
     model="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TRAINED_MODELS/Trained_RNF.joblib"
     confusion_matrix=0
     output_graphics_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/CONFUSION_MATRIXES/RNFConfusionMatrix.png"
+    decisions=1
+    output_decisions_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TEST/testdecision.csv"
 }
 
 gen_graphics{
     framesize=6000
     imagefile="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/00000739_aaaaaadc/s000_2017_08_01/breast/00000739_aaaaaadc_s000_0hne_0000_a001_lvl001_t000.svs"
     labelfile="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/00000739_aaaaaadc/s000_2017_08_01/breast/00000739_aaaaaadc_s000_0hne_0000_a001_lvl001_t000.csv"
-    output_file="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/GRAPHICS/test.png"
+    output_file="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TEST/test.png"
     showframes=1
     compression=40
+    decisions=1
+    decisions_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TEST/testdecision.csv"
 }

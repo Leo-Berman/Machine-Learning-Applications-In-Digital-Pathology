@@ -3,6 +3,7 @@
 import sys
 import csv
 import numpy
+import pandas
 
 # picone's libraries
 #
@@ -11,7 +12,21 @@ import nedc_ann_dpath_tools as nadt
 sys.path.append("/data/isip/tools/linux_x64/nfc/class/python/nedc_sys_tools")
 import nedc_cmdl_parser
 
+# read lists of files in
+#
+def read_file_lists(file_name):
+    # Using readlines()
+    file1 = open(file_name, 'r')
+    Lines = file1.readlines()
+    ret = [x.strip() for x in Lines]
+    return ret
 
+def read_decisions(file_name):
+    # Using readlines()
+    file1 = open(file_name, 'r')
+    Lines = file1.readlines()
+    ret = [x.strip().split(',') for x in Lines]
+    return ret
 
 def read_feature_files(feature_file_list:list):
     

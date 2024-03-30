@@ -1,8 +1,8 @@
 from PIL import Image
 import os
 import matplotlib.pyplot as plt
-
 import sys
+from matplotlib.patches import Rectangle
 
 # picone libraries
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
@@ -15,6 +15,7 @@ sys.path.append("../lib")
 import nedc_fileio
 import nedc_regionid
 import nedc_geometry
+
 
 # convert an svs file to compressed jpeg file
 #
@@ -77,7 +78,9 @@ def main():
     label_file = parsed_parameters['labelfile']
     compression = int(parsed_parameters['compression'])
     show_frames = int(parsed_parameters['showframes'])
-    
+    show_decisions=int(parsed_parameters['decisions'])
+    decisions_filepath=parsed_parameters['decisions_path']
+
     # parse annotations
     #
     header, ids, labels, coordinates = nedc_fileio.parse_annotations(label_file)
@@ -113,6 +116,21 @@ def main():
     #
     if show_frames == 1:
         plt_frames(image_file,framesize)
+
+    if show_decisions == 1:
+        decisions = nedc_fileio.read_decisions(decisions_filepath)
+        currentAxis=plt.gca()
+        for i,x in enumerate(decisions):
+            if i > 1:
+                label = x[0]
+                framesize = int(x[1])
+                xpos = int(x[2])
+                ypos = height-int(x[3])
+                
+                labels = {'artf':'black','nneo':'lightgray','bckg':'lightcoral','norm':'salmon','indc':'orange','nneo':'yellow','null':'green','infl':'aqua','dcis':'deepskyblue','susp':'pink'}
+
+                currentAxis.add_patch(Rectangle((xpos,ypos),framesize,framesize,facecolor=labels[label]))
+        pass
 
     # save the image
     #

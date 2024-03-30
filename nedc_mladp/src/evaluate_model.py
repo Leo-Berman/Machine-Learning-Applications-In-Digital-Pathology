@@ -28,34 +28,28 @@ def main():
     # parse parameters
     #
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"eval_model")
-    input_data_directory=parsed_parameters['data_directory']
+    feature_data_list=parsed_parameters['data_list']
     model_path=parsed_parameters['model']
     generate_confusion_matrix=int(parsed_parameters['confusion_matrix'])
     confusion_matrix_path=parsed_parameters['output_graphics_path']
     generate_decisions=int(parsed_parameters['decisions'])
-
+    decisions_path=parsed_parameters['output_decisions_path']
+    
     # load the model
     #
     model = joblib.load(model_path)        
     
-    # change directory to the appropriate train data file
-    #
-    os.chdir(input_data_directory)
-    
-    # set the list of datapoints to all the files within that directory
-    #
-    train_list = os.listdir()
-    labels,mydata,frame_locations,framesizes = nedc_fileio.read_feature_files(train_list)
+    feature_files_list = nedc_fileio.read_file_lists(feature_data_list)
+    print(feature_files_list)
+    labels,mydata,frame_locations,framesizes = nedc_fileio.read_feature_files(feature_files_list)
     
     # generate confusion matrix
     #
     if generate_confusion_matrix == 1:
         nedc_model_metrics.plot_confusion_matrix(model,labels,mydata,confusion_matrix_path)
-    
-    # to be implimented but this will draw the decision on an image
-    #
+
     if generate_decisions == 1:
-        pass
+        nedc_model_metrics.plot_decisions(model,mydata,decisions_path,frame_locations,framesizes)
 
     # print the error rate and mean confidence %
     #

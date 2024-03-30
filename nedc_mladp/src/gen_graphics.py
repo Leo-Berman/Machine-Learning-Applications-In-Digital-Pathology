@@ -27,7 +27,7 @@ def svs_to_jpg(imagefile,output_path,compression):
 
     # Get dimensions of the svs image in pixels
     #
-    xdim,ydim =NIL.get_dimension()
+    xdim,ydim = NIL.get_dimension()
 
     # Read the single frame
     #
@@ -50,54 +50,18 @@ def svs_to_jpg(imagefile,output_path,compression):
     im.save(output_path,"JPEG")
     return output_path
 
-# generate a list of lists of the top left corners of each frame
-# imagefile = "path to svs file"
-# frame = [framewidth,frameheight] or (framewidth,frameheight) IE. can be list or tuple
+# plot the projected frames onto an image
 #
-'''
-Ex:
-filepath = "path to svs file that is 100 pixesl by 100 pixels"
-framesize = [10,10]
-coords = getframestart(filepath,framesize)
-
-coords will be:
-
-    [[0, 100], [10, 100], ..., [100,100],
-     [0, 90], [10, 90], ..., [100,90],
-     ...,
-     [0, 0], [10, 0], ..., [100,0],
-    ]
-
-'''
-
-# wrapper function that given the imagefile and frame will
-# plot those squares to a matlobplit.pyplot
-#
-'''
-Ex:
-filepath = "path to svs file that is 100 pixesl by 100 pixels"
-framesize = [10,10]
-plt_frames(filepath,framesize)
-plt.savefig("name.jpg")
-
-name.jpy will be a file that is a plot of the squares overlayed
-on a blank plot
-'''
 def plt_frames(imagefile,frame):
     starts = nedc_geometry.getframestart(imagefile,frame)
     shapes = nedc_geometry.createboxshapes(starts,frame)
     for x in shapes:
         points = nedc_geometry.get_border(x)
         plt.plot(points[0],points[1])
-'''
-Ex: 
-    filepath= *.svs
-    name="nameofimage"
-    width,height = svs_to_jph(filepath,name)
-'''
 
 
 def main():
+
     # set argument parsing
     #
     args_usage = "usagefiles/gen_graphics_usage.txt"
@@ -113,6 +77,7 @@ def main():
     label_file = parsed_parameters['labelfile']
     compression = int(parsed_parameters['compression'])
     show_frames = int(parsed_parameters['showframes'])
+    
     # parse annotations
     #
     header, ids, labels, coordinates = nedc_fileio.parse_annotations(label_file)
@@ -125,24 +90,32 @@ def main():
     # get labeled regions
     #
     labeled_regions = nedc_regionid.labeled_regions(coordinates)
+
+    # plot labeled regions and label them with appropriate text
+    #
     for i,z in enumerate(labeled_regions):
         x,y = nedc_geometry.get_border(z)
         plt.plot(x,y)
         plt.text(coordinates[i][0][0],coordinates[i][0][1],labels[i])
 
+    # generate the background image and return the background image's filepath
+    #
     image_loc = svs_to_jpg(image_file,output_file,compression)
 
-    # Set the limits of the plot to be equal to the dimensions of the 
-    # svs images
+    # Plot the background image
     #
     plt.xlim(0,width)
     plt.ylim(0,height)
     im = plt.imread(image_loc)
     plt.imshow(im,extent=[0,width,0,height])
 
+    # show the frames of the image
+    #
     if show_frames == 1:
         plt_frames(image_file,framesize)
 
+    # save the image
+    #
     plt.savefig(output_file)
 if __name__ == "__main__":
     main()

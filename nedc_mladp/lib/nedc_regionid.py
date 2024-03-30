@@ -6,7 +6,6 @@ sys.path.append("/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools")
 import nedc_image_tools as phg
 import shapely
 import nedc_geometry
-import nedc_fileio
 
 
 def labeled_regions(coordinates:list):
@@ -15,6 +14,7 @@ def labeled_regions(coordinates:list):
     """
 
     # generate polygon of regions within the image
+    #
     ret_shapes = []
     for i in range(len(coordinates)):
         ret_shapes.append(nedc_geometry.generate_polygon(coordinates[i]))
@@ -27,10 +27,13 @@ def labeled_frames(labels:list,height:int,width:int,windowsize:int,framesize:int
     #
     labeled_list = classify_center(labels, height, width, windowsize, framesize, shapes)
 
+    # create a list for return labels and their top left coordinate
+    #
     ret_labels = []
     ret_coords = []
 
     # iterate through labeled list
+    #
     for x in range(len(labeled_list)):
 
         # create list of labels
@@ -42,9 +45,12 @@ def labeled_frames(labels:list,height:int,width:int,windowsize:int,framesize:int
         #
         ret_coords.append((int(labeled_list[x][0][0]),int(height - labeled_list[x][0][1]+framesize)))
 
+    # return the top left coordinates of each frame and their corresponding labels
+    #
     return ret_coords,ret_labels
 
 def frame_rgba_values(image_file:str,labels:list,coords:list, windowsize:int):
+    
     # open the imagefile
     # 
     NIL = phg.Nil()
@@ -64,32 +70,11 @@ def frame_rgba_values(image_file:str,labels:list,coords:list, windowsize:int):
                 workwindow.extend(k.tolist())
         window_list.append(workwindow)
 
-
-    return window_list
-    
-    # iterate through each frame and append that to a file for training
+    # return list of lists of rgba values
     #
-    nedc_fileio.RGBA_to_dct(window_list,imagefile)
+    return window_list
 
-def get_top_left(height, framesize):
-    """
-        This subfunction gets the center coodinate of the top-left-most frame.
 
-        :param height: Height of the image.
-        :type height: int
-
-        :param framesize: Length or width of the frame
-        :type framesize: int
-
-        :return: Returns the center coordinate of the top-left-most.
-        :rtype: tuple of floats: (x,y)
-    """
-
-    center_x = 0 + framesize/2
-    center_y = height - framesize/2
-    center = shapely.geometry.Point(center_x, center_y)
-
-    return center
 
 def classify_center(labels, height, width, windowsize, framesize, regions):
     """
@@ -155,6 +140,26 @@ def classify_center(labels, height, width, windowsize, framesize, regions):
             center = shapely.geometry.Point((coord.x+framesize), coord.y)
         return center
     
+    def get_top_left(height, framesize):
+        """
+            This subfunction gets the center coodinate of the top-left-most frame.
+
+            :param height: Height of the image.
+            :type height: int
+
+            :param framesize: Length or width of the frame
+            :type framesize: int
+
+            :return: Returns the center coordinate of the top-left-most.
+            :rtype: tuple of floats: (x,y)
+        """
+
+        center_x = 0 + framesize/2
+        center_y = height - framesize/2
+        center = shapely.geometry.Point(center_x, center_y)
+
+        return center
+
     def within_region(coord):
         """
             This function checks whether the coordinate is within any of the regions.
@@ -200,11 +205,23 @@ def classify_center(labels, height, width, windowsize, framesize, regions):
 
     return labeled
 
+# consider frames labelled if more than 50% are in a labelled area
+#
 def classify_frame(imagefile, framesize, labels, shapes:list):
+    
+    # create lists to hod labelled frames and their coordinates
+    #
     labeled = []
     labeled_frame_coords = []
+
+    # create the frames
+    #
     frame_coords = nedc_geometry.getframestart(imagefile,framesize)
     frames = nedc_geometry.createboxshapes(frame_coords,framesize)
+
+    # iterate through the frames and if there is more than 50% overlap
+    # append the top left coordinate and label to the appropriate list
+    #
     for x in frames:
         for i,y in enumerate(shapes):
             overlap = shapely.intersection(x,y)
@@ -212,4 +229,7 @@ def classify_frame(imagefile, framesize, labels, shapes:list):
                 border = nedc_geometry.get_border(x)
                 labeled_frame_coords.append((int(border[0][0]),int(border[0][1])))
                 labeled.append(labels[i])
+
+    # return labeled frame's top left coordinate and a corresponding label list
+    #
     return labeled_frame_coords,labeled

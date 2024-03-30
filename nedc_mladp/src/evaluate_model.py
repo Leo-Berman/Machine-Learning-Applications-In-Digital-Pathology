@@ -46,11 +46,19 @@ def main():
     #
     train_list = os.listdir()
     labels,mydata,frame_locations,framesizes = nedc_fileio.read_feature_files(train_list)
+    
+    # generate confusion matrix
+    #
     if generate_confusion_matrix == 1:
         nedc_model_metrics.plot_confusion_matrix(model,labels,mydata,confusion_matrix_path)
+    
+    # to be implimented but this will draw the decision on an image
+    #
     if generate_decisions == 1:
         pass
 
+    # print the error rate and mean confidence %
+    #
     print("Error rate = ",model.score(mydata,labels))
     print("Mean confidence %",nedc_model_metrics.mean_confidence(model,mydata))
     

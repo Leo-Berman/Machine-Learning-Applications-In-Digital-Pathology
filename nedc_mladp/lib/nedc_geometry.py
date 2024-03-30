@@ -1,17 +1,26 @@
+# import python libraries
+#
 import shapely
 import sys
 
 # Picone's libraries
+#
 sys.path.insert(0,"/data/isip/tools/linux_x64/nfc/class/python/nedc_image_tools/nedc_image_tools.py")
 import nedc_image_tools as phg
 
+# generate a shape from border coordinates
+#
 def generate_polygon(coords):
     shape = shapely.Polygon(coords)
     return shape
 
+# return the border of a shape
+#
 def get_border(shape):
     return (shape.exterior.xy)
 
+# return the top left corner of every frame
+#
 def getframestart(imagefile:str,frame:int):
     
     # open the imagefile
@@ -26,6 +35,9 @@ def getframestart(imagefile:str,frame:int):
     # Get all the coordinates for each windows
     #
     coordinates = [(x, ydim-y+frame) for x in range(0, xdim, frame) for y in range(0, ydim+frame, frame)]
+
+    # return that list of coordinates
+    #
     return coordinates
 
 

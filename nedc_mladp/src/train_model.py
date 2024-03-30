@@ -33,6 +33,7 @@ def main():
     input_data_directory=parsed_parameters['data_directory']
     output_model_directory=parsed_parameters['model_output_path']
     compression=int(parsed_parameters['compression'])
+    
     # change directory to the appropriate train data file
     #
     os.chdir(input_data_directory)
@@ -41,6 +42,8 @@ def main():
     #
     train_list = os.listdir()
 
+    # parse the annotations
+    #
     labels,mydata,unused1,unused2 = nedc_fileio.read_feature_files(train_list)
     
     # Fit the model
@@ -55,7 +58,7 @@ def main():
         return
     model.fit(mydata, labels)
 
-    # change the directory to output themodel
+    # change the directory to output the model
     #
     os.chdir(output_model_directory)
 

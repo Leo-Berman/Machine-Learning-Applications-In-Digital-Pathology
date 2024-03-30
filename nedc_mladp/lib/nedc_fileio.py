@@ -1,29 +1,30 @@
+# Import python libraries
+#
 import sys
+import csv
+import numpy
 
+# picone's libraries
+#
 sys.path.append('/data/isip/tools/linux_x64/nfc/class/python/nedc_ann_dpath_tools')
 import nedc_ann_dpath_tools as nadt
-
 sys.path.append("/data/isip/tools/linux_x64/nfc/class/python/nedc_sys_tools")
 import nedc_cmdl_parser
 
-import pandas
 
-import csv
-
-import numpy
 
 def read_feature_files(feature_file_list:list):
-    # lists for holding the labels and data
+    
+    # lists for holding the labels, data, top left corner of frames, and framesizes
     #
     mydata = []
     labels = []
     frame_locations = []
     framesizes = []
-    # iterate through the entire training list
+
+    # iterate through the entire training list and read the data into the appropriate lists
     #
     for x in feature_file_list:
-
-        # rea
         with open (x) as file:
             reader = csv.reader(file)
             next(reader,None)
@@ -41,17 +42,18 @@ def read_feature_files(feature_file_list:list):
     labels = numpy.array(labels).ravel()
     mydata = numpy.array(mydata)
 
+    # return the appropriate data
+    #
     return labels,mydata,frame_locations,framesizes
 
+# set cmdl to only process a parameter file
+#
 def parameters_only_args(usage,help):
     argparser = nedc_cmdl_parser.Cmdl(usage,help)
     argparser.add_argument('-p', type = str)
     parsed_args = argparser.parse_args()
     parameter_file = parsed_args.p
     return parameter_file
-
-def read_list_of_files(csv_file:str):
-    return(pandas.read_csv(csv_file).to_list())
 
 def parse_annotations(file):
     

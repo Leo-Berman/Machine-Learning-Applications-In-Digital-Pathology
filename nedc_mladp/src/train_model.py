@@ -41,7 +41,7 @@ def main():
     #
     train_list = os.listdir()
 
-    labels,mydata = nedc_fileio.read_feature_files(train_list)
+    labels,mydata,unused1,unused2 = nedc_fileio.read_feature_files(train_list)
     
     # Fit the model
     #

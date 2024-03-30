@@ -32,6 +32,7 @@ def main():
     model_path=parsed_parameters['model']
     generate_confusion_matrix=int(parsed_parameters['confusion_matrix'])
     confusion_matrix_path=parsed_parameters['output_graphics_path']
+    generate_decisions=int(parsed_parameters['decisions'])
     print(model_path)
     # load the model
     #
@@ -44,9 +45,11 @@ def main():
     # set the list of datapoints to all the files within that directory
     #
     train_list = os.listdir()
-    labels,mydata = nedc_fileio.read_feature_files(train_list)
+    labels,mydata,frame_locations,framesizes = nedc_fileio.read_feature_files(train_list)
     if generate_confusion_matrix == 1:
         nedc_model_metrics.plot_confusion_matrix(model,labels,mydata,confusion_matrix_path)
+    if generate_decisions == 1:
+        pass
 
     print("Error rate = ",model.score(mydata,labels))
     print("Mean confidence %",nedc_model_metrics.mean_confidence(model,mydata))

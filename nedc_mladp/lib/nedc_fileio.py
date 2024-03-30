@@ -17,7 +17,8 @@ def read_feature_files(feature_file_list:list):
     #
     mydata = []
     labels = []
-
+    frame_locations = []
+    framesizes = []
     # iterate through the entire training list
     #
     for x in feature_file_list:
@@ -29,6 +30,10 @@ def read_feature_files(feature_file_list:list):
             for row in reader:
                 row_list = list(row)
                 labels.append(row_list.pop(0))
+                xcoord=row_list.pop(0)
+                ycoord=row_list.pop(0)
+                frame_locations.append((xcoord,ycoord))
+                framesizes.append(row_list.pop(0))
                 mydata.append([float(x) for x in row_list])
 
     # reshape the arrays
@@ -36,7 +41,7 @@ def read_feature_files(feature_file_list:list):
     labels = numpy.array(labels).ravel()
     mydata = numpy.array(mydata)
 
-    return labels,mydata
+    return labels,mydata,frame_locations,framesizes
 
 def parameters_only_args(usage,help):
     argparser = nedc_cmdl_parser.Cmdl(usage,help)

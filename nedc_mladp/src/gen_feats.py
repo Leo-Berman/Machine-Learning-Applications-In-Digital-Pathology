@@ -17,7 +17,7 @@ import nedc_file_tools
 
 def read_file_lists(file_name):
     df = pandas.read_csv(file_name)
-    return df.iloc[:, 0].to_list()
+    return df.columns.to_list()
 
 def main():
 
@@ -39,6 +39,7 @@ def main():
     svs_list = read_file_lists(parsed_parameters['imagefile_list'])
     csv_list = read_file_lists(parsed_parameters['labelfile_list'])
 
+    print(svs_list)
     # iterate through and create a feature vector file for each file
     #
     for svs,csv in zip(svs_list,csv_list):
@@ -55,22 +56,36 @@ def main():
         # get labeled regions
         #
         labeled_regions = nedc_regionid.labeled_regions(coordinates)
-
+        print(labeled_regions)
         # return top left coordinates of frames that fall within labelled regions
         #
-        labeled_frames,frame_labels = nedc_regionid.labeled_frames(labels,height,width,windowsize,framesize,labeled_regions)
-
+        # labeled_frames,frame_labels = nedc_regionid.labeled_frames(labels,height,width,windowsize,framesize,labeled_regions)
+        labeled_frames,frame_labels = nedc_regionid.classify_frame(svs,framesize,labels,labeled_regions)
         # get list of rgba values
         #
         frame_rgbas = nedc_regionid.frame_rgba_values(svs,frame_labels,labeled_frames,windowsize)
 
         # perform dct on rgba values
         #
-        frame_dcts = nedc_svsfeatures.rgba_to_dct(frame_rgbas)
+        frame_dcts = nedc_svsfeatures.rgba_to_dct(frame_rgbas,labeled_frames,framesize)
+
+        my_schema = []
+        for i in range(len(frame_dcts[0])):
+            print(i)
+            if i == 0:
+                my_schema.append('label')
+            elif i == 1:
+                my_schema.append('top_left_corner_x_coord')
+            elif i == 2:
+                my_schema.append('top_left_corner_y_coord')
+            elif i == 3:
+                my_schema.append('framesize')
+            else:
+                my_schema.append(str(i))
 
         # print dct frames to csv
         #
-        df = polars.DataFrame(frame_dcts)
+        df = polars.DataFrame(frame_dcts,schema=my_schema)
         ifile,iextension = os.path.splitext(os.path.basename(os.path.normpath(svs)))
         write_path = output_path+ifile+"_RGBADCT.csv"
         df.write_csv(write_path)

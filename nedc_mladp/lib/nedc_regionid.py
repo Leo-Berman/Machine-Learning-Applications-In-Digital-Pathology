@@ -71,6 +71,26 @@ def frame_rgba_values(image_file:str,labels:list,coords:list, windowsize:int):
     #
     nedc_fileio.RGBA_to_dct(window_list,imagefile)
 
+def get_top_left(height, framesize):
+    """
+        This subfunction gets the center coodinate of the top-left-most frame.
+
+        :param height: Height of the image.
+        :type height: int
+
+        :param framesize: Length or width of the frame
+        :type framesize: int
+
+        :return: Returns the center coordinate of the top-left-most.
+        :rtype: tuple of floats: (x,y)
+    """
+
+    center_x = 0 + framesize/2
+    center_y = height - framesize/2
+    center = shapely.geometry.Point(center_x, center_y)
+
+    return center
+
 def classify_center(labels, height, width, windowsize, framesize, regions):
     """
         objective:
@@ -101,25 +121,7 @@ def classify_center(labels, height, width, windowsize, framesize, regions):
         :rtype: list of lists: [[coordinate(tuple), label(string)], [coordinate(tuple), label(string)], ...] 
     """
 
-    def get_top_left(height, framesize):
-        """
-            This subfunction gets the center coodinate of the top-left-most frame.
-
-            :param height: Height of the image.
-            :type height: int
-
-            :param framesize: Length or width of the frame
-            :type framesize: int
-
-            :return: Returns the center coordinate of the top-left-most.
-            :rtype: tuple of floats: (x,y)
-        """
-
-        center_x = 0 + framesize/2
-        center_y = height - framesize/2
-        center = shapely.geometry.Point(center_x, center_y)
-
-        return center
+    
 
     def reposition(coord):
         """
@@ -198,6 +200,16 @@ def classify_center(labels, height, width, windowsize, framesize, regions):
 
     return labeled
 
-
-
-
+def classify_frame(imagefile, framesize, labels, shapes:list):
+    labeled = []
+    labeled_frame_coords = []
+    frame_coords = nedc_geometry.getframestart(imagefile,framesize)
+    frames = nedc_geometry.createboxshapes(frame_coords,framesize)
+    for x in frames:
+        for i,y in enumerate(shapes):
+            overlap = shapely.intersection(x,y)
+            if overlap.area/x.area > .5:
+                border = nedc_geometry.get_border(x)
+                labeled_frame_coords.append((int(border[0][0]),int(border[0][1])))
+                labeled.append(labels[i])
+    return labeled_frame_coords,labeled

@@ -100,8 +100,8 @@ Ex:
 def main():
     # set argument parsing
     #
-    args_usage = "gen_graphics_usage.txt"
-    args_help = "gen_graphics_help.txt"
+    args_usage = "usagefiles/gen_graphics_usage.txt"
+    args_help = "helpfiles/gen_graphics_help.txt"
     parameter_file = nedc_fileio.parameters_only_args(args_usage,args_help)
 
     # parse parameters

@@ -22,8 +22,8 @@ def main():
 
     # set argument parsing
     #
-    args_usage = "train_model_usage.txt"
-    args_help = "train_model_help.txt"
+    args_usage = "usagefiles/train_model_usage.txt"
+    args_help = "helpfiles/train_model_help.txt"
     parameter_file = nedc_fileio.parameters_only_args(args_usage,args_help)
 
     # parse parameters

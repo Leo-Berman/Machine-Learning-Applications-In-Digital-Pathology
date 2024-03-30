@@ -23,8 +23,8 @@ def main():
 
     # set argument parsing
     #
-    args_usage = "gen_feats_usage.txt"
-    args_help = "gen_feats_help.txt"
+    args_usage = "usagefiles/gen_feats_usage.txt"
+    args_help = "helpfiles/gen_feats_help.txt"
     parameter_file = nedc_fileio.parameters_only_args(args_usage,args_help)
 
     # parse parameters

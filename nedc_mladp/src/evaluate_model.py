@@ -21,8 +21,8 @@ def main():
 
     # set argument parsing
     #
-    args_usage = "evaluate_model_usage.txt"
-    args_help = "evaluate_model_help.txt"
+    args_usage = "usagefiles/evaluate_model_usage.txt"
+    args_help = "helpfiles/evaluate_model_help.txt"
     parameter_file = nedc_fileio.parameters_only_args(args_usage,args_help)
 
     # parse parameters
@@ -33,7 +33,7 @@ def main():
     generate_confusion_matrix=int(parsed_parameters['confusion_matrix'])
     confusion_matrix_path=parsed_parameters['output_graphics_path']
     generate_decisions=int(parsed_parameters['decisions'])
-    print(model_path)
+
     # load the model
     #
     model = joblib.load(model_path)        

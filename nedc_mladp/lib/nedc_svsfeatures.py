@@ -1,10 +1,10 @@
 import numpy
 import scipy
 
-def rgba_to_dct(framelist:list):
-    
+def rgba_to_dct(framelist:list,frame_coord_list:list,framesize:int):
+
     list_of_rows = []
-    for framevalues in framelist:        
+    for i,framevalues in enumerate(framelist):        
         red = []
         green = []
         blue = []
@@ -13,11 +13,11 @@ def rgba_to_dct(framelist:list):
         # Append corresponding list values in separate RGBA lists
         #
 
-        for i in range(1,len(framevalues)-1,4):
-            red.append(framevalues[i])
-            green.append(framevalues[i+1])
-            blue.append(framevalues[i+2])
-            alpha.append(framevalues[i+3])
+        for j in range(1,len(framevalues)-1,4):
+            red.append(framevalues[j])
+            green.append(framevalues[j+1])
+            blue.append(framevalues[j+2])
+            alpha.append(framevalues[j+3])
 
         # concatenate the dcts of each vector
         # probably need to index each DCT for the most
@@ -33,6 +33,9 @@ def rgba_to_dct(framelist:list):
         # Convert vector to numpy array
         vector_numpy = numpy.array(vector).tolist()
 
+        vector_numpy.insert(0,framesize)
+        vector_numpy.insert(0,frame_coord_list[i][0])
+        vector_numpy.insert(0,frame_coord_list[i][1])
         vector_numpy.insert(0,framevalues[0])
 
         list_of_rows.append(vector_numpy)

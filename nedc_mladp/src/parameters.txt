@@ -20,7 +20,7 @@ eval_model{
     model="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TRAINED_MODELS/Trained_RNF.joblib"
     confusion_matrix=0
     output_graphics_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/CONFUSION_MATRIXES/RNFConfusionMatrix.png"
-    decisions=1
+    decisions=0
     output_decisions_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TEST/testdecision.csv"
 }
 

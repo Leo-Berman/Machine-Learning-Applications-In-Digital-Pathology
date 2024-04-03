@@ -43,7 +43,7 @@ def main():
     model = joblib.load(model_path)        
     
     feature_files_list = nedc_fileio.read_file_lists(feature_data_list)
-    print(feature_files_list)
+
     labels,mydata,frame_locations,framesizes = nedc_fileio.read_feature_files(feature_files_list)
     
     # generate confusion matrix

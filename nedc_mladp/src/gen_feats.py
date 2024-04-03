@@ -1,7 +1,6 @@
 # import python libraries
 #
 import sys
-import pandas
 import os
 import polars
 

@@ -106,8 +106,6 @@ def classify_center(labels, height, width, windowsize, framesize, regions):
         :rtype: list of lists: [[coordinate(tuple), label(string)], [coordinate(tuple), label(string)], ...] 
     """
 
-    
-
     def reposition(coord):
         """
             This function repositions the given coordinate accordingly:
@@ -185,14 +183,15 @@ def classify_center(labels, height, width, windowsize, framesize, regions):
                         labeled_coord.append(tmp_coord)
 
             percent = len(labeled_regions) / (windowsize*windowsize) * 100
+
+            # if the percentage of the window is at least 50%, don't test the window through any more regions. 
             if percent >= 50:
                 # print to test
                 print((len(labeled_regions) / (windowsize*windowsize) * 100))
-
                 # break out of for loop to not go through the rest of the regions.
                 break
-            break
-            
+        
+        # if percentage is at least 50%, return the pair of coordinates and label. otherwise, return None.
         if percent >= 50:
             # return top left coordinate of the window and the corresponding label
             return [((coord.x-windowsize/2), (coord.y+windowsize/2)), labels[r]]

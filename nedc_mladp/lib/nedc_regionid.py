@@ -159,6 +159,18 @@ def classify_center(labels, height, width, windowsize, framesize, regions):
         center = shapely.geometry.Point(center_x, center_y)
 
         return center
+    
+    def half_region(coord):
+        """
+            This function checks whether at least fifty percent of the frame is within a region.
+            The top-left coordinate of each WINDOW gets organized into:
+                'labeled' list if at least fifty percent of the frame is within a region.
+                'unlabeled' list if less than fifty percent of the frame is within a region.
+
+            # note, not sure if you want center coordinate or something else returned
+            :param coord: x- and y- coordinate of the center of the current frame.
+            :type coord: tuple of floats: (x,y)
+        """
 
     def within_region(coord):
         """

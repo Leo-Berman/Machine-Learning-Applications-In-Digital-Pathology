@@ -160,57 +160,57 @@ def classify_center(labels, height, width, windowsize, framesize, regions):
 
         return center
     
-    def half_region(coord):
+    def half_region(coord, windowsize):
         """
-            This function checks whether at least fifty percent of the frame is within a region.
+            This function checks whether at least fifty percent of the window is within a region.
             The top-left coordinate of each WINDOW gets organized into:
-                'labeled' list if at least fifty percent of the frame is within a region.
-                'unlabeled' list if less than fifty percent of the frame is within a region.
+                'labeled' list if at least fifty percent of the window is within a region.
+                'unlabeled' list if less than fifty percent of the window is within a region.
 
             # note, not sure if you want center coordinate or something else returned
-            :param coord: x- and y- coordinate of the center of the current frame.
+            :param coord: x- and y- coordinate of the center of the current window.
             :type coord: tuple of floats: (x,y)
         """
 
-    def within_region(coord):
-        """
-            This function checks whether the coordinate is within any of the regions.
-            The top-left coordinate of each WINDOW gets organized into:
-                'labeled' list if the center coordinate is inside a region along with the coordinates' corresponding label as pair.
-                'unlabeled' list if the center coordinate is not inside a region.
+        # empty list for labeled coordinates.
+        labeled_coord = []
 
-            :param coord: x- and y- coordinate of the center of the current frame.
-            :type coord: tuple of floats: (x,y)
-        """
-        
-        while(True):
-            # check if the coordinate is within region[r].
-            for r in range(num_regions):
-                # if it within one of the regions, add to the labeled list with its corresponding label and move to the next coordinate.
-                if regions[r].contains(coord) is True:
-                    labeled.append([((coord.x-windowsize/2), (coord.y+windowsize/2)), labels[r]])
-                    break
-                # if not in any regions, classify as unlabeled.
-                else:
-                    unlabeled.append(coord)
-            # reposition to the next frame.
-            coord = reposition(coord)
-            # if the new coordinate is false, terminate the loop.
-            if reposition(coord) is False:
+        # check each coordinate if it is within region[r].
+        for r in range(len(regions)):
+            # if it within one of the regions, add to the labeled list with its corresponding label and move to the next coordinate.
+            for x in range(windowsize):
+                for y in range(windowsize):
+                    tmp_coord = shapely.geometry.Point(x,y)
+                    if regions[r].contains(tmp_coord) is True:
+                        labeled_coord.append(tmp_coord)
+
+            percent = len(labeled_regions) / (windowsize*windowsize) * 100
+            if percent >= 50:
+                # print to test
+                print((len(labeled_regions) / (windowsize*windowsize) * 100))
+
+                # break out of for loop to not go through the rest of the regions.
                 break
+            break
+            
+        if percent >= 50:
+            # return top left coordinate of the window and the corresponding label
+            return [((coord.x-windowsize/2), (coord.y+windowsize/2)), labels[r]]
+        else:
+            return None
 
-    # initialize 'labled' and 'unlabeled' list
+    # empty list for labeled windows with corresponding labels.
     labeled = []
-    unlabeled = []
-
-    # get total number of unique region IDS
-    num_regions = len(regions)
 
     # get the center coordinate of the top-left frame.
     center = get_top_left(height,framesize)
 
-    # start classification of all center coordinates.
-    within_region(center)
+    # start classification of all windows.
+    while reposition(center) is not False:
+        pair = half_region(center)
+        if pair is not None:
+            labeled.append(pair)
+        center = reposition(center)
 
     # total number of frames
     total_frames = (height/framesize) * (width/framesize)

@@ -1,0 +1,17 @@
+# file: $MLADP/util/nedc_train_model/Makefile
+#
+
+# define source and object files
+#
+SRC = train_model.py
+BFILE := $(basename $(SRC))
+
+# define an installation target
+#
+install:
+	rm -f $(MLADP)/bin/$(BFILE)
+	cp -f $(SRC) $(MLADP)/bin/$(BFILE)
+	cd $(MLADP)/bin; chmod u+rwx,g+rwx,o+rw $(BFILE)
+
+#
+# end of file

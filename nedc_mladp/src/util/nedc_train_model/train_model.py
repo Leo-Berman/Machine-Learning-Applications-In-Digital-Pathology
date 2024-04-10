@@ -1,4 +1,14 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+#
+# file: /data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/src/util/nedc_train_model/train_model.py
+#
+# revision history:
+#
+# 
+#
+# This is a Python version of the C++ utility nedc_print_header.
+#------------------------------------------------------------------------------
+
 """! @brief Clasifies the DCT values into different labeled regions"""
 ##
 # @file classify_dct_values.py

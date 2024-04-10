@@ -1,3 +1,15 @@
+#!/usr/bin/env python
+#
+# file: /data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/src/util/nedc_mladp_gen_feats/gen_feats.py
+#
+# revision history:
+#
+# 
+#
+# This is a Python version of the C++ utility nedc_print_header.
+#------------------------------------------------------------------------------
+
+
 # import python libraries
 #
 import os

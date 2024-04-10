@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+#
+# file: /data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/src/util/nedc_gen_graphics/gen_graphics.py
+#
+# revision history:
+#
+# 
+#
+# This is a Python version of the C++ utility nedc_print_header.
+#------------------------------------------------------------------------------
 from PIL import Image
 import os
 import matplotlib.pyplot as plt

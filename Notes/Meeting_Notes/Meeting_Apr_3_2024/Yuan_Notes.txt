@@ -1,0 +1,29 @@
+src/utils
+src/functs
+
+
+nedc_run
+
+write utilswrite class
+write functions instead 
+put in functs
+
+next week
+everything in src split into utils and functs
+in functs, theres a directory for every file
+in utils, put all driver functions into their own directory
+
+nedc_run runs all fo the driver files
+directory for this, and it contains the parameter files
+
+multiple parameter files
+
+make files in each directory
+
+append MLADP/bin
+
+grep region_id */*
+
+grep -H (put in function or class whatever not incl parentheses) region_id */*.py | grep "function:"
+
+for classes "method:"

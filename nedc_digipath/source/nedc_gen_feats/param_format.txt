@@ -1,5 +1,0 @@
-parameter,value
-windowsize,##
-framesize,##
-imagefile_list,**
-labelfile_list,**

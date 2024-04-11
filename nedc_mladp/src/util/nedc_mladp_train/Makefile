@@ -1,9 +1,9 @@
-# file: $MLADP/util/nedc_train_model/Makefile
+# file: $MLADP/util/nedc_mladp_train/Makefile
 #
 
 # define source and object files
 #
-SRC = train_model.py
+SRC = nedc_mladp_train.py
 BFILE := $(basename $(SRC))
 
 # define an installation target

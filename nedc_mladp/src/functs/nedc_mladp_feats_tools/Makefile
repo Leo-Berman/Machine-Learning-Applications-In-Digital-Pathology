@@ -1,4 +1,4 @@
-# file: $MLADP/functs/nedc_fileio/Makefile
+# file: $MLADP/functs/nedc_mladp_feats_tools/Makefile
 #
 
 # define source and object files

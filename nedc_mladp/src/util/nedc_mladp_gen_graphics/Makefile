@@ -1,9 +1,9 @@
-# file: $MLADP/util/nedc_gen_graphics/Makefile
+# file: $MLADP/util/nedc_mladp_gen_graphics/Makefile
 #
 
 # define source and object files
 #
-SRC = gen_feats.py
+SRC = nedc_mladp_gen_graphics.py
 BFILE := $(basename $(SRC))
 
 # define an installation target

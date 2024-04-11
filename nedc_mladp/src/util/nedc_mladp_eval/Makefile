@@ -3,7 +3,7 @@
 
 # define source and object files
 #
-SRC = nedc_evaluate_model.py
+SRC = nedc_mladp_eval.py
 BFILE := $(basename $(SRC))
 
 # define an installation target

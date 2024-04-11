@@ -21,7 +21,7 @@ from sklearn.ensemble import RandomForestClassifier as RNF
 import os
 import joblib
 
-import nedc_fileio
+import nedc_mladp_fileio_tools as fileio_tools
 
 #picone
 import nedc_file_tools
@@ -30,9 +30,9 @@ def main():
 
     # set argument parsing
     #
-    args_usage = "train_model_usage.txt"
-    args_help = "train_model_help.txt"
-    parameter_file = nedc_fileio.parameters_only_args(args_usage,args_help)
+    args_usage = "nedc_mladp_train_model.usage"
+    args_help = "nedc_mladp_train_model.help"
+    parameter_file = fileio_tools.parameters_only_args(args_usage,args_help)
 
     # parse parameters
     #
@@ -44,11 +44,11 @@ def main():
     
     # set the list of datapoints to all the files within that directory
     #
-    train_list = nedc_fileio.read_file_lists(feature_data_list)
+    train_list = fileio_tools.read_file_lists(feature_data_list)
 
     # parse the annotations
     #
-    labels,mydata,unused1,unused2 = nedc_fileio.read_feature_files(train_list)
+    labels,mydata,unused1,unused2 = fileio_tools.read_feature_files(train_list)
     
     # Fit the model
     #

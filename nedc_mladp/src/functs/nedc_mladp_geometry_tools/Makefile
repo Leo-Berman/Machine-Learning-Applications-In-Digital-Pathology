@@ -1,4 +1,4 @@
-# file: $MLADP/functs/nedc_svsfeatures/Makefile
+# file: $MLADP/functs/nedc_mladp_geometry_tools/Makefile
 #
 
 # define source and object files

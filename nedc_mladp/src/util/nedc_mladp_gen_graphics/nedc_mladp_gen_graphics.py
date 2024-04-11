@@ -18,9 +18,9 @@ import nedc_image_tools as phg
 import nedc_file_tools
 
 # our libraries
-import nedc_fileio
-import nedc_regionid
-import nedc_geometry
+import nedc_mladp_fileio_tools as fileio_tools
+import nedc_mladp_ann_tools as ann_tools
+import nedc_mladp_geometry_tools as geometry_tools
 
 
 # convert an svs file to compressed jpeg file
@@ -60,10 +60,10 @@ def svs_to_jpg(imagefile,output_path,compression):
 # plot the projected frames onto an image
 #
 def plt_frames(imagefile,frame):
-    starts = nedc_geometry.getframestart(imagefile,frame)
-    shapes = nedc_geometry.createboxshapes(starts,frame)
+    starts = geometry_tools.getframestart(imagefile,frame)
+    shapes = geometry_tools.createboxshapes(starts,frame)
     for x in shapes:
-        points = nedc_geometry.get_border(x)
+        points = geometry_tools.get_border(x)
         plt.plot(points[0],points[1])
 
 
@@ -71,9 +71,9 @@ def main():
 
     # set argument parsing
     #
-    args_usage = "gen_graphics_usage.txt"
-    args_help = "gen_graphics_help.txt"
-    parameter_file = nedc_fileio.parameters_only_args(args_usage,args_help)
+    args_usage = "nedc_mladp_gen_graphics.usage"
+    args_help = "nedc_mladp_gen_graphics.help"
+    parameter_file = fileio_tools.parameters_only_args(args_usage,args_help)
 
     # parse parameters
     #
@@ -89,7 +89,7 @@ def main():
 
     # parse annotations
     #
-    header, ids, labels, coordinates = nedc_fileio.parse_annotations(label_file)
+    header, ids, labels, coordinates = fileio_tools.parse_annotations(label_file)
         
     # get height and width of image (in pixels) from the header
     #
@@ -98,12 +98,12 @@ def main():
 
     # get labeled regions
     #
-    labeled_regions = nedc_regionid.labeled_regions(coordinates)
+    labeled_regions = ann_tools.labeled_regions(coordinates)
 
     # plot labeled regions and label them with appropriate text
     #
     for i,z in enumerate(labeled_regions):
-        x,y = nedc_geometry.get_border(z)
+        x,y = geometry_tools.get_border(z)
         plt.plot(x,y)
         plt.text(coordinates[i][0][0],coordinates[i][0][1],labels[i])
 
@@ -127,7 +127,7 @@ def main():
 
         # get all the label information
         #
-        decisions = nedc_fileio.read_decisions(decisions_filepath)
+        decisions = fileio_tools.read_decisions(decisions_filepath)
         
         # assign the labels to a colors
         labels = {'artf':'black','nneo':'lightgray','bckg':'lightcoral','norm':'salmon','indc':'orange','nneo':'yellow','null':'green','infl':'aqua','dcis':'deepskyblue','susp':'pink'}

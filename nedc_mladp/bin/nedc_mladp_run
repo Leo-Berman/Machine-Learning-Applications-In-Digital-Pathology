@@ -1,0 +1,17 @@
+#!/bin/bash
+
+usage() { echo "Usage: $0 -p <parameter file>";exit 1; }
+
+while getopts ":p:h" arg; do
+    case ${arg} in
+	p)
+	    p=${OPTARG}
+	    ;;
+	h)
+	    usage
+	    ;;
+    esac
+done
+shift $((OPTIND-1))
+
+./nedc_mladp_gen_feats -p "$p"

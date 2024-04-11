@@ -1,4 +1,4 @@
-# file: $MLADP/util/nedc_run/Makefile
+# file: $MLADP/util/nedc_mladp_run/Makefile
 #
 
 # define source and object files

@@ -27,8 +27,8 @@ def main():
 
     # set argument parsing
     #
-    args_usage = "eval.usage"
-    args_help = "eval.help"
+    args_usage = "nedc_mladp_eval.usage"
+    args_help = "nedc_mladp_eval.help"
     parameter_file = fileio_tools.parameters_only_args(args_usage,args_help)
 
     # parse parameters

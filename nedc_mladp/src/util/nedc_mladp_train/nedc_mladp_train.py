@@ -30,8 +30,8 @@ def main():
 
     # set argument parsing
     #
-    args_usage = "train_model_usage.txt"
-    args_help = "train_model_help.txt"
+    args_usage = "nedc_mladp_train_model.usage"
+    args_help = "nedc_mladp_train_model.help"
     parameter_file = fileio_tools.parameters_only_args(args_usage,args_help)
 
     # parse parameters

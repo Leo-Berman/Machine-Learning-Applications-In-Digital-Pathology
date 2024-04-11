@@ -3,7 +3,7 @@ The maketraining.py module will classify each frame as labeled or unlabeled whet
 """
 import nedc_image_tools as phg
 import shapely
-import nedc_geometry
+import nedc_mladp_geometry_tools
 
 
 def labeled_regions(coordinates:list):

@@ -3,7 +3,7 @@
 
 # define source and object files
 #
-SRC = gen_feats.py
+SRC = nedc_mladp_gen_feats.py
 BFILE := $(basename $(SRC))
 
 # define an installation target

@@ -1,0 +1,17 @@
+Make lib functions nedc_mladp_*insert name*_tools.py
+
+Make driver modules nedc_mladp_*insert name*.py
+
+Move nedc_model_metrics -> nedc_mladp_eval_tools
+Move nedc_svsfeatures -> nedc_mladp_feats_tools
+Move nedc_regionid -> nedc_mladp_ann_tools
+
+(venv) nedc_130_[5]: more x.sh 
+#!/bin/sh
+ls -l $HOME
+(venv) nedc_130_[5]: d x.sh 
+-rwxrwxr-x 1 tuo54571 ece_8527 22 Apr 10 14:44 x.sh*
+(venv) nedc_130_[5]: sbatch x.sh
+sbatch: error: Batch job submission failed: Invalid account or account/partition combination specified
+
+Add a probability to the nedc_gen_feats. The probability is found in the annotations file.

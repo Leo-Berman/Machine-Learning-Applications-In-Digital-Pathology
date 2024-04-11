@@ -30,8 +30,8 @@ def main():
 
     # set argument parsing
     #
-    args_usage = "gen_feats_usage.txt"
-    args_help = "gen_feats_help.txt"
+    args_usage = "nedc_mladp_gen_feats.usage"
+    args_help = "nedc_mladp_gen_feats.help"
     parameter_file = fileio_tools.parameters_only_args(args_usage,args_help)
 
     # parse parameters

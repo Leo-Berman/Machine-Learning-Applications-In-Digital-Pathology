@@ -71,8 +71,8 @@ def main():
 
     # set argument parsing
     #
-    args_usage = "gen_graphics.usage"
-    args_help = "gen_graphics.help"
+    args_usage = "nedc_mladp_gen_graphics.usage"
+    args_help = "nedc_mladp_gen_graphics.help"
     parameter_file = fileio_tools.parameters_only_args(args_usage,args_help)
 
     # parse parameters

@@ -11,7 +11,10 @@
 #
 import os
 import sys
-sys.path.insert(0,os.path.abspath('../../nedc_mladp'))
+sys.path.insert(0,'../../')
+sys.path.insert(0,'../../nedc_mladp')
+sys.path.insert(0,'../../nedc_mladp/src')
+sys.path.insert(0,'../../nedc_mladp/src/utils')
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information

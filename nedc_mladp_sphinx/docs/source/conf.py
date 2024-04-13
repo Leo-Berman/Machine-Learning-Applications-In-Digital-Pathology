@@ -9,12 +9,11 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import mock
 import os
 import sys
 sys.path.insert(0,'../../')
 sys.path.insert(0,'../../nedc_mladp')
-sys.path.insert(0,'../../nedc_mladp/src')
-sys.path.insert(0,'../../nedc_mladp/src/utils')
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -53,3 +52,8 @@ html_theme = 'sphinx_rtd_theme'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+mock_list = ['nedc_fileio_tools']
+
+for module_name in mock_list:
+    sys.modules[module_name] = mock.Mock()

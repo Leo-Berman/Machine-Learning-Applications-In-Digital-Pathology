@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nedc_mladp.src.util.nedc_mladp_gen_feats.nedc_mladp_gen_feats &mdash; nedc_MLADP v1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../../_static/documentation_options.js?v=76e2d817"></script>
+        <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            nedc_MLADP
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules.html">nedc_mladp</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">nedc_MLADP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">nedc_mladp.src.util.nedc_mladp_gen_feats.nedc_mladp_gen_feats</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nedc_mladp.src.util.nedc_mladp_gen_feats.nedc_mladp_gen_feats</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">#</span>
+<span class="c1"># file: /data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/src/util/nedc_mladp_gen_feats/gen_feats.py</span>
+<span class="c1">#</span>
+<span class="c1"># revision history:</span>
+<span class="c1">#</span>
+<span class="c1"># </span>
+<span class="c1">#</span>
+<span class="c1"># This is a Python version of the C++ utility nedc_print_header.</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+
+
+<span class="c1"># import python libraries</span>
+<span class="c1">#</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">polars</span>
+
+<span class="c1"># our libraries</span>
+<span class="c1">#</span>
+<span class="kn">import</span> <span class="nn">nedc_mladp_fileio_tools</span> <span class="k">as</span> <span class="nn">fileio_tools</span>
+<span class="kn">import</span> <span class="nn">nedc_mladp_ann_tools</span> <span class="k">as</span> <span class="nn">ann_tools</span>
+<span class="kn">import</span> <span class="nn">nedc_mladp_feats_tools</span> <span class="k">as</span> <span class="nn">feats_tools</span>
+
+<span class="c1"># picones libraries</span>
+<span class="c1">#</span>
+<span class="kn">import</span> <span class="nn">nedc_file_tools</span>
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../../../../src.util.html#nedc_mladp.src.util.nedc_mladp_gen_feats.nedc_mladp_gen_feats.main">[docs]</a>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+
+    <span class="c1"># set argument parsing</span>
+    <span class="c1">#</span>
+    <span class="n">args_usage</span> <span class="o">=</span> <span class="s2">&quot;nedc_mladp_gen_feats.usage&quot;</span>
+    <span class="n">args_help</span> <span class="o">=</span> <span class="s2">&quot;nedc_mladp_gen_feats.help&quot;</span>
+    <span class="n">parameter_file</span> <span class="o">=</span> <span class="n">fileio_tools</span><span class="o">.</span><span class="n">parameters_only_args</span><span class="p">(</span><span class="n">args_usage</span><span class="p">,</span><span class="n">args_help</span><span class="p">)</span>
+
+    <span class="c1"># parse parameters</span>
+    <span class="c1">#</span>
+    <span class="n">parsed_parameters</span> <span class="o">=</span> <span class="n">nedc_file_tools</span><span class="o">.</span><span class="n">load_parameters</span><span class="p">(</span><span class="n">parameter_file</span><span class="p">,</span><span class="s2">&quot;gen_feats&quot;</span><span class="p">)</span>
+    <span class="n">windowsize</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">parsed_parameters</span><span class="p">[</span><span class="s1">&#39;windowsize&#39;</span><span class="p">])</span>
+    <span class="n">framesize</span> <span class="o">=</span>  <span class="nb">int</span><span class="p">(</span><span class="n">parsed_parameters</span><span class="p">[</span><span class="s1">&#39;framesize&#39;</span><span class="p">])</span>
+    <span class="n">output_path</span> <span class="o">=</span> <span class="n">parsed_parameters</span><span class="p">[</span><span class="s1">&#39;output_file&#39;</span><span class="p">]</span>
+
+    <span class="c1"># read list of files</span>
+    <span class="c1">#</span>
+    <span class="n">svs_list</span> <span class="o">=</span> <span class="n">fileio_tools</span><span class="o">.</span><span class="n">read_file_lists</span><span class="p">(</span><span class="n">parsed_parameters</span><span class="p">[</span><span class="s1">&#39;imagefile_list&#39;</span><span class="p">])</span>
+    <span class="n">csv_list</span> <span class="o">=</span> <span class="n">fileio_tools</span><span class="o">.</span><span class="n">read_file_lists</span><span class="p">(</span><span class="n">parsed_parameters</span><span class="p">[</span><span class="s1">&#39;labelfile_list&#39;</span><span class="p">])</span>
+
+    <span class="c1"># iterate through and create a feature vector file for each file</span>
+    <span class="c1">#</span>
+    <span class="k">for</span> <span class="n">svs</span><span class="p">,</span><span class="n">csv</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">svs_list</span><span class="p">,</span><span class="n">csv_list</span><span class="p">):</span>
+
+        <span class="c1"># parse annotations</span>
+        <span class="c1">#</span>
+        <span class="n">header</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">coordinates</span> <span class="o">=</span> <span class="n">fileio_tools</span><span class="o">.</span><span class="n">parse_annotations</span><span class="p">(</span><span class="n">csv</span><span class="p">)</span>
+        
+        <span class="c1"># get height and width of image (in pixels) from the header</span>
+        <span class="c1">#</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">])</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">])</span>
+
+        <span class="c1"># get labeled regions</span>
+        <span class="c1">#</span>
+        <span class="n">labeled_regions</span> <span class="o">=</span> <span class="n">ann_tools</span><span class="o">.</span><span class="n">labeled_regions</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
+
+        <span class="c1"># return top left coordinates of frames that have center coordinates in labels</span>
+        <span class="c1">#</span>
+        <span class="n">labeled_frames</span><span class="p">,</span><span class="n">frame_labels</span> <span class="o">=</span> <span class="n">ann_tools</span><span class="o">.</span><span class="n">labeled_frames</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span><span class="n">height</span><span class="p">,</span><span class="n">width</span><span class="p">,</span><span class="n">windowsize</span><span class="p">,</span><span class="n">framesize</span><span class="p">,</span><span class="n">labeled_regions</span><span class="p">)</span>
+
+        <span class="c1"># return top left coordinates of frames that overlap 50% or more with labels</span>
+        <span class="c1">#</span>
+        <span class="c1"># labeled_frames,frame_labels = nedc_regionid.classify_frame(svs,framesize,labels,labeled_regions)</span>
+        
+        <span class="c1"># get list of rgba values</span>
+        <span class="c1">#</span>
+        <span class="n">frame_rgbas</span> <span class="o">=</span> <span class="n">ann_tools</span><span class="o">.</span><span class="n">frame_rgba_values</span><span class="p">(</span><span class="n">svs</span><span class="p">,</span><span class="n">frame_labels</span><span class="p">,</span><span class="n">labeled_frames</span><span class="p">,</span><span class="n">windowsize</span><span class="p">)</span>
+
+        <span class="c1"># perform dct on rgba values</span>
+        <span class="c1">#</span>
+        <span class="n">frame_dcts</span> <span class="o">=</span> <span class="n">feats_tools</span><span class="o">.</span><span class="n">rgba_to_dct</span><span class="p">(</span><span class="n">frame_rgbas</span><span class="p">,</span><span class="n">labeled_frames</span><span class="p">,</span><span class="n">framesize</span><span class="p">)</span>
+
+        <span class="c1"># set column index names</span>
+        <span class="c1">#</span>
+        <span class="n">my_schema</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">frame_dcts</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">my_schema</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">my_schema</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;top_left_corner_x_coord&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">my_schema</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;top_left_corner_y_coord&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">my_schema</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;framesize&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">my_schema</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+        <span class="c1"># print dct frames to csv</span>
+        <span class="c1">#</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">polars</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">frame_dcts</span><span class="p">,</span><span class="n">schema</span><span class="o">=</span><span class="n">my_schema</span><span class="p">)</span>
+        <span class="n">ifile</span><span class="p">,</span><span class="n">iextension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">svs</span><span class="p">)))</span>
+        <span class="n">write_path</span> <span class="o">=</span> <span class="n">output_path</span><span class="o">+</span><span class="n">ifile</span><span class="o">+</span><span class="s2">&quot;_RGBADCT.csv&quot;</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">write_csv</span><span class="p">(</span><span class="n">write_path</span><span class="p">)</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Yuan Nghiem, Leo Berman, Muhotasim Ahmed.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

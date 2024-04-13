@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nedc_mladp.src.util.nedc_mladp_gen_graphics.nedc_mladp_gen_graphics &mdash; nedc_MLADP v1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../../_static/documentation_options.js?v=76e2d817"></script>
+        <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            nedc_MLADP
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules.html">nedc_mladp</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">nedc_MLADP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">nedc_mladp.src.util.nedc_mladp_gen_graphics.nedc_mladp_gen_graphics</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for nedc_mladp.src.util.nedc_mladp_gen_graphics.nedc_mladp_gen_graphics</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">#</span>
+<span class="c1"># file: /data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/src/util/nedc_gen_graphics/gen_graphics.py</span>
+<span class="c1">#</span>
+<span class="c1"># revision history:</span>
+<span class="c1">#</span>
+<span class="c1"># </span>
+<span class="c1">#</span>
+<span class="c1"># This is a Python version of the C++ utility nedc_print_header.</span>
+<span class="c1">#------------------------------------------------------------------------------</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">Rectangle</span>
+
+<span class="c1"># picone libraries</span>
+<span class="kn">import</span> <span class="nn">nedc_image_tools</span> <span class="k">as</span> <span class="nn">phg</span>
+<span class="kn">import</span> <span class="nn">nedc_file_tools</span>
+
+<span class="c1"># our libraries</span>
+<span class="kn">import</span> <span class="nn">nedc_mladp_fileio_tools</span> <span class="k">as</span> <span class="nn">fileio_tools</span>
+<span class="kn">import</span> <span class="nn">nedc_mladp_ann_tools</span> <span class="k">as</span> <span class="nn">ann_tools</span>
+<span class="kn">import</span> <span class="nn">nedc_mladp_geometry_tools</span> <span class="k">as</span> <span class="nn">geometry_tools</span>
+
+
+<span class="c1"># convert an svs file to compressed jpeg file</span>
+<span class="c1">#</span>
+<div class="viewcode-block" id="svs_to_jpg">
+<a class="viewcode-back" href="../../../../../src.util.html#nedc_mladp.src.util.nedc_mladp_gen_graphics.nedc_mladp_gen_graphics.svs_to_jpg">[docs]</a>
+<span class="k">def</span> <span class="nf">svs_to_jpg</span><span class="p">(</span><span class="n">imagefile</span><span class="p">,</span><span class="n">output_path</span><span class="p">,</span><span class="n">compression</span><span class="p">):</span>
+
+    <span class="c1"># Use Nil library to open up the file</span>
+    <span class="c1">#</span>
+    <span class="n">NIL</span> <span class="o">=</span> <span class="n">phg</span><span class="o">.</span><span class="n">Nil</span><span class="p">()</span>
+    <span class="n">NIL</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">imagefile</span><span class="p">)</span>
+
+    <span class="c1"># Get dimensions of the svs image in pixels</span>
+    <span class="c1">#</span>
+    <span class="n">xdim</span><span class="p">,</span><span class="n">ydim</span> <span class="o">=</span> <span class="n">NIL</span><span class="o">.</span><span class="n">get_dimension</span><span class="p">()</span>
+
+    <span class="c1"># Read the single frame</span>
+    <span class="c1">#</span>
+    <span class="n">windows</span> <span class="o">=</span> <span class="n">NIL</span><span class="o">.</span><span class="n">read_data_multithread</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]],</span> <span class="n">xdim</span><span class="p">,</span> <span class="n">ydim</span><span class="p">)</span>
+    
+    <span class="c1"># save the images as JPEGS</span>
+    <span class="c1"># generate the image from RGBA values</span>
+    <span class="c1">#</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">windows</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># compress the image</span>
+    <span class="c1">#</span>
+    <span class="n">im</span><span class="o">=</span><span class="n">im</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">xdim</span><span class="o">//</span><span class="n">compression</span><span class="p">,</span><span class="n">ydim</span><span class="o">//</span><span class="n">compression</span><span class="p">))</span>
+    
+    <span class="n">file</span><span class="p">,</span><span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+
+    <span class="c1"># save the image</span>
+    <span class="c1">#</span>
+    <span class="n">output_path</span> <span class="o">=</span> <span class="n">file</span><span class="o">+</span><span class="s1">&#39;_background&#39;</span><span class="o">+</span><span class="s1">&#39;.jpg&#39;</span>
+    <span class="n">im</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span><span class="s2">&quot;JPEG&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output_path</span></div>
+
+
+<span class="c1"># plot the projected frames onto an image</span>
+<span class="c1">#</span>
+<div class="viewcode-block" id="plt_frames">
+<a class="viewcode-back" href="../../../../../src.util.html#nedc_mladp.src.util.nedc_mladp_gen_graphics.nedc_mladp_gen_graphics.plt_frames">[docs]</a>
+<span class="k">def</span> <span class="nf">plt_frames</span><span class="p">(</span><span class="n">imagefile</span><span class="p">,</span><span class="n">frame</span><span class="p">):</span>
+    <span class="n">starts</span> <span class="o">=</span> <span class="n">geometry_tools</span><span class="o">.</span><span class="n">getframestart</span><span class="p">(</span><span class="n">imagefile</span><span class="p">,</span><span class="n">frame</span><span class="p">)</span>
+    <span class="n">shapes</span> <span class="o">=</span> <span class="n">geometry_tools</span><span class="o">.</span><span class="n">createboxshapes</span><span class="p">(</span><span class="n">starts</span><span class="p">,</span><span class="n">frame</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">shapes</span><span class="p">:</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">geometry_tools</span><span class="o">.</span><span class="n">get_border</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../../../../src.util.html#nedc_mladp.src.util.nedc_mladp_gen_graphics.nedc_mladp_gen_graphics.main">[docs]</a>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+
+    <span class="c1"># set argument parsing</span>
+    <span class="c1">#</span>
+    <span class="n">args_usage</span> <span class="o">=</span> <span class="s2">&quot;nedc_mladp_gen_graphics.usage&quot;</span>
+    <span class="n">args_help</span> <span class="o">=</span> <span class="s2">&quot;nedc_mladp_gen_graphics.help&quot;</span>
+    <span class="n">parameter_file</span> <span class="o">=</span> <span class="n">fileio_tools</span><span class="o">.</span><span class="n">parameters_only_args</span><span class="p">(</span><span class="n">args_usage</span><span class="p">,</span><span class="n">args_help</span><span class="p">)</span>
+
+    <span class="c1"># parse parameters</span>
+    <span class="c1">#</span>
+    <span class="n">parsed_parameters</span> <span class="o">=</span> <span class="n">nedc_file_tools</span><span class="o">.</span><span class="n">load_parameters</span><span class="p">(</span><span class="n">parameter_file</span><span class="p">,</span><span class="s2">&quot;gen_graphics&quot;</span><span class="p">)</span>
+    <span class="n">framesize</span> <span class="o">=</span>  <span class="nb">int</span><span class="p">(</span><span class="n">parsed_parameters</span><span class="p">[</span><span class="s1">&#39;framesize&#39;</span><span class="p">])</span>
+    <span class="n">output_file</span> <span class="o">=</span> <span class="n">parsed_parameters</span><span class="p">[</span><span class="s1">&#39;output_file&#39;</span><span class="p">]</span>
+    <span class="n">image_file</span> <span class="o">=</span> <span class="n">parsed_parameters</span><span class="p">[</span><span class="s1">&#39;imagefile&#39;</span><span class="p">]</span>
+    <span class="n">label_file</span> <span class="o">=</span> <span class="n">parsed_parameters</span><span class="p">[</span><span class="s1">&#39;labelfile&#39;</span><span class="p">]</span>
+    <span class="n">compression</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">parsed_parameters</span><span class="p">[</span><span class="s1">&#39;compression&#39;</span><span class="p">])</span>
+    <span class="n">show_frames</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">parsed_parameters</span><span class="p">[</span><span class="s1">&#39;showframes&#39;</span><span class="p">])</span>
+    <span class="n">show_decisions</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">parsed_parameters</span><span class="p">[</span><span class="s1">&#39;decisions&#39;</span><span class="p">])</span>
+    <span class="n">decisions_filepath</span><span class="o">=</span><span class="n">parsed_parameters</span><span class="p">[</span><span class="s1">&#39;decisions_path&#39;</span><span class="p">]</span>
+
+    <span class="c1"># parse annotations</span>
+    <span class="c1">#</span>
+    <span class="n">header</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">coordinates</span> <span class="o">=</span> <span class="n">fileio_tools</span><span class="o">.</span><span class="n">parse_annotations</span><span class="p">(</span><span class="n">label_file</span><span class="p">)</span>
+        
+    <span class="c1"># get height and width of image (in pixels) from the header</span>
+    <span class="c1">#</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">])</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">])</span>
+
+    <span class="c1"># get labeled regions</span>
+    <span class="c1">#</span>
+    <span class="n">labeled_regions</span> <span class="o">=</span> <span class="n">ann_tools</span><span class="o">.</span><span class="n">labeled_regions</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
+
+    <span class="c1"># plot labeled regions and label them with appropriate text</span>
+    <span class="c1">#</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">z</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labeled_regions</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">geometry_tools</span><span class="o">.</span><span class="n">get_border</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">coordinates</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">coordinates</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="c1"># generate the background image and return the background image&#39;s filepath</span>
+    <span class="c1">#</span>
+    <span class="n">image_loc</span> <span class="o">=</span> <span class="n">svs_to_jpg</span><span class="p">(</span><span class="n">image_file</span><span class="p">,</span><span class="n">output_file</span><span class="p">,</span><span class="n">compression</span><span class="p">)</span>
+
+    <span class="c1"># Plot the background image</span>
+    <span class="c1">#</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">width</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">height</span><span class="p">)</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">image_loc</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">width</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">height</span><span class="p">])</span>
+
+    <span class="c1"># show the frames of the image</span>
+    <span class="c1">#</span>
+    <span class="k">if</span> <span class="n">show_frames</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">plt_frames</span><span class="p">(</span><span class="n">image_file</span><span class="p">,</span><span class="n">framesize</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">show_decisions</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+
+        <span class="c1"># get all the label information</span>
+        <span class="c1">#</span>
+        <span class="n">decisions</span> <span class="o">=</span> <span class="n">fileio_tools</span><span class="o">.</span><span class="n">read_decisions</span><span class="p">(</span><span class="n">decisions_filepath</span><span class="p">)</span>
+        
+        <span class="c1"># assign the labels to a colors</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;artf&#39;</span><span class="p">:</span><span class="s1">&#39;black&#39;</span><span class="p">,</span><span class="s1">&#39;nneo&#39;</span><span class="p">:</span><span class="s1">&#39;lightgray&#39;</span><span class="p">,</span><span class="s1">&#39;bckg&#39;</span><span class="p">:</span><span class="s1">&#39;lightcoral&#39;</span><span class="p">,</span><span class="s1">&#39;norm&#39;</span><span class="p">:</span><span class="s1">&#39;salmon&#39;</span><span class="p">,</span><span class="s1">&#39;indc&#39;</span><span class="p">:</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span><span class="s1">&#39;nneo&#39;</span><span class="p">:</span><span class="s1">&#39;yellow&#39;</span><span class="p">,</span><span class="s1">&#39;null&#39;</span><span class="p">:</span><span class="s1">&#39;green&#39;</span><span class="p">,</span><span class="s1">&#39;infl&#39;</span><span class="p">:</span><span class="s1">&#39;aqua&#39;</span><span class="p">,</span><span class="s1">&#39;dcis&#39;</span><span class="p">:</span><span class="s1">&#39;deepskyblue&#39;</span><span class="p">,</span><span class="s1">&#39;susp&#39;</span><span class="p">:</span><span class="s1">&#39;pink&#39;</span><span class="p">}</span>
+
+
+        <span class="c1"># plot the labelled frames</span>
+        <span class="n">currentAxis</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">decisions</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">framesize</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">xpos</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">ypos</span> <span class="o">=</span> <span class="n">height</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+                <span class="n">currentAxis</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">Rectangle</span><span class="p">((</span><span class="n">xpos</span><span class="p">,</span><span class="n">ypos</span><span class="p">),</span><span class="n">framesize</span><span class="p">,</span><span class="n">framesize</span><span class="p">,</span><span class="n">facecolor</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">label</span><span class="p">]))</span>
+
+    <span class="c1"># save the image</span>
+    <span class="c1">#</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Yuan Nghiem, Leo Berman, Muhotasim Ahmed.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

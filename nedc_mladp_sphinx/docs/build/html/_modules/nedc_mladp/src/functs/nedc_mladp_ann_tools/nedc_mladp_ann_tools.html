@@ -80,10 +80,17 @@
 
 
 <div class="viewcode-block" id="labeled_regions">
-<a class="viewcode-back" href="../../../../../src.functs.html#nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.labeled_regions">[docs]</a>
+<a class="viewcode-back" href="../../../../../mladp_folder/src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.labeled_regions">[docs]</a>
 <span class="k">def</span> <span class="nf">labeled_regions</span><span class="p">(</span><span class="n">coordinates</span><span class="p">:</span><span class="nb">list</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Takes a list of list of coordinates and generates a list of correlating shapes</span>
+<span class="sd">        Objective:</span>
+<span class="sd">            Takes a list of list of coordinates and generates a list of correlating shapes.\n</span>
+
+<span class="sd">        :param coordinates: A list of coordinates of all annotated regions in the image.</span>
+<span class="sd">        :type coordinates: list of tuples (int,int)</span>
+
+<span class="sd">        :return: A list of shapes formed from the coordinates.</span>
+<span class="sd">        :rtype: List of Shapely polygons as tuples (int,int)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># generate polygon of regions within the image</span>
@@ -96,8 +103,33 @@
 
 
 <div class="viewcode-block" id="labeled_frames">
-<a class="viewcode-back" href="../../../../../src.functs.html#nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.labeled_frames">[docs]</a>
+<a class="viewcode-back" href="../../../../../mladp_folder/src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.labeled_frames">[docs]</a>
 <span class="k">def</span> <span class="nf">labeled_frames</span><span class="p">(</span><span class="n">labels</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span><span class="n">height</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span><span class="n">width</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span><span class="n">windowsize</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span><span class="n">framesize</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span><span class="n">shapes</span><span class="p">:</span><span class="nb">list</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Objective:</span>
+<span class="sd">            Gets the list of labeled windows and coordinates by calling *classify_center* and returns both.\n</span>
+
+<span class="sd">        :param labels: List of labels of each coordinate pair.</span>
+<span class="sd">        :type labels: list of strings</span>
+
+<span class="sd">        :param height: Height of image.</span>
+<span class="sd">        :type height: int</span>
+
+<span class="sd">        :param width: Width of image.</span>
+<span class="sd">        :type width: int</span>
+
+<span class="sd">        :param windowsize: Length and width of the window. Must be 1.5x bigger than framesize.</span>
+<span class="sd">        :type windowsize: int</span>
+
+<span class="sd">        :param framesize: Length or width of the frame.</span>
+<span class="sd">        :type framesize: int</span>
+
+<span class="sd">        :param shapes: List of Shapely polygons in the form of tuples.</span>
+<span class="sd">        :type shapes: list of Shapely polygons as tuples (int,int)</span>
+
+<span class="sd">        :return: A list of labels of each labeled windows and a list of top-left coordinates of each labeled window.</span>
+<span class="sd">        :rtype: list of strings, list of tuples (int,int)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="c1"># classify the frames based on if it is within any region (shape)</span>
     <span class="c1">#</span>
@@ -127,9 +159,27 @@
 
 
 <div class="viewcode-block" id="frame_rgba_values">
-<a class="viewcode-back" href="../../../../../src.functs.html#nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.frame_rgba_values">[docs]</a>
+<a class="viewcode-back" href="../../../../../mladp_folder/src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.frame_rgba_values">[docs]</a>
 <span class="k">def</span> <span class="nf">frame_rgba_values</span><span class="p">(</span><span class="n">image_file</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span><span class="n">labels</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span><span class="n">coords</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span> <span class="n">windowsize</span><span class="p">:</span><span class="nb">int</span><span class="p">):</span>
-    
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Objective:</span>
+<span class="sd">            Gets the list of labeled windows and coordinates by calling *classify_center* and returns both.\n</span>
+
+<span class="sd">        :param image_file: Image file as .svs file.</span>
+<span class="sd">        :type image_file: string</span>
+
+<span class="sd">        :param labels: List of labels of labeled windows.</span>
+<span class="sd">        :type labels: list of strings.</span>
+
+<span class="sd">        :param coords: List of top-left coordinate of window.</span>
+<span class="sd">        :type coords: list of tuples (int,int)</span>
+
+<span class="sd">        :param windowsize: Length and width of the window. Must be 1.5x bigger than framesize.</span>
+<span class="sd">        :type windowsize: int</span>
+
+<span class="sd">        :return: List of lists -- All windows&#39; RGBA values and their labels -- [label,R,G,B,A,R,G,B,A,...]</span>
+<span class="sd">        :rtype: list of lists -- each list [string,int,int,int,...]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># open the imagefile</span>
     <span class="c1"># </span>
     <span class="n">NIL</span> <span class="o">=</span> <span class="n">phg</span><span class="o">.</span><span class="n">Nil</span><span class="p">()</span>
@@ -157,14 +207,14 @@
 
 
 <div class="viewcode-block" id="classify_center">
-<a class="viewcode-back" href="../../../../../src.functs.html#nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.classify_center">[docs]</a>
+<a class="viewcode-back" href="../../../../../mladp_folder/src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.classify_center">[docs]</a>
 <span class="k">def</span> <span class="nf">classify_center</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">windowsize</span><span class="p">,</span> <span class="n">framesize</span><span class="p">,</span> <span class="n">regions</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        objective:</span>
-<span class="sd">            This function&#39;s objective is to classify whether the center of each frame is within a labeled or unlabeled region.\n</span>
-<span class="sd">            1) Calls the &#39;get_top_left&#39; function to get the center coordinate of the top-left-most frame.\n</span>
-<span class="sd">            2) Calls the &#39;within_region&#39; function to check if the coordinate is in a region.\n</span>
-<span class="sd">            3) The coordinate will go through a loop between &#39;within_region&#39; and &#39;repostion&#39; as the coordinate gets repositioned until all the frames are iterated through.\n</span>
+<span class="sd">        Objective:</span>
+<span class="sd">            Classifies the center of each frame as *labeled* or *unlabeled* if within a labeled or unlabeled region.\n</span>
+<span class="sd">            1) Calls the **get_top_left** function to get the center coordinate of the top-left-most frame.\n</span>
+<span class="sd">            2) Calls the **within_region** function to check if the coordinate is in a region.\n</span>
+<span class="sd">            3) The coordinate will go through a loop between **within_region** and **repostion** as the coordinate gets repositioned until all the frames are iterated through.\n</span>
 
 <span class="sd">        :param labels: List of labels of each coordinate pair.</span>
 <span class="sd">        :type labels: list of strings</span>
@@ -178,21 +228,21 @@
 <span class="sd">        :param windowsize: Length and width of the window. Must be 1.5x bigger than framesize.</span>
 <span class="sd">        :type windowsize: int</span>
 
-<span class="sd">        :param framesize: Length or width of the frame</span>
+<span class="sd">        :param framesize: Length or width of the frame.</span>
 <span class="sd">        :type framesize: int</span>
 
-<span class="sd">        :param regions: List (of each region (or shape)) of lists (of coordinates of the specific region)</span>
+<span class="sd">        :param regions: List of Shapely polygons as tuples (int,int).</span>
 <span class="sd">        :type regions: list of list of tuples</span>
 
-<span class="sd">        :return: Returns a list of lists of a &#39;labeled&#39; coordinate and its label.</span>
-<span class="sd">        :rtype: list of lists: [[coordinate(tuple), label(string)], [coordinate(tuple), label(string)], ...] </span>
+<span class="sd">        :return: List of lists. Each list contains a &#39;labeled&#39; coordinate and its label.</span>
+<span class="sd">        :rtype: list of lists: [[tuple(int,int),(string)], [tuple(int,int), label(string)], ...] </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     
 
     <span class="k">def</span> <span class="nf">reposition</span><span class="p">(</span><span class="n">coord</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            This function repositions the given coordinate accordingly:</span>
+<span class="sd">            Repositions the given coordinate accordingly:</span>
 <span class="sd">                - if the next coordinate is out-of-bounds ONLY from the right side of the image,</span>
 <span class="sd">                    move to the next row of frames and start from the left again.</span>
 <span class="sd">                - if the next coordinate is out-of-bounds from the right side AND bottom side of the image,</span>
@@ -203,7 +253,7 @@
 <span class="sd">            :param coord: x- and y- coordinate of the center of the current frame.</span>
 <span class="sd">            :type coord: tuple of floats: (x,y)</span>
 
-<span class="sd">            :return: Returns the repostioned coordinate.</span>
+<span class="sd">            :return: Repostioned coordinate.</span>
 <span class="sd">            :rtype: tuple of floats: (x,y)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -224,7 +274,7 @@
     
     <span class="k">def</span> <span class="nf">get_top_left</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">framesize</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            This subfunction gets the center coodinate of the top-left-most frame.</span>
+<span class="sd">            Gets the center coodinate of the top-left-most frame.</span>
 
 <span class="sd">            :param height: Height of the image.</span>
 <span class="sd">            :type height: int</span>
@@ -232,7 +282,7 @@
 <span class="sd">            :param framesize: Length or width of the frame</span>
 <span class="sd">            :type framesize: int</span>
 
-<span class="sd">            :return: Returns the center coordinate of the top-left-most.</span>
+<span class="sd">            :return: Center coordinate of the top-left-most.</span>
 <span class="sd">            :rtype: tuple of floats: (x,y)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -244,7 +294,7 @@
 
     <span class="k">def</span> <span class="nf">within_region</span><span class="p">(</span><span class="n">coord</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            This function checks whether the coordinate is within any of the regions.</span>
+<span class="sd">            Checks whether the coordinate is within any of the regions.</span>
 <span class="sd">            The top-left coordinate of each WINDOW gets organized into:</span>
 <span class="sd">                &#39;labeled&#39; list if the center coordinate is inside a region along with the coordinates&#39; corresponding label as pair.</span>
 <span class="sd">                &#39;unlabeled&#39; list if the center coordinate is not inside a region.</span>
@@ -292,7 +342,7 @@
 <span class="c1"># this may not be working</span>
 <span class="c1">#</span>
 <div class="viewcode-block" id="classify_frame">
-<a class="viewcode-back" href="../../../../../src.functs.html#nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.classify_frame">[docs]</a>
+<a class="viewcode-back" href="../../../../../mladp_folder/src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.classify_frame">[docs]</a>
 <span class="k">def</span> <span class="nf">classify_frame</span><span class="p">(</span><span class="n">imagefile</span><span class="p">,</span> <span class="n">framesize</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">shapes</span><span class="p">:</span><span class="nb">list</span><span class="p">):</span>
     
     <span class="c1"># create lists to hod labelled frames and their coordinates</span>

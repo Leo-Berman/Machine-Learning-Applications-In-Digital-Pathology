@@ -60,6 +60,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../bin.html">bin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lib.html">lib</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../data.html">data</a></li>
 </ul>
 </li>
@@ -94,6 +95,13 @@
   <section id="src-functs">
 <h1>src-functs<a class="headerlink" href="#src-functs" title="Link to this heading"></a></h1>
 <p><strong>Function Tools</strong></p>
+<ol class="arabic simple">
+<li><p>nedc_mladp_ann_tools module</p></li>
+<li><p>nedc_mladp_eval_tools module</p></li>
+<li><p>nedc_mladp_feats_tools module</p></li>
+<li><p>nedc_mladp_fileio_tools module</p></li>
+<li><p>nedc_mladp_geometry_tools module</p></li>
+</ol>
 <section id="module-nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools">
 <span id="nedc-mladp-ann-tools-module"></span><h2>nedc_mladp_ann_tools module<a class="headerlink" href="#module-nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools" title="Link to this heading"></a></h2>
 <p>The maketraining.py module will classify each frame as labeled or unlabeled whether it falls within a labeled or unlabeled region, respectively.</p>
@@ -101,11 +109,11 @@
 <dt class="sig sig-object py" id="nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.classify_center">
 <span class="sig-prename descclassname"><span class="pre">nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.</span></span><span class="sig-name descname"><span class="pre">classify_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">windowsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framesize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nedc_mladp/src/functs/nedc_mladp_ann_tools/nedc_mladp_ann_tools.html#classify_center"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.classify_center" title="Link to this definition"></a></dt>
 <dd><dl class="simple">
-<dt>objective:</dt><dd><p>This function’s objective is to classify whether the center of each frame is within a labeled or unlabeled region.</p>
+<dt>Objective:</dt><dd><p>Classifies the center of each frame as <em>labeled</em> or <em>unlabeled</em> if within a labeled or unlabeled region.</p>
 <ol class="arabic simple">
-<li><p>Calls the ‘get_top_left’ function to get the center coordinate of the top-left-most frame.</p></li>
-<li><p>Calls the ‘within_region’ function to check if the coordinate is in a region.</p></li>
-<li><p>The coordinate will go through a loop between ‘within_region’ and ‘repostion’ as the coordinate gets repositioned until all the frames are iterated through.</p></li>
+<li><p>Calls the <strong>get_top_left</strong> function to get the center coordinate of the top-left-most frame.</p></li>
+<li><p>Calls the <strong>within_region</strong> function to check if the coordinate is in a region.</p></li>
+<li><p>The coordinate will go through a loop between <strong>within_region</strong> and <strong>repostion</strong> as the coordinate gets repositioned until all the frames are iterated through.</p></li>
 </ol>
 </dd>
 </dl>
@@ -116,15 +124,15 @@
 <li><p><strong>height</strong> (<em>int</em>) – Height of image.</p></li>
 <li><p><strong>width</strong> (<em>int</em>) – Width of image.</p></li>
 <li><p><strong>windowsize</strong> (<em>int</em>) – Length and width of the window. Must be 1.5x bigger than framesize.</p></li>
-<li><p><strong>framesize</strong> (<em>int</em>) – Length or width of the frame</p></li>
-<li><p><strong>regions</strong> (<em>list</em><em> of </em><em>list</em><em> of </em><em>tuples</em>) – List (of each region (or shape)) of lists (of coordinates of the specific region)</p></li>
+<li><p><strong>framesize</strong> (<em>int</em>) – Length or width of the frame.</p></li>
+<li><p><strong>regions</strong> (<em>list</em><em> of </em><em>list</em><em> of </em><em>tuples</em>) – List of Shapely polygons as tuples (int,int).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Returns a list of lists of a ‘labeled’ coordinate and its label.</p>
+<dd class="field-even"><p>List of lists. Each list contains a ‘labeled’ coordinate and its label.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list of lists: [[coordinate(tuple), label(string)], [coordinate(tuple), label(string)], …]</p>
+<dd class="field-odd"><p>list of lists: [[tuple(int,int),(string)], [tuple(int,int), label(string)], …]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -137,17 +145,73 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.frame_rgba_values">
 <span class="sig-prename descclassname"><span class="pre">nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.</span></span><span class="sig-name descname"><span class="pre">frame_rgba_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coords</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">windowsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nedc_mladp/src/functs/nedc_mladp_ann_tools/nedc_mladp_ann_tools.html#frame_rgba_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.frame_rgba_values" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><dl class="simple">
+<dt>Objective:</dt><dd><p>Gets the list of labeled windows and coordinates by calling <em>classify_center</em> and returns both.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image_file</strong> (<em>string</em>) – Image file as .svs file.</p></li>
+<li><p><strong>labels</strong> (<em>list</em><em> of </em><em>strings.</em>) – List of labels of labeled windows.</p></li>
+<li><p><strong>coords</strong> (<em>list</em><em> of </em><em>tuples</em><em> (</em><em>int</em><em>,</em><em>int</em><em>)</em>) – List of top-left coordinate of window.</p></li>
+<li><p><strong>windowsize</strong> (<em>int</em>) – Length and width of the window. Must be 1.5x bigger than framesize.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of lists – All windows’ RGBA values and their labels – [label,R,G,B,A,R,G,B,A,…]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of lists – each list [string,int,int,int,…]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.labeled_frames">
 <span class="sig-prename descclassname"><span class="pre">nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.</span></span><span class="sig-name descname"><span class="pre">labeled_frames</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">windowsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framesize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shapes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nedc_mladp/src/functs/nedc_mladp_ann_tools/nedc_mladp_ann_tools.html#labeled_frames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.labeled_frames" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><dl class="simple">
+<dt>Objective:</dt><dd><p>Gets the list of labeled windows and coordinates by calling <em>classify_center</em> and returns both.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>labels</strong> (<em>list</em><em> of </em><em>strings</em>) – List of labels of each coordinate pair.</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – Height of image.</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – Width of image.</p></li>
+<li><p><strong>windowsize</strong> (<em>int</em>) – Length and width of the window. Must be 1.5x bigger than framesize.</p></li>
+<li><p><strong>framesize</strong> (<em>int</em>) – Length or width of the frame.</p></li>
+<li><p><strong>shapes</strong> (<em>list</em><em> of </em><em>Shapely polygons as tuples</em><em> (</em><em>int</em><em>,</em><em>int</em><em>)</em>) – List of Shapely polygons in the form of tuples.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of labels of each labeled windows and a list of top-left coordinates of each labeled window.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of strings, list of tuples (int,int)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.labeled_regions">
 <span class="sig-prename descclassname"><span class="pre">nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.</span></span><span class="sig-name descname"><span class="pre">labeled_regions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coordinates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nedc_mladp/src/functs/nedc_mladp_ann_tools/nedc_mladp_ann_tools.html#labeled_regions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_mladp.src.functs.nedc_mladp_ann_tools.nedc_mladp_ann_tools.labeled_regions" title="Link to this definition"></a></dt>
-<dd><p>Takes a list of list of coordinates and generates a list of correlating shapes</p>
+<dd><dl class="simple">
+<dt>Objective:</dt><dd><p>Takes a list of list of coordinates and generates a list of correlating shapes.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>coordinates</strong> (<em>list</em><em> of </em><em>tuples</em><em> (</em><em>int</em><em>,</em><em>int</em><em>)</em>) – A list of coordinates of all annotated regions in the image.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of shapes formed from the coordinates.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of Shapely polygons as tuples (int,int)</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -156,17 +220,63 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_mladp.src.functs.nedc_mladp_eval_tools.nedc_mladp_eval_tools.mean_confidence">
 <span class="sig-prename descclassname"><span class="pre">nedc_mladp.src.functs.nedc_mladp_eval_tools.nedc_mladp_eval_tools.</span></span><span class="sig-name descname"><span class="pre">mean_confidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nedc_mladp/src/functs/nedc_mladp_eval_tools/nedc_mladp_eval_tools.html#mean_confidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_mladp.src.functs.nedc_mladp_eval_tools.nedc_mladp_eval_tools.mean_confidence" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><dl class="simple">
+<dt>Objective:</dt><dd><p>Finds the mean of all confidence percentages.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>sklearn model</em>) – Sklearn model type.</p></li>
+<li><p><strong>data</strong> (<em>x</em>) – x</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>confidence average</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_mladp.src.functs.nedc_mladp_eval_tools.nedc_mladp_eval_tools.plot_confusion_matrix">
 <span class="sig-prename descclassname"><span class="pre">nedc_mladp.src.functs.nedc_mladp_eval_tools.nedc_mladp_eval_tools.</span></span><span class="sig-name descname"><span class="pre">plot_confusion_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputpath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nedc_mladp/src/functs/nedc_mladp_eval_tools/nedc_mladp_eval_tools.html#plot_confusion_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_mladp.src.functs.nedc_mladp_eval_tools.nedc_mladp_eval_tools.plot_confusion_matrix" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><dl class="simple">
+<dt>Objective:</dt><dd><p>Plots the confusion matrix.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>sklearn model</em>) – Sklearn model type.</p></li>
+<li><p><strong>labels</strong> (<em>list</em><em> of </em><em>strings</em>) – List of labels of labeled windows.</p></li>
+<li><p><strong>data</strong> (<em>x</em>) – x</p></li>
+<li><p><strong>outputpath</strong> (<em>path</em>) – Directory path for the output to be stored.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_mladp.src.functs.nedc_mladp_eval_tools.nedc_mladp_eval_tools.plot_decisions">
 <span class="sig-prename descclassname"><span class="pre">nedc_mladp.src.functs.nedc_mladp_eval_tools.nedc_mladp_eval_tools.</span></span><span class="sig-name descname"><span class="pre">plot_decisions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_locs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framesizes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nedc_mladp/src/functs/nedc_mladp_eval_tools/nedc_mladp_eval_tools.html#plot_decisions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_mladp.src.functs.nedc_mladp_eval_tools.nedc_mladp_eval_tools.plot_decisions" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><dl class="simple">
+<dt>Objective:</dt><dd><p>Plots regions on an image with associated labels based on predictions.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>sklearn model</em>) – Sklearn model type.</p></li>
+<li><p><strong>output_path</strong> (<em>path</em>) – Directory path for the output to be stored.</p></li>
+<li><p><strong>frame_locs</strong> (<em>x</em>) – x</p></li>
+<li><p><strong>framesizes</strong> (<em>x</em>) – x</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 <section id="module-nedc_mladp.src.functs.nedc_mladp_feats_tools.nedc_mladp_feats_tools">
@@ -182,7 +292,25 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.parameters_only_args">
 <span class="sig-prename descclassname"><span class="pre">nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.</span></span><span class="sig-name descname"><span class="pre">parameters_only_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">usage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nedc_mladp/src/functs/nedc_mladp_fileio_tools/nedc_mladp_fileio_tools.html#parameters_only_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.parameters_only_args" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><dl class="simple">
+<dt>Objective:</dt><dd><p>Reads all features of each file.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>usage</strong> (<em>string</em>) – File for usage reference.</p></li>
+<li><p><strong>usage</strong> – File for help reference.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>File of parameters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.parse_annotations">
@@ -224,17 +352,74 @@ file = file path of xml or csv with this format:</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.read_decisions">
 <span class="sig-prename descclassname"><span class="pre">nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.</span></span><span class="sig-name descname"><span class="pre">read_decisions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nedc_mladp/src/functs/nedc_mladp_fileio_tools/nedc_mladp_fileio_tools.html#read_decisions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.read_decisions" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><dl class="simple">
+<dt>Objective:</dt><dd><p>Reads decisions of the file.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_name</strong> (<em>string</em>) – Name of the textfile.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.read_feature_files">
 <span class="sig-prename descclassname"><span class="pre">nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.</span></span><span class="sig-name descname"><span class="pre">read_feature_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feature_file_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nedc_mladp/src/functs/nedc_mladp_fileio_tools/nedc_mladp_fileio_tools.html#read_feature_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.read_feature_files" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><dl class="simple">
+<dt>Objective:</dt><dd><p>Reads all features of each file.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_name</strong> (<em>list</em>) – Name of the textfile.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.read_file_lists">
 <span class="sig-prename descclassname"><span class="pre">nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.</span></span><span class="sig-name descname"><span class="pre">read_file_lists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/nedc_mladp/src/functs/nedc_mladp_fileio_tools/nedc_mladp_fileio_tools.html#read_file_lists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.read_file_lists" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><dl class="simple">
+<dt>Objective:</dt><dd><p>Reads textfile of files and returns a list of all files.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_name</strong> (<em>string</em>) – Name of the textfile.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of files extracted from textfile.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of strings</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 <section id="module-nedc_mladp.src.functs.nedc_mladp_geometry_tools.nedc_mladp_geometry_tools">

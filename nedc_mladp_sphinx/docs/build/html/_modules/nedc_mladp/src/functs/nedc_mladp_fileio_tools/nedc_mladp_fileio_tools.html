@@ -84,8 +84,18 @@
 <span class="c1"># read lists of files in</span>
 <span class="c1">#</span>
 <div class="viewcode-block" id="read_file_lists">
-<a class="viewcode-back" href="../../../../../src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.read_file_lists">[docs]</a>
+<a class="viewcode-back" href="../../../../../mladp_folder/src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.read_file_lists">[docs]</a>
 <span class="k">def</span> <span class="nf">read_file_lists</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Objective:</span>
+<span class="sd">            Reads textfile of files and returns a list of all files.</span>
+
+<span class="sd">        :param file_name: Name of the textfile.</span>
+<span class="sd">        :type file_name: string</span>
+<span class="sd">        </span>
+<span class="sd">        :return: List of files extracted from textfile.</span>
+<span class="sd">        :rtype: list of strings</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Using readlines()</span>
     <span class="n">file1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
     <span class="n">Lines</span> <span class="o">=</span> <span class="n">file1</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
@@ -94,8 +104,19 @@
 
 
 <div class="viewcode-block" id="read_decisions">
-<a class="viewcode-back" href="../../../../../src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.read_decisions">[docs]</a>
+<a class="viewcode-back" href="../../../../../mladp_folder/src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.read_decisions">[docs]</a>
 <span class="k">def</span> <span class="nf">read_decisions</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Objective:</span>
+<span class="sd">            Reads decisions of the file.</span>
+
+<span class="sd">        :param file_name: Name of the textfile.</span>
+<span class="sd">        :type file_name: string</span>
+<span class="sd">        </span>
+<span class="sd">        :return: -</span>
+<span class="sd">        :rtype: -</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c1"># Using readlines()</span>
     <span class="n">file1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
     <span class="n">Lines</span> <span class="o">=</span> <span class="n">file1</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
@@ -104,9 +125,19 @@
 
 
 <div class="viewcode-block" id="read_feature_files">
-<a class="viewcode-back" href="../../../../../src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.read_feature_files">[docs]</a>
+<a class="viewcode-back" href="../../../../../mladp_folder/src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.read_feature_files">[docs]</a>
 <span class="k">def</span> <span class="nf">read_feature_files</span><span class="p">(</span><span class="n">feature_file_list</span><span class="p">:</span><span class="nb">list</span><span class="p">):</span>
-    
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Objective:</span>
+<span class="sd">            Reads all features of each file.</span>
+
+<span class="sd">        :param file_name: Name of the textfile.</span>
+<span class="sd">        :type file_name: list</span>
+<span class="sd">        </span>
+<span class="sd">        :return: -</span>
+<span class="sd">        :rtype: -</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c1"># lists for holding the labels, data, top left corner of frames, and framesizes</span>
     <span class="c1">#</span>
     <span class="n">mydata</span> <span class="o">=</span> <span class="p">[]</span>
@@ -142,8 +173,21 @@
 <span class="c1"># set cmdl to only process a parameter file</span>
 <span class="c1">#</span>
 <div class="viewcode-block" id="parameters_only_args">
-<a class="viewcode-back" href="../../../../../src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.parameters_only_args">[docs]</a>
+<a class="viewcode-back" href="../../../../../mladp_folder/src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.parameters_only_args">[docs]</a>
 <span class="k">def</span> <span class="nf">parameters_only_args</span><span class="p">(</span><span class="n">usage</span><span class="p">,</span><span class="n">help</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Objective:</span>
+<span class="sd">            Reads all features of each file.</span>
+
+<span class="sd">        :param usage: File for usage reference.</span>
+<span class="sd">        :type usage: string</span>
+
+<span class="sd">        :param usage: File for help reference.</span>
+<span class="sd">        :type usage: string</span>
+<span class="sd">        </span>
+<span class="sd">        :return: File of parameters.</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">argparser</span> <span class="o">=</span> <span class="n">nedc_cmdl_parser</span><span class="o">.</span><span class="n">Cmdl</span><span class="p">(</span><span class="n">usage</span><span class="p">,</span><span class="n">help</span><span class="p">)</span>
     <span class="n">argparser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="nb">str</span><span class="p">)</span>
     <span class="n">parsed_args</span> <span class="o">=</span> <span class="n">argparser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
@@ -152,7 +196,7 @@
 
 
 <div class="viewcode-block" id="parse_annotations">
-<a class="viewcode-back" href="../../../../../src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.parse_annotations">[docs]</a>
+<a class="viewcode-back" href="../../../../../mladp_folder/src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_fileio_tools.nedc_mladp_fileio_tools.parse_annotations">[docs]</a>
 <span class="k">def</span> <span class="nf">parse_annotations</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>

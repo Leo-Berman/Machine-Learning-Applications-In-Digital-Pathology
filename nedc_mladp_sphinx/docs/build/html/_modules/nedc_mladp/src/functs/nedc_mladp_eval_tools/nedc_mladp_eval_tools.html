@@ -81,8 +81,24 @@
 <span class="c1"># plot confusion matrix </span>
 <span class="c1">#</span>
 <div class="viewcode-block" id="plot_confusion_matrix">
-<a class="viewcode-back" href="../../../../../src.functs.html#nedc_mladp.src.functs.nedc_mladp_eval_tools.nedc_mladp_eval_tools.plot_confusion_matrix">[docs]</a>
+<a class="viewcode-back" href="../../../../../mladp_folder/src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_eval_tools.nedc_mladp_eval_tools.plot_confusion_matrix">[docs]</a>
 <span class="k">def</span> <span class="nf">plot_confusion_matrix</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">labels</span><span class="p">,</span><span class="n">data</span><span class="p">,</span><span class="n">outputpath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Objective:</span>
+<span class="sd">            Plots the confusion matrix.</span>
+
+<span class="sd">        :param model: Sklearn model type.</span>
+<span class="sd">        :type model: sklearn model</span>
+
+<span class="sd">        :param labels: List of labels of labeled windows.</span>
+<span class="sd">        :type labels: list of strings</span>
+
+<span class="sd">        :param data: x</span>
+<span class="sd">        :type data: x</span>
+
+<span class="sd">        :param outputpath: Directory path for the output to be stored.</span>
+<span class="sd">        :type outputpath: path</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="c1"># generate model predicitions</span>
     <span class="c1">#</span>
@@ -104,8 +120,21 @@
 <span class="c1"># find the mean confidence %</span>
 <span class="c1">#</span>
 <div class="viewcode-block" id="mean_confidence">
-<a class="viewcode-back" href="../../../../../src.functs.html#nedc_mladp.src.functs.nedc_mladp_eval_tools.nedc_mladp_eval_tools.mean_confidence">[docs]</a>
+<a class="viewcode-back" href="../../../../../mladp_folder/src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_eval_tools.nedc_mladp_eval_tools.mean_confidence">[docs]</a>
 <span class="k">def</span> <span class="nf">mean_confidence</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Objective:</span>
+<span class="sd">            Finds the mean of all confidence percentages.</span>
+
+<span class="sd">        :param model: Sklearn model type.</span>
+<span class="sd">        :type model: sklearn model</span>
+
+<span class="sd">        :param data: x</span>
+<span class="sd">        :type data: x</span>
+<span class="sd">        </span>
+<span class="sd">        :return: confidence average</span>
+<span class="sd">        :rtype: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># find predictions</span>
     <span class="c1">#</span>
@@ -123,8 +152,25 @@
 
 
 <div class="viewcode-block" id="plot_decisions">
-<a class="viewcode-back" href="../../../../../src.functs.html#nedc_mladp.src.functs.nedc_mladp_eval_tools.nedc_mladp_eval_tools.plot_decisions">[docs]</a>
+<a class="viewcode-back" href="../../../../../mladp_folder/src_files/src.functs.html#nedc_mladp.src.functs.nedc_mladp_eval_tools.nedc_mladp_eval_tools.plot_decisions">[docs]</a>
 <span class="k">def</span> <span class="nf">plot_decisions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">data</span><span class="p">,</span><span class="n">output_path</span><span class="p">,</span><span class="n">frame_locs</span><span class="p">,</span><span class="n">framesizes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Objective:</span>
+<span class="sd">            Plots regions on an image with associated labels based on predictions.</span>
+
+<span class="sd">        :param model: Sklearn model type.</span>
+<span class="sd">        :type model: sklearn model</span>
+
+<span class="sd">        :param output_path: Directory path for the output to be stored.</span>
+<span class="sd">        :type output_path: path</span>
+
+<span class="sd">        :param frame_locs: x</span>
+<span class="sd">        :type frame_locs: x</span>
+
+<span class="sd">        :param framesizes: x</span>
+<span class="sd">        :type framesizes: x</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="c1"># get the predictions</span>
     <span class="c1">#</span>

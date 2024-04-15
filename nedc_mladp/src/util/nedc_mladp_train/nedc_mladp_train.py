@@ -41,6 +41,10 @@ def main():
     feature_data_list=parsed_parameters['data_list']
     output_model_directory=parsed_parameters['model_output_path']
     compression=int(parsed_parameters['compression'])
+
+    run_params = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
+    if run_params['run']==1:
+        feature_data_list=run_params['output_list']
     
     # set the list of datapoints to all the files within that directory
     #

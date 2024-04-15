@@ -1,22 +1,24 @@
 # version=param_v1.0.0
 
 gen_feats{
+    run=1
     windowsize=250
     framesize=200
-    imagefile_list="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/tuh_im_eval.list"
-    labelfile_list="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/tuh_lbl_eval.list"
-    output_file="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/EVAL_DATA/"
+    imagefile_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_DATA/test_img.list"
+    labelfile_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_DATA/test_ann.list"
+    output_dir="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_OUTPUT"
+    output_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_OUTPUT/dcts.list"
 }
 
 train_model{
     model_type="QDA"
-    data_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAIN_DATA/train_data_dir.txt"
+    data_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_OUTPUT/dcts.list"
     model_output_path="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAINED_MODELS/"
     compression=0
 }
 
 eval_model{
-    data_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAIN_DATA/train_data_dir.txt"
+    data_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_OUTPUT/dcts.list"
     model="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAINED_MODELS/Trained_QDA.joblib"
     confusion_matrix=0
     output_graphics_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/CONFUSION_MATRIXES/RNFConfusionMatrix.png"

@@ -8,7 +8,14 @@ import nedc_mladp_geometry_tools as geometry_tools
 
 def labeled_regions(coordinates:list):
     """
-        Takes a list of list of coordinates and generates a list of correlating shapes
+        Objective:
+            Takes a list of list of coordinates and generates a list of correlating shapes.\n
+
+        :param coordinates: A list of coordinates of all annotated regions in the image.
+        :type coordinates: list of tuples (int,int)
+
+        :return: A list of shapes formed from the coordinates.
+        :rtype: List of Shapely polygons as tuples (int,int)
     """
 
     # generate polygon of regions within the image
@@ -20,6 +27,31 @@ def labeled_regions(coordinates:list):
     return ret_shapes
 
 def labeled_frames(labels:list,height:int,width:int,windowsize:int,framesize:int,shapes:list):
+    """
+        Objective:
+            Gets the list of labeled windows and coordinates by calling *classify_center* and returns both.\n
+
+        :param labels: List of labels of each coordinate pair.
+        :type labels: list of strings
+
+        :param height: Height of image.
+        :type height: int
+
+        :param width: Width of image.
+        :type width: int
+
+        :param windowsize: Length and width of the window. Must be 1.5x bigger than framesize.
+        :type windowsize: int
+
+        :param framesize: Length or width of the frame.
+        :type framesize: int
+
+        :param shapes: List of Shapely polygons in the form of tuples.
+        :type shapes: list of Shapely polygons as tuples (int,int)
+
+        :return: A list of labels of each labeled windows and a list of top-left coordinates of each labeled window.
+        :rtype: list of strings, list of tuples (int,int)
+    """
     
     # classify the frames based on if it is within any region (shape)
     #
@@ -48,7 +80,25 @@ def labeled_frames(labels:list,height:int,width:int,windowsize:int,framesize:int
     return ret_coords,ret_labels
 
 def frame_rgba_values(image_file:str,labels:list,coords:list, windowsize:int):
-    
+    """
+        Objective:
+            Gets the list of labeled windows and coordinates by calling *classify_center* and returns both.\n
+
+        :param image_file: Image file as .svs file.
+        :type image_file: string
+
+        :param labels: List of labels of labeled windows.
+        :type labels: list of strings.
+
+        :param coords: List of top-left coordinate of window.
+        :type coords: list of tuples (int,int)
+
+        :param windowsize: Length and width of the window. Must be 1.5x bigger than framesize.
+        :type windowsize: int
+
+        :return: List of lists -- All windows' RGBA values and their labels -- [label,R,G,B,A,R,G,B,A,...]
+        :rtype: list of lists -- each list [string,int,int,int,...]
+    """
     # open the imagefile
     # 
     NIL = phg.Nil()
@@ -76,11 +126,11 @@ def frame_rgba_values(image_file:str,labels:list,coords:list, windowsize:int):
 
 def classify_center(labels, height, width, windowsize, framesize, regions):
     """
-        objective:
-            This function's objective is to classify whether the center of each frame is within a labeled or unlabeled region.\n
-            1) Calls the 'get_top_left' function to get the center coordinate of the top-left-most frame.\n
-            2) Calls the 'within_region' function to check if the coordinate is in a region.\n
-            3) The coordinate will go through a loop between 'within_region' and 'repostion' as the coordinate gets repositioned until all the frames are iterated through.\n
+        Objective:
+            Classifies the center of each frame as *labeled* or *unlabeled* if within a labeled or unlabeled region.\n
+            1) Calls the **get_top_left** function to get the center coordinate of the top-left-most frame.\n
+            2) Calls the **within_region** function to check if the coordinate is in a region.\n
+            3) The coordinate will go through a loop between **within_region** and **repostion** as the coordinate gets repositioned until all the frames are iterated through.\n
 
         :param labels: List of labels of each coordinate pair.
         :type labels: list of strings
@@ -94,21 +144,21 @@ def classify_center(labels, height, width, windowsize, framesize, regions):
         :param windowsize: Length and width of the window. Must be 1.5x bigger than framesize.
         :type windowsize: int
 
-        :param framesize: Length or width of the frame
+        :param framesize: Length or width of the frame.
         :type framesize: int
 
-        :param regions: List (of each region (or shape)) of lists (of coordinates of the specific region)
+        :param regions: List of Shapely polygons as tuples (int,int).
         :type regions: list of list of tuples
 
-        :return: Returns a list of lists of a 'labeled' coordinate and its label.
-        :rtype: list of lists: [[coordinate(tuple), label(string)], [coordinate(tuple), label(string)], ...] 
+        :return: List of lists. Each list contains a 'labeled' coordinate and its label.
+        :rtype: list of lists: [[tuple(int,int),(string)], [tuple(int,int), label(string)], ...] 
     """
 
     
 
     def reposition(coord):
         """
-            This function repositions the given coordinate accordingly:
+            Repositions the given coordinate accordingly:
                 - if the next coordinate is out-of-bounds ONLY from the right side of the image,
                     move to the next row of frames and start from the left again.
                 - if the next coordinate is out-of-bounds from the right side AND bottom side of the image,
@@ -119,7 +169,7 @@ def classify_center(labels, height, width, windowsize, framesize, regions):
             :param coord: x- and y- coordinate of the center of the current frame.
             :type coord: tuple of floats: (x,y)
 
-            :return: Returns the repostioned coordinate.
+            :return: Repostioned coordinate.
             :rtype: tuple of floats: (x,y)
         """
 
@@ -140,7 +190,7 @@ def classify_center(labels, height, width, windowsize, framesize, regions):
     
     def get_top_left(height, framesize):
         """
-            This subfunction gets the center coodinate of the top-left-most frame.
+            Gets the center coodinate of the top-left-most frame.
 
             :param height: Height of the image.
             :type height: int
@@ -148,7 +198,7 @@ def classify_center(labels, height, width, windowsize, framesize, regions):
             :param framesize: Length or width of the frame
             :type framesize: int
 
-            :return: Returns the center coordinate of the top-left-most.
+            :return: Center coordinate of the top-left-most.
             :rtype: tuple of floats: (x,y)
         """
 
@@ -160,7 +210,7 @@ def classify_center(labels, height, width, windowsize, framesize, regions):
 
     def within_region(coord):
         """
-            This function checks whether the coordinate is within any of the regions.
+            Checks whether the coordinate is within any of the regions.
             The top-left coordinate of each WINDOW gets organized into:
                 'labeled' list if the center coordinate is inside a region along with the coordinates' corresponding label as pair.
                 'unlabeled' list if the center coordinate is not inside a region.

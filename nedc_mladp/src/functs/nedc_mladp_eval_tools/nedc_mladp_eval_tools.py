@@ -8,6 +8,22 @@ import polars
 # plot confusion matrix 
 #
 def plot_confusion_matrix(model,labels,data,outputpath):
+    """
+        Objective:
+            Plots the confusion matrix.
+
+        :param model: Sklearn model type.
+        :type model: sklearn model
+
+        :param labels: List of labels of labeled windows.
+        :type labels: list of strings
+
+        :param data: x
+        :type data: x
+
+        :param outputpath: Directory path for the output to be stored.
+        :type outputpath: path
+    """
     
     # generate model predicitions
     #
@@ -28,6 +44,19 @@ def plot_confusion_matrix(model,labels,data,outputpath):
 # find the mean confidence %
 #
 def mean_confidence(model,data):
+    """
+        Objective:
+            Finds the mean of all confidence percentages.
+
+        :param model: Sklearn model type.
+        :type model: sklearn model
+
+        :param data: x
+        :type data: x
+        
+        :return: confidence average
+        :rtype: float
+    """
 
     # find predictions
     #
@@ -44,6 +73,23 @@ def mean_confidence(model,data):
     return total_max_predictions/len(class_predictions)
 
 def plot_decisions(model,data,output_path,frame_locs,framesizes):
+    """
+        Objective:
+            Plots regions on an image with associated labels based on predictions.
+
+        :param model: Sklearn model type.
+        :type model: sklearn model
+
+        :param output_path: Directory path for the output to be stored.
+        :type output_path: path
+
+        :param frame_locs: x
+        :type frame_locs: x
+
+        :param framesizes: x
+        :type framesizes: x
+
+    """
     
     # get the predictions
     #

@@ -3,7 +3,7 @@
 
 # define source and object files
 #
-SRC = nedc_mladp_run.py
+SRC = nedc_mladp_run.sh
 BFILE := $(basename $(SRC))
 
 # define an installation target

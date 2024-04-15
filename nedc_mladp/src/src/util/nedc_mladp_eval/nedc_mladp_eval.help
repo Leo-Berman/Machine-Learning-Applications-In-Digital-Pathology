@@ -1,0 +1,50 @@
+
+With usage:
+    
+    ./evaluate_model -p <parameter file>
+
+Parameter file format:
+
+    # version=param_v1.0.0
+    eval_model{
+        data_list=<PATH OF TEXT FILE WITH LIST OF FILE>
+            FORMAT OF TEXT FILE{
+                data1.csv
+                data2.csv
+                ...
+                data3.csv
+            }
+        
+        model=<PATH OF .joblib FILE WITH MODEL>
+
+        confusion_matrix=<0/1>
+            FORMAT{
+                0 means no confusion matrix, 1 means yes confusion matrix
+            }
+
+        output_graphics_path=<path of output image>
+            FORMAT{
+                *.PNG
+            }
+
+        decisions=<0/1>
+            FORMAT{
+                0 means no decisions, 1 means yes decisions
+            }
+
+        output_decisions_path=<path of output decisions>
+            FORMAT{
+                *.csv
+            }
+    }
+
+Parameter File Format Example:
+
+    eval_model{
+        data_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAIN_DATA/train_data_dir.txt"
+        model="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAINED_MODELS/Trained_QDA.joblib"
+        confusion_matrix=0
+        output_graphics_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/CONFUSION_MATRIXES/RNFConfusionMatrix.png"
+        decisions=0
+        output_decisions_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TEST/testdecision.csv"
+    }

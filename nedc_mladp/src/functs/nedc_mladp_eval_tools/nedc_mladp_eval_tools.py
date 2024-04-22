@@ -5,6 +5,13 @@ import seaborn
 import matplotlib.pyplot as plt
 import polars
 
+def plot_histogram(labels,histogram_output):
+    '''
+    do the thing
+    '''
+    
+    pass
+
 # plot confusion matrix 
 #
 def plot_confusion_matrix(model,labels,data,outputpath):

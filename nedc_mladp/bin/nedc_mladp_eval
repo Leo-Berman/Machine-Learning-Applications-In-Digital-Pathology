@@ -17,7 +17,7 @@
 # 
 import joblib
 
-import nedc_fileio_tools as fileio_tools
+import nedc_mladp_fileio_tools as fileio_tools
 import nedc_mladp_eval_tools as eval_tools
 
 #picone
@@ -38,6 +38,11 @@ def main():
     model_path=parsed_parameters['model']
     generate_confusion_matrix=int(parsed_parameters['confusion_matrix'])
     confusion_matrix_path=parsed_parameters['output_graphics_path']
+
+    run_params = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
+    if run_params['run']==1:
+        feature_data_list=run_params['output_list']
+        model_path = nedc_file_tools.load_parameters(parameter_file,"train_model")['model_output_path']
     
     # only a single image applies
     #
@@ -64,7 +69,7 @@ def main():
 
     # print the error rate and mean confidence %
     #
-    print("Error rate = ",model.score(mydata,labels))
+    print("Accuracy rate = ",model.score(mydata,labels))
     print("Mean confidence %",eval_tools.mean_confidence(model,mydata))
     
 

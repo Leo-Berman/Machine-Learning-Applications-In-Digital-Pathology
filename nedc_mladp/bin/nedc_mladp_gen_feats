@@ -39,13 +39,17 @@ def main():
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
     windowsize = int(parsed_parameters['windowsize'])
     framesize =  int(parsed_parameters['framesize'])
-    output_path = parsed_parameters['output_file']
+    output_path = parsed_parameters['output_dir']
+    output_txt_file = parsed_parameters['output_list']
 
     # read list of files
     #
     svs_list = fileio_tools.read_file_lists(parsed_parameters['imagefile_list'])
     csv_list = fileio_tools.read_file_lists(parsed_parameters['labelfile_list'])
 
+
+    list_of_files=[]
+    
     # iterate through and create a feature vector file for each file
     #
     for svs,csv in zip(svs_list,csv_list):
@@ -100,7 +104,11 @@ def main():
         ifile,iextension = os.path.splitext(os.path.basename(os.path.normpath(svs)))
         write_path = output_path+ifile+"_RGBADCT.csv"
         df.write_csv(write_path)
+        list_of_files.append(write_path)
 
-
+    f = open(output_txt_file,"a")
+    for x in list_of_files:
+        f.write(x+'\n')
+    f.close()
 if __name__ == "__main__":
     main()

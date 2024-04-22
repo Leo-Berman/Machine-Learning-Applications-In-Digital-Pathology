@@ -1,23 +1,26 @@
 # version=param_v1.0.0
 
 gen_feats{
-    windowsize=250
+    run=1
+    dct_size=10
+    windowsize=256
     framesize=200
-    imagefile_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/bin/test_train_img.list"
-    labelfile_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/bin/test_train_lbl.list"
-    output_file="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_DATA/"
+    imagefile_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_DATA/test_img.list"
+    labelfile_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_DATA/test_ann.list"
+    output_dir="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_OUTPUT/"
+    output_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_OUTPUT/dcts.list"
 }
 
 train_model{
-    model_type="QDA"
-    data_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAIN_DATA/train_data_dir.txt"
+    model_type="RNF"
+    data_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_OUTPUT/dcts.list"
     model_output_path="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAINED_MODELS/"
     compression=0
 }
 
 eval_model{
-    data_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAIN_DATA/train_data_dir.txt"
-    model="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAINED_MODELS/Trained_QDA.joblib"
+    data_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_OUTPUT/dcts.list"
+    model="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAINED_MODELS/Trained_RNF.joblib"
     confusion_matrix=0
     output_graphics_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/CONFUSION_MATRIXES/RNFConfusionMatrix.png"
     decisions=0

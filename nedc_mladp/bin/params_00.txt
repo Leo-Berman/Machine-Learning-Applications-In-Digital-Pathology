@@ -21,10 +21,13 @@ train_model{
 eval_model{
     data_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_OUTPUT/dcts.list"
     model="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAINED_MODELS/Trained_RNF.joblib"
-    confusion_matrix=0
-    output_graphics_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/CONFUSION_MATRIXES/RNFConfusionMatrix.png"
+    confusion_matrix=1
+    output_graphics_path="rnfconfmat.png"
     decisions=0
     output_decisions_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TEST/testdecision.csv"
+    generate_histogram=0
+    even_data=1
+    hist_out="null"
 }
 
 gen_graphics{

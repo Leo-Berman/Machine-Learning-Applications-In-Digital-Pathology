@@ -48,7 +48,9 @@ def main():
     #
     generate_decisions=int(parsed_parameters['decisions'])
     decisions_path=parsed_parameters['output_decisions_path']
-    
+    generate_histogram = int(parsed_parameters['generate_histogram'])                          
+    even_data = int(parsed_parameters['even_data'])
+    histogram_output=parsed_parameters['hist_out']
     # load the model
     #
     model = joblib.load(model_path)        
@@ -56,7 +58,15 @@ def main():
     feature_files_list = fileio_tools.read_file_lists(feature_data_list)
 
     labels,mydata,frame_locations,framesizes = fileio_tools.read_feature_files(feature_files_list)
+
+    print("before = ",len(mydata),len(labels))
     
+    # even the data out
+    #
+    if even_data == 1:
+        mydata,labels = eval_tools.even_data(mydata,labels)
+
+    print("after = ",len(mydata),len(labels))
     # generate confusion matrix
     #
     if generate_confusion_matrix == 1:
@@ -66,6 +76,9 @@ def main():
     # 
     if generate_decisions == 1:
         eval_tools.plot_decisions(model,mydata,decisions_path,frame_locations,framesizes)
+
+    if generate_histogram == 1:
+        eval_tools.plot_histogram(labels,histogram_output)
 
     # print the error rate and mean confidence %
     #

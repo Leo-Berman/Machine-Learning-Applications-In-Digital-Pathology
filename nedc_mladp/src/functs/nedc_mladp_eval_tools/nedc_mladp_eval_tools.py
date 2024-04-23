@@ -1,6 +1,7 @@
 # import python libraries
 #
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay
 import seaborn
 import matplotlib.pyplot as plt
 import polars
@@ -14,7 +15,7 @@ def plot_histogram(labels,histogram_output):
 
 # plot confusion matrix 
 #
-def plot_confusion_matrix(model,labels,data,outputpath):
+def plot_confusion_matrix(model,inlabels,data,outputpath):
     """
         Objective:
             Plots the confusion matrix.
@@ -38,11 +39,11 @@ def plot_confusion_matrix(model,labels,data,outputpath):
     
     # generate confusion matrix with labels and predictions
     #
-    conf_mat = confusion_matrix(labels, predictions)
-    
+    conf_mat = confusion_matrix(inlabels, predictions,labels=list(set(inlabels)))
+    print(list(set(inlabels)))
     # heatmap the confusion matrix
     #
-    seaborn.heatmap(conf_mat, cmap='Blues')
+    seaborn.heatmap(conf_mat, cmap='Blues',yticklabels=list(set(inlabels)),xticklabels=list(set(inlabels)))
     
     # save the figure
     #
@@ -113,3 +114,23 @@ def plot_decisions(model,data,output_path,frame_locs,framesizes):
     MySchem = ["labels",'framesizes','top_left_x','top_left_y']
     df = polars.DataFrame(rows,schema=MySchem)
     df.write_csv(output_path)
+
+def even_data(indata,inlabels):
+    retdata = []
+    retlabels = []
+
+    inlabels=list(inlabels)
+    imbalanced_label = max(set(inlabels), key=inlabels.count)
+    mycount = int((len(inlabels) - inlabels.count(imbalanced_label)))
+    for x,y in list(zip(inlabels,indata)):
+        if x == imbalanced_label and mycount > 0:
+            retdata.append(y)
+            retlabels.append(x)
+            mycount-=1
+
+        elif x != imbalanced_label:
+            retdata.append(y)
+            retlabels.append(x)
+        else:
+            pass
+    return retdata,retlabels

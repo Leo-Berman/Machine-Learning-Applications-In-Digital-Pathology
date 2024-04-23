@@ -41,7 +41,9 @@ def main():
     feature_data_list=parsed_parameters['data_list']
     output_model_directory=parsed_parameters['model_output_path']
     compression=int(parsed_parameters['compression'])
-
+    even_data = int(parsed_parameters['even_data'])
+    
+    
     run_params = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
     if run_params['run']==1:
         feature_data_list=run_params['output_list']
@@ -53,7 +55,11 @@ def main():
     # parse the annotations
     #
     labels,mydata,unused1,unused2 = fileio_tools.read_feature_files(train_list)
-    
+
+    if even_data == 1:
+        mydata,labels = feats_tools.even_data(mydata,labels)
+
+
     # Fit the model
     #
     model = None

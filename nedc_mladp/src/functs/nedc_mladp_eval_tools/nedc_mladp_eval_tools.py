@@ -9,8 +9,31 @@ def plot_histogram(labels,histogram_output):
     '''
     do the thing
     '''
-    
-    pass
+
+    types = ["norm", "bckg", "artf", "null", "nneo", "infl", "susp", "dcis", "indc"]
+    colors = ["lightpink", "peachpuff", "#CBC3DB", "#BAD9BB", "lightblue", "thistle", "#BED4E9", "pink", "#C5CDBA"]
+
+    label_count = {}
+
+    for label in labels:
+        if label in label_count:
+            label_count[label] += 1
+        else:
+            label_count[label] = 1
+
+    for t in types:
+        if t not in label_count:
+            label_count[t] = 0
+
+    l_types = list(label_count.keys())
+    counts = list(label_count.values())
+
+    plt.bar(l_types, counts, color=colors)
+    plt.xlabel('Label Types')
+    plt.ylabel('Count')
+    plt.title('Classification of Biopsy Slides')
+
+    plt.savefig(histogram_output)
 
 # plot confusion matrix 
 #

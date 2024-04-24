@@ -57,6 +57,10 @@ def main():
 
     labels,mydata,frame_locations,framesizes = fileio_tools.read_feature_files(feature_files_list)
     
+    # generate histogram
+    #
+    eval_tools.plot_histogram(labels,histogram_output)
+
     # generate confusion matrix
     #
     if generate_confusion_matrix == 1:

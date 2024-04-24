@@ -30,8 +30,7 @@ def plot_histogram(labels,histogram_output):
 
     plt.bar(l_types, counts, color=colors)
     plt.xlabel('Label Types')
-    plt.ylabel('Count')
-    plt.title('Classification of Biopsy Slides')
+    plt.ylabel('Number of Labels')
 
     plt.savefig(histogram_output)
 

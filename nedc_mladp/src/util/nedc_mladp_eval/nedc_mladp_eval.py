@@ -36,8 +36,7 @@ def main():
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"eval_model")
     feature_data_list=parsed_parameters['data_list']
     model_path=parsed_parameters['model']
-    generate_confusion_matrix=int(parsed_parameters['confusion_matrix'])
-    confusion_matrix_path=parsed_parameters['output_graphics_path']
+    
 
     run_params = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
     if run_params['run']==1:
@@ -48,9 +47,12 @@ def main():
     #
     generate_decisions=int(parsed_parameters['decisions'])
     decisions_path=parsed_parameters['output_decisions_path']
-    generate_histogram = int(parsed_parameters['generate_histogram'])                          
+    generate_histogram = int(parsed_parameters['label_histogram'])                          
+    histogram_output=parsed_parameters['output_histogram_path']
     even_data = int(parsed_parameters['even_data'])
-    histogram_output=parsed_parameters['hist_out']
+    confusion_matrix_path=parsed_parameters['output_confmat_path']
+    generate_confusion_matrix=int(parsed_parameters['confusion_matrix'])
+
     # load the model
     #
     model = joblib.load(model_path)        

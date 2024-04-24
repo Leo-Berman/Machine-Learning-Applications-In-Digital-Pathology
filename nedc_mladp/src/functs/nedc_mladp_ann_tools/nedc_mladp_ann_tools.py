@@ -282,3 +282,4 @@ def classify_frame(imagefile, framesize, labels, shapes:list):
     # return labeled frame's top left coordinate and a corresponding label list
     #
     return labeled_frame_coords,labeled
+

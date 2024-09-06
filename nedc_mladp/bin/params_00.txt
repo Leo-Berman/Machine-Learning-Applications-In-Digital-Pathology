@@ -1,7 +1,7 @@
 # version=param_v1.0.0
 
 gen_feats{
-    run=1
+    run=0
     dct_size=10
     windowsize=256
     framesize=200
@@ -16,6 +16,7 @@ train_model{
     data_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_OUTPUT/dcts.list"
     model_output_path="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAINED_MODELS/"
     compression=0
+    even_data=1
 }
 
 eval_model{

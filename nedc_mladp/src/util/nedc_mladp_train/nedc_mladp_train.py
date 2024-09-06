@@ -18,11 +18,12 @@
 # 
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA
 from sklearn.ensemble import RandomForestClassifier as RNF
+from sklearn.svm import SVC as SVM
 import os
 import joblib
 
 import nedc_mladp_fileio_tools as fileio_tools
-
+import nedc_mladp_feats_tools as feats_tools
 #picone
 import nedc_file_tools
 
@@ -67,6 +68,8 @@ def main():
         model = QDA()
     elif model_type == "RNF":
         model = RNF()
+    elif model_type == "SVM":
+        model = SVM()
     else:
         print("No model supplied")
         return

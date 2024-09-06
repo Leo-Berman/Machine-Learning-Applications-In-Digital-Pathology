@@ -19,7 +19,7 @@ import joblib
 
 import nedc_mladp_fileio_tools as fileio_tools
 import nedc_mladp_eval_tools as eval_tools
-
+import nedc_mladp_feats_tools as feats_tools
 #picone
 import nedc_file_tools
 
@@ -66,7 +66,7 @@ def main():
     # even the data out
     #
     if even_data == 1:
-        mydata,labels = eval_tools.even_data(mydata,labels)
+        mydata,labels = feats_tools.even_data(mydata,labels)
 
     print("after = ",len(mydata),len(labels))
     # generate confusion matrix

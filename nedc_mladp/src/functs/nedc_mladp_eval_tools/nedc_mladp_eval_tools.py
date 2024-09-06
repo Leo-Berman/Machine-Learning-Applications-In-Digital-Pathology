@@ -34,7 +34,7 @@ def plot_histogram(labels,histogram_output):
     plt.ylabel('Number of Labels')
 
     plt.savefig(histogram_output)
-
+    plt.cla()
 # plot confusion matrix 
 #
 def plot_confusion_matrix(model,inlabels,data,outputpath):
@@ -69,8 +69,10 @@ def plot_confusion_matrix(model,inlabels,data,outputpath):
     
     # save the figure
     #
+    plt.ylabel("Actual Values")
+    plt.xlabel("Predicted Values")
     plt.savefig(outputpath)
-
+    plt.cla()
 # find the mean confidence %
 #
 def mean_confidence(model,data):

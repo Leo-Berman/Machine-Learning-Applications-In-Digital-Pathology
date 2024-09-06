@@ -1,0 +1,41 @@
+# version=param_v1.0.0
+
+gen_feats{
+    run=0
+    windowsize=256
+    framesize=200
+    imagefile_list="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/tuh_im_dev.list"
+    labelfile_list="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/tuh_lbl_dev.list"
+    output_dir="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/DEV/"
+    output_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/DEV/dcts.list"
+}
+
+train_model{
+    model_type="SVM"
+    data_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAIN/dcts.list"
+    model_output_path="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAINEDMODELS/"
+    compression=0
+    even_data=0
+}
+
+eval_model{
+    data_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/EVAL/dcts.list"
+    model="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAINEDMODELS/Trained_RNF.joblib"
+    confusion_matrix=1
+    output_confmat_path="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/GRAPHICS/RNFEVALConfmat.png"
+    decisions=0
+    output_decisions_path=""/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/GRAPHICS/testRNFdecision.csv"
+    even_data=0
+    label_histogram=0
+    output_histogram_path="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/GRAPHICS/RNFTRAINHistogram.png"
+}
+gen_graphics{
+    framesize=6000
+    imagefile="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/00006695_aaaaaadg/s000_2015_01_01/breast/00006695_aaaaaadg_s000_0hne_0000_a005_lvl001_t000.svs"
+    labelfile="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/00006695_aaaaaadg/s000_2015_01_01/breast/00006695_aaaaaadg_s000_0hne_0000_a005_lvl001_t000.csv"
+    output_file="RNFtest.png"
+    showframes=0
+    compression=40
+    decisions=1
+    decisions_path="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/GRAPHICS/testRNFdecision.csv"
+}

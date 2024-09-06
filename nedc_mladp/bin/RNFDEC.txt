@@ -1,0 +1,4 @@
+before =  1519 1519
+after =  1519 1519
+Accuracy rate =  0.9506254114549045
+Mean confidence % 0.8137788018433232

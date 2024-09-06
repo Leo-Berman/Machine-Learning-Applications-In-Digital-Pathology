@@ -11,16 +11,6 @@ import nedc_cmdl_parser
 # read lists of files in
 #
 def read_file_lists(file_name):
-    """
-        Objective:
-            Reads textfile of files and returns a list of all files.
-
-        :param file_name: Name of the textfile.
-        :type file_name: string
-        
-        :return: List of files extracted from textfile.
-        :rtype: list of strings
-    """
     # Using readlines()
     file1 = open(file_name, 'r')
     Lines = file1.readlines()
@@ -28,17 +18,6 @@ def read_file_lists(file_name):
     return ret
 
 def read_decisions(file_name):
-    """
-        Objective:
-            Reads decisions of the file.
-
-        :param file_name: Name of the textfile.
-        :type file_name: string
-        
-        :return: -
-        :rtype: -
-    """
-
     # Using readlines()
     file1 = open(file_name, 'r')
     Lines = file1.readlines()
@@ -46,17 +25,7 @@ def read_decisions(file_name):
     return ret
 
 def read_feature_files(feature_file_list:list):
-    """
-        Objective:
-            Reads all features of each file.
-
-        :param file_name: Name of the textfile.
-        :type file_name: list
-        
-        :return: -
-        :rtype: -
-    """
-
+    
     # lists for holding the labels, data, top left corner of frames, and framesizes
     #
     mydata = []
@@ -91,19 +60,6 @@ def read_feature_files(feature_file_list:list):
 # set cmdl to only process a parameter file
 #
 def parameters_only_args(usage,help):
-    """
-        Objective:
-            Reads all features of each file.
-
-        :param usage: File for usage reference.
-        :type usage: string
-
-        :param usage: File for help reference.
-        :type usage: string
-        
-        :return: File of parameters.
-        :rtype: string
-    """
     argparser = nedc_cmdl_parser.Cmdl(usage,help)
     argparser.add_argument('-p', type = str)
     parsed_args = argparser.parse_args()

@@ -1,0 +1,5 @@
+before =  1544905 1544905
+after =  1544905 1544905
+['artf', 'dcis', 'norm', 'infl', 'null', 'susp', 'indc', 'nneo', 'bckg']
+Accuracy rate =  0.0309630689265683
+Mean confidence % 0.8469746748546634

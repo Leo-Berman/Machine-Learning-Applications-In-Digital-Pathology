@@ -55,3 +55,23 @@ def rgba_to_dct(framelist:list,frame_coord_list:list,framesize:int):
     # return that list of rows
     #
     return list_of_rows
+
+def even_data(indata,inlabels):
+    retdata = []
+    retlabels = []
+
+    inlabels=list(inlabels)
+    imbalanced_label = max(set(inlabels), key=inlabels.count)
+    mycount = int((len(inlabels) - inlabels.count(imbalanced_label)))
+    for x,y in list(zip(inlabels,indata)):
+        if x == imbalanced_label and mycount > 0:
+            retdata.append(y)
+            retlabels.append(x)
+            mycount-=1
+
+        elif x != imbalanced_label:
+            retdata.append(y)
+            retlabels.append(x)
+        else:
+            pass
+    return retdata,retlabels

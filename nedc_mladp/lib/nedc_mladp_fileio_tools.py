@@ -5,7 +5,7 @@ import numpy
 
 # picone's libraries
 #
-import nedc_ann_dpath_tools as nadt
+import nedc_dpath_ann_tools as nadt
 import nedc_cmdl_parser
 
 # read lists of files in
@@ -103,7 +103,14 @@ def parse_annotations(file):
     # read the data this uses the nedc_ann_dpath_tools library which 
     # reads the data with coords in row,column format
     #
-    header,data = nadt.read(file)
+
+
+    #initialize csv class
+    annotation_tools = nadt.Xml()
+    annotation_tools.load(file)
+    header = annotation_tools.get_header()
+    data = annotation_tools.get_graph()
+    #header,data = nadt.load(file)
     
     # create lists to contain each labelled boundary
     # region ids: (numeric form of labels),

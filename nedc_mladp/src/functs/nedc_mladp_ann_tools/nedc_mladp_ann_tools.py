@@ -57,7 +57,8 @@ def frame_rgba_values(image_file:str,labels:list,coords:list, windowsize:int):
     # read all of the windows into memory
     #
     window = NIL.read_data_multithread(coords,npixx = windowsize,npixy = windowsize,color_mode="RGBA")
-    
+
+
     # create a list of rgba values for the frame
     #
     window_list = []
@@ -67,7 +68,16 @@ def frame_rgba_values(image_file:str,labels:list,coords:list, windowsize:int):
             for k in j:
                 workwindow.extend(k.tolist())
         window_list.append(workwindow)
-
+    
+    '''window_list = []
+    for i in range(len(window)):
+        workwindow = [labels[i]]
+        for j in window[i]:
+            for k in j.tolist():
+                workwindow.extend(k)
+        window_list.append(workwindow)'''
+        
+        
     # return list of lists of rgba values
     #
     return window_list

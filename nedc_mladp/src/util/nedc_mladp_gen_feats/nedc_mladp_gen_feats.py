@@ -78,33 +78,35 @@ def main():
         # get list of rgba values
         #
         frame_rgbas = ann_tools.frame_rgba_values(svs,frame_labels,labeled_frames,windowsize)
-
         # perform dct on rgba values
         #
         frame_dcts = feats_tools.rgba_to_dct(frame_rgbas,labeled_frames,framesize)
-
-        # set column index names
-        #
-        my_schema = []
-        for i in range(len(frame_dcts[0])):
-            if i == 0:
-                my_schema.append('label')
-            elif i == 1:
-                my_schema.append('top_left_corner_x_coord')
-            elif i == 2:
-                my_schema.append('top_left_corner_y_coord')
-            elif i == 3:
-                my_schema.append('framesize')
-            else:
-                my_schema.append(str(i))
-
-        # print dct frames to csv
-        #
-        df = polars.DataFrame(frame_dcts,schema=my_schema)
-        ifile,iextension = os.path.splitext(os.path.basename(os.path.normpath(svs)))
-        write_path = output_path+ifile+"_RGBADCT.csv"
-        df.write_csv(write_path)
-        list_of_files.append(write_path)
+        if len(frame_dcts) > 0:
+        
+            # set column index names
+            #
+            my_schema = []
+            for i in range(len(frame_dcts[0])):
+                if i == 0:
+                    my_schema.append('label')
+                elif i == 1:
+                    my_schema.append('top_left_corner_x_coord')
+                elif i == 2:
+                    my_schema.append('top_left_corner_y_coord')
+                elif i == 3:
+                    my_schema.append('framesize')
+                else:
+                    my_schema.append(str(i))
+                    
+                    # print dct frames to csv
+                    #
+            df = polars.DataFrame(frame_dcts,schema=my_schema,orient="row")
+            ifile,iextension = os.path.splitext(os.path.basename(os.path.normpath(svs)))
+            write_path = output_path+ifile+"_RGBADCT.csv"
+            df.write_csv(write_path)
+            list_of_files.append(write_path)
+        else:
+            print(csv, "Failed to parse annotations")
 
     f = open(output_txt_file,"a")
     for x in list_of_files:

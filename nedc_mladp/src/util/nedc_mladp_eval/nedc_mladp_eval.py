@@ -60,15 +60,12 @@ def main():
     feature_files_list = fileio_tools.read_file_lists(feature_data_list)
 
     labels,mydata,frame_locations,framesizes = fileio_tools.read_feature_files(feature_files_list)
-
-    print("before = ",len(mydata),len(labels))
     
     # even the data out
     #
     if even_data == 1:
         mydata,labels = feats_tools.even_data(mydata,labels)
-
-    print("after = ",len(mydata),len(labels))
+        
     # generate confusion matrix
     #
     if generate_confusion_matrix == 1:

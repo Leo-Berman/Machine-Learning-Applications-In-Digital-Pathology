@@ -1,2 +1,0 @@
-/data/isip/exp/tuh_dpath/exp_0280/venv/lib/python3.9/site-packages/sklearn/discriminant_analysis.py:935: UserWarning: Variables are collinear
-  warnings.warn("Variables are collinear")

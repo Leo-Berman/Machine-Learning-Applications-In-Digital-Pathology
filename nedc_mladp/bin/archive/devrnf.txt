@@ -1,5 +1,0 @@
-before =  967366 967366
-after =  967366 967366
-['norm', 'nneo', 'infl', 'dcis', 'susp', 'null', 'bckg', 'indc', 'artf']
-Accuracy rate =  0.8632957949731539
-Mean confidence % 0.8422012557778819

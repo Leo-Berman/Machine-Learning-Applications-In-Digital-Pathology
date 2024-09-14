@@ -59,30 +59,39 @@ def main():
     
     feature_files_list = fileio_tools.read_file_lists(feature_data_list)
 
-    labels,mydata,frame_locations,framesizes = fileio_tools.read_feature_files(feature_files_list)
-    
-    # even the data out
-    #
-    if even_data == 1:
-        mydata,labels = feats_tools.even_data(mydata,labels)
+    filesdata = fileio_tools.read_feature_files(feature_files_list)
+
+    for data,currfile in zip(filesdata,feature_files_list):
         
-    # generate confusion matrix
-    #
-    if generate_confusion_matrix == 1:
-        eval_tools.plot_confusion_matrix(model,labels,mydata,confusion_matrix_path)
+        mydata = data[:, 4::]
+        labels = data[:,0].tolist()
+        frame_locations = data[:,1:3].tolist()
+        framesizes=data[:,3]
+        
+        # even the data out
+        #
+        if even_data == 1:
+            mydata,labels = feats_tools.even_data(mydata,labels)
+            
+        # generate confusion matrix
+        #
+        #if generate_confusion_matrix == 1:
+        #    eval_tools.plot_confusion_matrix(model,labels,mydata,confusion_matrix_path)
 
-    # generates a list of guess and their top level coordinates only applies to single image
-    # 
-    if generate_decisions == 1:
-        eval_tools.plot_decisions(model,mydata,decisions_path,frame_locations,framesizes)
+        # generates a list of guess and their top level coordinates only applies to single image
+        #
+        file_decision_path = decisions_path+currfile.split('/')[-1][:-11]+"DECISIONS.csv"
+        print(file_decision_path)
+        if generate_decisions == 1:
+            eval_tools.plot_decisions(model,mydata,file_decision_path,frame_locations,framesizes)
 
-    if generate_histogram == 1:
-        eval_tools.plot_histogram(labels,histogram_output)
+        #if generate_histogram == 1:
+        #    eval_tools.plot_histogram(labels,histogram_output)
 
     # print the error rate and mean confidence %
     #
-    print("Accuracy rate = ",model.score(mydata,labels))
-    print("Mean confidence %",eval_tools.mean_confidence(model,mydata))
+    # print("Accuracy rate = ",model.score(mydata,labels))
+    # print("Mean confidence %",eval_tools.mean_confidence(model,mydata))
     
 
 if __name__ == "__main__":

@@ -28,34 +28,36 @@ def read_feature_files(feature_file_list:list):
     
     # lists for holding the labels, data, top left corner of frames, and framesizes
     #
-    mydata = []
-    labels = []
-    frame_locations = []
-    framesizes = []
-
+    myfiles = []
+    
     # iterate through the entire training list and read the data into the appropriate lists
     #
     for x in feature_file_list:
         with open (x) as file:
             reader = csv.reader(file)
             next(reader,None)
+            labels = []
+            xcoords = []
+            ycoords = []
+            framesizes = []
+            features = []
             for row in reader:
+                file_row = []
                 row_list = list(row)
-                labels.append(row_list.pop(0))
-                xcoord=row_list.pop(0)
-                ycoord=row_list.pop(0)
-                frame_locations.append((xcoord,ycoord))
-                framesizes.append(row_list.pop(0))
-                mydata.append([float(x) for x in row_list])
+                labels.append(row_list.pop(0)) # label
+                xcoords.append(row_list.pop(0)) # x coord
+                ycoords.append(row_list.pop(0)) # y coord
+                framesizes.append(row_list.pop(0)) # framesize
+                features.append([float(x) for x in row_list]) # append the data
 
-    # reshape the arrays
-    #
-    labels = numpy.array(labels).ravel()
-    mydata = numpy.array(mydata)
+            numpy_array = numpy.transpose(numpy.array([labels,xcoords,ycoords,framesizes]))
+            numpy_feature_array = numpy.array(features)
+            numpy_array = numpy.concatenate([numpy_array,numpy_feature_array],axis =1)
+            myfiles.append(numpy_array)
 
     # return the appropriate data
     #
-    return labels,mydata,frame_locations,framesizes
+    return myfiles
 
 # set cmdl to only process a parameter file
 #

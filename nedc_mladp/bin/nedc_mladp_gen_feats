@@ -1,27 +1,17 @@
 #!/usr/bin/env python
-#
-# file: /data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/src/util/nedc_mladp_gen_feats/gen_feats.py
-#
-# revision history:
-#
-# 
-#
-# This is a Python version of the C++ utility nedc_print_header.
-#------------------------------------------------------------------------------
-
 
 # import python libraries
 #
 import os
 import polars
 
-# our libraries
+# import project-specific libraries
 #
 import nedc_mladp_fileio_tools as fileio_tools
 import nedc_mladp_ann_tools as ann_tools
 import nedc_mladp_feats_tools as feats_tools
 
-# picones libraries
+# import NEDC libraries
 #
 import nedc_file_tools
 
@@ -40,6 +30,8 @@ def main():
     windowsize = int(parsed_parameters['windowsize'])
     framesize =  int(parsed_parameters['framesize'])
     output_path = parsed_parameters['output_dir']
+    if not (output_path.endswith("/")):
+        output_path = output_path + "/"
     output_txt_file = parsed_parameters['output_list']
 
     # read list of files
@@ -48,10 +40,11 @@ def main():
     csv_list = fileio_tools.read_file_lists(parsed_parameters['labelfile_list'])
 
 
-    list_of_files=[]
+
     
     # iterate through and create a feature vector file for each file
     #
+    list_of_files=[]
     for svs,csv in zip(svs_list,csv_list):
 
         # parse annotations
@@ -78,9 +71,10 @@ def main():
         # get list of rgba values
         #
         frame_rgbas = ann_tools.frame_rgba_values(svs,frame_labels,labeled_frames,windowsize)
+
         # perform dct on rgba values
         #
-        frame_dcts = feats_tools.rgba_to_dct(frame_rgbas,labeled_frames,framesize)
+        frame_dcts = feats_tools.rgba_to_dct(frame_rgbas,labeled_frames,framesize,windowsize)
         if len(frame_dcts) > 0:
         
             # set column index names
@@ -106,7 +100,7 @@ def main():
             df.write_csv(write_path)
             list_of_files.append(write_path)
         else:
-            print(csv, "Failed to parse annotations")
+            print(csv, "Failed")
 
     f = open(output_txt_file,"a")
     for x in list_of_files:

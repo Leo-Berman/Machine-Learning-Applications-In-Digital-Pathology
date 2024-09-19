@@ -1,26 +1,15 @@
 #!/usr/bin/env python
 #
-# file: /data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/src/util/nedc_mladp_evaluate_model/nedc_evaluate_model.py
-#
-# revision history:
-#
-# 
-#
-# This is a Python version of the C++ utility nedc_print_header.
-#------------------------------------------------------------------------------
-"""! @brief Clasifies the DCT values into different labeled regions"""
-##
-# @file classify_dct_values.py
-#
-# @brief Classify the DCT values into different labeled regions
-#
-# 
+
+# import python libraries
 import joblib
 
+# import project specific libraries
 import nedc_mladp_fileio_tools as fileio_tools
 import nedc_mladp_eval_tools as eval_tools
 import nedc_mladp_feats_tools as feats_tools
-#picone
+
+# import NEDC libraries
 import nedc_file_tools
 
 def main():
@@ -43,10 +32,10 @@ def main():
         feature_data_list=run_params['output_list']
         model_path = nedc_file_tools.load_parameters(parameter_file,"train_model")['model_output_path']
     
-    # only a single image applies
-    #
     generate_decisions=int(parsed_parameters['decisions'])
     decisions_path=parsed_parameters['output_decisions_path']
+    if not (decisions_path.endswith('/')):
+        decisions_path = decisions_path + '/'
     generate_histogram = int(parsed_parameters['label_histogram'])                          
     histogram_output=parsed_parameters['output_histogram_path']
     even_data = int(parsed_parameters['even_data'])

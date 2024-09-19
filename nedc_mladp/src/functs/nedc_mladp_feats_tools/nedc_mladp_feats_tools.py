@@ -5,11 +5,15 @@ import scipy
 
 # perform discrete cosine transform on rgba values
 #
-def rgba_to_dct(framelist:list,frame_coord_list:list,framesize:int):
+def rgba_to_dct(framelist:list,frame_coord_list:list,framesize:int,windowsize:int):
 
     # list of final rows to return
     #
     list_of_rows = []
+
+    # frame correction
+    #
+    correction = (windowsize-framesize)//2
     
     # iterate through each frame
     #
@@ -44,8 +48,8 @@ def rgba_to_dct(framelist:list,frame_coord_list:list,framesize:int):
         # insert the framesize, x and y coordinates, and the dct coefficients
         #
         vector_numpy.insert(0,framesize)
-        vector_numpy.insert(0,frame_coord_list[i][1])
-        vector_numpy.insert(0,frame_coord_list[i][0])
+        vector_numpy.insert(0,frame_coord_list[i][1]+correction)
+        vector_numpy.insert(0,frame_coord_list[i][0]+correction)
         vector_numpy.insert(0,framevalues[0])
 
         # append that to the final row list

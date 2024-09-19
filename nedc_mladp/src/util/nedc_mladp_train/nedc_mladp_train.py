@@ -1,30 +1,18 @@
 #!/usr/bin/env python
 #
-# file: /data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/src/util/nedc_train_model/train_model.py
-#
-# revision history:
-#
-# 
-#
-# This is a Python version of the C++ utility nedc_print_header.
-#------------------------------------------------------------------------------
 
-"""! @brief Clasifies the DCT values into different labeled regions"""
-##
-# @file classify_dct_values.py
-#
-# @brief Classify the DCT values into different labeled regions
-#
-# 
+# import python libraries
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA
 from sklearn.ensemble import RandomForestClassifier as RNF
 from sklearn.svm import SVC as SVM
 import os
 import joblib
 
+# import project specific libraries
 import nedc_mladp_fileio_tools as fileio_tools
 import nedc_mladp_feats_tools as feats_tools
-#picone
+
+# import NEDC libraries
 import nedc_file_tools
 
 def main():
@@ -41,10 +29,12 @@ def main():
     model_type=parsed_parameters['model_type']
     feature_data_list=parsed_parameters['data_list']
     output_model_directory=parsed_parameters['model_output_path']
+    if not (output_model_director.endswith('/')):
+        output_model_directory=output_model_directory + "]"
     compression=int(parsed_parameters['compression'])
     even_data = int(parsed_parameters['even_data'])
     
-    
+    # If run parameter is set high then get the feature data list from gen feats
     run_params = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
     if run_params['run']==1:
         feature_data_list=run_params['output_list']
@@ -57,9 +47,9 @@ def main():
     #
     labels,mydata,unused1,unused2 = fileio_tools.read_feature_files(train_list)
 
+    # If even data is set than normalize the number of labels
     if even_data == 1:
         mydata,labels = feats_tools.even_data(mydata,labels)
-
 
     # Fit the model
     #

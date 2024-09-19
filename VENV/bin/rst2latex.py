@@ -1,4 +1,4 @@
-#!/home/leo/Desktop/Github_Repos/Machine-Learning-Applications-In-Digital-Pathology/VENV/bin/python3
+#!/data/isip/exp/tuh_dpath/exp_0280/venv/bin/python3
 
 # $Id: rst2latex.py 9115 2022-07-28 17:06:24Z milde $
 # Author: David Goodger <goodger@python.org>

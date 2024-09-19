@@ -1,4 +1,4 @@
-#!/home/leo/Desktop/Github_Repos/Machine-Learning-Applications-In-Digital-Pathology/VENV/bin/python3
+#!/data/isip/exp/tuh_dpath/exp_0280/venv/bin/python3
 # :Copyright: © 2015 Günter Milde.
 # :License: Released under the terms of the `2-Clause BSD license`_, in short:
 #

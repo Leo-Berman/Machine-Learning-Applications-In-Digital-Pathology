@@ -4,7 +4,7 @@ The maketraining.py module will classify each frame as labeled or unlabeled whet
 import nedc_image_tools as phg
 import shapely
 import nedc_mladp_geometry_tools as geometry_tools
-
+import numpy as np
 
 def labeled_regions(coordinates:list):
     """
@@ -242,3 +242,165 @@ def classify_frame(imagefile, framesize, labels, shapes:list):
     # return labeled frame's top left coordinate and a corresponding label list
     #
     return labeled_frame_coords,labeled
+
+def coords_to_bits(coords:list[tuple], frame_dx:int, frame_dy:int) -> np.array:
+    '''Converts coordinates to a bit matrix. 
+    
+    :param coords: Coordinates for one label.
+        Example: coords = [(200,200),(0,400),(400,400),(600,200)]
+
+    :param frame_dx: Frame width.
+    :param frame_dy: Frame height.
+
+    :return: Bit matrix, each bit representing a frame. 
+    :return type: np.array[int]
+    '''
+
+    # Convert coords to numpy array for slicing.
+    #
+    coords = np.array(coords)
+    '''e.g., np.array(coords)
+    array([ [200, 200],
+            [  0, 400],
+            [400, 400],
+            [200, 600]  ])'''
+
+    # Find the highest x and y dimensions.
+    #
+    max_x = coords[:,0].max()
+    max_y = coords[:,1].max()
+    '''e.g., max_x = 400, max_y = 600'''
+
+    # Divide by frame_dx and frame_dy to get matrix size.
+    #
+    rows = int(max_y/frame_dy) + 1
+    cols = int(max_x/frame_dx) + 1
+    '''e.g., rows = 4, cols = 3'''
+    
+    # Create a matrix.
+    #
+    m = np.zeros((rows,cols), dtype=int)
+    '''e.g., m = array([[0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0],
+                        [0, 0, 0]])'''
+
+    # Convert coords to matrix indices.
+    #   Coords should always be on frame boundaries or problems will result.
+    #
+    coords[:,0] = coords[:,0] / frame_dx
+    coords[:,1] = coords[:,1] / frame_dy
+    '''e.g., coords = array([   [1, 1],
+                                [0, 2],
+                                [2, 2],
+                                [1, 3]  ])'''
+
+    # Populate matrix.
+    #
+    for [col,row] in coords:
+        m[row,col] = 1
+    '''e.g., m = array([[0, 0, 0],
+                        [0, 1, 0],
+                        [1, 0, 1],
+                        [0, 1, 0]])'''
+    
+    return m
+
+def _in_bounds(point:tuple, bottom_right_bnd:tuple, top_left_bnd:tuple = (0,0)) -> bool:
+    '''Determines if a point lies on the matrix (bounds-inclusive).
+    
+    :param point: Index of the point to check, of type tuple[int].
+        Example: (1,1)
+    :param bottom_right_bnd: Bottom-right boundary of matrix.
+        Example: (40,40) for a 41x41 matrix.
+    :param top_left_bnd: Top-left boundary, typically (0,0).
+    
+    :return: Boolean, true if the point lies on the matrix, false if not.
+    '''
+
+    # Compare columns.
+    #
+    if top_left_bnd[0] <= point[0] <= bottom_right_bnd[0]:
+
+        # Compare rows.
+        #
+        if top_left_bnd[1] <= point[1] <= bottom_right_bnd[1]:
+            return True
+    return False
+
+def _flood_fill(matrix:np.ndarray, start_point:tuple) -> None:
+    '''4-way-fills a bit matrix with oness starting at [0,0] (top-left), 
+        stops at matrix boundaries or regions with ones.
+        
+    :param matrix: Matrix to fill in (passed as a reference, so there is no return value).
+    :param start_point: Where to start filling in.'''
+    
+    # Get the bottom-rightmost point index. 
+    #
+    bottom_right_bnd = np.subtract(matrix.shape,(1,1))
+    
+    # Start the flood-fill at (0,0), appending nearby points if their value is zero.
+    # 
+    indices = [start_point]
+    while indices:
+        
+        # Get the first item in indices.
+        #
+        index = indices[0]
+
+        # Set the value at that index to 1.
+        #
+        matrix[index] = 1
+
+        # Get indices for nearby points
+        #
+        up = tuple(np.add(index,(0,-1)))
+        down = tuple(np.add(index,(0,1)))
+        left = tuple(np.add(index,(-1,0)))
+        right = tuple(np.add(index,(1,0)))
+
+        # Check to see if those points are on the matrix.
+        #   If they are, add them to indices.
+        # 
+        if _in_bounds(up,bottom_right_bnd) and matrix[up] != 1:
+            indices.append(up)
+        if _in_bounds(down,bottom_right_bnd) and matrix[down] != 1:
+            indices.append(down)
+        if _in_bounds(left,bottom_right_bnd) and matrix[left] != 1:
+            indices.append(left)
+        if _in_bounds(right,bottom_right_bnd) and matrix[right] != 1:
+            indices.append(right)
+
+        # Continue iterating until all points in indices are exhausted.
+        #
+        indices.pop(0)
+
+def pad_and_fill(matrix:np.ndarray) -> np.array:
+    '''Creates a border around a bit matrix and flood-fills with ones from the border inward.
+    
+    :param matrix: Input bit matrix.
+    :return: Matrix with all interior regions filled in.'''
+
+    # Create a copy of the matrix.
+    #
+    mask = matrix.copy()
+
+    # Pad the copied matrix edges (top, bottom, sides) with zeroes
+    #
+    mask = np.pad(mask, 1, 'constant', constant_values=0)
+    
+    # Flood fill the copy starting at (0,0).
+    #
+    _flood_fill(mask, (0,0))
+    
+    # Invert the values of the copied matrix.
+    #
+    mask = 1-mask
+
+    # Remove padding.
+    #
+    mask = mask[1:-1,1:-1]
+
+    # Superimpose the original and copied matrices.
+    #
+    return matrix + mask

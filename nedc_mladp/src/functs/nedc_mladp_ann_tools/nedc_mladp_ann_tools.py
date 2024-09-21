@@ -5,6 +5,7 @@ import nedc_image_tools as phg
 import shapely
 import nedc_mladp_geometry_tools as geometry_tools
 import numpy as np
+import pandas as pd
 
 def labeled_regions(coordinates:list):
     """
@@ -242,6 +243,79 @@ def classify_frame(imagefile, framesize, labels, shapes:list):
     # return labeled frame's top left coordinate and a corresponding label list
     #
     return labeled_frame_coords,labeled
+
+def csv_to_df(file):
+    '''Converts the csv file to dataframe.
+
+    :param file: CSV file of frame decisions
+    :return: Dataframe
+    '''
+	# Read the csv file
+    with open(file, 'r') as csvfile:
+        # Convert to Dataframe
+        df = pd.read_csv(csvfile)
+    return df
+
+def coords_to_dict(df):
+    '''Convert frames to bits and create a dictionary containing labels (key) and lists of corresonding coordinates (value).
+    
+    :params df: Dataframe containing labels, framesizes, and top-left coordinates.
+    :return: labels_dict: Dictionary of labels and lists of coordinates.
+    :return type: Dictionary {label : { [tuple(x,y), ...] , ...}}
+    '''
+    
+    # Get the columns of the dataframe
+    #
+    labels = df['labels']
+    framesizes = df['framesizes']
+    top_left_x = df['top_left_x']
+    top_left_y = df['top_left_y']
+    # Initialize dictionary of labels each containing an empty list
+    #
+    label_dict = {
+        'bckg':[],
+        'norm':[],
+        'null':[],
+        'artf':[],
+        'nneo':[],
+        'infl':[],
+        'susp':[],
+        'indc':[],
+        'dcis':[]
+    }
+    # Get the frame size (all frames should be the same size) and the number of rows
+    #
+    framesize = framesizes[0]
+    # Populate dictionary
+    #
+    for r in range(df.shape[0]-1):
+        # Convert frame to bits
+        #
+        index_x = (top_left_x[r] // framesize)
+        index_y = (top_left_y[r] // framesize)
+        # Append the coordinates to the dictionary with the corresponding labels
+        #
+        if labels[r] == "bckg":
+            label_dict['bckg'].append((index_x,index_y))
+        elif labels[r] == "norm":
+            label_dict['norm'].append((index_x,index_y))
+        elif labels[r] == "null":
+            label_dict['null'].append((index_x,index_y))
+        elif labels[r] == "artf":
+            label_dict['artf'].append((index_x,index_y))
+        elif labels[r] == "nneo":
+            label_dict['nneo'].append((index_x,index_y))
+        elif labels[r] == "infl":
+            label_dict['infl'].append((index_x,index_y))
+        elif labels[r] == "susp":
+            label_dict['susp'].append((index_x,index_y))
+        elif labels[r] == "indc":
+            label_dict['indc'].append((index_x,index_y))
+        elif labels[r] == "dcis":
+            label_dict['dcis'].append((index_x,index_y))
+
+    return(label_dict)
+
 def coords_to_bits(coords:list[tuple], frame_dx:int, frame_dy:int) -> np.array:
     '''Converts coordinates to a bit matrix. 
     

@@ -7,6 +7,9 @@ import nedc_mladp_geometry_tools as geometry_tools
 import numpy as np
 import pandas as pd
 
+from enum import Enum
+label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp ndic dcis', start=0)
+
 def labeled_regions(coordinates:list):
     """
         Takes a list of list of coordinates and generates a list of correlating shapes
@@ -82,8 +85,6 @@ def frame_rgba_values(image_file:str,labels:list,coords:list, windowsize:int):
     # return list of lists of rgba values
     #
     return window_list
-
-
 
 def classify_center(labels, height, width, windowsize, framesize, regions):
     """
@@ -270,6 +271,7 @@ def coords_to_dict(df):
     framesizes = df['framesizes']
     top_left_x = df['top_left_x']
     top_left_y = df['top_left_y']
+
     # Initialize dictionary of labels each containing an empty list
     #
     label_dict = {
@@ -283,9 +285,11 @@ def coords_to_dict(df):
         'indc':[],
         'dcis':[]
     }
+
     # Get the frame size (all frames should be the same size) and the number of rows
     #
     framesize = framesizes[0]
+
     # Populate dictionary
     #
     for r in range(df.shape[0]-1):
@@ -316,16 +320,18 @@ def coords_to_dict(df):
 
     return(label_dict)
 
-def coords_to_bits(coords:list[tuple], frame_dx:int, frame_dy:int) -> np.array:
+def coords_to_bits(coords:list[tuple], framesz) -> np.array:
     '''Converts coordinates to a bit matrix. 
     
     :param coords: Coordinates for one label.
-        Example: coords = [(200,200),(0,400),(400,400),(600,200)]
-    :param frame_dx: Frame width.
-    :param frame_dy: Frame height.
+        Example: coords = [(200,200),(0,400),(400,400),(200,600)]
+    :param framesz: (frame width, frame height),
+        any data structure that can be unpacked (list, tuple, etc.).
+
     :return: Bit matrix, each bit representing a frame. 
     :return type: np.array[int]
     '''
+
     # Convert coords to numpy array for slicing.
     #
     coords = np.array(coords)
@@ -334,24 +340,28 @@ def coords_to_bits(coords:list[tuple], frame_dx:int, frame_dy:int) -> np.array:
             [  0, 400],
             [400, 400],
             [200, 600]  ])'''
+
     # Find the highest x and y dimensions.
     #
     max_x = coords[:,0].max()
     max_y = coords[:,1].max()
     '''e.g., max_x = 400, max_y = 600'''
+
     # Divide by frame_dx and frame_dy to get matrix size.
     #
+    frame_dx,frame_dy = framesz
     rows = int(max_y/frame_dy) + 1
     cols = int(max_x/frame_dx) + 1
     '''e.g., rows = 4, cols = 3'''
     
     # Create a matrix.
     #
-    m = np.zeros((rows,cols), dtype=int)
+    m = np.zeros((rows,cols), dtype=np.uint8)
     '''e.g., m = array([[0, 0, 0],
                         [0, 0, 0],
                         [0, 0, 0],
                         [0, 0, 0]])'''
+
     # Convert coords to matrix indices.
     #   Coords should always be on frame boundaries or problems will result.
     #
@@ -361,6 +371,7 @@ def coords_to_bits(coords:list[tuple], frame_dx:int, frame_dy:int) -> np.array:
                                 [0, 2],
                                 [2, 2],
                                 [1, 3]  ])'''
+
     # Populate matrix.
     #
     for [col,row] in coords:
@@ -371,6 +382,7 @@ def coords_to_bits(coords:list[tuple], frame_dx:int, frame_dy:int) -> np.array:
                         [0, 1, 0]])'''
     
     return m
+
 def _in_bounds(point:tuple, bottom_right_bnd:tuple, top_left_bnd:tuple = (0,0)) -> bool:
     '''Determines if a point lies on the matrix (bounds-inclusive).
     
@@ -382,14 +394,18 @@ def _in_bounds(point:tuple, bottom_right_bnd:tuple, top_left_bnd:tuple = (0,0)) 
     
     :return: Boolean, true if the point lies on the matrix, false if not.
     '''
+
     # Compare columns.
     #
     if top_left_bnd[0] <= point[0] <= bottom_right_bnd[0]:
+
         # Compare rows.
         #
         if top_left_bnd[1] <= point[1] <= bottom_right_bnd[1]:
             return True
+        
     return False
+
 def _flood_fill(matrix:np.ndarray, start_point:tuple) -> None:
     '''4-way-fills a bit matrix with oness starting at [0,0] (top-left), 
         stops at matrix boundaries or regions with ones.
@@ -409,15 +425,18 @@ def _flood_fill(matrix:np.ndarray, start_point:tuple) -> None:
         # Get the first item in indices.
         #
         index = indices[0]
+
         # Set the value at that index to 1.
         #
         matrix[index] = 1
+
         # Get indices for nearby points
         #
-        up = tuple(np.add(index,(0,-1)))
-        down = tuple(np.add(index,(0,1)))
-        left = tuple(np.add(index,(-1,0)))
-        right = tuple(np.add(index,(1,0)))
+        left = tuple(np.add(index,(0,-1)))
+        right = tuple(np.add(index,(0,1)))
+        up = tuple(np.add(index,(-1,0)))
+        down = tuple(np.add(index,(1,0)))
+
         # Check to see if those points are on the matrix.
         #   If they are, add them to indices.
         # 
@@ -429,17 +448,21 @@ def _flood_fill(matrix:np.ndarray, start_point:tuple) -> None:
             indices.append(left)
         if _in_bounds(right,bottom_right_bnd) and matrix[right] != 1:
             indices.append(right)
+
         # Continue iterating until all points in indices are exhausted.
         #
         indices.pop(0)
+
 def pad_and_fill(matrix:np.ndarray) -> np.array:
     '''Creates a border around a bit matrix and flood-fills with ones from the border inward.
     
     :param matrix: Input bit matrix.
     :return: Matrix with all interior regions filled in.'''
+
     # Create a copy of the matrix.
     #
     mask = matrix.copy()
+
     # Pad the copied matrix edges (top, bottom, sides) with zeroes
     #
     mask = np.pad(mask, 1, 'constant', constant_values=0)
@@ -451,9 +474,100 @@ def pad_and_fill(matrix:np.ndarray) -> np.array:
     # Invert the values of the copied matrix.
     #
     mask = 1-mask
+
     # Remove padding.
     #
     mask = mask[1:-1,1:-1]
+    
     # Superimpose the original and copied matrices.
     #
     return matrix + mask
+
+def rsz_matrices(m1:np.array, m2:np.array) -> tuple[np.array]:
+    '''Resizes matrices; assumes both matrices overlap at (0,0).
+
+    :param m1: First matrix.
+        e.g.,   m1 = np.array([[1, 2, 3]]) 
+    :param m2: Second matrix.
+        e.g.,   m2 = np.array([ [4],
+                                [5],
+                                [6] ])
+    
+    :return: (resized first matrix, resized second matrix)
+    e.g., resized first matrix = np.array([ [1, 2, 3],
+                                            [0, 0, 0],
+                                            [0, 0, 0]   ])
+        resized second matrix = np.array([  [4, 0, 0],
+                                            [5, 0, 0],
+                                            [6, 0, 0]   ])
+    '''
+
+    # Get differences in dimensions.
+    #
+    d_dim = np.array(m1.shape) - np.array(m2.shape)
+    '''e.g., d_dim = np.array([-2,2]), 
+        implying m1 has 2 fewer rows and 2 more columns than m2.'''
+
+    # Resize along each axis an amount diff. 
+    #
+    for axis,diff in enumerate(d_dim):
+
+        # np.pad requires a pad_width in the format ((left,right),(up,down)),
+        #   using pad[0] resizes to the right, 
+        #   using pad[1] resizes downward. 
+        #
+        pad = [((0,abs(diff)),(0,0)), ((0,0),(0,abs(diff)))]
+
+        # If m2 is smaller, resize m2. 
+        #
+        if diff > 0:
+            m2 = np.pad(m2, pad[axis], 'constant', constant_values=0)
+
+        # If m1 is smaller, resize m1. 
+        #
+        if diff < 0:
+            m1 = np.pad(m1, pad[axis], 'constant', constant_values=0)
+
+    return (m1,m2)
+
+def heatmap(annots:dict, framesz) -> np.array:
+    '''Overlays all labels onto a single matrix. 
+
+    :param annots: dictionary of labels (keys) and coordinates (values),
+        e.g., annots['dcis'] = [(400,400),(400,600),
+                                (600,400),(600,600)]
+    :param framesz: List or tuple of width and height of each frame,
+        e.g., framesz = (200,200) pixels
+    
+    :return: Matrix with values 0-9 mapping to labels in label_order.
+    '''
+
+    # Initialize 2D return array.
+    #
+    super_m = np.array([[0]], dtype=np.uint8)
+    
+    # Iterate through all labels and coordinates.
+    #
+    for label,coords in annots.items():
+        # For each (label,coordinates) pair...
+        
+        # Convert coordinates for the label to a bit matrix.
+        #
+        m = coords_to_bits(coords, framesz)
+
+        # Fill in regions that are bounded on 4 sides.
+        #
+        pad_and_fill(m)
+
+        # Resize return and label matrices so they are equal dimensions
+        #
+        m,super_m = rsz_matrices(m,super_m)
+
+        # Squash the matrices together.
+        #
+        label_num = label_order[label].value
+        super_m = np.maximum(super_m, m*label_num)
+        
+        # Repeat.
+        
+    return super_m

@@ -559,9 +559,9 @@ def heatmap(annots:dict, framesz) -> np.array:
         #
         pad_and_fill(m)
 
-        # Resize return and label matrices so they are equal dimensions
+        # Resize return and label matrices so they are equal dimensions.
         #
-        m,super_m = rsz_matrices(m,super_m)
+        m,super_m = rsz_matrices(m, super_m)
 
         # Squash the matrices together.
         #

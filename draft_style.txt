@@ -1,3 +1,5 @@
+% Maybe camelCase for functions and Snake Case for variables?
+
 %% Driver functions
 
 % In order--

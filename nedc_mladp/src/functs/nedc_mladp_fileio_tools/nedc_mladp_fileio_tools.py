@@ -34,7 +34,6 @@ def read_feature_files(feature_file_list:list,get_header=False):
     #
     headers = []
     header = ''
-    previous_is_header = False
     for x in feature_file_list:
         with open (x) as file:
             reader = csv.reader(file)
@@ -46,12 +45,10 @@ def read_feature_files(feature_file_list:list,get_header=False):
             for row in reader:
                 if list(row)[0].startswith('#'):
                     header += ','.join(list(row)) + '\n'
-                    previous_is_header = True
+                elif list(row)[0].startswith('%'):
+                    headers.append(header)
+                    header = ''
                 else:
-                    if previous_is_header == True:
-                        headers.append(header)
-                        header = ''
-                        previous_is_header = False
                     row_list = list(row)
                     labels.append(row_list.pop(0)) # label
                     xcoords.append(row_list.pop(0)) # x coord

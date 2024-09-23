@@ -50,6 +50,7 @@ def main():
         # parse annotations
         #
         header, ids, labels, coordinates = fileio_tools.parse_annotations(csv)
+
         
         # get height and width of image (in pixels) from the header
         #

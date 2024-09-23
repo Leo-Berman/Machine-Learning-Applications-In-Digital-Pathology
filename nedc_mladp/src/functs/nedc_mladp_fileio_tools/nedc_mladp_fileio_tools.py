@@ -24,7 +24,7 @@ def read_decisions(file_name):
     ret = [x.strip().split(',') for x in Lines]
     return ret
 
-def read_feature_files(feature_file_list:list):
+def read_feature_files(feature_file_list:list,get_header=False):
     
     # lists for holding the labels, data, top left corner of frames, and framesizes
     #
@@ -32,32 +32,43 @@ def read_feature_files(feature_file_list:list):
     
     # iterate through the entire training list and read the data into the appropriate lists
     #
+    headers = []
+    header = ''
+    previous_is_header = False
     for x in feature_file_list:
         with open (x) as file:
             reader = csv.reader(file)
-            next(reader,None)
             labels = []
             xcoords = []
             ycoords = []
             framesizes = []
             features = []
             for row in reader:
-                file_row = []
-                row_list = list(row)
-                labels.append(row_list.pop(0)) # label
-                xcoords.append(row_list.pop(0)) # x coord
-                ycoords.append(row_list.pop(0)) # y coord
-                framesizes.append(row_list.pop(0)) # framesize
-                features.append([float(x) for x in row_list]) # append the data
-
+                if list(row)[0].startswith('#'):
+                    header += ','.join(list(row))
+                    previous_is_header = True
+                else:
+                    if previous_is_header == True:
+                        headers.append(header)
+                        header = ''
+                        previous_is_header = False
+                    row_list = list(row)
+                    labels.append(row_list.pop(0)) # label
+                    xcoords.append(row_list.pop(0)) # x coord
+                    ycoords.append(row_list.pop(0)) # y coord
+                    framesizes.append(row_list.pop(0)) # framesize
+                    features.append([float(x) for x in row_list]) # append the data
+                    
             numpy_array = numpy.transpose(numpy.array([labels,xcoords,ycoords,framesizes]))
             numpy_feature_array = numpy.array(features)
             numpy_array = numpy.concatenate([numpy_array,numpy_feature_array],axis =1)
             myfiles.append(numpy_array)
 
-    # return the appropriate data
-    #
-    return myfiles
+    if(get_header == False):
+        # return the appropriate data
+        #
+        return myfiles
+    return myfiles,headers
 
 # set cmdl to only process a parameter file
 #
@@ -111,6 +122,7 @@ def parse_annotations(file):
     annotation_tools = nadt.Xml()
     annotation_tools.load(file)
     header = annotation_tools.get_header()
+    
     data = annotation_tools.get_graph()
     #header,data = nadt.load(file)
     

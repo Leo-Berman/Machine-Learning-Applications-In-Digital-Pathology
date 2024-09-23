@@ -45,7 +45,7 @@ def read_feature_files(feature_file_list:list,get_header=False):
             features = []
             for row in reader:
                 if list(row)[0].startswith('#'):
-                    header += ','.join(list(row))
+                    header += ','.join(list(row)) + '\n'
                     previous_is_header = True
                 else:
                     if previous_is_header == True:

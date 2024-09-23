@@ -17,28 +17,38 @@
   if __name__ == "__main__":
      main()
 
+% all driver function should have a few line blurb before explaining what it does, ex:
+"""
+This driver functions generates features from svs files...
+"""
+
 % all driver programs should start by parsing the parameter file from the command line and parsing ALL other arguments from the parameter file:
-      # set argument parsing
-      #
-      args_usage = "nedc_mladp_gen_feats.usage"
-      args_help = "nedc_mladp_gen_feats.help"
-      parameter_file = fileio_tools.parameters_only_args(args_usage,args_help)
+  # set argument parsing
+  #
+  args_usage = "nedc_mladp_gen_feats.usage"
+  args_help = "nedc_mladp_gen_feats.help"
+  parameter_file = fileio_tools.parameters_only_args(args_usage,args_help)
 
-      # parse parameters
-      #
-      parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
+  # parse parameters
+  #
+  parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
 
-      # use the same name for the variable as the item parsed ex:
-      # windowsize = int(parsed_parameters['windowsize'])
-      param1 = parsed_parameters['param1']
-      param2 = cast(parsed_parameters['param2']
-      directory_example = parsed_parameters['directory_example']
-      if not directory_example.endswith("/"):
-      	 directory_example += "/"
+  # use the same name for the variable as the item parsed ex:
+  # windowsize = int(parsed_parameters['windowsize'])
+  param1 = parsed_parameters['param1']
+  param2 = cast(parsed_parameters['param2']
+  directory_example = parsed_parameters['directory_example']
+  if not directory_example.endswith("/"):
+     directory_example += "/"
 
 % when writing files check if there is a file there, if so delete and open as appending file
-      if os.path.exists(write_path):
-      	 os.remove(write_path)
 
-      with open('example.txt', 'a') as file:
-      	 file.write('example text')
+  # Check if file exists and if it does delete it
+  #
+  if os.path.exists(write_path):
+     os.remove(write_path)
+
+  # open the file to append and write to it
+  #
+  with open('example.txt', 'a') as file:
+     file.write('example text')

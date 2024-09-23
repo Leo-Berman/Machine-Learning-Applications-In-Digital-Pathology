@@ -116,6 +116,10 @@ def main():
         else:
             print(csv, "Failed")
 
+    if os.path.exists(output_txt_file):
+        os.remove(output_txt_file)
+
+            
     f = open(output_txt_file,"a")
     for x in list_of_files:
         f.write(x+'\n')

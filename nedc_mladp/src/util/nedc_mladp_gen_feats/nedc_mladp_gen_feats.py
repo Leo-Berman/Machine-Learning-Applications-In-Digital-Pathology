@@ -108,7 +108,7 @@ def main():
                       '# bname = '+header['bname']+',,,,,,,,\n'+
                       '# width = '+header['width']+', height = '+header['height']+',,,,,,,,\n'+
                       '# tissue = '+", ".join(header['tissue'])+',,,,,,,,\n'+
-                      '# ,,,,,,,,\n# ')
+                      '# ,,,,,,,,\n% ')
             
                 df.write_csv(file)
                 print(csv, "Sucess")

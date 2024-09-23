@@ -7,6 +7,8 @@ from sklearn.ensemble import RandomForestClassifier as RNF
 from sklearn.svm import SVC as SVM
 import os
 import joblib
+import numpy
+
 
 # import project specific libraries
 import nedc_mladp_fileio_tools as fileio_tools
@@ -29,8 +31,8 @@ def main():
     model_type=parsed_parameters['model_type']
     feature_data_list=parsed_parameters['data_list']
     output_model_directory=parsed_parameters['model_output_path']
-    if not (output_model_director.endswith('/')):
-        output_model_directory=output_model_directory + "]"
+    if not (output_model_directory.endswith('/')):
+        output_model_directory=output_model_directory + "/"
     compression=int(parsed_parameters['compression'])
     even_data = int(parsed_parameters['even_data'])
     
@@ -45,8 +47,15 @@ def main():
 
     # parse the annotations
     #
-    labels,mydata,unused1,unused2 = fileio_tools.read_feature_files(train_list)
+    filesdata = fileio_tools.read_feature_files(train_list)
 
+    totaldata = numpy.vstack(filesdata)
+
+    labels = totaldata[:,0]
+    mydata = totaldata[:,4:]
+    
+        
+    
     # If even data is set than normalize the number of labels
     if even_data == 1:
         mydata,labels = feats_tools.even_data(mydata,labels)

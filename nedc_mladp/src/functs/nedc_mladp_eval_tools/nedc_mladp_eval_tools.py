@@ -142,7 +142,7 @@ def plot_decisions(model,data,output_path,frame_locs,framesizes,header):
         os.remove(output_path)
     
     with open(output_path,'a') as file:
-        file.write(header)
+        file.write(header + '% ')
         MySchem = ["labels",'framesizes','top_left_x','top_left_y']
         df = polars.DataFrame(rows,schema=MySchem)
         df.write_csv(file)

@@ -1,4 +1,4 @@
-% Maybe camelCase for functions and Snake Case for variables?
+% Maybe camelCase for functions and snake_case for variables?
 
 %% Driver functions
 
@@ -54,3 +54,21 @@ This driver functions generates features from svs files...
   #
   with open('example.txt', 'a') as file:
      file.write('example text')
+
+%% All other functions
+
+% Only return one item, if multiple applicable items, contain within list
+
+% begin with block quote that outlines input parameters and what will be returned in detail
+
+"""
+Parameters:
+    Param1 % type % brief explanation
+    Param2 % type % brief explanation
+
+Return:
+    Return % type % brief explanation
+    % if list
+    index1 % type % brief explanation
+    index2 % type % brief explanation
+"""

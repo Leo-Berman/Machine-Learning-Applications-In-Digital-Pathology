@@ -77,7 +77,9 @@ def main():
 
         sparse_matrixes = ann_tools.coords_to_dict(frame_decisions)
 
-        heatmap = ann_tools.heatmap(sparse_matrixes,(framesizes[0],framesizes[0]))
+        framesize_fib = (int(framesizes[0]),int(framesizes[0]))
+        
+        heatmap = ann_tools.heatmap(sparse_matrixes,framesize_fib)
 
         print(heatmap)
         

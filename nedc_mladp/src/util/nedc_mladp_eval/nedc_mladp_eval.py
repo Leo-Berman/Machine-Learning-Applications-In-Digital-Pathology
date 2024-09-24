@@ -75,7 +75,7 @@ def main():
 
         frame_decisions = eval_tools.generate_frame_decisions(model,mydata,file_decision_path,frame_locations,framesizes,header)
 
-        sparse_matrixes = ann_tools.coord_to_dict(frame_decisions)
+        sparse_matrixes = ann_tools.coords_to_dict(frame_decisions)
 
         heatmap = ann_tools.heatmap(sparse_matrixes,(framesizes[0],framesizes[0]))
 

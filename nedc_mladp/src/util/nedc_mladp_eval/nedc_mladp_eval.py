@@ -89,7 +89,7 @@ def main():
 
         # get the frame decisions
         #
-        frame_decisions = eval_tools.generate_frame_decisions(model,features,file_frame_decisions_directory,frame_locations,frame_sizes,header)
+        frame_decisions = eval_tools.generate_frame_decisions(model,features,file_frame_decisions_path,frame_locations,frame_sizes,header)
 
         # get the sparse matrixes
         #

@@ -94,9 +94,9 @@ def main():
         #
         heatmap = ann_tools.heatmap(sparse_matrixes,framesize_fib)
 
-        eval_tools.generate_region_decisions(heatmap,framesize_fib[0])
+        regions = eval_tools.generate_region_decisions(heatmap,framesize_fib[0])
         
-        print(heatmap)
+        print(regions)
         
         #if generate_histogram == 1:
         #    eval_tools.plot_histogram(labels,histogram_output)

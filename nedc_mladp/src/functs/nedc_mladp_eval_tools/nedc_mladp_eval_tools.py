@@ -2,15 +2,15 @@
 #
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import ConfusionMatrixDisplay
-#import seaborn
+import seaborn
 import matplotlib.pyplot as plt
 import polars
 import os
 import shapely
-
 from enum import Enum
 
-#import nedc_mladp_ann_tools as ann_tools
+import nedc_mladp_ann_tools as ann_tools
+import nedc_dpath_ann_tools
 
 def plot_histogram(labels,histogram_output):
     '''
@@ -264,6 +264,9 @@ def test():
     test_array = [[0,0],
                   [0,1]]
     graph = generate_region_decisions(test_array,200)
-    print(graph)
+
+    annotation_writer = nedc_dpath_ann_tools.AnnDpath()
+
+    annotation_writer.create(0,1,graph[0]['text'],graph[0]['coordinates'],graph[0]['confidence'],graph[0]['tissue_type'],{})
 if __name__ == "__main__":
     test()

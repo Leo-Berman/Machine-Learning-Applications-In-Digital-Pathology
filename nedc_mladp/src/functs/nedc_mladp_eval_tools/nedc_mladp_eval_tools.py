@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import polars
 import os
 
+import nedc_mladp_ann_tools as ann_tools
 
 def plot_histogram(labels,histogram_output):
     '''
@@ -151,3 +152,130 @@ def generate_frame_decisions(model,data,output_path,frame_locs,framesizes,header
     return df
 
 
+
+def generate_region_decisions(input_array,framesize):
+
+    color_order = Enum('color_order', 'white black blue green yellow purple orange pink brown red', start = 0)
+    
+    # declare dictionaries for patches and frames
+    #
+    my_regions = {}
+    
+    # iterate through the labels making a to hold lists
+    #
+    for x in label_order:
+        my_regions[x.value] = []
+
+    # iterate through the numpy array
+    #
+    for i,row in enumerate(input_array):
+        for j,point in enumerate(row):
+
+            # and append to the proper list
+            #
+            my_regions[point].append(shapely.Polygon([(i,j),(i+1,j),(i+1,j+1),(i,j+1)]))
+
+    # keep track of number of patches written
+    #
+    patches_written = 0
+
+    # set up schema for dataframe
+    #
+    dataframe_schema = {'index':int,'tissue':str,'label':str,'coord_index':int,'row':int,'column':int,'depth':int,'confidence':float}
+
+    # initialize empty dataframe
+    #
+    dataframe = polars.DataFrame(schema=dataframe_schema)
+
+    # iterate through all the label's list of frames
+    #
+    for label in my_regions:
+
+        # if that list isn't empty
+        #
+        if len(my_regions[label]) > 0:
+
+
+            
+            # create a list of indexes to get rid of
+            #
+            pop_list = []
+
+            # iterate through each patch
+            #
+            for i,patch in enumerate(my_regions[label]):
+
+                # iterate through every other patch ahead of it in the list
+                # and if it intersects with one of those, mark it to be removed and union
+                # it to the patch it intersected with and break
+                #
+                for j,subpatch in enumerate(my_regions[label][i+1:]):
+                    if shapely.intersects(patch,my_regions[label][j]):
+                        my_regions[label][j+i+1] = shapely.union(patch,subpatch,grid_size=1)
+                        pop_list.append(i)
+                        break
+
+            # remove the redundant shapes
+            #
+            for i,x in enumerate(set(sorted(pop_list))):
+                my_regions[label].pop(x-i)
+
+            # iterate through all the patches
+            #
+            for patch in my_regions[label]:
+                curr_color = color_order(label_order(label).value).name
+
+                # create a list to hold coordinates
+                #
+                boundary = []
+
+                # if it's a multipolygon
+                #
+                if type(patch) == shapely.geometry.multipolygon.MultiPolygon:
+
+                    # iterate through added the coordinates
+                    #
+                    for polygon in patch.geoms:
+                        polygon_boundary = polygon.exterior.coords[:]
+                        boundary.extend(polygon_boundary)
+                        x,y = zip(*polygon_boundary)
+                        matplotlib.pyplot.plot(x,y,color=curr_color)
+                    #print("Boundary = ",boundary)
+
+                # if it's not a multipolygon add the coordinates
+                #
+                else:
+                    #print("Patch = ",patch.exterior.coords[:])
+                    boundary.extend(patch.exterior.coords[:])
+                    matplotlib.pyplot.plot(*patch.exterior.xy,color=curr_color)            
+
+                # create a list to hold rows
+                #
+                new_region = []
+
+                # iterate through the coordinates
+                #
+                for j,y in enumerate(boundary):
+
+                    # get the label from the enumerated type
+                    #
+                    write_label = label_order(label).name
+
+                    # create the new row
+                    #
+                    new_region.append([patches_written,"breast",write_label,j,y[0]*framesize,y[1]*framesize,0,1])
+
+                # append the current rows to the frame
+                #
+                append_frame = polars.DataFrame(new_region,schema=dataframe_schema)
+                dataframe.extend(append_frame)
+
+                # and keep track of the number of patches written
+                #
+                patches_written+=1
+
+    matplotlib.pyplot.savefig("test.jpg")
+
+    # return the dataframe
+    #
+    return dataframe

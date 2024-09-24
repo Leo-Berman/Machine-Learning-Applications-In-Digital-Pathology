@@ -297,8 +297,8 @@ def coords_to_dict(df):
         #
         #index_x = (top_left_x[r]//framesize[0])
         #index_y = (top_left_y[r]//framesize[1])
-        index_x = top_left_x[r]
-        index_y = top_left_y[r]
+        index_x = int(top_left_x[r])
+        index_y = int(top_left_y[r])
         # Append the coordinates to the dictionary with the corresponding labels
         #
 

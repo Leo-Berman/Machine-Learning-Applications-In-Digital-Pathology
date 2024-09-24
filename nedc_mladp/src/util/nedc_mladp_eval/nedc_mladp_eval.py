@@ -74,7 +74,7 @@ def main():
 
     # iterate through each file
     #
-    for data,currfile,header in zip(files_data,feature_files_list,headers):
+    for data,currfile,header in zip(files_data,features_files_list,headers):
 
         # extract the data, labels, frame locations, and sizes
         #

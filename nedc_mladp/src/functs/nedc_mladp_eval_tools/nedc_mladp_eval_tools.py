@@ -6,6 +6,8 @@ import seaborn
 import matplotlib.pyplot as plt
 import polars
 import os
+from enum import Enum
+
 
 import nedc_mladp_ann_tools as ann_tools
 

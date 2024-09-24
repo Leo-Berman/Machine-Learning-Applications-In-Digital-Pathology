@@ -71,9 +71,15 @@ def main():
         #
         file_decision_path = decisions_path+currfile.split('/')[-1][:-11]+"DECISIONS.csv"
         print(file_decision_path)
-        if generate_decisions == 1:
-            eval_tools.plot_decisions(model,mydata,file_decision_path,frame_locations,framesizes,header)
 
+        frame_decisions = eval_tools.generate_frame_decisions(model,mydata,file_decision_path,frame_locations,framesizes,header)
+
+        sparse_matrixes = ann_tools.coord_to_dict(frame_decisions)
+
+        heatmap = ann_tools.heatmap(sparse_matrixes,(framesizes[0],framesizes[0]))
+
+        print(heatmap)
+        
         #if generate_histogram == 1:
         #    eval_tools.plot_histogram(labels,histogram_output)
 

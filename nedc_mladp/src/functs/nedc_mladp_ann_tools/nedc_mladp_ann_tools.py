@@ -553,24 +553,26 @@ def heatmap(annots:dict, framesz) -> np.array:
     #
     for label,coords in annots.items():
         # For each (label,coordinates) pair...
-        
-        # Convert coordinates for the label to a bit matrix.
-        #
-        m = coords_to_bits(coords, framesz)
 
-        # Fill in regions that are bounded on 4 sides.
-        #
-        pad_and_fill(m)
-
-        # Resize return and label matrices so they are equal dimensions.
-        #
-        m,super_m = rsz_matrices(m, super_m)
-
-        # Squash the matrices together.
-        #
-        label_num = label_order[label].value
-        super_m = np.maximum(super_m, m*label_num)
+        if len(coords) > 0:
         
-        # Repeat.
-        
+            # Convert coordinates for the label to a bit matrix.
+            #
+            m = coords_to_bits(coords, framesz)
+            
+            # Fill in regions that are bounded on 4 sides.
+            #
+            pad_and_fill(m)
+            
+            # Resize return and label matrices so they are equal dimensions.
+            #
+            m,super_m = rsz_matrices(m, super_m)
+            
+            # Squash the matrices together.
+            #
+            label_num = label_order[label].value
+            super_m = np.maximum(super_m, m*label_num)
+            
+            # Repeat.
+            
     return super_m

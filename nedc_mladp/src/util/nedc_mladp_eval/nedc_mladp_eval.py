@@ -74,7 +74,7 @@ def main():
 
     # iterate through each file
     #
-    for data,currfile,header in zip(files_data,features_files_list,headers):
+    for data,current_file,header in zip(files_data,features_files_list,headers):
 
         # extract the data, labels, frame locations, and sizes
         #
@@ -85,7 +85,7 @@ def main():
             
         # generates a list of guess and their top level coordinates only applies to single image
         #
-        file_frame_decisions_path = decisions_path+currfile.split('/')[-1][:-11]+"DECISIONS.csv"
+        file_frame_decisions_path = output_frame_decisions_directory+current_file.split('/')[-1][:-11]+"DECISIONS.csv"
 
         # get the frame decisions
         #

@@ -106,7 +106,7 @@ def mean_confidence(model,data):
     #
     return total_max_predictions/len(class_predictions)
 
-def generate_decisions(model,data,output_path,frame_locs,framesizes,header):
+def generate_frame_decisions(model,data,output_path,frame_locs,framesizes,header):
     """
         Objective:
             Plots regions on an image with associated labels based on predictions.

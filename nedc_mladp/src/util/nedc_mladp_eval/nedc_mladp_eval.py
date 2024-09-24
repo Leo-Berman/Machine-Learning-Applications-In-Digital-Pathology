@@ -40,8 +40,8 @@ def main():
     # path to where to write frame decisions
     #
     output_frame_decisions_directory=parsed_parameters['output_frame_decisions_directory']
-    if not (output_frame_decisions_path.endswith('/')):
-        output_frame_decisions_path = decisions_path + '/'
+    if not (output_frame_decisions_directory.endswith('/')):
+        output_frame_decisions_path += '/'
         
     # boolean of whether or not to write regions
     #
@@ -50,8 +50,8 @@ def main():
     # path to where to write region decisions
     #
     output_region_decisions_directory=parsed_parameters['output_region_decisions_directory']
-    if not (output_region_decisions_path.endswith('/')):
-        output_region_decisions_path = decisions_path + '/'
+    if not (output_region_decisions_directory.endswith('/')):
+        output_region_decisions_directory += '/'
         
     # if run is set, update a couple paths to reflect
     #

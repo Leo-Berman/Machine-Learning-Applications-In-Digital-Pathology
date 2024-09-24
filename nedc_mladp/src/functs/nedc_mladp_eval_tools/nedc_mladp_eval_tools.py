@@ -2,7 +2,7 @@
 #
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import ConfusionMatrixDisplay
-import seaborn
+#import seaborn
 import matplotlib.pyplot as plt
 import polars
 import os
@@ -10,7 +10,7 @@ import shapely
 
 from enum import Enum
 
-import nedc_mladp_ann_tools as ann_tools
+#import nedc_mladp_ann_tools as ann_tools
 
 def plot_histogram(labels,histogram_output):
     '''
@@ -158,7 +158,6 @@ def generate_frame_decisions(model,data,output_path,frame_locs,framesizes,header
 
 def generate_region_decisions(input_array,framesize):
     label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp ndic dcis', start = 0)
-    color_order = Enum('color_order', 'white black blue green yellow purple orange pink brown red', start = 0)
     
     # declare dictionaries for patches and frames
     #
@@ -182,14 +181,10 @@ def generate_region_decisions(input_array,framesize):
     #
     patches_written = 0
 
-    # set up schema for dataframe
+    # return dictionary
     #
-    dataframe_schema = {'index':int,'tissue':str,'label':str,'coord_index':int,'row':int,'column':int,'depth':int,'confidence':float}
-
-    # initialize empty dataframe
-    #
-    dataframe = polars.DataFrame(schema=dataframe_schema)
-
+    return_dictionary = {}
+    
     # iterate through all the label's list of frames
     #
     for label in my_regions:
@@ -223,14 +218,15 @@ def generate_region_decisions(input_array,framesize):
             for i,x in enumerate(set(sorted(pop_list))):
                 my_regions[label].pop(x-i)
 
+            new_patch = {}
+                
             # iterate through all the patches
             #
             for patch in my_regions[label]:
-                curr_color = color_order(label_order(label).value).name
 
                 # create a list to hold coordinates
                 #
-                boundary = []
+                coordinates = []
 
                 # if it's a multipolygon
                 #
@@ -239,42 +235,35 @@ def generate_region_decisions(input_array,framesize):
                     # iterate through added the coordinates
                     #
                     for polygon in patch.geoms:
-                        polygon_boundary = polygon.exterior.coords[:]
-                        boundary.extend(polygon_boundary)
-                        x,y = zip(*polygon_boundary)
-                    #print("Boundary = ",boundary)
+                        coordinates.extend(polygon.exterior.coords[:])
 
                 # if it's not a multipolygon add the coordinates
                 #
                 else:
                     #print("Patch = ",patch.exterior.coords[:])
-                    boundary.extend(patch.exterior.coords[:])
+                    coordinates.extend(patch.exterior.coords[:])
 
-                # create a list to hold rows
-                #
-                new_region = []
 
-                # iterate through the coordinates
-                #
-                for j,y in enumerate(boundary):
-
-                    # get the label from the enumerated type
-                    #
-                    write_label = label_order(label).name
-
-                    # create the new row
-                    #
-                    new_region.append([patches_written,"breast",write_label,j,y[0]*framesize,y[1]*framesize,0,1])
-
-                # append the current rows to the frame
-                #
-                append_frame = polars.DataFrame(new_region,schema=dataframe_schema)
-                dataframe.extend(append_frame)
-
+                return_dictionary[patches_written] = { 'region_id':patches_written + 1,
+                                                       'text':label_order(label).name,
+                                                       'coordinates':coordinates,
+                                                       'confidence':1,
+                                                       'tissue_type':'breast',
+                                                       
+                                                      }
+                    
                 # and keep track of the number of patches written
                 #
                 patches_written+=1
                 
     # return the dataframe
     #
-    return dataframe
+    return return_dictionary
+
+def test():
+    test_array = [[0,0],
+                  [0,1]]
+    graph = generate_region_decisions(test_array,200)
+    print(graph)
+if __name__ == "__main__":
+    test()

@@ -300,7 +300,7 @@ def coords_to_dict(df):
         # Append the coordinates to the dictionary with the corresponding labels
         #
 
-        coordinate = [index_x,index_y]
+        coordinate = (index_x,index_y)
         
         if labels[r] == "bckg":
             label_dict['bckg'].append(coordinate)

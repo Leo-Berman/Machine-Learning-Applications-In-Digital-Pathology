@@ -295,8 +295,8 @@ def coords_to_dict(df):
     for r in range(df.shape[0]-1):
         # Convert frame to bits
         #
-        index_x = (top_left_x[r])
-        index_y = (top_left_y[r])
+        index_x = (top_left_x[r]//framesize[0])
+        index_y = (top_left_y[r]//framesize[1])
         # Append the coordinates to the dictionary with the corresponding labels
         #
 

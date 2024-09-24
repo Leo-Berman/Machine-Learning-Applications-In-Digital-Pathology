@@ -8,7 +8,6 @@ import polars
 import os
 from enum import Enum
 
-
 import nedc_mladp_ann_tools as ann_tools
 
 def plot_histogram(labels,histogram_output):
@@ -156,7 +155,7 @@ def generate_frame_decisions(model,data,output_path,frame_locs,framesizes,header
 
 
 def generate_region_decisions(input_array,framesize):
-
+    label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp ndic dcis', start = 0)
     color_order = Enum('color_order', 'white black blue green yellow purple orange pink brown red', start = 0)
     
     # declare dictionaries for patches and frames

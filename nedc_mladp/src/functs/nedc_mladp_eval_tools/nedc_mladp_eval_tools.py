@@ -274,8 +274,6 @@ def generate_region_decisions(input_array,framesize):
                 # and keep track of the number of patches written
                 #
                 patches_written+=1
-
-    print(dataframe)
                 
     # return the dataframe
     #

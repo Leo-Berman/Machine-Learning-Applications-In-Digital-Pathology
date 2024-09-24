@@ -106,7 +106,7 @@ def mean_confidence(model,data):
     #
     return total_max_predictions/len(class_predictions)
 
-def plot_decisions(model,data,output_path,frame_locs,framesizes,header):
+def generate_decisions(model,data,output_path,frame_locs,framesizes,header):
     """
         Objective:
             Plots regions on an image with associated labels based on predictions.
@@ -140,11 +140,14 @@ def plot_decisions(model,data,output_path,frame_locs,framesizes,header):
 
     if os.path.exists(output_path):
         os.remove(output_path)
-    
+
+    MySchem = ["labels",'framesizes','top_left_x','top_left_y']
+    df = polars.DataFrame(rows,schema=MySchem)
+        
     with open(output_path,'a') as file:
         file.write(header + '% ')
-        MySchem = ["labels",'framesizes','top_left_x','top_left_y']
-        df = polars.DataFrame(rows,schema=MySchem)
         df.write_csv(file)
+
+    return df
 
 

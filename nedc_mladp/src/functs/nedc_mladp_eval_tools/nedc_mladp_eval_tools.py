@@ -6,6 +6,8 @@ import seaborn
 import matplotlib.pyplot as plt
 import polars
 import os
+import shapely
+
 from enum import Enum
 
 import nedc_mladp_ann_tools as ann_tools
@@ -240,7 +242,6 @@ def generate_region_decisions(input_array,framesize):
                         polygon_boundary = polygon.exterior.coords[:]
                         boundary.extend(polygon_boundary)
                         x,y = zip(*polygon_boundary)
-                        matplotlib.pyplot.plot(x,y,color=curr_color)
                     #print("Boundary = ",boundary)
 
                 # if it's not a multipolygon add the coordinates
@@ -248,7 +249,6 @@ def generate_region_decisions(input_array,framesize):
                 else:
                     #print("Patch = ",patch.exterior.coords[:])
                     boundary.extend(patch.exterior.coords[:])
-                    matplotlib.pyplot.plot(*patch.exterior.xy,color=curr_color)            
 
                 # create a list to hold rows
                 #
@@ -275,8 +275,8 @@ def generate_region_decisions(input_array,framesize):
                 #
                 patches_written+=1
 
-    matplotlib.pyplot.savefig("test.jpg")
-
+    print(dataframe)
+                
     # return the dataframe
     #
     return dataframe

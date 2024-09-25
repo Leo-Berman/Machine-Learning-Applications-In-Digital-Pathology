@@ -235,7 +235,7 @@ def generateRegionDecisions(input_array,framesize):
                     # iterate through added the coordinates
                     #
                     for polygon in patch.geoms:
-                        extend_list = [ x + (0,) for x in patch.exterior.coords[:]]
+                        extend_list = [ x + (0,) for x in polygon.exterior.coords[:]]
                         coordinates.extend(extend_list)
 
                 # if it's not a multipolygon add the coordinates
@@ -268,10 +268,12 @@ def generateRegionDecisions(input_array,framesize):
 
 def generateAnnotationsHeader(input_header:str) -> dict:
     split_items = input_header.split(" = ")
+    print(split_items)
     return_dict = {}
-    for i in range(len(0,split_items,2)):
-        return_dict[split_items[i]] = split_item[i+1]
+    for i in range(0,len(split_items)-1,2):
+        return_dict[split_items[i]] = split_items[i+1]
 
+    return_dict['MicronsPerPixel'] = int(return_dict['MicronsPerPixel'])
     return return_dict
 def test():
     test_array = [[0,0],

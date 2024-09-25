@@ -156,7 +156,7 @@ def generate_frame_decisions(model,data,output_path,frame_locs,framesizes,header
 
 
 
-def generate_region_decisions(input_array,framesize):
+def generateRegionDecisions(input_array,framesize):
     label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp ndic dcis', start = 0)
     
     # declare dictionaries for patches and frames
@@ -266,6 +266,13 @@ def generate_region_decisions(input_array,framesize):
     #
     return return_dictionary
 
+def generateAnnotationsHeader(input_header:str) -> dict:
+    split_items = input_header.split(" = ")
+    return_dict = {}
+    for i in range(len(0,split_items,2)):
+        return_dict[split_items[i]] = split_item[i+1]
+
+    return return_dict
 def test():
     test_array = [[0,0],
                   [0,1]]

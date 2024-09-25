@@ -564,7 +564,7 @@ def heatmap(annots:dict, framesz) -> np.array:
             
             # Fill in regions that are bounded on 4 sides.
             #
-            #pad_and_fill(m)
+            pad_and_fill(m)
             
             # Resize return and label matrices so they are equal dimensions.
             #

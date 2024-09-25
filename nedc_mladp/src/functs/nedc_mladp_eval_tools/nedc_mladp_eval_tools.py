@@ -235,13 +235,17 @@ def generate_region_decisions(input_array,framesize):
                     # iterate through added the coordinates
                     #
                     for polygon in patch.geoms:
-                        coordinates.extend(polygon.exterior.coords[:])
+                        extend_list = [ x + (0,) for x in patch.exterior.coords[:]]
+                        coordinates.extend(extend_list)
 
                 # if it's not a multipolygon add the coordinates
                 #
                 else:
+                    extend_list = [ x + (0,) for x in patch.exterior.coords[:]]
+                    coordinates.extend(extend_list)
+
                     #print("Patch = ",patch.exterior.coords[:])
-                    coordinates.extend(patch.exterior.coords[:])
+                    
 
 
                 return_dictionary[patches_written] = { 'region_id':patches_written + 1,
@@ -249,8 +253,10 @@ def generate_region_decisions(input_array,framesize):
                                                        'coordinates':coordinates,
                                                        'confidence':1,
                                                        'tissue_type':'breast',
-                                                       
-                                                      }
+                                                       'geometric_properties' : {'Length' : 0.0,
+                                                                                 'Area' : 0.0,
+                                                                                 'LengthMicrons' : 0.0,
+                                                                                 'AreaMicrons' : 0.0}                                                      }
                     
                 # and keep track of the number of patches written
                 #
@@ -264,9 +270,16 @@ def test():
     test_array = [[0,0],
                   [0,1]]
     graph = generate_region_decisions(test_array,200)
-
+    header = {'bname' : 'test.csv',
+              'MicronsPerPixel' : 0,
+              'width' : 5000,
+              'height' : 5000,
+              'tissue' : ['breast']}
+    
     annotation_writer = nedc_dpath_ann_tools.AnnDpath()
-
-    annotation_writer.create(0,1,graph[0]['text'],graph[0]['coordinates'],graph[0]['confidence'],graph[0]['tissue_type'],{})
+    annotation_writer.set_type("csv")
+    annotation_writer.set_header(header)
+    annotation_writer.set_graph(graph)
+    annotation_writer.write("test.csv")
 if __name__ == "__main__":
     test()

@@ -19,7 +19,7 @@ def labeled_regions(coordinates:list):
     #
     ret_shapes = []
     for i in range(len(coordinates)):
-        ret_shapes.append(geometry_tools.generate_polygon(coordinates[i]))
+        ret_shapes.append(geometry_tools.generatePolygon(coordinates[i]))
 
     return ret_shapes
 

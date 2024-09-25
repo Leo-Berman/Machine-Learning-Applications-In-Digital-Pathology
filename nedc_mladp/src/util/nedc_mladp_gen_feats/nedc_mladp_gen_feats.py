@@ -103,12 +103,12 @@ def main():
                 os.remove(write_path)
             
             with open(write_path, 'a') as file:
-                file.write('# version = mladp_v1.0.0,,,,,,,,\n'+
-                      '# MicronsPerPixel = '+header['MicronsPerPixel']+',,,,,,,,\n'+
-                      '# bname = '+header['bname']+',,,,,,,,\n'+
-                      '# width = '+header['width']+', height = '+header['height']+',,,,,,,,\n'+
-                      '# tissue = '+", ".join(header['tissue'])+',,,,,,,,\n'+
-                      '# ,,,,,,,,\n% ')
+                file.write('# version = mladp_v1.0.0\n'+
+                      '# MicronsPerPixel = '+header['MicronsPerPixel']+'\n'+
+                      '# bname = '+header['bname']+'\n'+
+                      '# width = '+header['width']+', height = '+header['height']+'\n'+
+                      '# tissue = '+", ".join(header['tissue'])+'\n'+
+                      '# \n% ')
             
                 df.write_csv(file)
                 print(csv, "Sucess")

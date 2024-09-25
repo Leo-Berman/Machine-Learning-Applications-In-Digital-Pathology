@@ -85,7 +85,7 @@ def main():
             
         # generates a list of guess and their top level coordinates only applies to single image
         #
-        file_frame_decisions_path = output_frame_decisions_directory+current_file.split('/')[-1][:-11]+"DECISIONS.csv"
+        file_frame_decisions_path = output_frame_decisions_directory+current_file.split('/')[-1][:-11]+"FRAME_DECISIONS.csv"
 
         # get the frame decisions
         #
@@ -105,8 +105,19 @@ def main():
         
         # generate the regions
         #
-        regions = eval_tools.generate_region_decisions(heatmap,framesize_fib[0])
-    
+        regions = eval_tools.generateRegionDecisions(heatmap,framesize_fib[0])
 
+        # generate the header
+        #
+        ann_dpath_header = eval_tools.generateAnnotationsHeader(header)
+
+        if write_region_decisions == 1:
+            file_region_decisions_path = output_regions_decisions_directory+current_file.split('/')[-1][:-11]+"REGION_DECISIONS.csv"
+            annotation_writer = nedc_dpath_ann_tools.AnnDpath()
+            annotation_writer.set_type("csv")
+            annotation_writer.set_header(ann_dpath_header)
+            annotation_writer.set_graph(regions)
+            annotation_writer.write(file_region_decisions_path)
+        
 if __name__ == "__main__":
     main()

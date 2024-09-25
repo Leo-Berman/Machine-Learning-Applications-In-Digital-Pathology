@@ -267,13 +267,23 @@ def generateRegionDecisions(input_array,framesize):
     return return_dictionary
 
 def generateAnnotationsHeader(input_header:str) -> dict:
-    split_items = input_header.split(" = ")
-    print(split_items)
+    lines = input_header.replace('#','').split('\n')
+    for i,line in enumerate(lines):
+        if ',' in line:
+            line_to_process = lines.pop(i)
+            lines.extend(line_to_process.split(','))
+    split_items = []
+    for x in lines:
+        split_items.extend([y.strip() for y in x.split('=')])
+
+    split_items = [x for x in split_items if x]
+    
     return_dict = {}
     for i in range(0,len(split_items)-1,2):
         return_dict[split_items[i]] = split_items[i+1]
 
-    return_dict['MicronsPerPixel'] = int(return_dict['MicronsPerPixel'])
+    print(return_dict)
+        
     return return_dict
 def test():
     test_array = [[0,0],

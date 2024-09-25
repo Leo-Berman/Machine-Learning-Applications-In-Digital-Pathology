@@ -12,6 +12,7 @@ import nedc_mladp_ann_tools as ann_tools
 
 # import NEDC libraries
 import nedc_file_tools
+import nedc_dpath_ann_tools
 
 def main():
 
@@ -112,7 +113,7 @@ def main():
         ann_dpath_header = eval_tools.generateAnnotationsHeader(header)
 
         if write_region_decisions == 1:
-            file_region_decisions_path = output_regions_decisions_directory+current_file.split('/')[-1][:-11]+"REGION_DECISIONS.csv"
+            file_region_decisions_path = output_region_decisions_directory+current_file.split('/')[-1][:-11]+"REGION_DECISIONS.csv"
             annotation_writer = nedc_dpath_ann_tools.AnnDpath()
             annotation_writer.set_type("csv")
             annotation_writer.set_header(ann_dpath_header)

@@ -426,9 +426,13 @@ def _flood_fill(matrix:np.ndarray, start_point:tuple) -> None:
         #
         index = indices[0]
 
-        # Set the value at that index to 1.
+        # Check and set the value at that index to 1.
         #
-        matrix[index] = 1
+        if matrix[index] != 1:
+            matrix[index] = 1
+        else:
+            indices.pop(0)
+            continue
 
         # Get indices for nearby points
         #

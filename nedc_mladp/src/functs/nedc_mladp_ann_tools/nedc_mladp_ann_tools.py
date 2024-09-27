@@ -6,6 +6,7 @@ import shapely
 import nedc_mladp_geometry_tools as geometry_tools
 import numpy as np
 import pandas as pd
+from numba import njit
 
 from enum import Enum
 label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp ndic dcis', start=0)
@@ -383,6 +384,7 @@ def coords_to_bits(coords:list[tuple], framesz) -> np.array:
     
     return m
 
+@njit
 def _in_bounds(point:tuple, bottom_right_bnd:tuple, top_left_bnd:tuple = (0,0)) -> bool:
     '''Determines if a point lies on the matrix (bounds-inclusive).
     
@@ -431,6 +433,7 @@ def _flood_fill(matrix:np.ndarray, start_point:tuple) -> None:
         if matrix[index] != 1:
             matrix[index] = 1
         else:
+            # No need to continue the loop body if the bit is already set.
             indices.pop(0)
             continue
 

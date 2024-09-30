@@ -20,7 +20,7 @@ def labeled_regions(coordinates:list):
     #
     ret_shapes = []
     for i in range(len(coordinates)):
-        ret_shapes.append(geometry_tools.generate_polygon(coordinates[i]))
+        ret_shapes.append(geometry_tools.generatePolygon(coordinates[i]))
 
     return ret_shapes
 
@@ -296,28 +296,33 @@ def coords_to_dict(df):
     for r in range(df.shape[0]-1):
         # Convert frame to bits
         #
-        index_x = (top_left_x[r] // framesize)
-        index_y = (top_left_y[r] // framesize)
+        #index_x = (top_left_x[r]//framesize[0])
+        #index_y = (top_left_y[r]//framesize[1])
+        index_x = int(top_left_x[r])
+        index_y = int(top_left_y[r])
         # Append the coordinates to the dictionary with the corresponding labels
         #
+
+        coordinate = (index_x,index_y)
+        
         if labels[r] == "bckg":
-            label_dict['bckg'].append((index_x,index_y))
+            label_dict['bckg'].append(coordinate)
         elif labels[r] == "norm":
-            label_dict['norm'].append((index_x,index_y))
+            label_dict['norm'].append(coordinate)
         elif labels[r] == "null":
-            label_dict['null'].append((index_x,index_y))
+            label_dict['null'].append(coordinate)
         elif labels[r] == "artf":
-            label_dict['artf'].append((index_x,index_y))
+            label_dict['artf'].append(coordinate)
         elif labels[r] == "nneo":
-            label_dict['nneo'].append((index_x,index_y))
+            label_dict['nneo'].append(coordinate)
         elif labels[r] == "infl":
-            label_dict['infl'].append((index_x,index_y))
+            label_dict['infl'].append(coordinate)
         elif labels[r] == "susp":
-            label_dict['susp'].append((index_x,index_y))
+            label_dict['susp'].append(coordinate)
         elif labels[r] == "indc":
-            label_dict['indc'].append((index_x,index_y))
+            label_dict['indc'].append(coordinate)
         elif labels[r] == "dcis":
-            label_dict['dcis'].append((index_x,index_y))
+            label_dict['dcis'].append(coordinate)
 
     return(label_dict)
 
@@ -557,24 +562,26 @@ def heatmap(annots:dict, framesz) -> np.array:
     #
     for label,coords in annots.items():
         # For each (label,coordinates) pair...
-        
-        # Convert coordinates for the label to a bit matrix.
-        #
-        m = coords_to_bits(coords, framesz)
 
-        # Fill in regions that are bounded on 4 sides.
-        #
-        pad_and_fill(m)
-
-        # Resize return and label matrices so they are equal dimensions.
-        #
-        m,super_m = rsz_matrices(m, super_m)
-
-        # Squash the matrices together.
-        #
-        label_num = label_order[label].value
-        super_m = np.maximum(super_m, m*label_num)
+        if len(coords) > 0:
         
-        # Repeat.
-        
+            # Convert coordinates for the label to a bit matrix.
+            #
+            m = coords_to_bits(coords, framesz)
+            
+            # Fill in regions that are bounded on 4 sides.
+            #
+            pad_and_fill(m)
+            
+            # Resize return and label matrices so they are equal dimensions.
+            #
+            m,super_m = rsz_matrices(m, super_m)
+            
+            # Squash the matrices together.
+            #
+            label_num = label_order[label].value
+            super_m = np.maximum(super_m, m*label_num)
+            
+            # Repeat.
+            
     return super_m

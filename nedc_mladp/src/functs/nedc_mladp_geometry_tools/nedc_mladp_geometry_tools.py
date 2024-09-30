@@ -2,81 +2,130 @@
 #
 import shapely
 import sys
+import matplotlib.pyplot
 
-# Picone's libraries
+# import NEDC libraries
 #
-import nedc_image_tools as phg
+import nedc_image_tools
 
-# generate a shape from border coordinates
-#
-def generate_polygon(coords):
-    shape = shapely.Polygon(coords)
+'''
+generate a shapely.Polygon from list of coordinates
+
+Parameters:
+    coordinates % list of tuples of coordinates
+Return:
+    shape % resulting shapely.Polygon
+'''
+def generatePolygon(coordinates:list)->shapely.Polygon:
+    shape = shapely.Polygon(coordinates)
     return shape
 
-# return the border of a shape
-#
-def get_border(shape):
-    return (shape.exterior.xy)
+'''
+return the border of a shape
 
-# return the top left corner of every frame
-#
-def getframestart(imagefile:str,frame:int):
+Parameters:
+   shape % 2 dimensional shapely.Polygon
+Return:
+   border % tuple of arrays, index 0 is x coordinates,
+            and index 1 is y coordinates
+'''
+def getBorder(shape:shapely.Polygon)->tuple:
+    border = shape.exterior.xy
+    return border
+'''
+    return the top left corner of every frame
+Parameters:
+    imagefile % path to svs file
+    framesize % size of frame that will be used to segment image
+Return:
+    frame_top_left_coordiantes % list of tuples (x,y) containing
+                                 the top left corner of each frame
+'''
+def getFrameCoordinates(imagefile:str,framesize:int)->list:
     
     # open the imagefile
     #
-    NIL = phg.Nil()
-    NIL.open(imagefile)
+    image_reader = nedc_image_tools.Nil()
+    image_reader.open(imagefile)
     
     # Get dimensions
     #
-    xdim,ydim =NIL.get_dimension()
+    image_width,image_height= image_reader.get_dimension()
 
     # Get all the coordinates for each windows
     #
-    coordinates = [(x, ydim-y+frame) for x in range(0, xdim, frame) for y in range(0, ydim+frame, frame)]
+    frame_top_left_coordinates = [(x, image_height-y+framesize) for x in range(0, image_width, framesize) for y in range(0, image_height+framesize, framesize)]
 
     # return that list of coordinates
     #
-    return coordinates
+    return frame_top_left_coordinates
 
 
-
-# generate a list of shapes that are each uniform boxes
-# coords = list of list (return of get frame start)
-# frame = [framewidth,frameheight] or (framewidth,frameheight) IE. can be list or tuple
-# if frame is different from what you gave getframestart, your boxes will overlay each other
-#
 '''
-Ex:
-filepath = "path to svs file that is 100 pixesl by 100 pixels"
-framesize = [10,10]
-coords = getframestart(filepath,framesize)
-squares = createboxshapes(coords,framesize)
+turn all of the top left coordinates into a list of shapely.Polygons 
 
-square will be a list of polygons from the shapely library
+Parameters:
+    coordinates % list of top left corners
+    frame_size % size of the boxes length and width
+Return:
+    frames %  list of shapely.Polygon each containing a frame
 '''
-def createboxshapes(coords,frame:int):
+def createFrames(coordinates:list,frame_size:int)->list:
 
     # create a list for the shapely polygons
     #
-    boxes = []
+    frames = []
 
     # iterate through all the coordinates
     #
-    for x in coords:
+    for x in coordinates:
 
         # get the four corners of the square
         #
-        topleft = [x[0],x[1]]
-        topright = [x[0]+frame,x[1]]
-        botright = [x[0]+frame,x[1]-frame]
-        botleft = [x[0],x[1]-frame]
-        shapecoords = [topleft,topright,botright,botleft]
+        top_left = [x[0],x[1]]
+        top_right = [x[0]+frame_size,x[1]]
+        bottom_right = [x[0]+frame_size,x[1]-frame_size]
+        bottom_left = [x[0],x[1]-frame_size]
+        shape_coordinates = [top_left,top_right,bottom_right,bottom_left]
 
         # append the polygon square to the list
         #
-        boxes.append(generate_polygon(shapecoords))
+        frames.append(generatePolygon(shape_coordinates))
 
     # return the list of shapley polygons
     #
-    return boxes
+    return frames
+
+
+'''
+Example driver function to show how this code might
+be used
+'''
+def main():
+    # declare an image file to use
+    #
+    image = "/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/00477780_aaaaaagg/s000_2017/breast/00477780_aaaaaagg_s000_0hne_0000_a005_lvl001_t000.svs"
+
+    # declare a frame size
+    #
+    frame_size = 5000
+
+    # obtain the top left coordinates of each frame
+    #
+    frame_coordinates = getFrameCoordinates(image,frame_size)
+
+    # generate the frames
+    #
+    frames = createFrames(frame_coordinates,frame_size)
+
+    # for each of the frames print the corresponding
+    # x and y coordinates
+    #
+    for i,frame in enumerate(frames):
+        print("Frame #" + str(i) + ":",
+              "\nX coordinates = ", getBorder(frame)[0],
+              "\nY coordinates = ", getBorder(frame)[1])
+
+if __name__ == "__main__":
+    main()
+

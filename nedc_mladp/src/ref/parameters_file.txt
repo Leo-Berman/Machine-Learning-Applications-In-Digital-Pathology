@@ -3,8 +3,8 @@
 main{
     windowsize=250
     framesize=200
-    imagefile_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/trainimages.list"
-    labelfile_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/trainannotations.list"
+    images_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/trainimages.list"
+    annotations_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/trainannotations.list"
     number_of_epochs=1
     images_per_increment=20
 }   

@@ -1,8 +1,8 @@
 # version=param_v1.0.0
 
 main{
-    windowsize=250
-    framesize=200
+    window_size=250
+    frame_size=200
     images_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/trainimages.list"
     annotations_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/trainannotations.list"
     number_of_epochs=1

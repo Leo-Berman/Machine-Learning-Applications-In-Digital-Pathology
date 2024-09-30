@@ -3,6 +3,15 @@
 import nedc_mladp_fileio_tools as local_fileio
 
 import nedc_file_tools
+import nedc_dpath_ann_tools
+
+def getAnnotations(annotation_file, master_dictionary, images_processed):
+
+    annotation_tool = nedc_dpath_ann_tools.AnnDpath()
+    annotation_tool.load(annotation_file)
+    data = annotation_tool.get_graph()
+    header = annotation_tool.get_header()
+    
 
 def main():
 
@@ -18,8 +27,6 @@ def main():
     frame_size = int(parsed_parameters['frame_size'])
     images_list = local_fileio.readFileLists(parsed_parameters['images_list'])
     annotations_list = local_fileio.readFileLists(parsed_parameters['annotations_list'])
-
-    
     images_per_increment = int(parsed_parameters['images_per_increment'])
     number_of_epochs = int(parsed_parameters['number_of_epochs'])
 
@@ -27,7 +34,8 @@ def main():
     epochs_ran = 0
     images_processed = 0
     for image_index in range(images_per_increment):
-        header, ids, labels, coordinates = local_fileio.parseAnnotations(annotations_list[image_index])
+
+        
         print("Header = ",header)
         print("Ids = ",ids)
         print("Labels ", labels)

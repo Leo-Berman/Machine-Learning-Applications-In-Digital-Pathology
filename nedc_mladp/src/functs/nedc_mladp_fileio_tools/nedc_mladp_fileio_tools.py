@@ -69,7 +69,7 @@ def read_feature_files(feature_file_list:list,get_header=False):
 
 # set cmdl to only process a parameter file
 #
-def parameters_only_args(usage,help):
+def parseArguments(usage,help):
     argparser = nedc_cmdl_parser.Cmdl(usage,help)
     argparser.add_argument('-p', type = str)
     parsed_args = argparser.parse_args()

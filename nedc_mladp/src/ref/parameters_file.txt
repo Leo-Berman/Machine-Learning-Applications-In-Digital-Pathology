@@ -1,0 +1,9 @@
+# version=param_v1.0.0
+
+main{
+    windowsize=250
+    framesize=200
+    imagefile_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/trainimages.list"
+    labelfile_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/trainannotations.list"
+
+}

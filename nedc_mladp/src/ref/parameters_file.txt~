@@ -1,0 +1,11 @@
+# version=param_v1.0.0
+
+gen_feats{
+    run=1
+    windowsize=250
+    framesize=200
+    imagefile_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/trainimages.list"
+    labelfile_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/trainannotations.list"
+    output_dir="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/features_output/"
+    output_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/features_output/dcts.list"
+}

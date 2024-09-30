@@ -26,7 +26,7 @@ def main():
     master_dictionary = {}
     epochs_ran = 0
     images_processed = 0
-    for image_index in images_per_increment:
+    for image_index in range(images_per_increment):
         header, ids, labels, coordinates = local_fileio.parseAnnotations(annotations_list[image_index])
         print("Header = ",header)
         print("Ids = ",ids)

@@ -2,6 +2,8 @@
 
 import nedc_mladp_fileio_tools as local_fileio
 
+import nedc_file_tools
+
 def main():
 
     # parse command line arguments
@@ -11,7 +13,7 @@ def main():
     parameter_file = local_fileio.parseArguments(arguments_usage,
                                                  arguments_help)
 
-    
+    parsed_parameters = nedc_file_tools.load_parameters(parameter_file,'main')
     window_size = int(parsed_parameters['window_size'])
     frame_size = int(parsed_parameters['frame_size'])
     images_list = local_fileio.readFileLists(parsed_parameters['images_list'])

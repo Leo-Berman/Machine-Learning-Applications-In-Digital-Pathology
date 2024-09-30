@@ -26,7 +26,11 @@ def main():
     images_processed = 0
     for image_index in images_per_increment:
         header, ids, labels, coordinates = local_fileio.parseAnnotations(annotations_list[image_index])
-
+        print("Header = ",header)
+        print("Ids = ",ids)
+        print("Labels ", labels)
+        print("Coordinates = ",coordinates)
+        
 
     
 

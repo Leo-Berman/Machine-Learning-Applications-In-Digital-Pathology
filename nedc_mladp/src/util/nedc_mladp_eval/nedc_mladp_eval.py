@@ -48,9 +48,9 @@ def main():
     
     feature_files_list = fileio_tools.read_file_lists(feature_data_list)
 
-    filesdata = fileio_tools.read_feature_files(feature_files_list)
+    filesdata,headers = fileio_tools.read_feature_files(feature_files_list, get_header = True)
 
-    for data,currfile in zip(filesdata,feature_files_list):
+    for data,currfile,header in zip(filesdata,feature_files_list,headers):
         
         mydata = data[:, 4::]
         labels = data[:,0].tolist()
@@ -72,7 +72,7 @@ def main():
         file_decision_path = decisions_path+currfile.split('/')[-1][:-11]+"DECISIONS.csv"
         print(file_decision_path)
         if generate_decisions == 1:
-            eval_tools.plot_decisions(model,mydata,file_decision_path,frame_locations,framesizes)
+            eval_tools.plot_decisions(model,mydata,file_decision_path,frame_locations,framesizes,header)
 
         #if generate_histogram == 1:
         #    eval_tools.plot_histogram(labels,histogram_output)

@@ -50,7 +50,6 @@ def main():
         # parse annotations
         #
         header, ids, labels, coordinates = fileio_tools.parse_annotations(csv)
-
         
         # get height and width of image (in pixels) from the header
         #
@@ -77,7 +76,8 @@ def main():
         #
         frame_dcts = feats_tools.rgba_to_dct(frame_rgbas,labeled_frames,framesize,windowsize)
         if len(frame_dcts) > 0:
-        
+
+            
             # set column index names
             #
             my_schema = []
@@ -93,16 +93,33 @@ def main():
                 else:
                     my_schema.append(str(i))
                     
-                    # print dct frames to csv
-                    #
+            # print dct frames to csv
+            #
             df = polars.DataFrame(frame_dcts,schema=my_schema,orient="row")
             ifile,iextension = os.path.splitext(os.path.basename(os.path.normpath(svs)))
             write_path = output_path+ifile+"_RGBADCT.csv"
-            df.write_csv(write_path)
+
+            if os.path.exists(write_path):
+                os.remove(write_path)
+            
+            with open(write_path, 'a') as file:
+                file.write('# version = mladp_v1.0.0,,,,,,,,\n'+
+                      '# MicronsPerPixel = '+header['MicronsPerPixel']+',,,,,,,,\n'+
+                      '# bname = '+header['bname']+',,,,,,,,\n'+
+                      '# width = '+header['width']+', height = '+header['height']+',,,,,,,,\n'+
+                      '# tissue = '+", ".join(header['tissue'])+',,,,,,,,\n'+
+                      '# ,,,,,,,,\n% ')
+            
+                df.write_csv(file)
+                print(csv, "Sucess")
             list_of_files.append(write_path)
         else:
             print(csv, "Failed")
 
+    if os.path.exists(output_txt_file):
+        os.remove(output_txt_file)
+
+            
     f = open(output_txt_file,"a")
     for x in list_of_files:
         f.write(x+'\n')

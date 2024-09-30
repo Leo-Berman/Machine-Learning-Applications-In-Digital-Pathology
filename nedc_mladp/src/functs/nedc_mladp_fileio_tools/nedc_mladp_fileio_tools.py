@@ -10,7 +10,7 @@ import nedc_cmdl_parser
 
 # read lists of files in
 #
-def read_file_lists(file_name):
+def readFileLists(file_name):
     # Using readlines()
     file1 = open(file_name, 'r')
     Lines = file1.readlines()

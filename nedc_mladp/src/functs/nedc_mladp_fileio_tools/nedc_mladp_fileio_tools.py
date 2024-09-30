@@ -76,7 +76,7 @@ def parameters_only_args(usage,help):
     parameter_file = parsed_args.p
     return parameter_file
 
-def parse_annotations(file):
+def parseAnnotations(file):
     
     ''' 
     USE:

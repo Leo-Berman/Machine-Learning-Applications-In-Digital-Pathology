@@ -11,7 +11,7 @@ from numba import njit
 from enum import Enum
 label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp ndic dcis', start=0)
 
-def generateFeatures(data:dict,frame_size:int,windows_size:int):
+def generateFeatures(data:dict,header:dict,frame_size:int,windows_size:int):
 
     region_coordinates = []
     region_labels = []
@@ -22,8 +22,12 @@ def generateFeatures(data:dict,frame_size:int,windows_size:int):
 
     regions = labeledRegions(region_coordinates)
 
-    
-    print(region_labels,regions)
+    frames, frame_labels = labeledFrames(region_labels,
+                                         header['height'],
+                                         header['width'],
+                                         window_size,
+                                         frame_size,
+                                         region)
         
 
 def labeledRegions(coordinates:list):

@@ -14,18 +14,19 @@ label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp ndic
 def generateFeatures(data:dict,frame_size:int,windows_size:int):
 
     region_coordinates = []
-    
+    region_labels = []
     for key in data.keys():
         data_matrix = numpy.array(data[key]['coordinates'])
         region_coordinates.append(data_matrix[:,0:2])
+        region_labels.append(data[key]['label'])
 
+    regions = labeledRegions(region_coordinates)
 
-    regions = labeled_regions(region_coordinates)
-
-    print(regions)
+    
+    print(region_labels,regions)
         
 
-def labeled_regions(coordinates:list):
+def labeledRegions(coordinates:list):
     """
         Takes a list of list of coordinates and generates a list of correlating shapes
     """
@@ -38,7 +39,7 @@ def labeled_regions(coordinates:list):
 
     return ret_shapes
 
-def labeled_frames(labels:list,height:int,width:int,windowsize:int,framesize:int,shapes:list):
+def labeledFrames(labels:list,height:int,width:int,windowsize:int,framesize:int,shapes:list):
     
     # classify the frames based on if it is within any region (shape)
     #

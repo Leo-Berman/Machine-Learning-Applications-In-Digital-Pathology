@@ -12,8 +12,18 @@ from enum import Enum
 label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp ndic dcis', start=0)
 
 def generateFeatures(data:dict,frame_size:int,windows_size:int):
-    print(data['coordinates'])
+
+    region_coordinates = []
     
+    for key in data.keys():
+        data_matrix = numpy.array(data[key]['coordinates'])
+        region_coordiantes.append(data_matrix[:,0:2])
+
+
+    regions = labeled_regions(region_coordinates)
+
+    print(regions)
+        
 
 def labeled_regions(coordinates:list):
     """

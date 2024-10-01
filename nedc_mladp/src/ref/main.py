@@ -38,14 +38,14 @@ def main():
             'window_size':window_size,
         }
         
-        images_processed += 1
+
 
         local_ann.generateFeatures(annotation_tool.get_graph(),
                                    master_dictionary[images_processed]['header'],
                                    frame_size, window_size)
 
         
-    
+        images_processed += 1
     
     
 if __name__ == "__main__":

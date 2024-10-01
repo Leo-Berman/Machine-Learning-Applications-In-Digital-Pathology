@@ -41,7 +41,7 @@ def main():
         images_processed += 1
 
         local_ann.generateFeatures(annotation_tool.get_graph(),
-                                   master_dictionary['header'],
+                                   master_dictionary[images_processed]['header'],
                                    frame_size, window_size)
 
         

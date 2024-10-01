@@ -4,7 +4,7 @@ The maketraining.py module will classify each frame as labeled or unlabeled whet
 import nedc_image_tools as phg
 import shapely
 import nedc_mladp_geometry_tools as geometry_tools
-import numpy as np
+import numpy
 import pandas as pd
 from numba import njit
 

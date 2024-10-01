@@ -15,6 +15,7 @@ def generateFeatures(data:dict,frame_size:int,windows_size:int):
 
     region_coordinates = []
     region_labels = []
+    print(data)
     for key in data.keys():
         data_matrix = numpy.array(data[key]['coordinates'])
         region_coordinates.append(data_matrix[:,0:2])

@@ -1,17 +1,10 @@
 #!/usr/bin/env python3
 
 import nedc_mladp_fileio_tools as local_fileio
+import nedc_mladp_ann_tools as local_ann
 
 import nedc_file_tools
 import nedc_dpath_ann_tools
-
-def getAnnotations(annotation_file, master_dictionary, images_processed):
-
-    annotation_tool = nedc_dpath_ann_tools.AnnDpath()
-    annotation_tool.load(annotation_file)
-    data = annotation_tool.get_graph()
-    header = annotation_tool.get_header()
-    
 
 def main():
 
@@ -35,15 +28,22 @@ def main():
     images_processed = 0
     for image_index in range(images_per_increment):
 
-        
-        print("Header = ",header)
-        print("Ids = ",ids)
-        print("Labels ", labels)
-        print("Coordinates = ",coordinates)
-        
 
-    
+        annotation_tool = nedc_dpath_ann_tools.AnnDpath()
+        annotation_tool.load(annotation_file)
+        
+        master_dictionary[images_processed] = {
+            'header':annotation_tool.get_header(),
+            'frame_size':frame_size,
+            'window_size':window_size,
+        }
+        
+        images_processed += 1
 
+        local_ann.generateFeatures(annotation_tool.get_graph(),
+                                   frame_size, window_size)
+
+        
     
     
     

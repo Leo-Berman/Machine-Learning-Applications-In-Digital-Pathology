@@ -30,7 +30,7 @@ def main():
 
 
         annotation_tool = nedc_dpath_ann_tools.AnnDpath()
-        annotation_tool.load(annotation_file)
+        annotation_tool.load(annotation_list[image_index])
         
         master_dictionary[images_processed] = {
             'header':annotation_tool.get_header(),

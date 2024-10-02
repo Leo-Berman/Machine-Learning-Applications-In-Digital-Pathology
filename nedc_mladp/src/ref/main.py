@@ -44,11 +44,11 @@ def main():
                           window_dimensions,
                           image,
                           annotation)
-        # yuan
-        trainModel(master_dictionary)
+    # yuan
+    model = trainModel(master_dictionary)
 
-        # leo
-        generatePredictions(master_dictionary)
+    # leo
+    generatePredictions(master_dictionary, model)
                           
     
     

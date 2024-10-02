@@ -1,2 +1,2 @@
-def trainModel(master:dict) -> None:
-    pass
+def trainModel(master:dict):
+    return "Model"

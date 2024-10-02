@@ -1,2 +1,2 @@
-def generate_predictions(master:dict) -> None:
+def generatePredictions(master:dict) -> None:
     pass

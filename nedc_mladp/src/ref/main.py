@@ -39,16 +39,16 @@ def main():
     for image,annotation in zip(images_list,annotations_list):
 
         # albert
-        generate_features(master_dictionary,
+        generateFeatures(master_dictionary,
                           frame_dimensions,
                           window_dimensions,
                           image,
                           annotation)
         # yuan
-        train_model(master_dictionary)
+        trainModel(master_dictionary)
 
         # leo
-        generate_predictions(master_dictionary)
+        generatePredictions(master_dictionary)
                           
     
     

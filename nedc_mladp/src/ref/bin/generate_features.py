@@ -1,7 +1,7 @@
 import nedc_mladp_ann_tools as local_ann
 import nedc_dpath_ann_tools
 
-def generate_features(master:dict,
+def generateFeatures(master:dict,
                       frame_dimensions:tuple,
                       window_dimensions:tuple,
                       image_path:str,

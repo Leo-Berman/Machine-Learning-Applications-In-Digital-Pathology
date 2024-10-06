@@ -247,16 +247,16 @@ def generateRegionDecisions(input_array,framesize):
                     #print("Patch = ",patch.exterior.coords[:])
                     
 
-
-                return_dictionary[patches_written] = { 'region_id':patches_written + 1,
-                                                       'text':label_order(label).name,
-                                                       'coordinates':coordinates,
-                                                       'confidence':1,
-                                                       'tissue_type':'breast',
-                                                       'geometric_properties' : {'Length' : 0.0,
-                                                                                 'Area' : 0.0,
-                                                                                 'LengthMicrons' : 0.0,
-                                                                                 'AreaMicrons' : 0.0}                                                      }
+                if label_order(label).name != 'unlab':
+                    return_dictionary[patches_written] = { 'region_id':patches_written + 1,
+                                                           'text':label_order(label).name,
+                                                           'coordinates':coordinates,
+                                                           'confidence':1,
+                                                           'tissue_type':'breast',
+                                                           'geometric_properties' : {'Length' : 0.0,
+                                                                                     'Area' : 0.0,
+                                                                                     'LengthMicrons' : 0.0,
+                                                                                     'AreaMicrons' : 0.0}                                                      }
                     
                 # and keep track of the number of patches written
                 #

@@ -157,7 +157,7 @@ def generate_frame_decisions(model,data,output_path,frame_locs,framesizes,header
 
 
 def generateRegionDecisions(input_array,framesize):
-    label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp ndic dcis', start = 0)
+    label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp indc dcis', start = 0)
     
     # declare dictionaries for patches and frames
     #

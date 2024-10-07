@@ -46,3 +46,21 @@ Step 8 run the program:
      cd $MLADP/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/bin/
 
      ./nedc_mlad_run -p <absolute path to parameter file>
+
+
+Notes:
+
+	in order to extract a list of xml files and svs files, I recommend using the following commands.
+
+	list of xml files:
+
+	     find <absolute path of where your looking> -name *.xml>
+
+	list of svs files:
+
+	     find <absolute path of where your looking> -name *.xml>
+
+
+	at the time of this being written you can find a train, dev, and eval set here:
+
+	   /data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs

@@ -6,6 +6,7 @@ import numpy as np
 import torch
 import torchvision as tv
 import torchvision.transforms as transforms
+from torch.utils.data import DataLoader, TensorDataset
 
 import torch.nn as nn
 import torch.nn.functional as F
@@ -17,20 +18,15 @@ def getDataLoaders(data,labels):
         [transforms.ToTensor(),
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-    # # Load the training data from your directory
-    # train_data = tv.datasets.ImageFolder(root='./data/train', transform=transform)
-    # train_loader = tv.DataLoader(train_data, batch_size=4, shuffle=True)
-
-    # # Load the testing data
-    # test_data = tv.datasets.ImageFolder(root='./data/test', transform=transform)
-    # test_loader = tv.DataLoader(test_data, batch_size=4, shuffle=False)
-
     # Convert the list of labels as a list of digits with label order.
     #
     i = 0
     for l in labels:
         labels[i] = label_order[l].value
         i += 1
+        
+    data = data.astype(float)
+    labels = labels.astype(int)
 
     # Load the extracted features into a 3 dimensional tensor.
     #
@@ -46,6 +42,19 @@ def getDataLoaders(data,labels):
     num_pixels = features_tensor.shape[1] // 4
     features_tensor = features_tensor.view(num_frames, 4, num_pixels, 1)
 
-    print(features_tensor.shape)
-    print(len(labels))
+    # Create the Dataset
+    #
+    dataset = TensorDataset(features_tensor,labels_tensor)
 
+    # Create a DataLoader (batch size 1 for now)
+    #
+    dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
+
+    # Iterate through the DataLoader
+    #
+    for batch_features, batch_labels in dataloader:
+        print("Batch Features:")
+        print(batch_features)
+        print("Batch Labels:")
+        print(batch_labels)
+        print()

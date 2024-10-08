@@ -7,9 +7,9 @@ Step 1: Add following to ~/.bashrc:
 
      . /data/isip/tools/GET_ENV.sh; # enable the isip conda environment
      
-     MLADP=<path to parent of github repo> # path to the parent directory of the cloned repo IMPORTANT DO NOT HAVE BACKSLASH AT END
+     MLADP=<path to github repo or whatever you renamed the github repo to > # path to the parent directory of the cloned repo IMPORTANT DO NOT HAVE BACKSLASH AT END
      
-     PYTHONPATH="$NEDC_NFC/lib:$MLADP/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/lib:." # update Python path to contain requisite libraries
+     PYTHONPATH="$NEDC_NFC/lib:$MLADP/nedc_mladp/lib:." # update Python path to contain requisite libraries
      
      export MLADP PYTHONPATH # export those two environment variables
 
@@ -37,13 +37,13 @@ Step 6 execute following commnds:
 
 Step 7 create parameter files:
 
-     cd $MLADP/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/
+     cd $MLADP/nedc_mladp/data/
 
      In this directory these is a file called Example_Parameters.txt with an explanation of how to use the parameter file for our program.
 
 Step 8 run the program:
 
-     cd $MLADP/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/bin/
+     cd $MLADP/nedc_mladp/bin/
 
      ./nedc_mlad_run -p <absolute path to parameter file>
 

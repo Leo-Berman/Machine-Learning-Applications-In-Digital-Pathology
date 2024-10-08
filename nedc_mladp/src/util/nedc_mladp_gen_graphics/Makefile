@@ -9,9 +9,9 @@ BFILE := $(basename $(SRC))
 # define an installation target
 #
 install:
-	rm -f $(MLADP)/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/bin/$(BFILE)
-	cp -f $(SRC) $(MLADP)/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/bin/$(BFILE)
-	cd $(MLADP)/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/bin; chmod u+rwx,g+rwx,o+rw $(BFILE)
+	rm -f $(MLADP)/nedc_mladp/bin/$(BFILE)
+	cp -f $(SRC) $(MLADP)/nedc_mladp/bin/$(BFILE)
+	cd $(MLADP)/nedc_mladp/bin; chmod u+rwx,g+rwx,o+rw $(BFILE)
 
 #
 # end of file

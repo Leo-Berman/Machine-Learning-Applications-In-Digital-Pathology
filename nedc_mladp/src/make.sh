@@ -4,7 +4,7 @@ mkdir "../bin" # create landing directory for driver programs
 mkdir "../lib" # create landing directory for library
 
 # move the gen feats into bin
-cd $MLADP/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/src/util/nedc_mladp_gen_feats/
+cd $MLADP/nedc_mladp/src/util/nedc_mladp_gen_feats/
 make
 
 # move the eval eval into bin

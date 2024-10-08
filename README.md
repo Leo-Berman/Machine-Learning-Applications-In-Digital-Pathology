@@ -29,7 +29,10 @@ Step 4: Activate virtual environment by executing in comandline:
 
 Step 5: Install required packages by executing in comandline:
 
-     pip install -r requirements.txt
+     cat requirements.txt | xargs -n 1 pip install
+
+     note:
+	You may get some errors here, but it should be okay!
 
 Step 6 execute following commnds:
 

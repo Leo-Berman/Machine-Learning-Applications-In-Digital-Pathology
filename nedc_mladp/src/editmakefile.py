@@ -15,9 +15,7 @@ def main():
         with open(x,'r') as f:
             content = f.read()
             
-        content = content.replace('rm -f $(SRC)','')
-        content = content.replace('rm -f $(MLADP)/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/bin/$(BFILE) ','')
-        content = content.replace('$(MLADP)/Machine-Learning-Applications-In-Digital-Pathology','$(MLADP)')
+        content = content.replace('rm -f $(MLADP)/nedc_mladp/bin/$(BFILE)','')
 
         with open(x,'w') as f:
             f.write(content)

@@ -31,7 +31,7 @@ Step 5: Install required packages by executing in comandline:
 
 Step 6 execute following commnds:
 
-     cd $MLADP/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/src/
+     cd $MLADP/nedc_mladp/src/
 
      ./make.sh
 

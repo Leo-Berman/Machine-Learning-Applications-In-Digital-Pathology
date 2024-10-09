@@ -1,4 +1,4 @@
-# file: $MLADP/util/nedc_mladp_gen_graphics/Makefile
+# file: $MLADP/util/nedc_evaluate_model/Makefile
 #
 
 # define source and object files

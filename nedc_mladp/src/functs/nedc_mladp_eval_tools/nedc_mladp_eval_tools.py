@@ -157,7 +157,7 @@ def generate_frame_decisions(model,data,output_path,frame_locs,framesizes,header
 
 
 def generateRegionDecisions(input_array,framesize):
-    label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp ndic dcis', start = 0)
+    label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp indc dcis', start = 0)
     
     # declare dictionaries for patches and frames
     #
@@ -247,16 +247,16 @@ def generateRegionDecisions(input_array,framesize):
                     #print("Patch = ",patch.exterior.coords[:])
                     
 
-
-                return_dictionary[patches_written] = { 'region_id':patches_written + 1,
-                                                       'text':label_order(label).name,
-                                                       'coordinates':coordinates,
-                                                       'confidence':1,
-                                                       'tissue_type':'breast',
-                                                       'geometric_properties' : {'Length' : 0.0,
-                                                                                 'Area' : 0.0,
-                                                                                 'LengthMicrons' : 0.0,
-                                                                                 'AreaMicrons' : 0.0}                                                      }
+                if label_order(label).name != 'unlab':
+                    return_dictionary[patches_written] = { 'region_id':patches_written + 1,
+                                                           'text':label_order(label).name,
+                                                           'coordinates':coordinates,
+                                                           'confidence':1,
+                                                           'tissue_type':'breast',
+                                                           'geometric_properties' : {'Length' : 0.0,
+                                                                                     'Area' : 0.0,
+                                                                                     'LengthMicrons' : 0.0,
+                                                                                     'AreaMicrons' : 0.0}                                                      }
                     
                 # and keep track of the number of patches written
                 #

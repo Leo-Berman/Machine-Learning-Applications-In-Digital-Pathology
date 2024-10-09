@@ -9,7 +9,7 @@ import pandas as pd
 from numba import njit
 
 from enum import Enum
-label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp ndic dcis', start=0)
+label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp indc dcis', start=0)
 
 def generateFeatures(data:dict,header:dict,frame_size:int,windows_size:int):
 

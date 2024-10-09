@@ -10,6 +10,8 @@
 #------------------------------------------------------------------------------
 from PIL import Image
 import os
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 
@@ -74,7 +76,7 @@ def main():
     #
     args_usage = "nedc_mladp_gen_graphics.usage"
     args_help = "nedc_mladp_gen_graphics.help"
-    parameter_file = fileio_tools.parameters_only_args(args_usage,args_help)
+    parameter_file = fileio_tools.parseArguments(args_usage,args_help)
 
     # parse parameters
     #
@@ -90,7 +92,7 @@ def main():
 
     # parse annotations
     #
-    header, ids, labels, coordinates = fileio_tools.parse_annotations(label_file)
+    header, ids, labels, coordinates = fileio_tools.parseAnnotations(label_file)
         
     # get height and width of image (in pixels) from the header
     #
@@ -99,7 +101,7 @@ def main():
 
     # get labeled regions
     #
-    labeled_regions = ann_tools.labeled_regions(coordinates)
+    labeled_regions = ann_tools.labeledRegions(coordinates)
 
 
     '''plt.figure().clear()
@@ -115,7 +117,6 @@ def main():
 
         plt.plot(x,y,color = labelsdict[labels[i]])
         plt.text(coordinates[i][0][0],coordinates[i][0][1],labels[i])
-        
     # generate the background image and return the background image's filepath
     #
     image_loc = svs_to_jpg(image_file,output_file,compression)

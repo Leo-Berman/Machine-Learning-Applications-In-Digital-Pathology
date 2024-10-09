@@ -65,7 +65,7 @@ def labeledFrames(labels:list,height:int,width:int,windowsize:int,framesize:int,
         # create list of tuples of coordinates compensating for column row format vs traditional
         # x,y format
         #
-        ret_coords.append((int(labeled_list[x][0][0]),int(height - labeled_list[x][0][1]+framesize)))
+        ret_coords.append((int(labeled_list[x][0][0]),int(labeled_list[x][0][1])))
 
     # return the top left coordinates of each frame and their corresponding labels
     #

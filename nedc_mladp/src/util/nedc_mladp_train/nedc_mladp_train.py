@@ -67,7 +67,7 @@ def main():
     if model_type == "RNF":
         model = RNF()
     elif model_type == "CNN":
-        cnn.getDataLoaders(mydata,labels)
+        cnn.model_CNN(mydata,labels)
     else:
         print("No model supplied")
         return

@@ -51,6 +51,7 @@ def read_feature_files(feature_file_list:list,get_header=False):
                 else:
                     row_list = list(row)
                     labels.append(row_list.pop(0)) # label
+                    
                     xcoords.append(row_list.pop(0)) # x coord
                     ycoords.append(row_list.pop(0)) # y coord
                     framesizes.append(row_list.pop(0)) # framesize
@@ -158,7 +159,11 @@ def parseAnnotations(file):
 
             # convert from row,column,depth into traditional (x,y) coordinates
             #
-            coords[i][j][0] = int(header['height'])-coords[i][j][0]
+            tmp1 = coords[i][j][0]
+            
+            coords[i][j][0] = int(header['height']) - coords[i][j][1]
+            coords[i][j][1] = tmp1
+
             coords[i][j].pop()
             coords[i][j].reverse()
 

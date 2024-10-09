@@ -27,3 +27,14 @@ eval_model{
     write_region_decisions=<1 if you want region decisions to be written, 0 otherwise>
     output_region_decisions_directory=<EXISTING DIRECTORY of where you want your region decisions to be written>
 }
+
+gen_graphics{
+    framesize=6000
+    imagefile="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/00000739_aaaaaadc/s000_2017/breast/00000739_aaaaaadc_s000_0hne_0000_a001_lvl001_t000.svs"
+    labelfile="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/00000739_aaaaaadc/s000_2017/breast/00000739_aaaaaadc_s000_0hne_0000_a001_lvl001_t000.xml"
+    output_file="test.png"
+    showframes=0
+    compression=40
+    decisions=0
+    decisions_path=""
+}

@@ -10,7 +10,7 @@ import nedc_cmdl_parser
 
 # read lists of files in
 #
-def read_file_lists(file_name):
+def readFileLists(file_name):
     # Using readlines()
     file1 = open(file_name, 'r')
     Lines = file1.readlines()
@@ -69,14 +69,14 @@ def read_feature_files(feature_file_list:list,get_header=False):
 
 # set cmdl to only process a parameter file
 #
-def parameters_only_args(usage,help):
+def parseArguments(usage,help):
     argparser = nedc_cmdl_parser.Cmdl(usage,help)
     argparser.add_argument('-p', type = str)
     parsed_args = argparser.parse_args()
     parameter_file = parsed_args.p
     return parameter_file
 
-def parse_annotations(file):
+def parseAnnotations(file):
     
     ''' 
     USE:

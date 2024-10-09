@@ -23,6 +23,7 @@ import nedc_mladp_ann_tools as ann_tools
 import nedc_mladp_geometry_tools as geometry_tools
 
 
+
 # convert an svs file to compressed jpeg file
 #
 def svs_to_jpg(imagefile,output_path,compression):
@@ -63,7 +64,7 @@ def plt_frames(imagefile,frame):
     starts = geometry_tools.getframestart(imagefile,frame)
     shapes = geometry_tools.createboxshapes(starts,frame)
     for x in shapes:
-        points = geometry_tools.get_border(x)
+        points = geometry_tools.getBorder(x)
         plt.plot(points[0],points[1])
 
 
@@ -100,14 +101,21 @@ def main():
     #
     labeled_regions = ann_tools.labeled_regions(coordinates)
 
+
+    '''plt.figure().clear()
+    plt.close()
+    plt.cla()
+    plt.clf()'''
+    
     # plot labeled regions and label them with appropriate text
     #
     for i,z in enumerate(labeled_regions):
         labelsdict = {'artf':'black','nneo':'lightgray','bckg':'lightcoral','norm':'salmon','indc':'orange','nneo':'yellow','null':'green','infl':'aqua','dcis':'deepskyblue','susp':'pink'}
-        x,y = geometry_tools.get_border(z)
+        x,y = geometry_tools.getBorder(z)
+
         plt.plot(x,y,color = labelsdict[labels[i]])
         plt.text(coordinates[i][0][0],coordinates[i][0][1],labels[i])
-
+        
     # generate the background image and return the background image's filepath
     #
     image_loc = svs_to_jpg(image_file,output_file,compression)

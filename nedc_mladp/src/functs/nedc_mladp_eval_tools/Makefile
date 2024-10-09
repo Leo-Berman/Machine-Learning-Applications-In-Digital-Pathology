@@ -8,9 +8,9 @@ SRC = $(wildcard *.py)
 # define an installation target
 #
 install:
-	cd /data/isip/exp/tuh_dpath/exp_0280/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/lib; rm -f $(SRC)
-	cp -f $(SRC) /data/isip/exp/tuh_dpath/exp_0280/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/lib/
-	cd /data/isip/exp/tuh_dpath/exp_0280/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/lib; chmod u+rw,g+rw,o+r $(SRC)
+	cd $(MLADP)/nedc_mladp/lib; 
+	cp -f $(SRC) $(MLADP)/nedc_mladp/lib/
+	cd $(MLADP)/nedc_mladp/lib; chmod u+rw,g+rw,o+r $(SRC)
 
 #
 # end of file

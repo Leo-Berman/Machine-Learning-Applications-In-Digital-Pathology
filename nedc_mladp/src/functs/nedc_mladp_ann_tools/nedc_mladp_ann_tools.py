@@ -4,14 +4,33 @@ The maketraining.py module will classify each frame as labeled or unlabeled whet
 import nedc_image_tools as phg
 import shapely
 import nedc_mladp_geometry_tools as geometry_tools
-import numpy as np
+import numpy
 import pandas as pd
 from numba import njit
 
 from enum import Enum
 label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp indc dcis', start=0)
 
-def labeled_regions(coordinates:list):
+def generateFeatures(data:dict,header:dict,frame_size:int,windows_size:int):
+
+    region_coordinates = []
+    region_labels = []
+    for key in data.keys():
+        data_matrix = numpy.array(data[key]['coordinates'])
+        region_coordinates.append(data_matrix[:,0:2])
+        region_labels.append(data[key]['text'])
+
+    regions = labeledRegions(region_coordinates)
+
+    frames, frame_labels = labeledFrames(region_labels,
+                                         header['height'],
+                                         header['width'],
+                                         window_size,
+                                         frame_size,
+                                         region)
+        
+
+def labeledRegions(coordinates:list):
     """
         Takes a list of list of coordinates and generates a list of correlating shapes
     """
@@ -24,7 +43,7 @@ def labeled_regions(coordinates:list):
 
     return ret_shapes
 
-def labeled_frames(labels:list,height:int,width:int,windowsize:int,framesize:int,shapes:list):
+def labeledFrames(labels:list,height:int,width:int,windowsize:int,framesize:int,shapes:list):
     
     # classify the frames based on if it is within any region (shape)
     #
@@ -61,7 +80,7 @@ def frame_rgba_values(image_file:str,labels:list,coords:list, windowsize:int):
 
     # read all of the windows into memory
     #
-    window = NIL.read_data_multithread(coords,npixx = windowsize,npixy = windowsize,color_mode="RGBA")
+    window = NIL.read_data_multithread(coords,numpyixx = windowsize,numpyixy = windowsize,color_mode="RGBA")
 
 
     # create a list of rgba values for the frame
@@ -326,22 +345,22 @@ def coords_to_dict(df):
 
     return(label_dict)
 
-def coords_to_bits(coords:list[tuple], framesz) -> np.array:
+def coords_to_bits(coords:list[tuple], framesz) -> numpy.array:
     '''Converts coordinates to a bit matrix. 
     
     :param coords: Coordinates for one label.
         Example: coords = [(200,200),(0,400),(400,400),(200,600)]
     :param framesz: (frame width, frame height),
-        any data structure that can be unpacked (list, tuple, etc.).
+        any data structure that can be unumpyacked (list, tuple, etc.).
 
     :return: Bit matrix, each bit representing a frame. 
-    :return type: np.array[int]
+    :return type: numpy.array[int]
     '''
 
     # Convert coords to numpy array for slicing.
     #
-    coords = np.array(coords)
-    '''e.g., np.array(coords)
+    coords = numpy.array(coords)
+    '''e.g., numpy.array(coords)
     array([ [200, 200],
             [  0, 400],
             [400, 400],
@@ -362,7 +381,7 @@ def coords_to_bits(coords:list[tuple], framesz) -> np.array:
     
     # Create a matrix.
     #
-    m = np.zeros((rows,cols), dtype=np.uint8)
+    m = numpy.zeros((rows,cols), dtype=numpy.uint8)
     '''e.g., m = array([[0, 0, 0],
                         [0, 0, 0],
                         [0, 0, 0],
@@ -413,7 +432,7 @@ def _in_bounds(point:tuple, bottom_right_bnd:tuple, top_left_bnd:tuple = (0,0)) 
         
     return False
 
-def _flood_fill(matrix:np.ndarray, start_point:tuple) -> None:
+def _flood_fill(matrix:numpy.ndarray, start_point:tuple) -> None:
     '''4-way-fills a bit matrix with oness starting at [0,0] (top-left), 
         stops at matrix boundaries or regions with ones.
         
@@ -422,7 +441,7 @@ def _flood_fill(matrix:np.ndarray, start_point:tuple) -> None:
     
     # Get the bottom-rightmost point index. 
     #
-    bottom_right_bnd = np.subtract(matrix.shape,(1,1))
+    bottom_right_bnd = numpy.subtract(matrix.shape,(1,1))
     
     # Start the flood-fill at (0,0), appending nearby points if their value is zero.
     # 
@@ -444,10 +463,10 @@ def _flood_fill(matrix:np.ndarray, start_point:tuple) -> None:
 
         # Get indices for nearby points
         #
-        left = tuple(np.add(index,(0,-1)))
-        right = tuple(np.add(index,(0,1)))
-        up = tuple(np.add(index,(-1,0)))
-        down = tuple(np.add(index,(1,0)))
+        left = tuple(numpy.add(index,(0,-1)))
+        right = tuple(numpy.add(index,(0,1)))
+        up = tuple(numpy.add(index,(-1,0)))
+        down = tuple(numpy.add(index,(1,0)))
 
         # Check to see if those points are on the matrix.
         #   If they are, add them to indices.
@@ -465,10 +484,10 @@ def _flood_fill(matrix:np.ndarray, start_point:tuple) -> None:
         #
         indices.pop(0)
 
-def pad_and_fill(matrix:np.ndarray) -> np.array:
+def pad_and_fill(matrix:numpy.ndarray) -> numpy.array:
     '''Creates a border around a bit matrix and flood-fills with ones from the border inward.
     
-    :param matrix: Input bit matrix.
+    :param matrix: Inumpyut bit matrix.
     :return: Matrix with all interior regions filled in.'''
 
     # Create a copy of the matrix.
@@ -477,7 +496,7 @@ def pad_and_fill(matrix:np.ndarray) -> np.array:
 
     # Pad the copied matrix edges (top, bottom, sides) with zeroes
     #
-    mask = np.pad(mask, 1, 'constant', constant_values=0)
+    mask = numpy.pad(mask, 1, 'constant', constant_values=0)
     
     # Flood fill the copy starting at (0,0).
     #
@@ -495,36 +514,36 @@ def pad_and_fill(matrix:np.ndarray) -> np.array:
     #
     return matrix + mask
 
-def rsz_matrices(m1:np.array, m2:np.array) -> tuple[np.array]:
+def rsz_matrices(m1:numpy.array, m2:numpy.array) -> tuple[numpy.array]:
     '''Resizes matrices; assumes both matrices overlap at (0,0).
 
     :param m1: First matrix.
-        e.g.,   m1 = np.array([[1, 2, 3]]) 
+        e.g.,   m1 = numpy.array([[1, 2, 3]]) 
     :param m2: Second matrix.
-        e.g.,   m2 = np.array([ [4],
+        e.g.,   m2 = numpy.array([ [4],
                                 [5],
                                 [6] ])
     
     :return: (resized first matrix, resized second matrix)
-    e.g., resized first matrix = np.array([ [1, 2, 3],
+    e.g., resized first matrix = numpy.array([ [1, 2, 3],
                                             [0, 0, 0],
                                             [0, 0, 0]   ])
-        resized second matrix = np.array([  [4, 0, 0],
+        resized second matrix = numpy.array([  [4, 0, 0],
                                             [5, 0, 0],
                                             [6, 0, 0]   ])
     '''
 
     # Get differences in dimensions.
     #
-    d_dim = np.array(m1.shape) - np.array(m2.shape)
-    '''e.g., d_dim = np.array([-2,2]), 
+    d_dim = numpy.array(m1.shape) - numpy.array(m2.shape)
+    '''e.g., d_dim = numpy.array([-2,2]), 
         implying m1 has 2 fewer rows and 2 more columns than m2.'''
 
     # Resize along each axis an amount diff. 
     #
     for axis,diff in enumerate(d_dim):
 
-        # np.pad requires a pad_width in the format ((left,right),(up,down)),
+        # numpy.pad requires a pad_width in the format ((left,right),(up,down)),
         #   using pad[0] resizes to the right, 
         #   using pad[1] resizes downward. 
         #
@@ -533,16 +552,16 @@ def rsz_matrices(m1:np.array, m2:np.array) -> tuple[np.array]:
         # If m2 is smaller, resize m2. 
         #
         if diff > 0:
-            m2 = np.pad(m2, pad[axis], 'constant', constant_values=0)
+            m2 = numpy.pad(m2, pad[axis], 'constant', constant_values=0)
 
         # If m1 is smaller, resize m1. 
         #
         if diff < 0:
-            m1 = np.pad(m1, pad[axis], 'constant', constant_values=0)
+            m1 = numpy.pad(m1, pad[axis], 'constant', constant_values=0)
 
     return (m1,m2)
 
-def heatmap(annots:dict, framesz) -> np.array:
+def heatmap(annots:dict, framesz) -> numpy.array:
     '''Overlays all labels onto a single matrix. 
 
     :param annots: dictionary of labels (keys) and coordinates (values),
@@ -556,7 +575,7 @@ def heatmap(annots:dict, framesz) -> np.array:
 
     # Initialize 2D return array.
     #
-    super_m = np.array([[0]], dtype=np.uint8)
+    super_m = numpy.array([[0]], dtype=numpy.uint8)
     
     # Iterate through all labels and coordinates.
     #
@@ -580,7 +599,7 @@ def heatmap(annots:dict, framesz) -> np.array:
             # Squash the matrices together.
             #
             label_num = label_order[label].value
-            super_m = np.maximum(super_m, m*label_num)
+            super_m = numpy.maximum(super_m, m*label_num)
             
             # Repeat.
             

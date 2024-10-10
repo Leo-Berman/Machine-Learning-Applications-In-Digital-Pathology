@@ -20,8 +20,8 @@ def main():
 
     # set argument parsing
     #
-    args_usage = "nedc_mladp_gen_feats.usage"
-    args_help = "nedc_mladp_gen_feats.help"
+    args_usage = os.environ.get('MLADP') + "/nec_mladp/src/util/nedc_mladp_gen_feats/nedc_mladp_gen_feats.usage"
+    args_help = os.environ.get('MLADP') + "/nec_mladp/src/util/nedc_mladp_gen_feats/nedc_mladp_gen_feats.help"
     parameter_file = fileio_tools.parameters_only_args(args_usage,args_help)
 
     # parse parameters

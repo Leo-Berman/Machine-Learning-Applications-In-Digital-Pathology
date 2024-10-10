@@ -1,15 +1,28 @@
 
 With usage:
     
-    ./gen_feats -p <parameter file>
+    ./nedc_mladp_gen_feats -p <parameter file>
 
 Parameter file format:
 
-    # version=param_v1.0.0
-    gen_feats{
-        windowsize=250
-        framesize=200
-        imagefile_list="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/tuh_im_eval.list"
-        labelfile_list="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/tuh_lbl_eval.list"
-    }
+gen_feats{
+    run=<set to 1 to use nedc_mladp_run, 0 otherwise, recommend set to 1 for first trial>
+    windowsize=<integer>
+    framesize=<integer>
+    imagefile_list=<file containing the absolute paths of svs files separated by new lines>
+    labelfile_list=<file containing the absolute paths of xml files separated by new lines>
+    output_dir=<EXISTING DIRECTORY of where you want your features to be output>
+    output_list=<path to where you want the file holding the list of feature files produced>
+}
 
+Parameter file example:
+
+gen_feats{
+    run=1
+    windowsize=250
+    framesize=200
+    imagefile_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/devimages.list"
+    labelfile_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/devannotations.list"
+    output_dir="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_features_output/"
+    output_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_features_output/dcts.list"
+}

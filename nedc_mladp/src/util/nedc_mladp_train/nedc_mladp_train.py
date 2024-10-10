@@ -23,7 +23,7 @@ def main():
     #
     args_usage = "nedc_mladp_train_model.usage"
     args_help = "nedc_mladp_train_model.help"
-    parameter_file = fileio_tools.parameters_only_args(args_usage,args_help)
+    parameter_file = fileio_tools.parseArguments(args_usage,args_help)
 
     # parse parameters
     #

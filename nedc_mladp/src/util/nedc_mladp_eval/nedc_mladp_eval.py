@@ -3,6 +3,7 @@
 
 # import python libraries
 import joblib
+import os
 
 # import project specific libraries
 import nedc_mladp_fileio_tools as fileio_tools
@@ -20,7 +21,7 @@ def main():
     #
     args_usage = "nedc_mladp_eval.usage"
     args_help = "nedc_mladp_eval.help"
-    parameter_file = fileio_tools.parameters_only_args(args_usage,args_help)
+    parameter_file = fileio_tools.parseArguments(args_usage,args_help)
 
     # parse parameters
     #

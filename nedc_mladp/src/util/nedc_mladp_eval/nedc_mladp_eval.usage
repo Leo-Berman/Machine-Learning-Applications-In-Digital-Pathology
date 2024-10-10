@@ -1,1 +1,4 @@
-./evaluate_model -p <parameter file>
+
+Usage:
+	./nedc_mladp_eval -p <parameter file>
+

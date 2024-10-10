@@ -2,6 +2,7 @@
 #
 import csv
 import numpy
+import os
 
 # picone's libraries
 #
@@ -71,9 +72,13 @@ def read_feature_files(feature_file_list:list,get_header=False):
 # set cmdl to only process a parameter file
 #
 def parseArguments(usage,help):
-    argparser = nedc_cmdl_parser.Cmdl(usage,help)
-    argparser.add_argument('-p', type = str)
-    parsed_args = argparser.parse_args()
+    parent_path = os.environ.get('MLADP') + '/nedc_mladp/src/util/' + help[:-5] + '/'
+
+    
+    argument_parser = nedc_cmdl_parser.Cmdl(parent_path + usage,parent_path + help)
+    argument_parser.print_usage()
+    argument_parser.add_argument('-p', type = str)
+    parsed_args = argument_parser.parse_args()
     parameter_file = parsed_args.p
     return parameter_file
 

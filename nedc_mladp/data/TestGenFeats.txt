@@ -1,5 +1,5 @@
 # version=param_v1.0.0
-
+0;115;0c
 run{
     run=0
     output_directory=""
@@ -20,7 +20,7 @@ gen_feats{
 
 train_model{
     model_type="QDA"
-    feature_files_list=/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/features/feature_files.list"
+    feature_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/features/feature_files.list"
     output_directory="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/models"
     compression=0
     write_model=1

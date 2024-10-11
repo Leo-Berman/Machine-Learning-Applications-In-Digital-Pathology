@@ -13,15 +13,8 @@ from nedc_mladp_label_enum import label_order
 
 import nedc_dpath_ann_tools
 
-def separateLabels(labels:list,frame_size:tuple,top_left_coordinates:list):
+def generateSparseMatrixes(labels:list,frame_size:tuple,top_left_coordinates:list):
     
-    # Get the columns of the dataframe
-    #
-    labels = dataframe['labels']
-    framesizes = df['framesizes']
-    top_left_x = df['top_left_x']
-    top_left_y = df['top_left_y']
-
     # Initialize dictionary of labels each containing an empty list
     #
     label_dict = {}
@@ -29,44 +22,16 @@ def separateLabels(labels:list,frame_size:tuple,top_left_coordinates:list):
         print(x)
         label_dict[x] = []
         
-    # Get the frame size (all frames should be the same size) and the number of rows
-    #
-    framesize = framesizes[0]
-
     # Populate dictionary
     #
-    for r in range(df.shape[0]-1):
+    for label,top_left_coordinate in zip(labels,top_left_coordinates):
+
         # Convert frame to bits
-        #
-        #index_x = (top_left_x[r]//framesize[0])
-        #index_y = (top_left_y[r]//framesize[1])
-        index_x = int(top_left_x[r])
-        index_y = int(top_left_y[r])
-        # Append the coordinates to the dictionary with the corresponding labels
-        #
-
-        coordinate = (index_x,index_y)
+        #        
+        label_dict[label].append(top_left_coordinate)
         
-        if labels[r] == "bckg":
-            label_dict['bckg'].append(coordinate)
-        elif labels[r] == "norm":
-            label_dict['norm'].append(coordinate)
-        elif labels[r] == "null":
-            label_dict['null'].append(coordinate)
-        elif labels[r] == "artf":
-            label_dict['artf'].append(coordinate)
-        elif labels[r] == "nneo":
-            label_dict['nneo'].append(coordinate)
-        elif labels[r] == "infl":
-            label_dict['infl'].append(coordinate)
-        elif labels[r] == "susp":
-            label_dict['susp'].append(coordinate)
-        elif labels[r] == "indc":
-            label_dict['indc'].append(coordinate)
-        elif labels[r] == "dcis":
-            label_dict['dcis'].append(coordinate)
-
     return(label_dict)
+
 
 def coordinateBitmap(top_left_coordinates:list[tuple], frame_size) -> numpy.array:
 
@@ -82,31 +47,183 @@ def coordinateBitmap(top_left_coordinates:list[tuple], frame_size) -> numpy.arra
     # Divide by frame_dx and frame_dy to get matrix size.
     #
     frame_dx,frame_dy = frame_size
-    rows = int(max_y/frame_dy) + 1
-    cols = int(max_x/frame_dx) + 1
+    rows = max_y//frame_dy + 1
+    cols = max_x//frame_dx + 1
     
     # Create a matrix.
     #
-    m = numpy.zeros((rows,cols), dtype=numpy.uint8)
+    matrix = numpy.zeros((rows,cols), dtype=numpy.uint8)
 
     # Convert coords to matrix indices.
     #   Coords should always be on frame boundaries or problems will result.
     #
-    coords[:,0] = coords[:,0] // frame_dx
-    coords[:,1] = coords[:,1] // frame_dy
+    top_left_coordinates[:,0] = top_left_coordinates[:,0] // frame_dx
+    top_left_coordinates[:,1] = top_left_coordinates[:,1] // frame_dy
 
     # Populate matrix.
     #
-    for [col,row] in coords:
-        m[row,col] = 1
+    for [column,row] in top_left_coordinates:
+        matrix[row,col] = 1
     
-    return m
+    return matrix
+
+@njit
+def inBounds(point:tuple, bottom_right_bnd:tuple, top_left_bnd:tuple = (0,0)) -> bool:
+
+    # Compare columns.
+    #
+    if top_left_bnd[0] <= point[0] <= bottom_right_bnd[0]:
+
+        # Compare rows.
+        #
+        if top_left_bnd[1] <= point[1] <= bottom_right_bnd[1]:
+            return True
+        
+    return False
+
+
+def floodFill(matrix:numpy.ndarray, start_point:tuple) -> None:
+    
+    # Get the bottom-rightmost point index. 
+    #
+    bottom_right_bnd = numpy.subtract(matrix.shape,(1,1))
+    
+    # Start the flood-fill at (0,0), appending nearby points if their value is zero.
+    # 
+    indices = [start_point]
+    while indices:
+        
+        # Get the first item in indices.
+        #
+        index = indices[0]
+
+        # Check and set the value at that index to 1.
+        #
+        if matrix[index] != 1:
+            matrix[index] = 1
+        else:
+            # No need to continue the loop body if the bit is already set.
+            indices.pop(0)
+            continue
+
+        # Get indices for nearby points
+        #
+        left = tuple(numpy.add(index,(0,-1)))
+        right = tuple(numpy.add(index,(0,1)))
+        up = tuple(numpy.add(index,(-1,0)))
+        down = tuple(numpy.add(index,(1,0)))
+
+        # Check to see if those points are on the matrix.
+        #   If they are, add them to indices.
+        # 
+        if inBounds(up,bottom_right_bnd) and matrix[up] != 1:
+            indices.append(up)
+        if inBounds(down,bottom_right_bnd) and matrix[down] != 1:
+            indices.append(down)
+        if inBounds(left,bottom_right_bnd) and matrix[left] != 1:
+            indices.append(left)
+        if inBounds(right,bottom_right_bnd) and matrix[right] != 1:
+            indices.append(right)
+
+        # Continue iterating until all points in indices are exhausted.
+        #
+        indices.pop(0)
+
+def padAndFill(matrix:numpy.ndarray) -> numpy.array:
+
+    # Create a copy of the matrix.
+    #
+    mask = matrix.copy()
+
+    # Pad the copied matrix edges (top, bottom, sides) with zeroes
+    #
+    mask = numpy.pad(mask, 1, 'constant', constant_values=0)
+    
+    # Flood fill the copy starting at (0,0).
+    #
+    floodFill(mask, (0,0))
+    
+    # Invert the values of the copied matrix.
+    #
+    mask = 1-mask
+
+    # Remove padding.
+    #
+    mask = mask[1:-1,1:-1]
+    
+    # Superimpose the original and copied matrices.
+    #
+    return matrix + mask
+
+def resizeMatrices(matrix_1:numpy.array, matrix_2:numpy.array) -> tuple[numpy.array]:
+
+    # Get differences in dimensions.
+    #
+    size_difference = numpy.array(m1.shape) - numpy.array(m2.shape)
+
+    # Resize along each axis an amount diff. 
+    #
+    for axis,difference in enumerate(size_difference):
+
+        # numpy.pad requires a pad_width in the format ((left,right),(up,down)),
+        #   using pad[0] resizes to the right, 
+        #   using pad[1] resizes downward. 
+        #
+        pad = [((0,abs(difference)),(0,0)), ((0,0),(0,abs(difference)))]
+
+        # If m2 is smaller, resize m2. 
+        #
+        if difference > 0:
+            matrix_2 = numpy.pad(matrix_2, pad[axis], 'constant', constant_values=0)
+
+        # If m1 is smaller, resize m1. 
+        #
+        if difference < 0:
+            matrix_1 = numpy.pad(matrix_1, pad[axis], 'constant', constant_values=0)
+
+    return (matrix_1,matrix_2)
+
+def generateHeatmap(sparse_matrixes:dict, framesize:tuple) -> numpy.array:
+
+    # Initialize 2D return array.
+    #
+    return_matrix = numpy.array([[0]], dtype=numpy.uint8)
+    
+    # Iterate through all labels and coordinates.
+    #
+    for label,coordinates in sparse_matrixes.items():
+        # For each (label,coordinates) pair...
+
+        if len(coords) > 0:
+        
+            # Convert coordinates for the label to a bit matrix.
+            #
+            matrix = coordinateBitmap(coordinates, framesize)
+            
+            # Fill in regions that are bounded on 4 sides.
+            #
+            padAndFill(m)
+            
+            # Resize return and label matrices so they are equal dimensions.
+            #
+            matrix,return_matrix = resizeMatrices(matrix, return_matrix)
+            
+            # Squash the matrices together.
+            #
+            label_num = label_order[label].value
+            return_matrix = numpy.maximum(super_m, m*label_num)
+            
+            # Repeat.
+            
+    return return_matrix
+
 
 def regionPredictions(frame_decisions:list, top_left_coordinates:list[tuple],
                       frame_confidences:list, frame_size:tuple):
 
-    separateLabels(
-    
+    sparse_matrixes = generateSparseMatrixes(frame_decisions,frame_size,top_left_coordinates)
+
+    heatmap = generateHeatmap(sparse_matrixes,frame_size)
     
     # declare dictionaries for patches and frames
     #
@@ -119,7 +236,7 @@ def regionPredictions(frame_decisions:list, top_left_coordinates:list[tuple],
 
     # iterate through the numpy array
     #
-    for i,row in enumerate(input_array):
+    for i,row in enumerate(heatmap):
         for j,point in enumerate(row):
 
             # and append to the proper list

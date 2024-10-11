@@ -3,7 +3,7 @@
 
 # define source and object files
 #
-SRC = nedc_mladp_train.py
+SRC = nedc_mladp_train_model.py
 BFILE := $(basename $(SRC))
 
 # define an installation target

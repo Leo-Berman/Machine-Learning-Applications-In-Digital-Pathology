@@ -51,7 +51,7 @@ def train_model(feature_files:dict=None):
         feature_files = fileio_tools.readLines(feature_files_list)
         
         for file in feature_files:
-            lines = [line for line in fileio_tools.readLines(file) if ':' not in line]
+            lines = [line.split(',') for line in fileio_tools.readLines(file) if ':' not in line]
             dataframe = pandas.DataFrame(lines[1:],columns=lines[0])
             labels.extend(dataframe['Label'].to_list())
             dataframe = dataframe.drop(['Label','TopLeftX','TopLeftY'],axis=1)

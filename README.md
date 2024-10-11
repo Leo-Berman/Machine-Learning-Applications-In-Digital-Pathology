@@ -52,6 +52,11 @@ Step 8 run the program:
 
      ./nedc_mlad_run -p <absolute path to parameter file>
 
+     I would recommend using this, it allso for no holdup and run in the background:
+
+     nohup ./nedc_mladp_run -p <absolute path to parameter file> &
+
+
 
 Notes:
 

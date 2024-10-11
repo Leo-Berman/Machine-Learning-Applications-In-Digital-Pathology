@@ -71,7 +71,7 @@ def labeledFrames(labels:list,height:int,width:int,windowsize:int,framesize:int,
     #
     return ret_coords,ret_labels
 
-def frameRGBValues(image_file:str,labels:list,coords:list, windowsize:int):
+def frameRGBs(image_file:str,labels:list,coords:list, windowsize:int):
     
     # open the imagefile
     # 
@@ -91,22 +91,13 @@ def frameRGBValues(image_file:str,labels:list,coords:list, windowsize:int):
         for j in window[i]:
             for k in j:
                 workwindow.extend(k.tolist())
-        window_list.append(workwindow)
-    
-    '''window_list = []
-    for i in range(len(window)):
-        workwindow = [labels[i]]
-        for j in window[i]:
-            for k in j.tolist():
-                workwindow.extend(k)
-        window_list.append(workwindow)'''
-        
+        window_list.append(workwindow)        
         
     # return list of lists of rgba values
     #
     return window_list
 
-def classify_center(labels, height, width, windowsize, framesize, regions):
+def classifyCenter(labels, height, width, windowsize, framesize, regions):
     """
         objective:
             This function's objective is to classify whether the center of each frame is within a labeled or unlabeled region.\n
@@ -238,7 +229,7 @@ def classify_center(labels, height, width, windowsize, framesize, regions):
 # consider frames labelled if more than 50% are in a labelled area
 # this may not be working
 #
-def classify_frame(imagefile, framesize, labels, shapes:list):
+def classifyFrame(imagefile, framesize, labels, shapes:list):
     
     # create lists to hod labelled frames and their coordinates
     #

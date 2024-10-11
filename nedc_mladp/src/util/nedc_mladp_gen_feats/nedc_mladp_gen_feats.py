@@ -3,7 +3,9 @@
 # import python libraries
 #
 import os
-import polars
+import pandas
+import numpy
+import sklearn.decomposition
 
 # import project-specific libraries
 #
@@ -27,102 +29,141 @@ def main():
     # parse parameters
     #
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
-    windowsize = int(parsed_parameters['windowsize'])
-    framesize =  int(parsed_parameters['framesize'])
-    output_path = parsed_parameters['output_dir']
-    if not (output_path.endswith("/")):
-        output_path = output_path + "/"
-    output_txt_file = parsed_parameters['output_list']
-
+    PCA_components = int(parsed_parameters['PCA_components'])
+    frame_region_overlap_threshold = float(parsed_parameters['frame_region_overlap_threshold'])
+    window_x_size = int(parsed_parameters['window_x_size'])
+    window_y_size = int(parsed_parameters['window_y_size'])
+    window_size = (window_x_size,window_y_size)
+    frame_x_size =  int(parsed_parameters['frame_x_size'])
+    frame_y_size =  int(parsed_parameters['frame_y_size'])
+    frame_size = (frame_x_size,frame_y_size)
+    output_directory = parsed_parameters['output_directory']
+    if not (output_directory.endswith("/")):
+        output_directory = output_directory + "/"
+    
     # read list of files
     #
-    svs_list = fileio_tools.read_file_lists(parsed_parameters['imagefile_list'])
-    csv_list = fileio_tools.read_file_lists(parsed_parameters['labelfile_list'])
+    image_files_list = fileio_tools.readLines(parsed_parameters['image_files_list'])
+    annotation_files_list = fileio_tools.readLines(parsed_parameters['annotation_files_list'])
+
+    print(f"Parameter file {parameter_file} Parsed Successfully\n")
 
 
+    os.makedirs(output_directory,exist_ok=True)
+    
+    finished_files = []
+    
 
+    PCA = sklearn.decomposition.IncrementalPCA(n_components=PCA_components)
+
+    original_files_written = []
+    feature_files_written = []
     
     # iterate through and create a feature vector file for each file
     #
-    list_of_files=[]
-    for svs,csv in zip(svs_list,csv_list):
+    for i,image_file,annotation_file in zip(range(len(image_files_list)),
+                                            image_files_list,
+                                            annotation_files_list):
+        try:
 
-        # parse annotations
-        #
-        header, ids, labels, coordinates = fileio_tools.parse_annotations(csv)
+
         
-        # get height and width of image (in pixels) from the header
-        #
-        height = int(header['height'])
-        width = int(header['width'])
+            # parse annotations
+            #
+            header, ids, labels, coordinates = fileio_tools.parseAnnotations(annotation_file)
 
-        # get labeled regions
-        #
-        labeled_regions = ann_tools.labeled_regions(coordinates)
+            print(f"File {i+1} of {len(image_files_list)} Processing DCT")
+            
+            # get height and width of image (in pixels) from the header
+            #
+            height = int(header['height'])
+            width = int(header['width'])
 
-        # return top left coordinates of frames that have center coordinates in labels
-        #
-        labeled_frames,frame_labels = ann_tools.labeled_frames(labels,height,width,windowsize,framesize,labeled_regions)
+            # get labeled regions
+            #
+            labeled_regions = feats_tools.labeledRegions(coordinates)
+            
+            # return top left coordinates of frames that have center coordinates in labels
+            #
+            frame_top_left_coordinates,frame_labels = feats_tools.classifyFrames(labels,height, width,
+                                                                                 window_size, frame_size,
+                                                                                 labeled_regions,
+                                                                                 frame_region_overlap_threshold)
+            
+            # get list of rgba values
+            #
+            window_RGBs = feats_tools.windowRGBValues(image_file,
+                                                      frame_top_left_coordinates,
+                                                      window_size)
+            
+            
+            # perform dct on rgba values
+            #
+            window_DCTs = feats_tools.windowDCT(window_RGBs)
+            
+            append_dictionary = {
+                "Header":header,
+                "DCTs":window_DCTs,
+                "Labels":frame_labels,
+                "Top Left Coordinates":frame_top_left_coordinates,
+                "Image File":image_file,
+                "Annotation File":annotation_file
+            }
+            
+            finished_files.append(append_dictionary)
+            
+            PCA.partial_fit(window_DCTs)
+            
+            print(f"{header['bname']} DCT Succeeded\n")
+            
+        except Exception:
+            print(f"{header['bname']} DCT Failed\n")
 
-        # return top left coordinates of frames that overlap 50% or more with labels
-        #
-        # labeled_frames,frame_labels = nedc_regionid.classify_frame(svs,framesize,labels,labeled_regions)
+    
+    features_header = []
+    for i in range(PCA_components):
+        features_header.append(f"Feature{i}")
         
-        # get list of rgba values
-        #
-        frame_rgbas = ann_tools.frame_rgba_values(svs,frame_labels,labeled_frames,windowsize)
+    for i,finished_file in enumerate(finished_files):
+        try:
 
-        # perform dct on rgba values
-        #
-        frame_dcts = feats_tools.rgba_to_dct(frame_rgbas,labeled_frames,framesize,windowsize)
-        if len(frame_dcts) > 0:
+            print(f"File {i+1} of {len(finished_files)} Processing PCA & Write")
 
             
-            # set column index names
-            #
-            my_schema = []
-            for i in range(len(frame_dcts[0])):
-                if i == 0:
-                    my_schema.append('label')
-                elif i == 1:
-                    my_schema.append('top_left_corner_x_coord')
-                elif i == 2:
-                    my_schema.append('top_left_corner_y_coord')
-                elif i == 3:
-                    my_schema.append('framesize')
-                else:
-                    my_schema.append(str(i))
-                    
-            # print dct frames to csv
-            #
-            df = polars.DataFrame(frame_dcts,schema=my_schema,orient="row")
-            ifile,iextension = os.path.splitext(os.path.basename(os.path.normpath(svs)))
-            write_path = output_path+ifile+"_RGBADCT.csv"
-
-            if os.path.exists(write_path):
-                os.remove(write_path)
+            finished_file['PCs'] = PCA.transform(finished_file['DCTs'])
             
-            with open(write_path, 'a') as file:
-                file.write('# version = mladp_v1.0.0\n'+
-                      '# MicronsPerPixel = '+header['MicronsPerPixel']+'\n'+
-                      '# bname = '+header['bname']+'\n'+
-                      '# width = '+header['width']+', height = '+header['height']+'\n'+
-                      '# tissue = '+", ".join(header['tissue'])+'\n'+
-                      '# \n% ')
+            del finished_file['DCTs']
             
-                df.write_csv(file)
-                print(csv, "Sucess")
-            list_of_files.append(write_path)
-        else:
-            print(csv, "Failed")
-
-    if os.path.exists(output_txt_file):
-        os.remove(output_txt_file)
-
+            labels_dataframe = pandas.DataFrame({'Label':finished_file['Labels']})
+            coordinates_dataframe = pandas.DataFrame(finished_file['Top Left Coordinates'],
+                                                     columns=['TopLeftX','TopLeftY'])
+            features_dataframe = pandas.DataFrame(finished_file['PCs'],columns=features_header)
+            dataframe=labels_dataframe.join([coordinates_dataframe,features_dataframe])
             
-    f = open(output_txt_file,"a")
-    for x in list_of_files:
-        f.write(x+'\n')
-    f.close()
+            
+            file_path = output_directory + finished_file['Header']['bname'] + "_FEATS.csv"
+            
+            with open(file_path,'w') as f:
+                for key,value in finished_file['Header'].items():
+                    f.write(f'{key}:{value}\n')
+                f.write(f'frame_size:frame_size\n')
+                f.write(f'window_size:window_size\n')
+                dataframe.to_csv(f, index=False, header = True)
+
+            original_files_written.append(finished_file['Annotation File'])
+            feature_files_written.append(file_path)
+            print(f"{finished_file['Header']['bname']} PCA & Write Succeeded\n")
+            
+        except Exception:
+            print(f"{finished_file['Header']['bname']} PCA & Write Failed\n")
+            
+    with open(output_directory +"original_annotations.list",'w') as f:
+        f.writelines(line + '\n' for line in original_files_written)
+
+    with open(output_directory +"feature_files.list",'w') as f:
+        f.writelines(line + '\n' for line in feature_files_written)
+
+    return finished_files
+        
 if __name__ == "__main__":
     main()

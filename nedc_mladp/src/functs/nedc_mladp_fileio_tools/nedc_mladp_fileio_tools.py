@@ -11,21 +11,20 @@ import nedc_cmdl_parser
 
 # read lists of files in
 #
-def readFileLists(file_name):
-    # Using readlines()
-    file1 = open(file_name, 'r')
-    Lines = file1.readlines()
+def readLines(file_name):
+    with open(file_name, 'r') as f:
+        Lines = f.readlines()
     ret = [x.strip() for x in Lines]
     return ret
 
-def read_decisions(file_name):
+def readDecisions(file_name):
     # Using readlines()
     file1 = open(file_name, 'r')
     Lines = file1.readlines()
     ret = [x.strip().split(',') for x in Lines]
     return ret
 
-def read_feature_files(feature_file_list:list,get_header=False):
+def readFeatures(feature_file_list:list,get_header=False):
     
     # lists for holding the labels, data, top left corner of frames, and framesizes
     #
@@ -72,11 +71,9 @@ def read_feature_files(feature_file_list:list,get_header=False):
 # set cmdl to only process a parameter file
 #
 def parseArguments(usage,help):
-    parent_path = os.environ.get('MLADP') + '/nedc_mladp/src/util/' + help[:-5] + '/'
-
-    
+    parent_path = os.environ.get('MLADP') + '/nedc_mladp/src/util/' + help[:-5] + '/'    
     argument_parser = nedc_cmdl_parser.Cmdl(parent_path + usage,parent_path + help)
-    argument_parser.print_usage()
+    #argument_parser.print_usage()
     argument_parser.add_argument('-p', type = str)
     parsed_args = argument_parser.parse_args()
     parameter_file = parsed_args.p

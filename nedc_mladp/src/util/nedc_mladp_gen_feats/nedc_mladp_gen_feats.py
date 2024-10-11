@@ -18,7 +18,7 @@ import nedc_mladp_feats_tools as feats_tools
 import nedc_file_tools
 
 
-def main():
+def gen_feats():
 
     # set argument parsing
     #
@@ -29,6 +29,7 @@ def main():
     # parse parameters
     #
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
+    write_features=int(parsed_parameters['write_features'])
     PCA_components = int(parsed_parameters['PCA_components'])
     frame_region_overlap_threshold = float(parsed_parameters['frame_region_overlap_threshold'])
     window_x_size = int(parsed_parameters['window_x_size'])
@@ -37,9 +38,17 @@ def main():
     frame_x_size =  int(parsed_parameters['frame_x_size'])
     frame_y_size =  int(parsed_parameters['frame_y_size'])
     frame_size = (frame_x_size,frame_y_size)
-    output_directory = parsed_parameters['output_directory']
-    if not (output_directory.endswith("/")):
-        output_directory = output_directory + "/"
+
+    run_parameters = nedc_file_tools.load_parameters(parameter_file,"run")
+    if int(run_parameters['run']) == 1:
+        output_directory = run_parameters['output_directory']
+        if not (output_directory.endswith("/")):
+            output_directory += "/"
+        output_directory += "features/"
+    else:
+        output_directory = parsed_parameters['output_directory']
+        if not (output_directory.endswith("/")):
+            output_directory += "/"
     
     # read list of files
     #
@@ -65,8 +74,6 @@ def main():
                                             image_files_list,
                                             annotation_files_list):
         try:
-
-
         
             # parse annotations
             #
@@ -122,37 +129,47 @@ def main():
     
     features_header = []
     for i in range(PCA_components):
-        features_header.append(f"Feature{i}")
+        features_header.append(f"PCA_From_DCT_Feature{i}")
         
     for i,finished_file in enumerate(finished_files):
         try:
 
-            print(f"File {i+1} of {len(finished_files)} Processing PCA & Write")
+            print(f"File {i+1} of {len(finished_files)} Processing PCA")
 
             
             finished_file['PCs'] = PCA.transform(finished_file['DCTs'])
             
             del finished_file['DCTs']
             
-            labels_dataframe = pandas.DataFrame({'Label':finished_file['Labels']})
-            coordinates_dataframe = pandas.DataFrame(finished_file['Top Left Coordinates'],
-                                                     columns=['TopLeftX','TopLeftY'])
-            features_dataframe = pandas.DataFrame(finished_file['PCs'],columns=features_header)
-            dataframe=labels_dataframe.join([coordinates_dataframe,features_dataframe])
-            
-            
-            file_path = output_directory + finished_file['Header']['bname'] + "_FEATS.csv"
-            
-            with open(file_path,'w') as f:
-                for key,value in finished_file['Header'].items():
-                    f.write(f'{key}:{value}\n')
-                f.write(f'frame_size:frame_size\n')
-                f.write(f'window_size:window_size\n')
-                dataframe.to_csv(f, index=False, header = True)
+   
+            if write_features == 1:
 
-            original_files_written.append(finished_file['Annotation File'])
-            feature_files_written.append(file_path)
-            print(f"{finished_file['Header']['bname']} PCA & Write Succeeded\n")
+                labels_dataframe = pandas.DataFrame({'Label':finished_file['Labels']})
+                coordinates_dataframe = pandas.DataFrame(finished_file['Top Left Coordinates'],
+                                                         columns=['TopLeftX','TopLeftY'])
+                features_dataframe = pandas.DataFrame(finished_file['PCs'],columns=features_header)
+                dataframe=labels_dataframe.join([coordinates_dataframe,features_dataframe])
+                
+                file_path = output_directory + finished_file['Header']['bname'] + "_FEATS.csv"
+                
+                with open(file_path,'w') as f:
+                    for key,value in finished_file['Header'].items():
+                        f.write(f'{key}:{value}\n')
+                    f.write(f'frame_sizeX:{frame_size[0]}\n')
+                    f.write(f'frame_sizeY:{frame_size[1]}\n')
+                    
+                    f.write(f'window_sizeX:{window_size[0]}\n')
+                    f.write(f'window_sizeY:{window_size[1]}\n')
+                    
+                    
+                    dataframe.to_csv(f, index=False, header = True)
+
+                original_files_written.append(finished_file['Annotation File'])
+                feature_files_written.append(file_path)
+
+                print("Write Succeeded")
+
+            print(f"{finished_file['Header']['bname']} PCA Succeeded\n")
             
         except Exception:
             print(f"{finished_file['Header']['bname']} PCA & Write Failed\n")
@@ -160,10 +177,11 @@ def main():
     with open(output_directory +"original_annotations.list",'w') as f:
         f.writelines(line + '\n' for line in original_files_written)
 
-    with open(output_directory +"feature_files.list",'w') as f:
-        f.writelines(line + '\n' for line in feature_files_written)
+    if write_features == 1:
+        with open(output_directory +"feature_files.list",'w') as f:
+            f.writelines(line + '\n' for line in feature_files_written)
 
     return finished_files
         
 if __name__ == "__main__":
-    main()
+    gen_feats()

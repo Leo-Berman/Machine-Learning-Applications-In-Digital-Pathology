@@ -6,16 +6,15 @@ import os
 
 # picone's libraries
 #
-import nedc_dpath_ann_tools as nadt
+import nedc_dpath_ann_tools
 import nedc_cmdl_parser
 
-# read lists of files in
+# rerad lists of files in
 #
 def readLines(file_name):
     with open(file_name, 'r') as f:
-        Lines = f.readlines()
-    ret = [x.strip() for x in Lines]
-    return ret
+        Lines = [line.strip() for line in f.readlines()]
+    return Lines
 
 def readDecisions(file_name):
     # Using readlines()
@@ -23,50 +22,6 @@ def readDecisions(file_name):
     Lines = file1.readlines()
     ret = [x.strip().split(',') for x in Lines]
     return ret
-
-def readFeatures(feature_file_list:list,get_header=False):
-    
-    # lists for holding the labels, data, top left corner of frames, and framesizes
-    #
-    myfiles = []
-    
-    # iterate through the entire training list and read the data into the appropriate lists
-    #
-    headers = []
-    header = ''
-    for x in feature_file_list:
-        with open (x) as file:
-            reader = csv.reader(file)
-            labels = []
-            xcoords = []
-            ycoords = []
-            framesizes = []
-            features = []
-            for row in reader:
-                if list(row)[0].startswith('#'):
-                    header += ','.join(list(row)) + '\n'
-                elif list(row)[0].startswith('%'):
-                    headers.append(header)
-                    header = ''
-                else:
-                    row_list = list(row)
-                    labels.append(row_list.pop(0)) # label
-                    
-                    xcoords.append(row_list.pop(0)) # x coord
-                    ycoords.append(row_list.pop(0)) # y coord
-                    framesizes.append(row_list.pop(0)) # framesize
-                    features.append([float(x) for x in row_list]) # append the data
-                    
-            numpy_array = numpy.transpose(numpy.array([labels,xcoords,ycoords,framesizes]))
-            numpy_feature_array = numpy.array(features)
-            numpy_array = numpy.concatenate([numpy_array,numpy_feature_array],axis =1)
-            myfiles.append(numpy_array)
-
-    if(get_header == False):
-        # return the appropriate data
-        #
-        return myfiles
-    return myfiles,headers
 
 # set cmdl to only process a parameter file
 #
@@ -81,50 +36,13 @@ def parseArguments(usage,help):
 
 def parseAnnotations(file):
     
-    ''' 
-    USE:
-    file = file path of xml or csv with this format:
-        index,region_id,tissue,label,coord_index,row,column,depth,confidence
     
-    with use:
-        headers,region_ids,label_names,coordinates = parse_annotations(file)
-
-    headers will be a dictionary:
-        header: {
-            'MicronsPerPixel' : microns_value (str),
-            'height' : height_value (str),
-            'width' : width_value (str)
-        }
-    
-    region_id will be a list:
-        [label number of 1st boundary, label number of 2nd boundary, ..., label number of nth boundary]
-
-    label_name will be a list:
-        [label name of 1st boundary, label name of 2nd boundary, ..., label number of nth boundary]
-
-    coordinates will be a list of list of lists:
-
-        [
-            [[boundary1x1,boundary1y1], [boundary1x2,boundary1y2], ..., [boundary1xn,boundary1yn]],
-            [[boundary2x1,boundary2y1], [boundary2x2,boundary2y2], ..., [boundary2xn,boundary2yn]],
-            ...
-            [[boundarynx1,boundaryny1], [boundarynx2,boundaryny2], ..., [boundarynxn,boundarynyn]]
-            
-        ]
-    '''
-
-    # read the data this uses the nedc_ann_dpath_tools library which 
-    # reads the data with coords in row,column format
-    #
-
-
-    #initialize csv class
-    annotation_tools = nadt.Xml()
+    annotation_tools = nedc_dpath_ann_tools.AnnDpath()
     annotation_tools.load(file)
     header = annotation_tools.get_header()
     
     data = annotation_tools.get_graph()
-    #header,data = nadt.load(file)
+    #header,data = nedc_dpath_ann_tools.load(file)
     
     # create lists to contain each labelled boundary
     # region ids: (numeric form of labels),

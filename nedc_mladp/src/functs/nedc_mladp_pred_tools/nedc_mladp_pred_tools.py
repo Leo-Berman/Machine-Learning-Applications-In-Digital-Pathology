@@ -1,5 +1,4 @@
 # import python libraries
-#
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import ConfusionMatrixDisplay
 import seaborn
@@ -10,154 +9,104 @@ import shapely
 from enum import Enum
 
 import nedc_mladp_ann_tools as ann_tools
+from nedc_mladp_label_enum import label_order
+
 import nedc_dpath_ann_tools
 
-def plot_histogram(labels,histogram_output):
-    '''
-    do the thing
-    '''
-
-    types = ["norm", "bckg", "artf", "null", "nneo", "infl", "susp", "dcis", "indc"]
-    colors = ["lightpink", "peachpuff", "#CBC3DB", "#BAD9BB", "lightblue", "thistle", "#BED4E9", "pink", "#C5CDBA"]
-
-    label_count = {}
-
-    for label in labels:
-        if label in label_count:
-            label_count[label] += 1
-        else:
-            label_count[label] = 1
-
-    for t in types:
-        if t not in label_count:
-            label_count[t] = 0
-
-    l_types = list(label_count.keys())
-    counts = list(label_count.values())
-
-    plt.bar(l_types, counts, color=colors)
-    plt.xlabel('Label Types')
-    plt.ylabel('Number of Labels')
-
-    plt.savefig(histogram_output)
-    plt.cla()
-# plot confusion matrix 
-#
-def plot_confusion_matrix(model,inlabels,data,outputpath):
-    """
-        Objective:
-            Plots the confusion matrix.
-
-        :param model: Sklearn model type.
-        :type model: sklearn model
-
-        :param labels: List of labels of labeled windows.
-        :type labels: list of strings
-
-        :param data: x
-        :type data: x
-
-        :param outputpath: Directory path for the output to be stored.
-        :type outputpath: path
-    """
+def separateLabels(labels:list,frame_size:tuple,top_left_coordinates:list):
     
-    # generate model predicitions
+    # Get the columns of the dataframe
     #
-    predictions = model.predict(data)
-    
-    # generate confusion matrix with labels and predictions
-    #
-    conf_mat = confusion_matrix(inlabels, predictions,labels=list(set(inlabels)))
-    print(list(set(inlabels)))
-    # heatmap the confusion matrix
-    #
-    seaborn.heatmap(conf_mat, cmap='Blues',yticklabels=list(set(inlabels)),xticklabels=list(set(inlabels)))
-    
-    # save the figure
-    #
-    plt.ylabel("Actual Values")
-    plt.xlabel("Predicted Values")
-    plt.savefig(outputpath)
-    plt.cla()
-# find the mean confidence %
-#
-def mean_confidence(model,data):
-    """
-        Objective:
-            Finds the mean of all confidence percentages.
+    labels = dataframe['labels']
+    framesizes = df['framesizes']
+    top_left_x = df['top_left_x']
+    top_left_y = df['top_left_y']
 
-        :param model: Sklearn model type.
-        :type model: sklearn model
-
-        :param data: x
-        :type data: x
+    # Initialize dictionary of labels each containing an empty list
+    #
+    label_dict = {}
+    for x in label_order:
+        print(x)
+        label_dict[x] = []
         
-        :return: confidence average
-        :rtype: float
-    """
-
-    # find predictions
+    # Get the frame size (all frames should be the same size) and the number of rows
     #
-    class_predictions=model.predict_proba(data)
+    framesize = framesizes[0]
 
-    # number for total max predictions
+    # Populate dictionary
     #
-    total_max_predictions = 0
-    for x in class_predictions:
-        total_max_predictions+=max(x)
+    for r in range(df.shape[0]-1):
+        # Convert frame to bits
+        #
+        #index_x = (top_left_x[r]//framesize[0])
+        #index_y = (top_left_y[r]//framesize[1])
+        index_x = int(top_left_x[r])
+        index_y = int(top_left_y[r])
+        # Append the coordinates to the dictionary with the corresponding labels
+        #
 
-    # return the mean of all the confidences
-    #
-    return total_max_predictions/len(class_predictions)
-
-def generate_frame_decisions(model,data,output_path,frame_locs,framesizes,header):
-    """
-        Objective:
-            Plots regions on an image with associated labels based on predictions.
-
-        :param model: Sklearn model type.
-        :type model: sklearn model
-
-        :param output_path: Directory path for the output to be stored.
-        :type output_path: path
-
-        :param frame_locs: x
-        :type frame_locs: x
-
-        :param framesizes: x
-        :type framesizes: x
-
-    """
-    
-    # get the predictions
-    #
-    class_predictions=model.predict(data)
-    rows = []
-
-    # append the predictions and the guesses
-    #
-    for i,x in enumerate(class_predictions):
-        rows.append([x,framesizes[i],frame_locs[i][0],frame_locs[i][1]])
-
-    # set the column titles and write to csv
-    #
-
-    if os.path.exists(output_path):
-        os.remove(output_path)
-
-    MySchem = ["labels",'framesizes','top_left_x','top_left_y']
-    df = polars.DataFrame(rows,schema=MySchem)
+        coordinate = (index_x,index_y)
         
-    with open(output_path,'a') as file:
-        file.write(header + '% ')
-        df.write_csv(file)
+        if labels[r] == "bckg":
+            label_dict['bckg'].append(coordinate)
+        elif labels[r] == "norm":
+            label_dict['norm'].append(coordinate)
+        elif labels[r] == "null":
+            label_dict['null'].append(coordinate)
+        elif labels[r] == "artf":
+            label_dict['artf'].append(coordinate)
+        elif labels[r] == "nneo":
+            label_dict['nneo'].append(coordinate)
+        elif labels[r] == "infl":
+            label_dict['infl'].append(coordinate)
+        elif labels[r] == "susp":
+            label_dict['susp'].append(coordinate)
+        elif labels[r] == "indc":
+            label_dict['indc'].append(coordinate)
+        elif labels[r] == "dcis":
+            label_dict['dcis'].append(coordinate)
 
-    return df
+    return(label_dict)
 
+def coordinateBitmap(top_left_coordinates:list[tuple], frame_size) -> numpy.array:
 
+    # Convert coords to numpy array for slicing.
+    #
+    top_left_coordinates = numpy.array(top_left_coordinates)
 
-def generateRegionDecisions(input_array,framesize):
-    label_order = Enum('label_order', 'unlab bckg norm null artf nneo infl susp indc dcis', start = 0)
+    # Find the highest x and y dimensions.
+    #
+    max_x = top_left_coordinates[:,0].max()
+    max_y = top_left_coordinates[:,1].max()
+
+    # Divide by frame_dx and frame_dy to get matrix size.
+    #
+    frame_dx,frame_dy = frame_size
+    rows = int(max_y/frame_dy) + 1
+    cols = int(max_x/frame_dx) + 1
+    
+    # Create a matrix.
+    #
+    m = numpy.zeros((rows,cols), dtype=numpy.uint8)
+
+    # Convert coords to matrix indices.
+    #   Coords should always be on frame boundaries or problems will result.
+    #
+    coords[:,0] = coords[:,0] // frame_dx
+    coords[:,1] = coords[:,1] // frame_dy
+
+    # Populate matrix.
+    #
+    for [col,row] in coords:
+        m[row,col] = 1
+    
+    return m
+
+def regionPredictions(frame_decisions:list, top_left_coordinates:list[tuple],
+                      frame_confidences:list, frame_size:tuple):
+
+    separateLabels(
+    
     
     # declare dictionaries for patches and frames
     #
@@ -266,25 +215,6 @@ def generateRegionDecisions(input_array,framesize):
     #
     return return_dictionary
 
-def generateAnnotationsHeader(input_header:str) -> dict:
-    lines = input_header.replace('#','').split('\n')
-    for i,line in enumerate(lines):
-        if ',' in line:
-            line_to_process = lines.pop(i)
-            lines.extend(line_to_process.split(','))
-    split_items = []
-    for x in lines:
-        split_items.extend([y.strip() for y in x.split('=')])
-
-    split_items = [x for x in split_items if x]
-    
-    return_dict = {}
-    for i in range(0,len(split_items)-1,2):
-        return_dict[split_items[i]] = split_items[i+1]
-
-    print(return_dict)
-        
-    return return_dict
 def test():
     test_array = [[0,0],
                   [0,1]]

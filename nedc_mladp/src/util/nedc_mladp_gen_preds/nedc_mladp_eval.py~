@@ -15,64 +15,57 @@ import nedc_mladp_ann_tools as ann_tools
 import nedc_file_tools
 import nedc_dpath_ann_tools
 
-def main():
+def gen_preds(feature_files:dict=None,model=None):
 
     # set argument parsing
     #
-    args_usage = "nedc_mladp_eval.usage"
-    args_help = "nedc_mladp_eval.help"
+    args_usage = "nedc_mladp_gen_preds.usage"
+    args_help = "nedc_mladp_gen_preds.help"
     parameter_file = fileio_tools.parseArguments(args_usage,args_help)
 
-    # parse parameters
-    #
-    parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"eval_model")
-
-    # list of feature files
-    #
-    features_data_list = parsed_parameters['features_data_list']
-
-    # path to joblib model
-    #
-    model_path=parsed_parameters['model_path']
-
-    # boolean of whether or not to write frames
-    #
-    write_frame_decisions=int(parsed_parameters['write_frame_decisions'])
-
-    # path to where to write frame decisions
-    #
-    output_frame_decisions_directory=parsed_parameters['output_frame_decisions_directory']
-    if not (output_frame_decisions_directory.endswith('/')):
-        output_frame_decisions_path += '/'
+    parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"gen_preds")
+    
+    run_parameters = nedc_file_tools.load_parameters(parameter_file,"run")
+    feature_files_list  = None
+    model_file = None
+    if int(run_parameters['run']) == 1:
+        output_directory = run_parameters['output_directory']
+        if not (output_directory.endswith("/")):
+            output_directory += "/"
+        output_directory += "predictions/"
+    else:
+        output_directory = parsed_parameters['output_directory']
+        if not (output_directory.endswith("/")):
+            output_directory += "/"
+        feature_files_list = parsed_parameters['feature_files_list']
+        model_file = parsed_parameters['model_file']
         
-    # boolean of whether or not to write regions
-    #
-    write_region_decisions=int(parsed_parameters['write_region_decisions'])
+    regions_output_directory = []
+    frames_output_directory = []
+    os.makedirs(regions_output_directory,exist_ok=True)
+    os.makedirs(frames_output_directory,exist_ok=True)
 
-    # path to where to write region decisions
-    #
-    output_region_decisions_directory=parsed_parameters['output_region_decisions_directory']
-    if not (output_region_decisions_directory.endswith('/')):
-        output_region_decisions_directory += '/'
+    if model_file is None:
+        model = joblib.load(model_file)
+
+
+    if feature_files_list != None:
+        with open(feature_files_list,'r') as f:
+            feature_files = f.readlines()
         
-    # if run is set, update a couple paths to reflect
-    #
-    run_parameters = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
-    if run_parameters['run'] == 1:
-        feature_data_list=run_params['output_list']
-        model_path = nedc_file_tools.load_parameters(parameter_file,"train_model")['model_output_path']
+        for file in feature_files:
+            with open(file.strip(),'r') as f:
+                lines = [line.strip().split(',') for line in f.readlines() if ":" not in line]
+                dataframe = pandas.DataFrame(lines[1:],columns=lines[0])
+                append_dictionary = { 'Labels':dataframe['Label'].tolist(),
+                                      'Top Left Coordinates':dataframe['TopLeftX','TopLeftY']
+                                     }
+                dataframe = dataframe.drop(['Label','TopLeftX','TopLeftY'])
 
-    # load the model
-    #
-    model = joblib.load(model_path)        
-
-    # read the features files list
-    #
-    features_files_list = fileio_tools.read_file_lists(features_data_list)
-
-    # read all the files data and the header
-    #
-    files_data,headers = fileio_tools.read_feature_files(features_files_list, get_header = True)
+                print(append_dictionary)
+                print(dataframe)
+                
+        
 
     # iterate through each file
     #
@@ -122,4 +115,4 @@ def main():
             annotation_writer.write(file_region_decisions_path)
         
 if __name__ == "__main__":
-    main()
+    gen_preds()

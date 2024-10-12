@@ -1,23 +1,32 @@
-With usage:
-    
-    ./nedc_mladp_gen_feats -p <parameter file>
+Usage:
+        ./nedc_mladp_train.py -p <parameter_file>
 
-Parameter file format:
+Parameter File:
 
-    train_model {
-    		model_type=<model type: "QDA","RNF">
-    		data_list=<path to output_list from gen_feats>
-    		model_output_path=<EXISTING DIRECTORY of where you want your model.joblib file to be output>
-    		compression=<integer of compression level>
-    		even_data=<set to 1 to even data, 0 otherwise>   
-    }
+# version=param_v1.0.0
 
-Parameters file example:
+run_pipeline{
 
-    train_model {
-		model_type="RNF"
-		data_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/features_output/dcts.list"
-    		model_output_path="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/model_output/"
-    		compression=0
-    		even_data=0
-    }
+	# Set to 0 to run individual programs 
+	run=0
+	
+}
+
+train_model{
+
+	# Declare model type, currently have RNF, QDA, SVM
+	model_type="QDA"
+
+	# Point to the absolute path of txt file where each new line points to a feature file, typically output by gen feats
+	feature_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_features_output/features/featuresfeature_files.list"
+
+	# this is where the model will output a joblib file
+	output_directory="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_models_output"
+
+	# 1 to write model, 0 if not
+	write_model=1
+
+	# How much to compress model when writing
+	compression=0
+	
+}

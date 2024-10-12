@@ -55,7 +55,15 @@ Step 8 run the program:
 
      nice -19 nohup ./nedc_mladp_run -p <absolute path to parameter file> &
 
+     nice -19 nohup ./nedc_mladp_gen_feats -p <absolute path to parameter file> &
 
+     nice -19 nohup ./nedc_mladp_train_model -p <absolute path to parameter file> &
+
+     nice -19 nohup ./nedc_mladp_gen_preds -p <absolute path to parameter file> &
+
+     nice -19 nohup ./nedc_mladp_gen_graphics -p <absolute path to parameter file> &
+
+     
 
 Notes:
 

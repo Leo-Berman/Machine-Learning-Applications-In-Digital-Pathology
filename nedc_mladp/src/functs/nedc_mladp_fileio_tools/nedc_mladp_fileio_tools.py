@@ -69,23 +69,6 @@ def parseAnnotations(file):
         #
         coords.append(data[i]['coordinates'])
 
-    # iterate through the lists of list of coordinates
-    #
-    for i in range(len(coords)):
-
-        # iterate through the list of coordinates
-        #
-        for j in range(len(coords[i])):
-
-            # convert from row,column,depth into traditional (x,y) coordinates
-            #
-            tmp1 = coords[i][j][0]
-            
-            coords[i][j][0] = int(header['height']) - coords[i][j][1]
-            coords[i][j][1] = tmp1
-
-            coords[i][j].pop()
-            coords[i][j].reverse()
 
     # return the header, numeric region ids, label names, and coordinates in x,y format
     #

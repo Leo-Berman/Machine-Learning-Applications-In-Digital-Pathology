@@ -81,86 +81,98 @@ def main():
     # parse parameters
     #
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"gen_graphics")
-    frame_x_size =  int(parsed_parameters['frame_x_size'])
-    frame_y_size =  int(parsed_parameters['frame_y_size'])
-    frame_size = (frame_x_size,frame_y_size)
     
     output_directory = parsed_parameters['output_directory']
     if not (output_directory.endswith("/")):
-        output_directory += "/"
-    image_file = parsed_parameters['image_file']
-    reference_annotation_file = parsed_parameters['reference_annotation_file']
-    hypothesis_annotation_file = parsed_parameters['hypothesis_annotation_file']
-    compression = int(parsed_parameters['compression'])
+        output_directory += "/"    
+        
     show_frames = int(parsed_parameters['show_frames'])
 
+    show_reference_annotations = int(parsed_parameters['show_reference_annotations'])
+    show_hypothesis_annotations = int(parsed_parameters['show_hypothesis_annotations'])
+    show_background_image = int(parsed_parameters['show_background_image'])
+
+
+    reference_annotation_file = parsed_parameters['reference_annotation_file']
+    reference_header, reference_ids, reference_labels, reference_coordinates = fileio_tools.parseAnnotations(reference_annotation_file)
+    reference_labeled_regions = feats_tools.labeledRegions(reference_coordinates)
+    reference_height = int(reference_header['height'])
+    reference_width = int(reference_header['width'])        
+    
     os.makedirs(output_directory, exist_ok=True)
 
-    
-    # parse annotations
-    #
-    reference_header, reference_ids, reference_labels, reference_coordinates = fileio_tools.parseAnnotations(reference_annotation_file)
 
-    hypothesis_header, hypothesis_ids, hypothesis_labels, hypothesis_coordinates = fileio_tools.parseAnnotations(hypothesis_annotation_file)
-    
-    # get height and width of image (in pixels) from the header
-    #
-    reference_height = int(reference_header['height'])
-    reference_width = int(reference_header['width'])
-
-    hypothesis_height = int(hypothesis_header['height'])
-    hypothesis_width = int(hypothesis_header['width'])
-
-    if (reference_height != hypothesis_height) or (reference_width != hypothesis_width):
-        print("Reference and Hypothesis Sizes Don't Match")
-        exit()
-
-    # get labeled regions
-    #
-    reference_labeled_regions = feats_tools.labeledRegions(reference_coordinates)
-    hypothesis_labeled_regions = feats_tools.labeledRegions(hypothesis_coordinates)
 
     
-    # plot labeled regions and label them with appropriate text
+    plt.xlim(0,reference_width)
+    plt.ylim(0,reference_height)
+
+    # generate the background image and return the background image's filepath
     #
-    reference_labels_dictionary = {'artf':'black', 'nneo':'red',
+    if show_background_image == 1:
+        figure,axis = plt.subplots()
+        compression = int(parsed_parameters['compression'])
+        image_file = parsed_parameters['image_file']
+        background_path = output_directory + 'Background.jpg'
+        svsToJpg(image_file,background_path,compression)
+        
+
+        # Plot the background image
+        #
+        image = plt.imread(background_path)
+        axis.imshow(image,extent=[0,reference_width,0,reference_height])
+        
+    if show_reference_annotations == 1:
+
+        reference_labels_dictionary = {'artf':'black', 'nneo':'red',
                   'bckg':'orange', 'norm':'yellow',
                   'indc':'green','nneo':'blue',
                   'null':'purple','infl':'hotpink',
                   'dcis':'brown','susp':'turquoise'}
     
-    hypothesis_labels_dictionary = {'artf':'gray', 'nneo':'lightcoral',
+        
+        for i,z in enumerate(reference_labeled_regions):
+            x,y = geometry_tools.getBorder(z)
+            
+            plt.plot(x,y,color = reference_labels_dictionary[reference_labels[i]])
+            plt.text(reference_coordinates[i][0][0],reference_coordinates[i][0][1],"Reference " + reference_labels[i])
+            
+    if show_hypothesis_annotations == 1:
+
+        hypothesis_labels_dictionary = {'artf':'gray', 'nneo':'lightcoral',
                   'bckg':'bisque', 'norm':'lightyellow',
                   'indc':'lightgreen','nneo':'lightsteelblue',
                   'null':'mediumpurple','infl':'pink',
                   'dcis':'chocolate','susp':'aquamarine'}
 
-    
-    for i,z in enumerate(reference_labeled_regions):
-        x,y = geometry_tools.getBorder(z)
+        
+        hypothesis_annotation_file = parsed_parameters['hypothesis_annotation_file']
+        
+        hypothesis_header, hypothesis_ids, hypothesis_labels, hypothesis_coordinates = fileio_tools.parseAnnotations(hypothesis_annotation_file)
+        
+        hypothesis_height = int(hypothesis_header['height'])
+        hypothesis_width = int(hypothesis_header['width'])
 
-        plt.plot(x,y,color = reference_labels_dictionary[reference_labels[i]])
-        plt.text(reference_coordinates[i][0][0],reference_coordinates[i][0][1],"Reference " + reference_labels[i])
+        
+        hypothesis_labeled_regions = feats_tools.labeledRegions(hypothesis_coordinates)
+        
+        for i,z in enumerate(hypothesis_labeled_regions):
+            x,y = geometry_tools.getBorder(z)
+                
+            plt.plot(x,y,color = hypothesis_labels_dictionary[hypothesis_labels[i]])
+            plt.text(hypothesis_coordinates[i][0][0],hypothesis_coordinates[i][0][1],"Hypothesis " + hypothesis_labels[i])
 
-    for i,z in enumerate(hypothesis_labeled_regions):
-        x,y = geometry_tools.getBorder(z)
-
-        plt.plot(x,y,color = hypothesis_labels_dictionary[hypothesis_labels[i]])
-        plt.text(hypothesis_coordinates[i][0][0],hypothesis_coordinates[i][0][1],"Hypothesis " + hypothesis_labels[i])
-
-    # generate the background image and return the background image's filepath
-    #
-    background_filepath = svsToJpg(image_file,output_directory+'Background.jpg',compression)
-
-    # Plot the background image
-    #
-    plt.xlim(0,reference_width)
-    plt.ylim(0,reference_height)
-    image = plt.imread(background_filepath)
+    if (show_hypothesis_annotations + show_reference_annotations) == 2:
+        if (reference_height != hypothesis_height) or (reference_width != hypothesis_width):
+            print("Reference and Hypothesis Sizes Don't Match")
+            exit()
 
     # show the frames of the image
     #
     if show_frames == 1:
+        frame_x_size =  int(parsed_parameters['frame_x_size'])
+        frame_y_size =  int(parsed_parameters['frame_y_size'])
+        frame_size = (frame_x_size,frame_y_size)
         plotFrames(image_file,frame_size)
 
     # save the image

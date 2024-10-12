@@ -2,7 +2,7 @@
 
 run_pipeline{
     run=1
-    output_directory="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/run_test"
+    output_directory="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/train_set"
 }
 gen_feats{
     
@@ -13,13 +13,16 @@ gen_feats{
     image_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/images.list"
     annotation_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/annotations.list"
     output_directory=""
-    PCA_components=10
+    PCA_components=20
     write_features=1
-    frame_region_overlap_threshold=.5
+    frame_region_overlap_threshold=.25
+    existing_PCA=0
+    PCA_path=""
+    PCA_compression=0
 }
 
 train_model{
-    model_type="QDA"
+    model_type="RNF"
     feature_files_list=""
     output_directory=""
     compression=0

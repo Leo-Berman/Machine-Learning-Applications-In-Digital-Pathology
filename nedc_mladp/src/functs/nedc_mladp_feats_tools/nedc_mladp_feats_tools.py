@@ -10,7 +10,7 @@ import nedc_image_tools
 
 def generateTopLeftFrameCoordinates(height:int, width:int,
                                     frame_size:tuple)->list:
-    return [(x, height-y) for x in range(0, width, frame_size[0]) for y in range(0, height, frame_size[1])]
+    return [(x, y) for x in range(0, width, frame_size[0]) for y in range(0, height, frame_size[1])]
 
 def generateWindows(coordinates:list, frame_size:tuple,
                     window_size:tuple)->list:

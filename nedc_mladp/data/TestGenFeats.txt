@@ -44,4 +44,7 @@ gen_graphics{
     output_directory="/home/tuo54571/test_graphics"
     compression=40
     show_frames=0
+    show_reference_annotations=1
+    show_hypothesis_annotations=1
+    show_background_image=1
 }

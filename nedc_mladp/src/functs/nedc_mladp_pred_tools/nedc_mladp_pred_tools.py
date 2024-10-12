@@ -258,29 +258,18 @@ def regionPredictions(frame_decisions:list, top_left_coordinates:list[tuple],
 
 
             
-            # create a list of indexes to get rid of
+            # iterate through every other patch ahead of it in the list
+            # and if it intersects with one of those, mark it to be removed and union
+            # it to the patch it intersected with and break
             #
-            pop_list = []
-
-            # iterate through each patch
-            #
-            for i,patch in enumerate(my_regions[label]):
-
-                # iterate through every other patch ahead of it in the list
-                # and if it intersects with one of those, mark it to be removed and union
-                # it to the patch it intersected with and break
-                #
-                for j,subpatch in enumerate(my_regions[label][i+1:]):
-                    if shapely.intersects(patch,my_regions[label][j]):
-                        my_regions[label][j+i+1] = shapely.union(patch,subpatch,grid_size=1)
-                        pop_list.append(i)
-                        break
-
-            # remove the redundant shapes
-            #
-            for i,x in enumerate(set(sorted(pop_list))):
-                my_regions[label].pop(x-i)
-
+            i = 0
+            while i < len(my_regions[label])-1:
+                if shapely.intersects(my_regions[label][i],my_regions[label][i+1]):
+                    my_regions[label][i+1] = shapely.union(my_regions[label][i],my_regions[label][i+1],grid_size=1)
+                    my_regions[label].pop(0)
+                else:
+                    i+=1
+                
             new_patch = {}
 
             confidence = sum(sparse_matrixes[label_order(label).name]['Confidences'])/(len(sparse_matrixes[label_order(label).name]['Confidences'])+1)
@@ -313,7 +302,7 @@ def regionPredictions(frame_decisions:list, top_left_coordinates:list[tuple],
                     
 
                 if label_order(label).name != 'unlab':
-                    return_dictionary[patches_written] = { 'region_id':patches_written + 1,
+                    return_dictionary[patches_written] = { 'region_id':patches_written+1,
                                                            'text':label_order(label).name,
                                                            'coordinates':coordinates,
                                                            'confidence':confidence,
@@ -323,9 +312,10 @@ def regionPredictions(frame_decisions:list, top_left_coordinates:list[tuple],
                                                                                      'LengthMicrons' : 0.0,
                                                                                      'AreaMicrons' : 0.0}                                                      }
                     
-                # and keep track of the number of patches written
-                #
-                patches_written+=1
+                    # and keep track of the number of patches written
+                    #
+                    patches_written+=1
+                
                 
     # return the dataframe
     #

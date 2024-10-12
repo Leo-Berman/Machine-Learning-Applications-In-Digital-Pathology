@@ -51,7 +51,7 @@ def gen_preds(feature_files:dict=None, model=None):
         model = joblib.load(model_file)
 
         
-    if feature_files_list != None:
+    if feature_files == None:
         feature_files = []
         feature_files_list = fileio_tools.readLines(feature_files_list)
         original_files_list = fileio_tools.readLines(original_annotation_files_list)
@@ -72,14 +72,16 @@ def gen_preds(feature_files:dict=None, model=None):
             dataframe = dataframe.drop(['Label','TopLeftX','TopLeftY'], axis=1)
             PCs = dataframe.to_numpy()
             
-            append_dictionary = { 'Labels':labels,
+            append_dictionary = { 'Frame Decisions':labels,
                                   'Top Left Coordinates':top_left_coordinates,
                                   'Header':header,
                                   'PCs':PCs,
                                   'Frame Size':(int(header_info['frame_sizeX']),int(header_info['frame_sizeY'])),
                                  }
             feature_files.append(append_dictionary)    
-
+    else:
+         original_files_list =  [file['Annotation File'] for file  in feature_files]
+             
     region_decision_files = []
     frame_decision_files = []
     for feature_file in feature_files:

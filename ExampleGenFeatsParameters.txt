@@ -10,7 +10,7 @@ run_pipeline{
 }
 gen_feats{
 
-	# Set window width and height
+	# Set window and frame width and height
 	window_width=500
 	window_height=500
 	frame_width=250

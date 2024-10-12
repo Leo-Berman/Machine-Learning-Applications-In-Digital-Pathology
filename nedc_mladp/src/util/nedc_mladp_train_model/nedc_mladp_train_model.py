@@ -57,7 +57,7 @@ def train_model(feature_files:dict=None):
             lines = [line.split(',') for line in fileio_tools.readLines(file) if ':' not in line]
             dataframe = pandas.DataFrame(lines[1:],columns=lines[0])
             labels.extend(dataframe['Label'].to_list())
-            dataframe = dataframe.drop(['Label','TopLeftX','TopLeftY'],axis=1)
+            dataframe = dataframe.drop(['Label','TopLeftRow','TopLeftColumn'],axis=1)
             if train_data is None:
                 train_data=dataframe.to_numpy()
             else:

@@ -44,12 +44,12 @@ def coordinateBitmap(top_left_coordinates:list[tuple], frame_size) -> numpy.arra
     # Divide by frame_dx and frame_dy to get matrix size.
     #
     frame_dx,frame_dy = frame_size
-    rows = max_y//frame_dy + 1
-    cols = max_x//frame_dx + 1
+    Y = max_y//frame_dy + 1
+    X = max_x//frame_dx + 1
     
     # Create a matrix.
     #
-    matrix = numpy.zeros((rows,cols), dtype=numpy.uint8)
+    matrix = numpy.zeros((X,Y), dtype=numpy.uint8)
 
     # Convert coords to matrix indices.
     #   Coords should always be on frame boundaries or problems will result.
@@ -59,8 +59,8 @@ def coordinateBitmap(top_left_coordinates:list[tuple], frame_size) -> numpy.arra
 
     # Populate matrix.
     #
-    for [column,row] in top_left_coordinates:
-        matrix[row,column] = 1
+    for [x,y] in top_left_coordinates:
+        matrix[x,y] = 1
     
     return matrix
 
@@ -233,12 +233,12 @@ def regionPredictions(frame_decisions:list, top_left_coordinates:list[tuple],
 
     # iterate through the numpy array
     #
-    for i,row in enumerate(heatmap):
-        for j,point in enumerate(row):
+    for y,row in enumerate(heatmap):
+        for x,point in enumerate(row):
 
             # and append to the proper list
             #
-            my_regions[point].append(shapely.Polygon([(i,j),(i+1,j),(i+1,j+1),(i,j+1)]))
+            my_regions[point].append(shapely.Polygon([(x,y),(x+1,y),(x+1,y+1),(x,y+1)]))
 
     # keep track of number of patches written
     #
@@ -321,20 +321,3 @@ def regionPredictions(frame_decisions:list, top_left_coordinates:list[tuple],
     #
     return return_dictionary
 
-def test():
-    test_array = [[0,0],
-                  [0,1]]
-    graph = generate_region_decisions(test_array,200)
-    header = {'bname' : 'test.csv',
-              'MicronsPerPixel' : 0,
-              'width' : 5000,
-              'height' : 5000,
-              'tissue' : ['breast']}
-    
-    annotation_writer = nedc_dpath_ann_tools.AnnDpath()
-    annotation_writer.set_type("csv")
-    annotation_writer.set_header(header)
-    annotation_writer.set_graph(graph)
-    annotation_writer.write("test.csv")
-if __name__ == "__main__":
-    test()

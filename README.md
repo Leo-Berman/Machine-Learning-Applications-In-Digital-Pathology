@@ -53,19 +53,21 @@ Step 8 run the program:
 
      I would recommend using this, it allso for no holdup and run in the background:
 
-     nice -19 nohup ./nedc_mladp_run -p <absolute path to parameter file> &
+     nice -n 19 nohup ./nedc_mladp_run -p <absolute path to parameter file> &
 
-     nice -19 nohup ./nedc_mladp_gen_feats -p <absolute path to parameter file> &
+     nice -n 19 nohup ./nedc_mladp_gen_feats -p <absolute path to parameter file> &
 
-     nice -19 nohup ./nedc_mladp_train_model -p <absolute path to parameter file> &
+     nice -n 19 nohup ./nedc_mladp_train_model -p <absolute path to parameter file> &
 
-     nice -19 nohup ./nedc_mladp_gen_preds -p <absolute path to parameter file> &
+     nice -n 19 nohup ./nedc_mladp_gen_preds -p <absolute path to parameter file> &
 
-     nice -19 nohup ./nedc_mladp_gen_graphics -p <absolute path to parameter file> &
+     nice -n 19 nohup ./nedc_mladp_gen_graphics -p <absolute path to parameter file> &
 
      
 
 Notes:
+
+	If you clone this into an experiment directory into the TUH_dpath experiment folder and change the number from exp_0288 it should just run on the example files!
 
 	in order to extract a list of xml files and svs files, I recommend using the following commands.
 

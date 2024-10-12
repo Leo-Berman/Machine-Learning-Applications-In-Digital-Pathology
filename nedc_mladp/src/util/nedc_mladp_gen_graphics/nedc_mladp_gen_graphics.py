@@ -106,7 +106,8 @@ def main():
     plt.xlim(0,reference_width)
     plt.ylim(0,reference_height)
 
-        
+    figure,axis = plt.subplots()
+    
     if show_reference_annotations == 1:
 
         reference_labels_dictionary = {'artf':'black', 'nneo':'red',
@@ -155,11 +156,11 @@ def main():
     # generate the background image and return the background image's filepath
     #
     if show_background_image == 1:
-        figure,axis = plt.subplots()
+
         compression = int(parsed_parameters['compression'])
         image_file = parsed_parameters['image_file']
         background_path = output_directory + 'Background.jpg'
-        svsToJpg(image_file,background_path,compression)
+        #svsToJpg(image_file,background_path,compression)
         
 
         # Plot the background image
@@ -172,7 +173,7 @@ def main():
     if show_frames == 1:
         frame_width =  int(parsed_parameters['frame_height'])
         frame_height =  int(parsed_parameters['frame_height'])
-        frame_size = (frame_x_size,frame_y_size)
+        frame_size = (frame_width,frame_height)
         plotFrames(image_file,frame_size)
 
     # save the image

@@ -23,7 +23,7 @@ gen_graphics{
 	compression=40
 
 	# show frames on top of image
-	show_frames=1
+	show_frames=0
 
 	# 1 if showing annotations 0 if not
 	show_reference_annotations=1

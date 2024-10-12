@@ -4,28 +4,37 @@ import scipy
 import shapely
 import sklearn.decomposition
 
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use('Agg')
+
 # import picones libraries
 #
 import nedc_image_tools
 
 def generateTopLeftFrameCoordinates(height:int, width:int,
                                     frame_size:tuple)->list:
-    return [(x, y) for x in range(0, width, frame_size[0]) for y in range(0, height, frame_size[1])]
+    return_list = []
+    for x in range(0,width,frame_size[0]):
+        for y in range(0,height,frame_size[1]):
+            return_list.append( (x,y) )
+    return return_list
 
 def generateWindows(coordinates:list, frame_size:tuple,
                     window_size:tuple)->list:
 
     windows = []
 
-    window_x_offset = window_size[0]//2
-    window_y_offset = window_size[1]//2
+    window_width_offset = (window_size[0]-frame_size[0])//2
+    window_height_offset = (window_size[1]-frame_size[1])//2
     
     for x in coordinates:
 
-        right_most = x[0] + frame_size[0] + window_x_offset
-        left_most = x[0] - window_x_offset
-        up_most = x[1] + window_y_offset
-        down_most = x[1] - frame_size[1] - window_y_offset
+        up_most = x[1] - window_height_offset
+        down_most = x[1] + frame_size[0] + window_height_offset
+
+        right_most = x[0] + frame_size[1] + window_width_offset
+        left_most = x[0] - window_width_offset
 
         top_left = [left_most, up_most]
         top_right = [right_most, up_most]
@@ -44,22 +53,19 @@ def classifyFrames(labels:list, height:int, width:int, window_size:tuple,
 
     top_left_frame_coords = generateTopLeftFrameCoordinates(height, width,
                                                             frame_size)
-
+    
     windows = generateWindows(top_left_frame_coords,frame_size, window_size)
 
-    window_x_offset = window_size[0]//2
-    window_y_offset = window_size[1]//2
-
     return_top_left_frame_coords = []
-    
+
     for w,x in zip(top_left_frame_coords,windows):
         for y,z in zip(regions,labels):
             overlap = shapely.intersection(x,y)
-            if overlap.area/x.area > overlap_threshold:
+            if overlap.area/x.area >= overlap_threshold:
+                plt.plot(*x.exterior.xy)
                 return_labels.append(z)
                 return_top_left_frame_coords.append(w)
                 break
-
 
     return return_top_left_frame_coords,return_labels
 
@@ -74,8 +80,8 @@ def windowRGBValues(image_file:str, frame_top_left_coordinates:list,
     # read all of the windows into memory
     #
     windows = image_reader.read_data_multithread(frame_top_left_coordinates,
-                                                 npixx = window_size[0],
-                                                 npixy = window_size[1],
+                                                 npixy = window_size[0],
+                                                 npixx = window_size[1],
                                                  color_mode="RGB")
     
     # return list of lists of rgba values

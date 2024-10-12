@@ -1,5 +1,5 @@
 # Import python libraries
-#
+
 import csv
 import numpy
 import os
@@ -42,13 +42,7 @@ def parseAnnotations(file):
     header = annotation_tools.get_header()
     
     data = annotation_tools.get_graph()
-    #header,data = nedc_dpath_ann_tools.load(file)
-    
-    # create lists to contain each labelled boundary
-    # region ids: (numeric form of labels),
-    # text: label names for graphic purposes
-    # coords: traditional x,y coordinates for each boundary
-    #
+
     region_ids = []
     labels = []
     coords = []
@@ -65,11 +59,14 @@ def parseAnnotations(file):
         #
         labels.append(data[i]['text'])
 
-        # append list of lists row,column,depth coordinates
+        # switch from x y to row column
         #
-        coords.append(data[i]['coordinates'])
+        tmp = [[x[0],int(header['height'])-x[1],x[2]] for x in data[i]['coordinates']]
+        coords.append(tmp)
+        #coords.append(data[i]['coordinates'])
 
 
+        
     # return the header, numeric region ids, label names, and coordinates in x,y format
     #
     return header,region_ids,labels,coords

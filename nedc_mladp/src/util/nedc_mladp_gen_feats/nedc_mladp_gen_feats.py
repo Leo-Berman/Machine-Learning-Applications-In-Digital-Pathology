@@ -58,7 +58,6 @@ def gen_feats():
 
     print(f"Parameter file {parameter_file} Parsed Successfully\n")
 
-
     os.makedirs(output_directory,exist_ok=True)
     
     finished_files = []
@@ -75,6 +74,7 @@ def gen_feats():
 
     DCTs_for_PCA = []
     total_windows_PCA_trained_on = 0
+    
     # iterate through and create a feature vector file for each file
     #
     for i,image_file,annotation_file in zip(range(len(image_files_list)),
@@ -103,6 +103,8 @@ def gen_feats():
                                                                                  window_size, frame_size,
                                                                                  labeled_regions,
                                                                                  window_region_overlap_threshold)
+
+
             
             # get list of rgba values
             #
@@ -159,29 +161,38 @@ def gen_feats():
 
             print(f"File {i+1} of {len(finished_files)} Processing PCA")
 
+
             
             finished_file['PCs'] = PCA.transform(finished_file['DCTs'])
+
+
             
             del finished_file['DCTs']
+
+
+
+
             
-   
             if write_features == 1:
 
                 labels_dataframe = pandas.DataFrame({'Label':finished_file['Labels']})
+
                 coordinates_dataframe = pandas.DataFrame(finished_file['Top Left Coordinates'],
-                                                         columns=['TopLeftX','TopLeftY'])
+                                                         columns=['TopLeftColumn','TopLeftRow'])
+
                 features_dataframe = pandas.DataFrame(finished_file['PCs'],columns=features_header)
+
                 dataframe=labels_dataframe.join([coordinates_dataframe,features_dataframe])
-                
+
                 file_path = output_directory + finished_file['Header']['bname'] + "_FEATS.csv"
                 
                 with open(file_path,'w') as f:
                     for key,value in finished_file['Header'].items():
                         f.write(f'{key}:{value}\n')
-                    f.write(f'frame_sizeX:{frame_size[0]}\n')
-                    f.write(f'frame_sizeY:{frame_size[1]}\n')                    
-                    f.write(f'window_sizeX:{window_size[0]}\n')
-                    f.write(f'window_sizeY:{window_size[1]}\n')
+                    f.write(f'frame_height:{frame_size[0]}\n')
+                    f.write(f'frame_width:{frame_size[1]}\n')                    
+                    f.write(f'window_height:{window_size[0]}\n')
+                    f.write(f'window_width:{window_size[1]}\n')
                     
                     
                     dataframe.to_csv(f, index=False, header = True)
@@ -193,8 +204,8 @@ def gen_feats():
 
             print(f"{finished_file['Header']['bname']} PCA Succeeded\n")
             
-        except Exception:
-            print(f"{finished_file['Header']['bname']} PCA & Write Failed\n")
+        except Exception as e:
+            print(f"{finished_file['Header']['bname']} PCA & Write Failed Due To\n{e}\n")
             
     with open(output_directory +"original_annotations.list",'w') as f:
         f.writelines(line + '\n' for line in original_files_written)

@@ -36,3 +36,8 @@ make
 # fileio toosl into lib
 cd ../nedc_mladp_fileio_tools
 make
+
+# fileio toosl into lib
+cd ../nedc_mladp_label_enum
+make
+

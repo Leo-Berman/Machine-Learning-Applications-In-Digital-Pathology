@@ -1,6 +1,6 @@
 # version=param_v1.0.0
-0;115;0c0;115;0c0;115;0c0;115;0c
-run{
+
+run_pipeline{
     run=0
     output_directory=""
 }
@@ -41,7 +41,7 @@ gen_graphics{
     image_file="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/00477780_aaaaaagg/s000_2017/breast/00477780_aaaaaagg_s000_0hne_0000_b003_lvl001_t000.svs"
     hypothesis_annotation_file="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/predictions/regions/00477780_aaaaaagg_s000_0hne_0000_b003_lvl001_t000_REGIONDECISIONS.csv"
     reference_annotation_file="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/00477780_aaaaaagg/s000_2017/breast/00477780_aaaaaagg_s000_0hne_0000_b003_lvl001_t000.xml"
-    output_directory="~/test_graphics"
+    output_directory="/home/tuo54571/test_graphics"
     compression=40
     show_frames=0
 }

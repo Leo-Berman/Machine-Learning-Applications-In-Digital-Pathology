@@ -15,13 +15,13 @@ gen_feats{
         window_width=500
         window_height=500
         frame_width=250
-        frame_width=250
+        frame_height=250
 
         # Set to a txt file where each new line is the absolute path to a svs file
         image_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/ExampleImages.list"
 
         # Set to a txt file where each new line is the absolute path to the corresponding xml file of the svs files above
-        annotation_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/ExampleAnnotations.list"
+        annotation_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/ExampleAnnotations.list"
 
         # 1 to write feature files 0 to not write features
         write_features=1

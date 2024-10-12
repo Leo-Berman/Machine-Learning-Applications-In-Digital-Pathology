@@ -18,7 +18,7 @@ gen_feats{
 	window_width=500
 	window_height=500
 	frame_width=250
-	frame_width=250
+	frame_height=250
 
 	# Set to a txt file where each new line is the absolute path to a svs file
 	image_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/example_images.list"

@@ -10,13 +10,13 @@ run_pipeline{
 gen_preds {
 
 	  # Set to absolute path of txt file where each new line points to a feature_file, typically output by gen_feats
-	  feature_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_features_output/features/feature_files.list"
+	  feature_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_features_output/feature_files.list"
 
   	  # absolute path to a txt file where each new line points to a coorespoding annation file of the feature files
 	  original_annotation_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/ExampleAnnotations.list"
 
 	  # Set to absolute path of .joblib file containing model
-	  model_file="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_models_output/RNF.joblib"
+	  model_file="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_models_output/QDA.joblib"
 
 	  # 1 to write frame or region decisions, 0 to not
 	  write_frame_decisions=1

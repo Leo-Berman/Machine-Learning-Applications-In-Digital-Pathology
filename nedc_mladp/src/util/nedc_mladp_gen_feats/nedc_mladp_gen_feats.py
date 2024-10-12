@@ -29,18 +29,17 @@ def gen_feats():
     #
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
     write_features=int(parsed_parameters['write_features'])
-    frame_region_overlap_threshold = float(parsed_parameters['frame_region_overlap_threshold'])
+    window_region_overlap_threshold = float(parsed_parameters['window_region_overlap_threshold'])
     window_width = int(parsed_parameters['window_width'])
     window_height = int(parsed_parameters['window_height'])
     window_size = (window_width,window_height)
     frame_width =  int(parsed_parameters['frame_width'])
     frame_height =  int(parsed_parameters['frame_height'])
-    frame_size = (frame_x_size,frame_y_size)
+    frame_size = (frame_width,frame_height)
     
     
     run_parameters = nedc_file_tools.load_parameters(parameter_file,"run_pipeline")
     if int(run_parameters['run']) == 1:
-        print(run_parameters)
         output_directory = run_parameters['output_directory']
         if not (output_directory.endswith("/")):
             output_directory += "/"
@@ -103,7 +102,7 @@ def gen_feats():
             frame_top_left_coordinates,frame_labels = feats_tools.classifyFrames(labels,height, width,
                                                                                  window_size, frame_size,
                                                                                  labeled_regions,
-                                                                                 frame_region_overlap_threshold)
+                                                                                 window_region_overlap_threshold)
             
             # get list of rgba values
             #
@@ -149,7 +148,7 @@ def gen_feats():
             print(f"{header['bname']} DCT Failed due to: \n{e}\n")
 
     if existing_PCA == 0:
-        joblib.dump(PCA,output_directory+"PCA.joblib",compression=PCA_compression)
+        joblib.dump(PCA,output_directory+"PCA.joblib",compress=PCA_compression)
             
     features_header = []
     for i in range(PCA.n_components):

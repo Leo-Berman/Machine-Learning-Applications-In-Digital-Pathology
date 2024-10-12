@@ -81,7 +81,7 @@ def gen_preds(feature_files:dict=None, model=None):
              
     region_decision_files = []
     frame_decision_files = []
-    for feature_file in feature_files:
+    for i,feature_file in enumerate(feature_files):
         
         feature_file['Frame Confidences'] = [max(predictions) for predictions in model.predict_proba(numpy.array(feature_file['PCs']))]
         feature_file['Frame Decisions'] = model.predict(numpy.array(feature_file['PCs']))
@@ -97,7 +97,8 @@ def gen_preds(feature_files:dict=None, model=None):
             output_filepath = regions_output_directory+feature_file['Header']['bname']+"_REGIONDECISIONS.csv"
             annotation_writer.write(output_filepath)
             region_decision_files.append(output_filepath+'\n')
-            
+
+        print(f"{i+1} of {len(feature_files)} Decisions Generated") 
 
     if write_region_decisions == 1:
         with open(output_directory+'regions/region_decisions_files.list','w') as f:

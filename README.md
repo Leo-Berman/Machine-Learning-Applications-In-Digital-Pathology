@@ -9,8 +9,7 @@ Step 1: Add following to ~/.bashrc:
      
      MLADP=<path to github repo or whatever you renamed the github repo to > # path to the parent directory of the cloned repo IMPORTANT DO NOT HAVE BACKSLASH AT END
      	Ex: MLADP="/github_repo"
-     
-     
+          
      PYTHONPATH="$NEDC_NFC/lib:$MLADP/nedc_mladp/lib:." # update Python path to contain requisite libraries
      
      export MLADP PYTHONPATH # export those two environment variables
@@ -54,7 +53,7 @@ Step 8 run the program:
 
      I would recommend using this, it allso for no holdup and run in the background:
 
-     nohup ./nedc_mladp_run -p <absolute path to parameter file> &
+     nice -19 nohup ./nedc_mladp_run -p <absolute path to parameter file> &
 
 
 

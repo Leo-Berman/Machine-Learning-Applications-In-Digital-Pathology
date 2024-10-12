@@ -266,7 +266,7 @@ def regionPredictions(frame_decisions:list, top_left_coordinates:list[tuple],
             while i < len(my_regions[label])-1:
                 if shapely.intersects(my_regions[label][i],my_regions[label][i+1]):
                     my_regions[label][i+1] = shapely.union(my_regions[label][i],my_regions[label][i+1],grid_size=1)
-                    my_regions[label].pop(0)
+                    my_regions[label].pop(i)
                 else:
                     i+=1
                 

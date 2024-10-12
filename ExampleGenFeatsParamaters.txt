@@ -1,0 +1,55 @@
+# version=param_v1.0.0
+
+run_pipeline{
+
+	# Set run to 0 to execute individual driver programs
+	run=0
+
+	# Can Leave blank as unused when running individual driver programs
+	output_directory=""
+}
+gen_feats{
+
+	# Set window width and height
+	window_width=500
+	window_height=500
+	frame_width=250
+	frame_width=250
+
+	# Set to a txt file where each new line is the absolute path to a svs file
+	image_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/images.list"
+
+	# Set to a txt file where each new line is the absolute path to the corresponding xml file of the svs files above
+	annotation_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/annotations.list"
+
+	# This is where the feature files, corresponding list of generated feature_files, and PCA joblib file will be output
+	output_directory="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/features"
+
+	
+	# 1 to write feature files 0 to not write features
+	write_features=1
+
+
+	# Set minimum amount windows must overlap with a annotated region before they are considered a labelled frame
+	window_region_overlap_threshold=.5
+
+	## Begin of if fitting PCA
+
+	# 0 if trained PCA doesn't exist
+	existing_PCA=0
+
+	# Number of components for PCA to train on
+	PCA_components=2
+
+
+	# Amount to compress exported PCA
+	PCA_compression=0
+
+	## End of if fitting PCA
+
+	## Begin of if trained PCA does exist
+
+	#PCA_path="some_path/PCA.joblib"
+
+	## End of it trained PCA does exist
+}

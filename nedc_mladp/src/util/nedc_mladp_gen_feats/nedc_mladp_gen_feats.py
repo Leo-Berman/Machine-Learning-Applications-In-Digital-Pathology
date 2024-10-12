@@ -30,15 +30,13 @@ def gen_feats():
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
     write_features=int(parsed_parameters['write_features'])
     frame_region_overlap_threshold = float(parsed_parameters['frame_region_overlap_threshold'])
-    window_x_size = int(parsed_parameters['window_x_size'])
-    window_y_size = int(parsed_parameters['window_y_size'])
-    window_size = (window_x_size,window_y_size)
-    frame_x_size =  int(parsed_parameters['frame_x_size'])
-    frame_y_size =  int(parsed_parameters['frame_y_size'])
+    window_width = int(parsed_parameters['window_width'])
+    window_height = int(parsed_parameters['window_height'])
+    window_size = (window_width,window_height)
+    frame_width =  int(parsed_parameters['frame_width'])
+    frame_height =  int(parsed_parameters['frame_height'])
     frame_size = (frame_x_size,frame_y_size)
-
     existing_PCA = int(parsed_parameters['existing_PCA'])
-
     
     run_parameters = nedc_file_tools.load_parameters(parameter_file,"run_pipeline")
     if int(run_parameters['run']) == 1:
@@ -136,8 +134,8 @@ def gen_feats():
                 if len(DCTs_for_PCA) >= PCA_components:
                     try:
                         PCA.partial_fit(DCTs_for_PCA)
-                        print(f"PCA trained on {total_windows_PCA_trained_on}\n")
                         total_windows_PCA_trained_on+=len(DCTs_for_PCA)
+                        print(f"PCA trained on {total_windows_PCA_trained_on}\n")
                         DCTs_for_PCA = []
                     except Exception as e:
                         print(f"Incremental PCA training Failed due to: \n{e}\n")
@@ -149,7 +147,7 @@ def gen_feats():
             print(f"{header['bname']} DCT Failed due to: \n{e}\n")
 
     if existing_PCA == 0:
-        joblib.dump(output_directory+"PCA.joblib")
+        joblib.dump(PCA,output_directory+"PCA.joblib")
             
     features_header = []
     for i in range(PCA.n_components):

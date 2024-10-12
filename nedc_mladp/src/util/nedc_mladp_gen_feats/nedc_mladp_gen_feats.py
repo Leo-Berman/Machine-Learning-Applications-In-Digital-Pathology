@@ -36,7 +36,7 @@ def gen_feats():
     frame_width =  int(parsed_parameters['frame_width'])
     frame_height =  int(parsed_parameters['frame_height'])
     frame_size = (frame_x_size,frame_y_size)
-    existing_PCA = int(parsed_parameters['existing_PCA'])
+    
     
     run_parameters = nedc_file_tools.load_parameters(parameter_file,"run_pipeline")
     if int(run_parameters['run']) == 1:
@@ -45,7 +45,9 @@ def gen_feats():
         if not (output_directory.endswith("/")):
             output_directory += "/"
         output_directory += "features/"
+        existing_PCA = 0
     else:
+        existing_PCA = int(parsed_parameters['existing_PCA'])
         output_directory = parsed_parameters['output_directory']
         if not (output_directory.endswith("/")):
             output_directory += "/"
@@ -147,7 +149,7 @@ def gen_feats():
             print(f"{header['bname']} DCT Failed due to: \n{e}\n")
 
     if existing_PCA == 0:
-        joblib.dump(PCA,output_directory+"PCA.joblib")
+        joblib.dump(PCA,output_directory+"PCA.joblib",compression=PCA_compression)
             
     features_header = []
     for i in range(PCA.n_components):

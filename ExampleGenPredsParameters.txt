@@ -1,0 +1,27 @@
+# version=param_v1.0.0
+
+run_pipeline{
+
+	# Set to 0 to run individual driver programs
+	run=0
+
+}
+
+gen_preds {
+
+	  # Set to absolute path of txt file where each new line points to a feature_file, typically output by gen_feats
+	  feature_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_features_output/features/feature_files.list"
+
+  	  # absolute path to a txt file where each new line points to a coorespoding annation file of the feature files
+	  original_annotation_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/example_annotations.list"
+
+	  # Set to absolute path of .joblib file containing model
+	  model_file="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_models_output/RNF.joblib"
+
+	  # 1 to write frame or region decisions, 0 to not
+	  write_frame_decisions=1
+	  write_region_decisions=1
+
+	  # this is where, the frame decisions, regiond decisions, and corresponding files containing lists to those will be 
+	  output_directory="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_predictions_output"
+}

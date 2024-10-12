@@ -33,7 +33,8 @@ def gen_preds(feature_files:dict=None, model=None):
         output_directory = run_parameters['output_directory']
         if not (output_directory.endswith("/")):
             output_directory += "/"
-        output_directory += "predictions/"
+        output_directory += "predictions/"            
+        original_files_list =  [file['Annotation File'] for file  in feature_files]
     else:
         output_directory = parsed_parameters['output_directory']
         if not (output_directory.endswith("/")):
@@ -41,17 +42,6 @@ def gen_preds(feature_files:dict=None, model=None):
         feature_files_list = parsed_parameters['feature_files_list']
         model_file = parsed_parameters['model_file']
         original_annotation_files_list = parsed_parameters['original_annotation_files_list']
-        
-    regions_output_directory = output_directory + 'regions/'
-    frames_output_directory = output_directory + 'frames/'
-    os.makedirs(regions_output_directory,exist_ok=True)
-    os.makedirs(frames_output_directory,exist_ok=True)
-
-    if model is None:
-        model = joblib.load(model_file)
-
-        
-    if feature_files == None:
         feature_files = []
         feature_files_list = fileio_tools.readLines(feature_files_list)
         original_files_list = fileio_tools.readLines(original_annotation_files_list)
@@ -78,9 +68,16 @@ def gen_preds(feature_files:dict=None, model=None):
                                   'PCs':PCs,
                                   'Frame Size':(int(header_info['frame_sizeX']),int(header_info['frame_sizeY'])),
                                  }
-            feature_files.append(append_dictionary)    
-    else:
-         original_files_list =  [file['Annotation File'] for file  in feature_files]
+            feature_files.append(append_dictionary)
+        
+    regions_output_directory = output_directory + 'regions/'
+    frames_output_directory = output_directory + 'frames/'
+    os.makedirs(regions_output_directory,exist_ok=True)
+    os.makedirs(frames_output_directory,exist_ok=True)
+
+    if model is None:
+        model = joblib.load(model_file)
+
              
     region_decision_files = []
     frame_decision_files = []

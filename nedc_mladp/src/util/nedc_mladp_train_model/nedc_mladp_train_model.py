@@ -27,7 +27,6 @@ def train_model(feature_files:dict=None):
     #
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"train_model")
     model_type=parsed_parameters['model_type']
-    compression=int(parsed_parameters['compression'])
     write_model=int(parsed_parameters['write_model'])
     
     run_parameters = nedc_file_tools.load_parameters(parameter_file,"run_pipeline")
@@ -36,20 +35,24 @@ def train_model(feature_files:dict=None):
         if not (output_directory.endswith("/")):
             output_directory += "/"
         output_directory += "model/"
-        feature_files_list  = None
+        labels = []
+        train_data = None
+        for file in feature_files:
+            if train_data is None:
+                train_data = numpy.array(file['PCs'])
+            else:
+                train_data = numpy.vstack([train_data,numpy.array(file['PCs'])])
+
+            labels.extend(file['Labels'])
     else:
         output_directory = parsed_parameters['output_directory']
         if not (output_directory.endswith("/")):
             output_directory += "/"
         feature_files_list = parsed_parameters['feature_files_list']
-
-    os.makedirs(output_directory,exist_ok=True)
-
-    labels = []
-    train_data = None
-    if feature_files_list != None:
         feature_files = fileio_tools.readLines(feature_files_list)
-        
+        labels = []
+        train_data = None
+
         for file in feature_files:
             lines = [line.split(',') for line in fileio_tools.readLines(file) if ':' not in line]
             dataframe = pandas.DataFrame(lines[1:],columns=lines[0])
@@ -59,16 +62,9 @@ def train_model(feature_files:dict=None):
                 train_data=dataframe.to_numpy()
             else:
                 train_data = numpy.vstack([train_data,dataframe.to_numpy()])
+                
+    os.makedirs(output_directory,exist_ok=True)
 
-    else:
-        for file in feature_files:
-            if train_data is None:
-                train_data = numpy.array(file['PCs'])
-            else:
-                train_data = numpy.vstack([train_data,numpy.array(file['PCs'])])
-
-            labels.extend(file['Labels'])
-            
             
     # Fit the model
     #
@@ -85,6 +81,7 @@ def train_model(feature_files:dict=None):
     model.fit(train_data, labels)
 
     if write_model == 1:
+        compression=int(parsed_parameters['compression'])
         joblib.dump(model,output_directory+model_type+'.joblib',compress=compression)
 
     return model

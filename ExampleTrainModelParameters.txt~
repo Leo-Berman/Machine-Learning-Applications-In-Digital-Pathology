@@ -1,0 +1,27 @@
+# version=param_v1.0.0
+
+run_pipeline{
+
+	# Set to 0 to run individual programs 
+	run=0
+	
+}
+
+train_model{
+
+	# Declare model type, currently have RNF, QDA, SVM
+	model_type="QDA"
+
+	# Point to the absolute path of txt file where each new line points to a feature file, typically output by gen feats
+	feature_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/features/feature_files.list"
+
+	# this is where the model will output a joblib file
+	output_directory="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/models"
+
+	# 1 to write model, 0 if not
+	write_model=1
+
+	# How much to compress model when writing
+	compression=0
+	
+}

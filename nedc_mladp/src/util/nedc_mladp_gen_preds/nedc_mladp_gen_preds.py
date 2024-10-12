@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-0;115;0c#
 
 # import python libraries
 import joblib
@@ -24,11 +23,12 @@ def gen_preds(feature_files:dict=None, model=None):
     parameter_file = fileio_tools.parseArguments(args_usage,args_help)
 
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"gen_preds")
-    
-    run_parameters = nedc_file_tools.load_parameters(parameter_file,"run")
-    feature_files_list  = None
-    model_file = None
-    original_annotation_files_list = None
+
+    write_region_decisions = int(parsed_parameters['write_region_decisions'])
+    write_frame_decisions = int(parsed_parameters['write_frame_decisions'])
+
+    run_parameters = nedc_file_tools.load_parameters(parameter_file,"run_pipeline")
+
     if int(run_parameters['run']) == 1:
         output_directory = run_parameters['output_directory']
         if not (output_directory.endswith("/")):
@@ -59,13 +59,10 @@ def gen_preds(feature_files:dict=None, model=None):
         for feature_file,original_file in zip(feature_files_list,original_files_list):
             lines = [line.split(',') for line in fileio_tools.readLines(feature_file)]
             header_info = {}
-            for line in lines:
-                if ":" not in line:
-                    break
-                else:
-                    key,value = line.pop(0).split(":")
-                    header_info[key]=value
-            
+            i = 0
+            while ':' in lines[i][0]:
+                key,value = lines.pop(0)[0].split(':')
+                header_info[key]=value
             dataframe = pandas.DataFrame(lines[1:],columns=lines[0])
             labels = dataframe['Label'].to_list()
             top_left_coordinates = list(zip(dataframe['TopLeftX'].to_list(),dataframe['TopLeftY'].to_list()))
@@ -83,15 +80,31 @@ def gen_preds(feature_files:dict=None, model=None):
                                  }
             feature_files.append(append_dictionary)    
 
+    region_decision_files = []
+    frame_decision_files = []
     for feature_file in feature_files:
         
         feature_file['Frame Confidences'] = [max(predictions) for predictions in model.predict_proba(numpy.array(feature_file['PCs']))]
         feature_file['Frame Decisions'] = model.predict(numpy.array(feature_file['PCs']))
-        feature_file['Region Decisions'], feature_file['Region Coordinates'], feature_file['Region Confidences'] = pred_tools.regionPredictions(feature_file['Frame Decisions'],
-                                                                                                                                                feature_file['Top Left Coordinates'],
-                                                                                                                                                feature_file['Frame Confidences'],
-                                                                                                                                                feature_file['Frame Size'])
-        
+        prediction_graph = pred_tools.regionPredictions(feature_file['Frame Decisions'],
+                                                        feature_file['Top Left Coordinates'],
+                                                        feature_file['Frame Confidences'],
+                                                        feature_file['Frame Size'])
+        if write_region_decisions == 1:
+            annotation_writer = nedc_dpath_ann_tools.AnnDpath()
+            annotation_writer.set_type("csv")
+            annotation_writer.set_header(feature_file['Header'])
+            annotation_writer.set_graph(prediction_graph)
+            output_filepath = regions_output_directory+feature_file['Header']['bname']+"_REGIONDECISIONS.csv"
+            annotation_writer.write(output_filepath)
+            region_decision_files.append(output_filepath+'\n')
+            
+
+    if write_region_decisions == 1:
+        with open(output_directory+'regions/region_decisions_files.list','w') as f:
+            f.writelines(region_decision_files)
+        with open(output_directory+'regions/original_annotation_files.list','w') as f:
+            f.writelines([file +'\n' for file in original_files_list])
             
 if __name__ == "__main__":
     gen_preds()

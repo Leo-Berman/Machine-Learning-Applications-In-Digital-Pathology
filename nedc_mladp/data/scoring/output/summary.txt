@@ -1,0 +1,311 @@
+==============================================================================
+     Date: Fri Oct 11 20:12:54 2024
+     File: /data/isip/tools/linux_x64/nfc/util/python/nedc_dpath_eval/nedc_dpath_eval.py
+  Version: v1.0.0
+ Mod Time: Sat Oct  5 11:33:01 2024
+==============================================================================
+
+==============================================================================
+File: output/summary.txt
+Data:
+ Ref: /data/isip/exp/tuh_dpath/exp_0280/September_10_2024/scoring/ref.list
+ Hyp: /data/isip/exp/tuh_dpath/exp_0280/September_10_2024/scoring/hyp.list
+
+                                                                                          NEDC DICE Confusion Matrix                                                                                          
+  Ref/Hyp:         dcis                  bckg                  artf                  infl                  nneo                  norm                  susp                  indc                  null         
+     dcis:       69.00 (100.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)
+     bckg:        0.00 (  0.00%)       24.00 (100.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)
+     artf:        0.00 (  0.00%)        0.00 (  0.00%)        5.00 (100.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)
+     infl:        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)       10.00 (100.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)
+     nneo:        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)       21.00 (100.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)
+     norm:        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        8.00 (100.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)
+     susp:        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)
+     indc:        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)
+     null:        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)        0.00 (  0.00%)
+
+PER LABEL RESULTS:
+
+ LABEL: DCIS
+
+                          Targets:            0
+                             Hits:            0
+                           Misses:           69
+                     False Alarms:            0
+                       Insertions:            0   <**
+                        Deletions:            0   <**
+
+              True Positives (TP):            0
+              True Negatives (TN):           68
+             False Positives (FP):            0
+             False Negatives (FN):           69
+
+        Sensitivity (TPR, Recall):       0.0000%
+                Specificity (TNR):     100.0000%
+                  Precision (PPV):       0.0000%
+       Negative Pred. Value (NPV):      49.6350%
+                  Miss Rate (FNR):     100.0000%
+        False Positive Rate (FPR):       0.0000%
+       False Discovery Rate (FDR):     100.0000%
+        False Omission Rate (FOR):      50.3650%
+                         Accuracy:      49.6350%
+           Misclassification Rate:      50.3650%
+                       Prevalence:      50.3650%
+               F1 Score (F Ratio):       0.0000
+                   Matthews (MCC):       0.0000
+                 False Alarm Rate:       0.0000 per 24 hours
+
+ LABEL: BCKG
+
+                          Targets:            0
+                             Hits:            0
+                           Misses:           24
+                     False Alarms:            0
+                       Insertions:            0   <**
+                        Deletions:            0   <**
+
+              True Positives (TP):            0
+              True Negatives (TN):          113
+             False Positives (FP):            0
+             False Negatives (FN):           24
+
+        Sensitivity (TPR, Recall):       0.0000%
+                Specificity (TNR):     100.0000%
+                  Precision (PPV):       0.0000%
+       Negative Pred. Value (NPV):      82.4818%
+                  Miss Rate (FNR):     100.0000%
+        False Positive Rate (FPR):       0.0000%
+       False Discovery Rate (FDR):     100.0000%
+        False Omission Rate (FOR):      17.5182%
+                         Accuracy:      82.4818%
+           Misclassification Rate:      17.5182%
+                       Prevalence:      17.5182%
+               F1 Score (F Ratio):       0.0000
+                   Matthews (MCC):       0.0000
+                 False Alarm Rate:       0.0000 per 24 hours
+
+ LABEL: ARTF
+
+                          Targets:            0
+                             Hits:            0
+                           Misses:            5
+                     False Alarms:            0
+                       Insertions:            0   <**
+                        Deletions:            0   <**
+
+              True Positives (TP):            0
+              True Negatives (TN):          132
+             False Positives (FP):            0
+             False Negatives (FN):            5
+
+        Sensitivity (TPR, Recall):       0.0000%
+                Specificity (TNR):     100.0000%
+                  Precision (PPV):       0.0000%
+       Negative Pred. Value (NPV):      96.3504%
+                  Miss Rate (FNR):     100.0000%
+        False Positive Rate (FPR):       0.0000%
+       False Discovery Rate (FDR):     100.0000%
+        False Omission Rate (FOR):       3.6496%
+                         Accuracy:      96.3504%
+           Misclassification Rate:       3.6496%
+                       Prevalence:       3.6496%
+               F1 Score (F Ratio):       0.0000
+                   Matthews (MCC):       0.0000
+                 False Alarm Rate:       0.0000 per 24 hours
+
+ LABEL: INFL
+
+                          Targets:            0
+                             Hits:            0
+                           Misses:           10
+                     False Alarms:            0
+                       Insertions:            0   <**
+                        Deletions:            0   <**
+
+              True Positives (TP):            0
+              True Negatives (TN):          127
+             False Positives (FP):            0
+             False Negatives (FN):           10
+
+        Sensitivity (TPR, Recall):       0.0000%
+                Specificity (TNR):     100.0000%
+                  Precision (PPV):       0.0000%
+       Negative Pred. Value (NPV):      92.7007%
+                  Miss Rate (FNR):     100.0000%
+        False Positive Rate (FPR):       0.0000%
+       False Discovery Rate (FDR):     100.0000%
+        False Omission Rate (FOR):       7.2993%
+                         Accuracy:      92.7007%
+           Misclassification Rate:       7.2993%
+                       Prevalence:       7.2993%
+               F1 Score (F Ratio):       0.0000
+                   Matthews (MCC):       0.0000
+                 False Alarm Rate:       0.0000 per 24 hours
+
+ LABEL: NNEO
+
+                          Targets:            0
+                             Hits:            0
+                           Misses:           21
+                     False Alarms:            0
+                       Insertions:            0   <**
+                        Deletions:            0   <**
+
+              True Positives (TP):            0
+              True Negatives (TN):          116
+             False Positives (FP):            0
+             False Negatives (FN):           21
+
+        Sensitivity (TPR, Recall):       0.0000%
+                Specificity (TNR):     100.0000%
+                  Precision (PPV):       0.0000%
+       Negative Pred. Value (NPV):      84.6715%
+                  Miss Rate (FNR):     100.0000%
+        False Positive Rate (FPR):       0.0000%
+       False Discovery Rate (FDR):     100.0000%
+        False Omission Rate (FOR):      15.3285%
+                         Accuracy:      84.6715%
+           Misclassification Rate:      15.3285%
+                       Prevalence:      15.3285%
+               F1 Score (F Ratio):       0.0000
+                   Matthews (MCC):       0.0000
+                 False Alarm Rate:       0.0000 per 24 hours
+
+ LABEL: NORM
+
+                          Targets:            0
+                             Hits:            0
+                           Misses:            8
+                     False Alarms:            0
+                       Insertions:            0   <**
+                        Deletions:            0   <**
+
+              True Positives (TP):            0
+              True Negatives (TN):          129
+             False Positives (FP):            0
+             False Negatives (FN):            8
+
+        Sensitivity (TPR, Recall):       0.0000%
+                Specificity (TNR):     100.0000%
+                  Precision (PPV):       0.0000%
+       Negative Pred. Value (NPV):      94.1606%
+                  Miss Rate (FNR):     100.0000%
+        False Positive Rate (FPR):       0.0000%
+       False Discovery Rate (FDR):     100.0000%
+        False Omission Rate (FOR):       5.8394%
+                         Accuracy:      94.1606%
+           Misclassification Rate:       5.8394%
+                       Prevalence:       5.8394%
+               F1 Score (F Ratio):       0.0000
+                   Matthews (MCC):       0.0000
+                 False Alarm Rate:       0.0000 per 24 hours
+
+ LABEL: SUSP
+
+                          Targets:            0
+                             Hits:            0
+                           Misses:            0
+                     False Alarms:            0
+                       Insertions:            0   <**
+                        Deletions:            0   <**
+
+              True Positives (TP):            0
+              True Negatives (TN):          137
+             False Positives (FP):            0
+             False Negatives (FN):            0
+
+        Sensitivity (TPR, Recall):       0.0000%
+                Specificity (TNR):     100.0000%
+                  Precision (PPV):       0.0000%
+       Negative Pred. Value (NPV):     100.0000%
+                  Miss Rate (FNR):     100.0000%
+        False Positive Rate (FPR):       0.0000%
+       False Discovery Rate (FDR):     100.0000%
+        False Omission Rate (FOR):       0.0000%
+                         Accuracy:     100.0000%
+           Misclassification Rate:       0.0000%
+                       Prevalence:       0.0000%
+               F1 Score (F Ratio):       0.0000
+                   Matthews (MCC):       0.0000
+                 False Alarm Rate:       0.0000 per 24 hours
+
+ LABEL: INDC
+
+                          Targets:            0
+                             Hits:            0
+                           Misses:            0
+                     False Alarms:            0
+                       Insertions:            0   <**
+                        Deletions:            0   <**
+
+              True Positives (TP):            0
+              True Negatives (TN):          137
+             False Positives (FP):            0
+             False Negatives (FN):            0
+
+        Sensitivity (TPR, Recall):       0.0000%
+                Specificity (TNR):     100.0000%
+                  Precision (PPV):       0.0000%
+       Negative Pred. Value (NPV):     100.0000%
+                  Miss Rate (FNR):     100.0000%
+        False Positive Rate (FPR):       0.0000%
+       False Discovery Rate (FDR):     100.0000%
+        False Omission Rate (FOR):       0.0000%
+                         Accuracy:     100.0000%
+           Misclassification Rate:       0.0000%
+                       Prevalence:       0.0000%
+               F1 Score (F Ratio):       0.0000
+                   Matthews (MCC):       0.0000
+                 False Alarm Rate:       0.0000 per 24 hours
+
+ LABEL: NULL
+
+                          Targets:            0
+                             Hits:            0
+                           Misses:            0
+                     False Alarms:            0
+                       Insertions:            0   <**
+                        Deletions:            0   <**
+
+              True Positives (TP):            0
+              True Negatives (TN):          137
+             False Positives (FP):            0
+             False Negatives (FN):            0
+
+        Sensitivity (TPR, Recall):       0.0000%
+                Specificity (TNR):     100.0000%
+                  Precision (PPV):       0.0000%
+       Negative Pred. Value (NPV):     100.0000%
+                  Miss Rate (FNR):     100.0000%
+        False Positive Rate (FPR):       0.0000%
+       False Discovery Rate (FDR):     100.0000%
+        False Omission Rate (FOR):       0.0000%
+                         Accuracy:     100.0000%
+           Misclassification Rate:       0.0000%
+                       Prevalence:       0.0000%
+               F1 Score (F Ratio):       0.0000
+                   Matthews (MCC):       0.0000
+                 False Alarm Rate:       0.0000 per 24 hours
+
+SUMMARY:
+
+                            Total:            0
+                             Hits:            0
+                           Misses:          137
+                     False Alarms:            0
+                       Insertions:            0   <**
+                        Deletions:            0   <**
+
+               True Positives(TP):            0
+             False Positives (FP):            0
+
+        Sensitivity (TPR, Recall):       0.0000%
+                  Miss Rate (FNR):     100.0000%
+                         Accuracy:      88.8889%
+           Misclassification Rate:      11.1111%
+                       Prevalence:      11.1111%
+                         F1 Score:       0.0000
+                   Matthews (MCC):       0.0000
+
+==============================================================================
+NEDC DPATH Eval Successfully Completed on Fri Oct 11 20:12:54 2024
+==============================================================================

@@ -1,0 +1,729 @@
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00572962_aaaaaacq/s000_2015/breast/00572962_aaaaaacq_s000_0hne_0000_a004_lvl001_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00572962_aaaaaacq_s000_0hne_0000_a001_lvl001_t000_REGION_DECISIONS.csv
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00779658_aaaaaacv/s000_2015/breast/00779658_aaaaaacv_s000_0hne_0000_b001_lvl000_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00572962_aaaaaacq_s000_0hne_0000_a001_lvl002_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: bckg
+       Hyp Index: 3, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: bckg
+       Hyp Index: 3, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: bckg
+       Hyp Index: 3, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00572962_aaaaaacq/s000_2015/breast/00572962_aaaaaacq_s000_0hne_0000_a003_lvl003_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00572962_aaaaaacq_s000_0hne_0000_a001_lvl003_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: norm
+       Hyp Index: 4, Label: indc
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: bckg
+       Hyp Index: 4, Label: indc
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: nneo
+       Hyp Index: 4, Label: indc
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00590369_aaaaaacr/s000_2015/breast/00590369_aaaaaacr_s000_0hne_0000_a001_lvl001_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00572962_aaaaaacq_s000_0hne_0000_a002_lvl003_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: infl
+       Hyp Index: 4, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: bckg
+       Hyp Index: 4, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: nneo
+       Hyp Index: 4, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00779658_aaaaaacv/s000_2015/breast/00779658_aaaaaacv_s000_0hne_0000_a006_lvl000_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00572962_aaaaaacq_s000_0hne_0000_a003_lvl002_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: bckg
+       Hyp Index: 1, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: bckg
+       Hyp Index: 1, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: bckg
+       Hyp Index: 1, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00590369_aaaaaacr/s000_2015/breast/00590369_aaaaaacr_s000_0hne_0000_a001_lvl002_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00572962_aaaaaacq_s000_0hne_0000_a003_lvl003_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: artf
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: infl
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: infl
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+    4: Ref Index: 3, Label: infl
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+    5: Ref Index: 4, Label: nneo
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+    6: Ref Index: 5, Label: nneo
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00779658_aaaaaacv/s000_2015/breast/00779658_aaaaaacv_s000_0hne_0000_a007_lvl000_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00572962_aaaaaacq_s000_0hne_0000_a004_lvl001_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: dcis
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: dcis
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: dcis
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    4: Ref Index: 3, Label: dcis
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    5: Ref Index: 4, Label: dcis
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    6: Ref Index: 5, Label: dcis
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    7: Ref Index: 6, Label: dcis
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    8: Ref Index: 7, Label: dcis
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    9: Ref Index: 8, Label: dcis
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   10: Ref Index: 9, Label: artf
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   11: Ref Index: 10, Label: dcis
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   12: Ref Index: 11, Label: dcis
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   13: Ref Index: 12, Label: dcis
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   14: Ref Index: 13, Label: dcis
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   15: Ref Index: 14, Label: dcis
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   16: Ref Index: 15, Label: dcis
+       Hyp Index: 4, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00572962_aaaaaacq/s000_2015/breast/00572962_aaaaaacq_s000_0hne_0000_a001_lvl002_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00572962_aaaaaacq_s000_0hne_0000_a004_lvl003_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: bckg
+       Hyp Index: 4, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: nneo
+       Hyp Index: 4, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: bckg
+       Hyp Index: 4, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00572962_aaaaaacq/s000_2015/breast/00572962_aaaaaacq_s000_0hne_0000_a001_lvl001_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00572962_aaaaaacq_s000_0hne_0000_a005_lvl001_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: bckg
+       Hyp Index: 1, Label: artf
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: norm
+       Hyp Index: 1, Label: artf
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: bckg
+       Hyp Index: 1, Label: artf
+       Result: MISS
+       Confidence: 1
+
+    4: Ref Index: 3, Label: nneo
+       Hyp Index: 1, Label: artf
+       Result: MISS
+       Confidence: 1
+
+    5: Ref Index: 4, Label: nneo
+       Hyp Index: 1, Label: artf
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00779658_aaaaaacv/s000_2015/breast/00779658_aaaaaacv_s000_0hne_0000_c001_lvl000_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00590369_aaaaaacr_s000_0hne_0000_a001_lvl001_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: bckg
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: bckg
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: bckg
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+    4: Ref Index: 3, Label: bckg
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00572962_aaaaaacq/s000_2015/breast/00572962_aaaaaacq_s000_0hne_0000_a005_lvl001_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00590369_aaaaaacr_s000_0hne_0000_a001_lvl002_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: norm
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: norm
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: nneo
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    4: Ref Index: 3, Label: bckg
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    5: Ref Index: 4, Label: artf
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00572962_aaaaaacq/s000_2015/breast/00572962_aaaaaacq_s000_0hne_0000_a002_lvl003_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00590369_aaaaaacr_s000_0hne_0000_a001_lvl003_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: norm
+       Hyp Index: 3, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: bckg
+       Hyp Index: 3, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: artf
+       Hyp Index: 3, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00779658_aaaaaacv/s000_2015/breast/00779658_aaaaaacv_s000_0hne_0000_a003_lvl000_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00779658_aaaaaacv_s000_0hne_0000_a003_lvl000_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: nneo
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: nneo
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: nneo
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+    4: Ref Index: 3, Label: nneo
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+    5: Ref Index: 4, Label: nneo
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+    6: Ref Index: 5, Label: nneo
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+    7: Ref Index: 6, Label: nneo
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+    8: Ref Index: 7, Label: nneo
+       Hyp Index: 1, Label: bckg
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00572962_aaaaaacq/s000_2015/breast/00572962_aaaaaacq_s000_0hne_0000_a004_lvl003_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00779658_aaaaaacv_s000_0hne_0000_a004_lvl000_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: bckg
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: bckg
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: nneo
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00572962_aaaaaacq/s000_2015/breast/00572962_aaaaaacq_s000_0hne_0000_a003_lvl002_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00779658_aaaaaacv_s000_0hne_0000_a006_lvl000_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: bckg
+       Hyp Index: 5, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: norm
+       Hyp Index: 5, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: norm
+       Hyp Index: 5, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+    4: Ref Index: 3, Label: norm
+       Hyp Index: 5, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+    5: Ref Index: 4, Label: bckg
+       Hyp Index: 5, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00779658_aaaaaacv/s000_2015/breast/00779658_aaaaaacv_s000_0hne_0000_a008_lvl000_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00779658_aaaaaacv_s000_0hne_0000_a007_lvl000_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: dcis
+       Hyp Index: 5, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: dcis
+       Hyp Index: 5, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: dcis
+       Hyp Index: 5, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00779658_aaaaaacv/s000_2015/breast/00779658_aaaaaacv_s000_0hne_0rcl_a005_lvl000_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00779658_aaaaaacv_s000_0hne_0000_a008_lvl000_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+    4: Ref Index: 3, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+    5: Ref Index: 4, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+    6: Ref Index: 5, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+    7: Ref Index: 6, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+    8: Ref Index: 7, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+    9: Ref Index: 8, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+   10: Ref Index: 9, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+   11: Ref Index: 10, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+   12: Ref Index: 11, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+   13: Ref Index: 12, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+   14: Ref Index: 13, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+   15: Ref Index: 14, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+   16: Ref Index: 15, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+   17: Ref Index: 16, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+   18: Ref Index: 17, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+   19: Ref Index: 18, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+   20: Ref Index: 19, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+   21: Ref Index: 20, Label: dcis
+       Hyp Index: 3, Label: indc
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00590369_aaaaaacr/s000_2015/breast/00590369_aaaaaacr_s000_0hne_0000_a001_lvl003_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00779658_aaaaaacv_s000_0hne_0000_a009_lvl000_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: infl
+       Hyp Index: 3, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: nneo
+       Hyp Index: 3, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: infl
+       Hyp Index: 3, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+    4: Ref Index: 3, Label: nneo
+       Hyp Index: 3, Label: dcis
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00779658_aaaaaacv/s000_2015/breast/00779658_aaaaaacv_s000_0hne_0000_a009_lvl000_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00779658_aaaaaacv_s000_0hne_0000_b001_lvl000_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: nneo
+       Hyp Index: 3, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: nneo
+       Hyp Index: 3, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00779658_aaaaaacv/s000_2015/breast/00779658_aaaaaacv_s000_0hne_0rcl_a004_lvl000_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00779658_aaaaaacv_s000_0hne_0000_c001_lvl000_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    4: Ref Index: 3, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    5: Ref Index: 4, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    6: Ref Index: 5, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    7: Ref Index: 6, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    8: Ref Index: 7, Label: infl
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    9: Ref Index: 8, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   10: Ref Index: 9, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   11: Ref Index: 10, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   12: Ref Index: 11, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   13: Ref Index: 12, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   14: Ref Index: 13, Label: infl
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   15: Ref Index: 14, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   16: Ref Index: 15, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00572962_aaaaaacq/s000_2015/breast/00572962_aaaaaacq_s000_0hne_0000_a001_lvl003_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00779658_aaaaaacv_s000_0hne_0rcl_a004_lvl000_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: bckg
+       Hyp Index: 3, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: artf
+       Hyp Index: 3, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: bckg
+       Hyp Index: 3, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/dev/00779658_aaaaaacv/s000_2015/breast/00779658_aaaaaacv_s000_0hne_0000_a004_lvl000_t000.xml
+/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/dev_region_decisions_output/00779658_aaaaaacv_s000_0hne_0rcl_a005_lvl000_t000_REGION_DECISIONS.csv
+    1: Ref Index: 0, Label: infl
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    2: Ref Index: 1, Label: infl
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    3: Ref Index: 2, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    4: Ref Index: 3, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    5: Ref Index: 4, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    6: Ref Index: 5, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    7: Ref Index: 6, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    8: Ref Index: 7, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+    9: Ref Index: 8, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   10: Ref Index: 9, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   11: Ref Index: 10, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   12: Ref Index: 11, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   13: Ref Index: 12, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   14: Ref Index: 13, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   15: Ref Index: 14, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   16: Ref Index: 15, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   17: Ref Index: 16, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+
+   18: Ref Index: 17, Label: dcis
+       Hyp Index: 2, Label: nneo
+       Result: MISS
+       Confidence: 1
+

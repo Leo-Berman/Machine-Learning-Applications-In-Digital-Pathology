@@ -1,5 +1,4 @@
 # import python libraries
-#
 import numpy
 import scipy
 import shapely

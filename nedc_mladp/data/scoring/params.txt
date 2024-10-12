@@ -1,0 +1,62 @@
+# file: $NEDC_NFC/util/python/nedc_dpath_eval/nedc_dpath_eval_params_v00.txt
+#
+# A parameter file that defines key paramters for the scoring algorithms.
+#
+
+# set version information
+#
+version = param_v1.0.0
+
+#------------------------------------------------------------------------------
+#
+# Section 0: General Annotation Mapping Parameters
+#
+#------------------------------------------------------------------------------
+
+# Multi-Class Evaluation:
+#  the software supports multiclass scoring by simply extending this list.
+#  for example, a five-way system can be built using a one-to-one mapping:
+#
+#    C0 = cat
+#    C1 = dog
+#    C2 = mouse
+#    C3 = horse
+#    C4 = cow
+#
+#  this can be collapsed to two-way scoring this way:
+#
+#    C0 = cat, dog, mouse
+#    C1 = horse, cow
+#
+MAP {
+    dcis = dcis
+    bckg = bckg
+    artf = artf
+    infl = infl
+    nneo = nneo
+    norm = norm
+    susp = susp
+    indc = indc
+    null = null
+}
+
+#------------------------------------------------------------------------------
+#
+# Section 1: NEDC Dice Parameters
+#
+#------------------------------------------------------------------------------
+
+# define the dice parameters
+# 
+NEDC_DICE {
+ penalty_del = 1.0
+ penalty_ins = 1.0
+ penalty_sub = 1.0
+ classification_threshold = 0.95
+}
+
+#------------------------------------------------------------------------------
+#
+# end of file
+#
+#------------------------------------------------------------------------------

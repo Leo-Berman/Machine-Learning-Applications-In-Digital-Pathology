@@ -1,8 +1,8 @@
 # version=param_v1.0.0
-0;115;0c0;115;0c0;115;0c0;115;0c
+
 run{
-    run=0
-    output_directory=""
+    run=1
+    run_output_directory="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/run_test"
 }
 gen_feats{
     
@@ -12,27 +12,27 @@ gen_feats{
     frame_y_size=250
     image_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/images.list"
     annotation_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/annotations.list"
-    output_directory="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/features"
-    PCA_components=2
+    output_directory=""
+    PCA_components=10
     write_features=1
     frame_region_overlap_threshold=.5
 }
 
 train_model{
     model_type="QDA"
-    feature_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/features/feature_files.list"
-    output_directory="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/models"
+    feature_files_list=""
+    output_directory=""
     compression=0
     write_model=1
 }
 
 gen_preds{
-    feature_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/features/feature_files.list"
-    model_file="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/models/QDA.joblib"
+    feature_files_list=""
+    model_file=""
     write_frame_decisions=1
     write_region_decisions=1
-    output_directory="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/predictions"
-    original_annotation_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/annotations.list"
+    output_directory=""
+    original_annotation_files_list=""
 }
 
 gen_graphics{
@@ -41,7 +41,7 @@ gen_graphics{
     image_file="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/00477780_aaaaaagg/s000_2017/breast/00477780_aaaaaagg_s000_0hne_0000_b003_lvl001_t000.svs"
     hypothesis_annotation_file="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/predictions/regions/00477780_aaaaaagg_s000_0hne_0000_b003_lvl001_t000_REGIONDECISIONS.csv"
     reference_annotation_file="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/train/00477780_aaaaaagg/s000_2017/breast/00477780_aaaaaagg_s000_0hne_0000_b003_lvl001_t000.xml"
-    output_directory="~/test_graphics"
+    output_directory="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/graphics"
     compression=40
     show_frames=0
 }

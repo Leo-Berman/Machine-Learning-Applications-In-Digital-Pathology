@@ -10,7 +10,6 @@ import sklearn.decomposition
 # import project-specific libraries
 #
 import nedc_mladp_fileio_tools as fileio_tools
-import nedc_mladp_ann_tools as ann_tools
 import nedc_mladp_feats_tools as feats_tools
 
 # import NEDC libraries
@@ -39,8 +38,9 @@ def gen_feats():
     frame_y_size =  int(parsed_parameters['frame_y_size'])
     frame_size = (frame_x_size,frame_y_size)
 
-    run_parameters = nedc_file_tools.load_parameters(parameter_file,"run")
+    run_parameters = nedc_file_tools.load_parameters(parameter_file,"run_pipeline")
     if int(run_parameters['run']) == 1:
+        print(run_parameters)
         output_directory = run_parameters['output_directory']
         if not (output_directory.endswith("/")):
             output_directory += "/"
@@ -156,8 +156,7 @@ def gen_feats():
                     for key,value in finished_file['Header'].items():
                         f.write(f'{key}:{value}\n')
                     f.write(f'frame_sizeX:{frame_size[0]}\n')
-                    f.write(f'frame_sizeY:{frame_size[1]}\n')
-                    
+                    f.write(f'frame_sizeY:{frame_size[1]}\n')                    
                     f.write(f'window_sizeX:{window_size[0]}\n')
                     f.write(f'window_sizeY:{window_size[1]}\n')
                     

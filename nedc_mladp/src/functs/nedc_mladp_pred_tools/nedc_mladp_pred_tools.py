@@ -1,43 +1,40 @@
 # import python libraries
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import ConfusionMatrixDisplay
-import seaborn
-import matplotlib.pyplot as plt
-import polars
+from numba import njit
 import os
 import shapely
-from enum import Enum
+import numpy
 
-import nedc_mladp_ann_tools as ann_tools
 from nedc_mladp_label_enum import label_order
 
 import nedc_dpath_ann_tools
 
-def generateSparseMatrixes(labels:list,frame_size:tuple,top_left_coordinates:list):
+def generateSparseMatrixes(labels:list,frame_size:tuple,top_left_coordinates:list,confidences:list):
     
     # Initialize dictionary of labels each containing an empty list
     #
     label_dict = {}
     for x in label_order:
-        print(x)
-        label_dict[x] = []
+        label_dict[x.name] = {'Confidences':[],
+                              'Coordinates':[],
+                              }
         
     # Populate dictionary
     #
-    for label,top_left_coordinate in zip(labels,top_left_coordinates):
+    for label,top_left_coordinate,confidence in zip(labels,top_left_coordinates,confidences):
 
         # Convert frame to bits
         #        
-        label_dict[label].append(top_left_coordinate)
-        
-    return(label_dict)
+        label_dict[label]['Coordinates'].append(top_left_coordinate)
+        label_dict[label]['Confidences'].append(confidence)
+
+    return label_dict
 
 
 def coordinateBitmap(top_left_coordinates:list[tuple], frame_size) -> numpy.array:
 
     # Convert coords to numpy array for slicing.
     #
-    top_left_coordinates = numpy.array(top_left_coordinates)
+    top_left_coordinates = numpy.array(top_left_coordinates).astype(int)
 
     # Find the highest x and y dimensions.
     #
@@ -63,7 +60,7 @@ def coordinateBitmap(top_left_coordinates:list[tuple], frame_size) -> numpy.arra
     # Populate matrix.
     #
     for [column,row] in top_left_coordinates:
-        matrix[row,col] = 1
+        matrix[row,column] = 1
     
     return matrix
 
@@ -159,7 +156,7 @@ def resizeMatrices(matrix_1:numpy.array, matrix_2:numpy.array) -> tuple[numpy.ar
 
     # Get differences in dimensions.
     #
-    size_difference = numpy.array(m1.shape) - numpy.array(m2.shape)
+    size_difference = numpy.array(matrix_1.shape) - numpy.array(matrix_2.shape)
 
     # Resize along each axis an amount diff. 
     #
@@ -191,18 +188,18 @@ def generateHeatmap(sparse_matrixes:dict, framesize:tuple) -> numpy.array:
     
     # Iterate through all labels and coordinates.
     #
-    for label,coordinates in sparse_matrixes.items():
+    for label,coordinates_confidences in sparse_matrixes.items():
         # For each (label,coordinates) pair...
 
-        if len(coords) > 0:
+        if len(coordinates_confidences['Coordinates']) > 0:
         
             # Convert coordinates for the label to a bit matrix.
             #
-            matrix = coordinateBitmap(coordinates, framesize)
+            matrix = coordinateBitmap(coordinates_confidences['Coordinates'], framesize)
             
             # Fill in regions that are bounded on 4 sides.
             #
-            padAndFill(m)
+            padAndFill(matrix)
             
             # Resize return and label matrices so they are equal dimensions.
             #
@@ -211,7 +208,7 @@ def generateHeatmap(sparse_matrixes:dict, framesize:tuple) -> numpy.array:
             # Squash the matrices together.
             #
             label_num = label_order[label].value
-            return_matrix = numpy.maximum(super_m, m*label_num)
+            return_matrix = numpy.maximum(return_matrix, matrix*label_num)
             
             # Repeat.
             
@@ -221,7 +218,7 @@ def generateHeatmap(sparse_matrixes:dict, framesize:tuple) -> numpy.array:
 def regionPredictions(frame_decisions:list, top_left_coordinates:list[tuple],
                       frame_confidences:list, frame_size:tuple):
 
-    sparse_matrixes = generateSparseMatrixes(frame_decisions,frame_size,top_left_coordinates)
+    sparse_matrixes = generateSparseMatrixes(frame_decisions,frame_size,top_left_coordinates,frame_confidences)
 
     heatmap = generateHeatmap(sparse_matrixes,frame_size)
     
@@ -285,7 +282,9 @@ def regionPredictions(frame_decisions:list, top_left_coordinates:list[tuple],
                 my_regions[label].pop(x-i)
 
             new_patch = {}
-                
+
+            confidence = sum(sparse_matrixes[label_order(label).name]['Confidences'])/(len(sparse_matrixes[label_order(label).name]['Confidences'])+1)
+            
             # iterate through all the patches
             #
             for patch in my_regions[label]:
@@ -301,13 +300,13 @@ def regionPredictions(frame_decisions:list, top_left_coordinates:list[tuple],
                     # iterate through added the coordinates
                     #
                     for polygon in patch.geoms:
-                        extend_list = [ x + (0,) for x in polygon.exterior.coords[:]]
+                        extend_list = [ (x[0]*frame_size[0], x[1]*frame_size[1], 0) for x in polygon.exterior.coords[:]]
                         coordinates.extend(extend_list)
 
                 # if it's not a multipolygon add the coordinates
                 #
                 else:
-                    extend_list = [ x + (0,) for x in patch.exterior.coords[:]]
+                    extend_list = [ (x[0]*frame_size[0], x[1]*frame_size[1], 0) for x in patch.exterior.coords[:]]
                     coordinates.extend(extend_list)
 
                     #print("Patch = ",patch.exterior.coords[:])
@@ -317,7 +316,7 @@ def regionPredictions(frame_decisions:list, top_left_coordinates:list[tuple],
                     return_dictionary[patches_written] = { 'region_id':patches_written + 1,
                                                            'text':label_order(label).name,
                                                            'coordinates':coordinates,
-                                                           'confidence':1,
+                                                           'confidence':confidence,
                                                            'tissue_type':'breast',
                                                            'geometric_properties' : {'Length' : 0.0,
                                                                                      'Area' : 0.0,

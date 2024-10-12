@@ -30,7 +30,7 @@ def train_model(feature_files:dict=None):
     compression=int(parsed_parameters['compression'])
     write_model=int(parsed_parameters['write_model'])
     
-    run_parameters = nedc_file_tools.load_parameters(parameter_file,"run")
+    run_parameters = nedc_file_tools.load_parameters(parameter_file,"run_pipeline")
     if int(run_parameters['run']) == 1:
         output_directory = run_parameters['output_directory']
         if not (output_directory.endswith("/")):

@@ -89,10 +89,6 @@ def gen_preds(feature_files:dict=None, model=None):
                                                         feature_file['Top Left Coordinates'],
                                                         feature_file['Frame Confidences'],
                                                         feature_file['Frame Size'])
-
-        for j,x in enumerate(prediction_graph):
-            for k,y in enumerate(prediction_graph[j]['coordinates']):
-                prediction_graph[j]['coordinates'][k] =(y[0], int(feature_file['Header']['height']) - y[1],y[2])
             
 
         if write_region_decisions == 1:

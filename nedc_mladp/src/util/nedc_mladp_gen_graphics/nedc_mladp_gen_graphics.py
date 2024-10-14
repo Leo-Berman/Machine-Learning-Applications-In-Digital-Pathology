@@ -13,6 +13,7 @@ import os
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+plt.rcParams.update({'font.size':  8})
 from matplotlib.patches import Rectangle
 
 # our libraries
@@ -119,9 +120,11 @@ def main():
         
         for i,z in enumerate(reference_labeled_regions):
             x,y = geometry_tools.getBorder(z)
+
+            y = [reference_height - z for z in y]
             
             plt.plot(x,y,color = reference_labels_dictionary[reference_labels[i]])
-            plt.text(reference_coordinates[i][0][0],reference_coordinates[i][0][1],"Reference " + reference_labels[i])
+            plt.text(reference_coordinates[i][0][0],reference_height - reference_coordinates[i][0][1],'R'+reference_labels[i],color='blue',label='reference')
             
     if show_hypothesis_annotations == 1:
 
@@ -144,12 +147,18 @@ def main():
         
         for i,z in enumerate(hypothesis_labeled_regions):
             x,y = geometry_tools.getBorder(z)
-                
+
+            y = [hypothesis_height - z for z in y]
+                        
+            
             plt.plot(x,y,color = hypothesis_labels_dictionary[hypothesis_labels[i]])
-            plt.text(hypothesis_coordinates[i][0][0],hypothesis_coordinates[i][0][1],"Hypothesis " + hypothesis_labels[i])
+            plt.text(hypothesis_coordinates[i][0][0],hypothesis_height-hypothesis_coordinates[i][0][1],'H'+hypothesis_labels[i]+'\n',color='red',label='Hypothesis')
 
     if (show_hypothesis_annotations + show_reference_annotations) == 2:
         if (reference_height != hypothesis_height) or (reference_width != hypothesis_width):
+            print("(width,height)")
+            print(f"Reference = ({reference_width},{reference_height})")
+            print(f"Hypothesis = ({hypothesis_width},{hypothesis_height})")
             print("Reference and Hypothesis Sizes Don't Match")
             exit()
 
@@ -160,7 +169,7 @@ def main():
         compression = int(parsed_parameters['compression'])
         image_file = parsed_parameters['image_file']
         background_path = output_directory + 'Background.jpg'
-        #svsToJpg(image_file,background_path,compression)
+        svsToJpg(image_file,background_path,compression)
         
 
         # Plot the background image
@@ -175,6 +184,11 @@ def main():
         frame_height =  int(parsed_parameters['frame_height'])
         frame_size = (frame_width,frame_height)
         plotFrames(image_file,frame_size)
+
+    
+
+    plt.text(0,reference_height,'reference' ,color='blue')
+    plt.text(0,reference_height,'hyopthesis\n' ,color='red')
 
     # save the image
     #

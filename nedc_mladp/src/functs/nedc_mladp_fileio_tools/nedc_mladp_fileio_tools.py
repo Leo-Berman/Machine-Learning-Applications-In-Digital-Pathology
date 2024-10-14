@@ -61,8 +61,7 @@ def parseAnnotations(file):
 
         # switch from x y to row column
         #
-        tmp = [[x[0],int(header['height'])-x[1],x[2]] for x in data[i]['coordinates']]
-        coords.append(tmp)
+        coords.append(data[i]['coordinates'])
         #coords.append(data[i]['coordinates'])
 
 

@@ -80,8 +80,8 @@ def windowRGBValues(image_file:str, frame_top_left_coordinates:list,
     # read all of the windows into memory
     #
     windows = image_reader.read_data_multithread(frame_top_left_coordinates,
-                                                 npixy = window_size[0],
-                                                 npixx = window_size[1],
+                                                 npixy = window_size[1],
+                                                 npixx = window_size[0],
                                                  color_mode="RGB")
     
     # return list of lists of rgba values

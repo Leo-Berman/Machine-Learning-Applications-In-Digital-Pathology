@@ -19,16 +19,18 @@ import joblib
 
 def gen_feats():
 
-    # set argument parsing
-    #
+    # Set command line arguments and get name of parameter file
     args_usage = "nedc_mladp_gen_feats.usage"
     args_help = "nedc_mladp_gen_feats.help"
     parameter_file = fileio_tools.parseArguments(args_usage,args_help)
 
-    # parse parameters
-    #
+    # parse the parameter file
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
+
+    # check to see if features are to be written
     write_features=int(parsed_parameters['write_features'])
+
+    # Parse parameters for generating features
     window_region_overlap_threshold = float(parsed_parameters['window_region_overlap_threshold'])
     window_width = int(parsed_parameters['window_width'])
     window_height = int(parsed_parameters['window_height'])
@@ -37,7 +39,7 @@ def gen_feats():
     frame_height =  int(parsed_parameters['frame_height'])
     frame_size = (frame_width,frame_height)
     
-    
+    # Check if the program is being run from the top
     run_parameters = nedc_file_tools.load_parameters(parameter_file,"run_pipeline")
     if int(run_parameters['run']) == 1:
         output_directory = run_parameters['output_directory']
@@ -51,31 +53,40 @@ def gen_feats():
         if not (output_directory.endswith("/")):
             output_directory += "/"
     
-    # read list of files
-    #
+    # read list of files into memory
     image_files_list = fileio_tools.readLines(parsed_parameters['image_files_list'])
     annotation_files_list = fileio_tools.readLines(parsed_parameters['annotation_files_list'])
 
-    print(f"Parameter file {parameter_file} Parsed Successfully\n")
 
+    # update user
+    print(f"\nParameter file {parameter_file} Parsed Successfully\n")
+
+    # create output directory
     os.makedirs(output_directory,exist_ok=True)
+
+    # update user
+    print(f"Output directory {output_directory} successfully created\n")
     
-    finished_files = []
+    # If PCA exists load it, otherwise initialize it with given parameters
     if existing_PCA == 0:
         PCA_components = int(parsed_parameters['PCA_components'])
         PCA_compression = int(parsed_parameters['PCA_compression'])
         PCA = sklearn.decomposition.IncrementalPCA(n_components=PCA_components)
+        print(f"PCA Successfully Initialized\n")
     else:
         PCA_path = parsed_parameters['PCA_path']
         PCA = joblib.load(PCA_path)
+        print(f"PCA {PCA_path}Successfully Loaded")
 
-    original_files_written = []
-    feature_files_written = []
-
-    DCTs_for_PCA = []
-    total_windows_PCA_trained_on = 0
+    # Create variables to hold information
+    finished_files = [] # Dictionaries holding information for next step
+    original_files_written = [] # List of original files used
+    feature_files_written = [] # List of features files written
+    DCTs_for_PCA = [] # List to hold DCTs for the PCA to train on
+    total_windows_PCA_trained_on = 0 # Total number of windows PCA has processed
     
-    # iterate through and create a feature vector file for each file
+    # iterate through image files and annotation files and create a dictionary
+    # to hold information for each set of files
     #
     for i,image_file,annotation_file in zip(range(len(image_files_list)),
                                             image_files_list,
@@ -129,7 +140,11 @@ def gen_feats():
             
             finished_files.append(append_dictionary)
 
-            print(f"{header['bname']} DCT Succeeded\n")
+            feature_files_written.append(output_directory + header['bname'] + "_FEATS.csv")
+            original_files_written.append(annotation_file)
+
+            
+            print(f"{header['bname']} DCT Succeeded")
 
             if existing_PCA == 0:
                 DCTs_for_PCA.extend(window_DCTs)
@@ -151,7 +166,9 @@ def gen_feats():
 
     if existing_PCA == 0:
         joblib.dump(PCA,output_directory+"PCA.joblib",compress=PCA_compression)
-            
+        print(f"PCA {output_directory+'PCA.joblib'} successfully written")
+
+    # create feature files schema
     features_header = []
     for i in range(PCA.n_components):
         features_header.append(f"PCA_From_DCT_Feature{i}")
@@ -161,17 +178,9 @@ def gen_feats():
 
             print(f"File {i+1} of {len(finished_files)} Processing PCA")
 
-
-            
             finished_file['PCs'] = PCA.transform(finished_file['DCTs'])
-
-
             
             del finished_file['DCTs']
-
-
-
-
             
             if write_features == 1:
 
@@ -197,10 +206,8 @@ def gen_feats():
                     
                     dataframe.to_csv(f, index=False, header = True)
 
-                original_files_written.append(finished_file['Annotation File'])
-                feature_files_written.append(file_path)
-
-                print("Write Succeeded")
+            
+                print(f"File {i+1} of {len(finished_files)} Write Succeeded")
 
             print(f"{finished_file['Header']['bname']} PCA Succeeded\n")
             
@@ -209,10 +216,12 @@ def gen_feats():
             
     with open(output_directory +"original_annotations.list",'w') as f:
         f.writelines(line + '\n' for line in original_files_written)
+        print(f"Original list of annotation files {output_directory + 'original_annotations.list'} written")
 
     if write_features == 1:
         with open(output_directory +"feature_files.list",'w') as f:
             f.writelines(line + '\n' for line in feature_files_written)
+        print(f"Generated list of feature files {output_directory+'feature_files.list'} written")
 
     return finished_files
         

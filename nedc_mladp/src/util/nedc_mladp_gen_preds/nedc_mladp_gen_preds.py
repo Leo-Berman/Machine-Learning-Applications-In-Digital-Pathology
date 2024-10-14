@@ -55,11 +55,11 @@ def gen_preds(feature_files:dict=None, model=None):
                 header_info[key]=value
             dataframe = pandas.DataFrame(lines[1:],columns=lines[0])
             labels = dataframe['Label'].to_list()
-            top_left_coordinates = list(zip(dataframe['TopLeftRow'].to_list(),dataframe['TopLeftColumn'].to_list()))
+            top_left_coordinates = list(zip(dataframe['TopLeftColumn'].to_list(),dataframe['TopLeftRow'].to_list()))
             annotation_reader = nedc_dpath_ann_tools.AnnDpath()
             annotation_reader.load(original_file)
             header = annotation_reader.get_header()
-            dataframe = dataframe.drop(['Label','TopLeftRow','TopLeftColumn'], axis=1)
+            dataframe = dataframe.drop(['Label','TopLeftColumn','TopLeftRow'], axis=1)
             PCs = dataframe.to_numpy()
             
             append_dictionary = { 'Frame Decisions':labels,
@@ -94,7 +94,6 @@ def gen_preds(feature_files:dict=None, model=None):
         if write_region_decisions == 1:
             annotation_writer = nedc_dpath_ann_tools.AnnDpath()
             annotation_writer.set_type("csv")
-            #annotation_writer.set_type("xml")
             annotation_writer.set_header(feature_file['Header'])
             annotation_writer.set_graph(prediction_graph)
             output_filepath = regions_output_directory+feature_file['Header']['bname']+"_REGIONDECISIONS.csv"
@@ -108,6 +107,6 @@ def gen_preds(feature_files:dict=None, model=None):
             f.writelines(region_decision_files)
         with open(output_directory+'regions/original_annotation_files.list','w') as f:
             f.writelines([file +'\n' for file in original_files_list])
-            
+
 if __name__ == "__main__":
     gen_preds()

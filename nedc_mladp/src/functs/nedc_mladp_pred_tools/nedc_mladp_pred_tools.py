@@ -233,8 +233,8 @@ def regionPredictions(frame_decisions:list, top_left_coordinates:list[tuple],
 
     # iterate through the numpy array
     #
-    for y,row in enumerate(heatmap):
-        for x,point in enumerate(row):
+    for x,row in enumerate(heatmap):
+        for y,point in enumerate(row):
 
             # and append to the proper list
             #

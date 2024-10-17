@@ -1,1 +1,4 @@
-./gen_feats -p <parameter file>
+
+Usage:
+	./nedc_mladp_gen_feats.py -p <parameter file>
+

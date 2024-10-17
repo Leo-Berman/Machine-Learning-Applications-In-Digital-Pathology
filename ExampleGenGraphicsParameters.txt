@@ -1,8 +1,3 @@
-Usage:
-        ./nedc_mladp+gen_graphics.py -p <parameter file>
-
-Parameter File:
-
 # version=param_v1.0.0
 
 gen_graphics{
@@ -28,11 +23,10 @@ gen_graphics{
 	compression=40
 
 	# show frames on top of image
-	show_frames=1
+	show_frames=0
 
 	# 1 if showing annotations 0 if not
 	show_reference_annotations=1
 	show_hypothesis_annotations=1
 
 }
-

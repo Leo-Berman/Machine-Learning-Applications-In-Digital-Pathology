@@ -1,0 +1,3 @@
+Usage:
+	./nedc_mladp_train.py -p <parameter_file>
+

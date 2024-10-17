@@ -3,15 +3,13 @@
 
 # define source and object files
 #
-SRC = nedc_mladp_run.sh
-BFILE := $(basename $(SRC))
+SRC = nedc_mladp_run.py
 
 # define an installation target
 #
 install:
-	
-	cp -f $(SRC) $(MLADP)/nedc_mladp/bin/$(BFILE)
-	cd $(MLADP)/nedc_mladp/bin; chmod u+rwx,g+rwx,o+rw $(BFILE)
+	cp -f $(SRC) $(MLADP)/nedc_mladp/bin/$(SRC)
+	cd $(MLADP)/nedc_mladp/bin; chmod u+rwx,g+rwx,o+rw $(SRC)
 
 #
 # end of file

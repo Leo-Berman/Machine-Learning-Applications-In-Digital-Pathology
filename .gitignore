@@ -4,7 +4,10 @@
 *.pyo
 *.csv
 *.joblib
+*.list
+*.xml
 /Archive
+/nedc_mladp/data
 /nedc_mladp/lib
 /nedc_mladp/bin
 /VENV

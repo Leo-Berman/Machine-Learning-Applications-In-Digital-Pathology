@@ -15,15 +15,6 @@
 
 % all driver functions must import project-specific library nedc_mladp_fileio_tools
 
-% only function in driver functions should be main() and it should be protected by:
-  if __name__ == "__main__":
-     main()
-
-% all driver function should have a few line blurb before explaining what it does, ex:
-"""
-This driver functions generates features from svs files...
-"""
-
 % all driver programs should start by parsing the parameter file from the command line and parsing ALL other arguments from the parameter file:
   # set argument parsing
   #
@@ -42,33 +33,3 @@ This driver functions generates features from svs files...
   directory_example = parsed_parameters['directory_example']
   if not directory_example.endswith("/"):
      directory_example += "/"
-
-% when writing files check if there is a file there, if so delete and open as appending file
-
-  # Check if file exists and if it does delete it
-  #
-  if os.path.exists(write_path):
-     os.remove(write_path)
-
-  # open the file to append and write to it
-  #
-  with open('example.txt', 'a') as file:
-     file.write('example text')
-
-%% All other functions
-
-% Only return one item, if multiple applicable items, contain within list
-
-% begin with block quote that outlines input parameters and what will be returned in detail
-
-"""
-Parameters:
-    Param1 % type % brief explanation
-    Param2 % type % brief explanation
-
-Return:
-    Return % type % brief explanation
-    % if list
-    index1 % type % brief explanation
-    index2 % type % brief explanation
-"""

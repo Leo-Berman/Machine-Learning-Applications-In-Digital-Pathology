@@ -1,10 +1,5 @@
-Usage:
-        ./nedc_mladp_run.py -p <Parameter file>
-
-Parameter File:
-
 # version=param_v1.0.0
-
+0;115;0c
 run_pipeline{
 
 	# Set to 1 to execute the whole pipeline
@@ -17,22 +12,22 @@ run_pipeline{
 gen_feats{
 
         # Set window and frame width and height
-        window_width=500
-        window_height=500
-        frame_width=250
-        frame_height=250
+        window_width=1000
+        window_height=1000
+        frame_width=500
+        frame_height=500
 
         # Set to a txt file where each new line is the absolute path to a svs file
-        image_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/example_images.list"
+        image_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/ExampleImages.list"
 
         # Set to a txt file where each new line is the absolute path to the corresponding xml file of the svs files above
-        annotation_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/example_annotations.list"
+        annotation_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/ExampleAnnotations.list"
 
         # 1 to write feature files 0 to not write features
         write_features=1
 
         # Set minimum amount windows must overlap with a annotated region before they are considered a labelled frame
-        window_region_overlap_threshold=.5
+        window_region_overlap_threshold=.05
 
 
         ## Begin of if fitting PCA

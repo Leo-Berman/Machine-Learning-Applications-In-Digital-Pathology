@@ -13,26 +13,20 @@ import torch.optim as optim
 
 # Local tools
 from nedc_mladp_ann_tools import label_order
-from nedc_cnn_tools import random_data
+import nedc_cnn_tools as tools
+# import nedc_mladp_cnn_class
 
-def model_CNN(data,labels):
+def trainModel(data,labels):
     transform = transforms.Compose(
         [transforms.ToTensor(),
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-    data,labels = random_data(5)
+    # Random data and labels for testing.
+    # data,labels = tools.randomData(5)
 
-    # Convert the list of labels as a list of digits with label order.
+    # Convert the labels and features to the correct types
     #
-    # i = 0
-    # for l in labels:
-    #     labels[i] = label_order[l].value
-    #     i += 1
-        
-    # Convert the numpy types to numbers
-    #
-    data = data.astype(float)
-    labels = labels.astype(int)
+    labels = tools.correctType(data,labels)
 
     # Load the extracted features into a 3 dimensional tensor.
     #

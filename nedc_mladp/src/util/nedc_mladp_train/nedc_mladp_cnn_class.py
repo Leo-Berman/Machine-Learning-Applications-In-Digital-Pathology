@@ -29,7 +29,7 @@ import torch.utils as utils
 
 # import NEDC support modules
 #
-from nedc_dpath_image import ImagesList
+# from nedc_dpath_image import ImagesList
 
 #------------------------------------------------------------------------------
 #
@@ -47,9 +47,9 @@ DEF_MODEL_FNAME = "model.pckl"
 #
 #------------------------------------------------------------------------------
 
-class DpathTrain:
+class MladpTrainCNN:
     """
-    class: DpathTrain
+    class: MladpTrainCNN
 
     arguments:
      fname: the name of the csv file. the first column should be labels and the

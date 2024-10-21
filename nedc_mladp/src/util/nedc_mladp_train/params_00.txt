@@ -12,8 +12,9 @@ gen_feats{
 
 train_model{
     model_type="CNN"
-    data_list="/data/isip/exp/tuh_dpath/exp_0280/September_10_2024/features_output/dcts.list"
+    data_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_output/features/feature_files.list"
     model_output_path="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAINED_MODELS/"
+    input_direction=1
     compression=0
 }
 

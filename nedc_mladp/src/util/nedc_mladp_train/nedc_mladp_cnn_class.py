@@ -62,11 +62,14 @@ class MladpTrainCNN:
     """
 
     def __init__(self, train_list, dev_list, nsamples_per_class,
-                 train_transforms, dev_transforms, device):
+                 train_transforms, dev_transforms, device, feats_data=None, feats_labels=None):
         """
         method: DPathTrain::constructor
 
         arguments:
+         data_features: numpy array of features (float)
+         data_labels: numpy array of labels as digits (int)
+
          train_list: the file names in train dataset
          dev_list: the fiile names in dev dataset
          nsamples_per_class: the maximum number of samples tjat in training will
@@ -82,59 +85,79 @@ class MladpTrainCNN:
          this method will initialize the training object
         """
 
-        self.train_dataset = ImagesList(train_list)
-        self.train_subdataset = None
-
-        # if dev_list file is empty, replace it with train_list
-        #
-        if len(ImagesList(dev_list)) == 0:
-            dev_list = train_list
-        self.dev_dataset = ImagesList(dev_list)
-        self.nsamples_per_class = nsamples_per_class
-        self.device = device
-
-        # Reduce the number of samples in train
-        #
-        (class_names, train_nsamples, train_subdataset,
-         train_nsamples_subdataset) = \
-             self.select_samples(self.train_dataset, nsamples_per_class[TRAIN])
+        # Train the model with features initially (1:on, 0:off)
+        train_with_features = 0
         
-        # reduce the number of samples in dev
+        # Build the initial model with these features
         #
-        (_, dev_nsamples, dev_subdataset,dev_nsamples_subdataset) = \
-             self.select_samples(self.dev_dataset, nsamples_per_class[DEV])
+        if feats_data and feats_labels:
+            train_with_features = 1
+
+        # Train with features
+        if train_with_features == 1:
+            self.data = feats_data
+            self.labels = feats_labels
+            
+            features_tensor = torch.tensor(self.data, dtype=torch.float32)
+            labels_tensor = torch.tensor(self.labels, dtype=torch.long)
+            feats_dataset = utils.TensorDataset(features_tensor,labels_tensor)
         
-        # set remaining class data
+        # Train with original dataset
         #
-        self.class_names = class_names
-        self.train_nsamples = train_nsamples
-        self.train_subdataset = train_subdataset
-        self.train_nsamples_subdataset = train_nsamples_subdataset
-        self.dev_nsamples = dev_nsamples
-        self.dev_subdataset = dev_subdataset
-        self.dev_nsamples_subdataset = dev_nsamples_subdataset
+        # if train_with_features == 0:
+        #     self.train_dataset = ImagesList(train_list) # creates object train_dataset
+        #     self.train_subdataset = None
 
-        # Introducing the transforms
-        #
-        # assign appropriate transforms
-        #
-        if hasattr(self.train_subdataset.dataset, 'transform'):
-            self.train_subdataset.dataset.transform = train_transforms
-        else:
-            self.train_subdataset.dataset.dataset.transform = train_transforms
-        if hasattr(self.dev_subdataset.dataset, 'transform'):
-            self.dev_subdataset.dataset.transform = dev_transforms
-        else:
-            self.dev_subdataset.dataset.dataset.transform = dev_transforms
+        #     if dev_list file is empty, replace it with train_list
+            
+        #     if len(ImagesList(dev_list)) == 0:
+        #         dev_list = train_list
+        #     self.dev_dataset = ImagesList(dev_list)
+        #     self.nsamples_per_class = nsamples_per_class
+        #     self.device = device
 
-        # defining weights
-        #
-        train_weights = (max(self.train_nsamples_subdataset) /
-                         torch.Tensor(self.train_nsamples_subdataset))
-        self.train_weights = train_weights / train_weights.sum()
-        dev_weights = (max(self.dev_nsamples_subdataset) /
-                         torch.Tensor(self.dev_nsamples_subdataset))
-        self.dev_weights = dev_weights / dev_weights.sum()
+        #     # Reduce the number of samples in train
+        #     #
+        #     (class_names, train_nsamples, train_subdataset,
+        #     train_nsamples_subdataset) = \
+        #         self.select_samples(self.train_dataset, nsamples_per_class[TRAIN])
+            
+        #     # reduce the number of samples in dev
+        #     #
+        #     (_, dev_nsamples, dev_subdataset,dev_nsamples_subdataset) = \
+        #         self.select_samples(self.dev_dataset, nsamples_per_class[DEV])
+            
+        #     # set remaining class data
+        #     #
+        #     self.class_names = class_names
+        #     self.train_nsamples = train_nsamples
+        #     self.train_subdataset = train_subdataset
+        #     self.train_nsamples_subdataset = train_nsamples_subdataset
+        #     self.dev_nsamples = dev_nsamples
+        #     self.dev_subdataset = dev_subdataset
+        #     self.dev_nsamples_subdataset = dev_nsamples_subdataset
+
+        #     # Introducing the transforms
+        #     #
+        #     # assign appropriate transforms
+        #     #
+        #     if hasattr(self.train_subdataset.dataset, 'transform'):
+        #         self.train_subdataset.dataset.transform = train_transforms
+        #     else:
+        #         self.train_subdataset.dataset.dataset.transform = train_transforms
+        #     if hasattr(self.dev_subdataset.dataset, 'transform'):
+        #         self.dev_subdataset.dataset.transform = dev_transforms
+        #     else:
+        #         self.dev_subdataset.dataset.dataset.transform = dev_transforms
+
+        #     # defining weights
+        #     #
+        #     train_weights = (max(self.train_nsamples_subdataset) /
+        #                     torch.Tensor(self.train_nsamples_subdataset))
+        #     self.train_weights = train_weights / train_weights.sum()
+        #     dev_weights = (max(self.dev_nsamples_subdataset) /
+        #                     torch.Tensor(self.dev_nsamples_subdataset))
+        #     self.dev_weights = dev_weights / dev_weights.sum()
     #
     # end of method
         

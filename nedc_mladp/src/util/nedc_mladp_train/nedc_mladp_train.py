@@ -18,6 +18,10 @@ import nedc_model_cnn as cnn
 # import NEDC libraries
 import nedc_file_tools
 
+import sys
+sys.path.append('/home/tul16619/SD1/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/src/functs/nedc_mladp_model_tools')
+import nedc_mladp_model_tools as model_tools
+
 def main():
 
     # set argument parsing
@@ -34,6 +38,7 @@ def main():
     output_model_directory=parsed_parameters['model_output_path']
     if not (output_model_directory.endswith('/')):
         output_model_directory=output_model_directory + "/"
+    input_type=int(parsed_parameters['input_direction'])
     # compression=int(parsed_parameters['compression'])
     # even_data = int(parsed_parameters['even_data'])
     
@@ -42,20 +47,17 @@ def main():
     if run_params['run']==1:
         feature_data_list=run_params['output_list']
     
-    # set the list of datapoints to all the files within that directory
+    # parse the feature files and combine the data
     #
     train_list = fileio_tools.read_file_lists(feature_data_list)
+    totaldata = model_tools.parsePCA(train_list) # for PCA features
 
-    # parse the annotations
+    # split the data
     #
-    filesdata = fileio_tools.read_feature_files(train_list)
-
-    totaldata = numpy.vstack(filesdata)
-
     labels = totaldata[:,0]
-    mydata = totaldata[:,4:]
+    data = totaldata[:,1:]
     
-        
+
     
     # If even data is set than normalize the number of labels
     # if even_data == 1:
@@ -67,7 +69,7 @@ def main():
     if model_type == "RNF":
         model = RNF()
     elif model_type == "CNN":
-        cnn.model_CNN(mydata,labels)
+        cnn.trainModel(data,labels)
     else:
         print("No model supplied")
         return

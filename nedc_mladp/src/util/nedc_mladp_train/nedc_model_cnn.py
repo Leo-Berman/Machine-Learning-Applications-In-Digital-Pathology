@@ -1,6 +1,6 @@
-#!/usr/bin/env python
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
 # Torch library and modules
 import torch
@@ -13,28 +13,17 @@ import torch.optim as optim
 
 # Local tools
 from nedc_mladp_ann_tools import label_order
-import nedc_cnn_tools as tools
-# import nedc_mladp_cnn_class
+from nedc_mladp_cnn_class import MladpTrainCNN
+sys.path.append('/home/tul16619/SD1/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/src/functs/nedc_mladp_model_tools')
+import nedc_mladp_model_tools as tools
 
 def trainModel(data,labels):
-    transform = transforms.Compose(
-        [transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-
-    # Random data and labels for testing.
-    # data,labels = tools.randomData(5)
 
     # Convert the labels and features to the correct types
-    #
     labels = tools.correctType(data,labels)
 
-    # Load the extracted features into a 3 dimensional tensor.
-    #
-    features_tensor = torch.tensor(data, dtype=torch.float32)
-
-    # Load the labels into a 2 dimensional tensor.
-    #
-    labels_tensor = torch.tensor(labels, dtype=torch.long)
+    # Create training model object
+    my_model = MladpTrainCNN(data_features=data, data_labels=labels)
 
     # Reshape the tensor -- # Shape: [num_frames, 4 (channels), width, height]
     #
@@ -44,7 +33,7 @@ def trainModel(data,labels):
 
     # Create the Dataset
     #
-    dataset = TensorDataset(features_tensor,labels_tensor)
+    
 
     # Create a DataLoader (batch size 1 for now)
     #

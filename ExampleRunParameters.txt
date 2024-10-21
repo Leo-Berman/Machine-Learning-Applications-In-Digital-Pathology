@@ -6,7 +6,7 @@ run_pipeline{
 	run=1
 
 	# This is where everything will output
-	output_directory="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_output"
+	output_directory="/data/isip/exp/tuh_dpath/exp_0286/ML_App/branch_45_updated/nedc_mladp/test/example_output"
 }
 
 gen_feats{

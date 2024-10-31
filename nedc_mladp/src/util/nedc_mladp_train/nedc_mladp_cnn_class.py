@@ -61,8 +61,8 @@ class MladpTrainCNN:
      must be modified   
     """
 
-    def __init__(self, train_list, dev_list, nsamples_per_class,
-                 train_transforms, dev_transforms, device, feats_data=None, feats_labels=None):
+    def __init__(self, train_data, train_labels, eval_data, eval_labels, nsamples_per_class,
+                 train_transforms, dev_transforms, device):
         """
         method: DPathTrain::constructor
 
@@ -82,156 +82,89 @@ class MladpTrainCNN:
          None
 
         description:
-         this method will initialize the training object
+         this method will initialize the training object and set up two data loaders.
+         
+        goal: model.train(train_data, train_labels, eval_data, eval_labels)
         """
 
-        # Train the model with features initially (1:on, 0:off)
-        train_with_features = 0
+        # define the class data
+        #        
+        self.train_data = train_data
+        self.train_labels = train_labels
+
+        # if eval data is not provided, use train data
+        #
+        if eval_data is None:
+            self.eval_data = train_data
+            self.eval_labels = train_labels
+        else:
+            self.eval_data = eval_data
+            self.eval_labels = eval_labels
+
+        # self.nsamples_per_class = nsamples_per_class
+        # self.device = device
+
+        # create the data loaders for train and evaluation
+        #
+        train_feats_tensor = torch.tensor(self.train_data, dtype=torch.float32)
+        train_label_tensor = torch.tensor(self.train_labels, dtype=torch.long)
+        train_dataset = utils.TensorDataset(train_feats_tensor,train_label_tensor)
+
+        eval_feats_tensor = torch.tensor(self.eval_data, dtype=torch.float32)
+        eval_label_tensor = torch.tensor(self.eval_labels, dtype=torch.long)
+        eval_dataset = utils.TensorDataset(eval_feats_tensor,eval_label_tensor)
+
+        print("feats tensor:\n", train_feats_tensor)
+        print("label tensor:\n", train_label_tensor)
+        print("dataset:\n", train_dataset)
+
+        exit(100)
         
-        # Build the initial model with these features
-        #
-        if feats_data and feats_labels:
-            train_with_features = 1
+        #------------------ rest was not written by yuan-------------------------
 
-        # Train with features
-        if train_with_features == 1:
-            self.data = feats_data
-            self.labels = feats_labels
-            
-            features_tensor = torch.tensor(self.data, dtype=torch.float32)
-            labels_tensor = torch.tensor(self.labels, dtype=torch.long)
-            feats_dataset = utils.TensorDataset(features_tensor,labels_tensor)
+        # Reduce the number of samples in train
+        # 
+        (class_names, train_nsamples, train_subdataset,
+        train_nsamples_subdataset) = \
+            self.select_samples(self.train_dataset, nsamples_per_class[TRAIN])
         
-        # Train with original dataset
+        # reduce the number of samples in dev
         #
-        # if train_with_features == 0:
-        #     self.train_dataset = ImagesList(train_list) # creates object train_dataset
-        #     self.train_subdataset = None
-
-        #     if dev_list file is empty, replace it with train_list
+        (_, dev_nsamples, dev_subdataset,dev_nsamples_subdataset) = \
+            self.select_samples(self.dev_dataset, nsamples_per_class[DEV])
             
-        #     if len(ImagesList(dev_list)) == 0:
-        #         dev_list = train_list
-        #     self.dev_dataset = ImagesList(dev_list)
-        #     self.nsamples_per_class = nsamples_per_class
-        #     self.device = device
-
-        #     # Reduce the number of samples in train
-        #     #
-        #     (class_names, train_nsamples, train_subdataset,
-        #     train_nsamples_subdataset) = \
-        #         self.select_samples(self.train_dataset, nsamples_per_class[TRAIN])
-            
-        #     # reduce the number of samples in dev
-        #     #
-        #     (_, dev_nsamples, dev_subdataset,dev_nsamples_subdataset) = \
-        #         self.select_samples(self.dev_dataset, nsamples_per_class[DEV])
-            
-        #     # set remaining class data
-        #     #
-        #     self.class_names = class_names
-        #     self.train_nsamples = train_nsamples
-        #     self.train_subdataset = train_subdataset
-        #     self.train_nsamples_subdataset = train_nsamples_subdataset
-        #     self.dev_nsamples = dev_nsamples
-        #     self.dev_subdataset = dev_subdataset
-        #     self.dev_nsamples_subdataset = dev_nsamples_subdataset
-
-        #     # Introducing the transforms
-        #     #
-        #     # assign appropriate transforms
-        #     #
-        #     if hasattr(self.train_subdataset.dataset, 'transform'):
-        #         self.train_subdataset.dataset.transform = train_transforms
-        #     else:
-        #         self.train_subdataset.dataset.dataset.transform = train_transforms
-        #     if hasattr(self.dev_subdataset.dataset, 'transform'):
-        #         self.dev_subdataset.dataset.transform = dev_transforms
-        #     else:
-        #         self.dev_subdataset.dataset.dataset.transform = dev_transforms
-
-        #     # defining weights
-        #     #
-        #     train_weights = (max(self.train_nsamples_subdataset) /
-        #                     torch.Tensor(self.train_nsamples_subdataset))
-        #     self.train_weights = train_weights / train_weights.sum()
-        #     dev_weights = (max(self.dev_nsamples_subdataset) /
-        #                     torch.Tensor(self.dev_nsamples_subdataset))
-        #     self.dev_weights = dev_weights / dev_weights.sum()
-    #
-    # end of method
-        
-    def select_samples(self, dataset, nsamples_per_class):
-        """
-        method: DpathTrain::select_samples
-
-        arguments:
-         dataset: a PyTorch dataset
-         nsamples_per_class: number of samples per class
-
-        return:
-         class_names: a list containing class names
-         nsamples: total number of samples
-         subdataset: the selected subset of dataset
-         nsamples_subdataset: number of samples in the selected subset
-
-        description:
-         this method reduces the number of samples in each class to at most
-         the specified n_samples
-        """
-
-        # the number of classes
+        # set remaining class data
         #
-        class_names = dataset.classes
-        nclasses = len(class_names)
-        print("nclass:", nclasses)
+        self.class_names = class_names
+        self.train_nsamples = train_nsamples
+        self.train_subdataset = train_subdataset
+        self.train_nsamples_subdataset = train_nsamples_subdataset
+        self.dev_nsamples = dev_nsamples
+        self.dev_subdataset = dev_subdataset
+        self.dev_nsamples_subdataset = dev_nsamples_subdataset
 
-        # Compute the number of samples in each class
+        # Introducing the transforms
         #
-        nsamples = [np.sum(np.array(dataset.targets) == c)
-                    for c in range(nclasses)]
+        # assign appropriate transforms
+        #
+        if hasattr(self.train_subdataset.dataset, 'transform'):
+            self.train_subdataset.dataset.transform = train_transforms
+        else:
+            self.train_subdataset.dataset.dataset.transform = train_transforms
+        if hasattr(self.dev_subdataset.dataset, 'transform'):
+            self.dev_subdataset.dataset.transform = dev_transforms
+        else:
+            self.dev_subdataset.dataset.dataset.transform = dev_transforms
 
-        # find the samples in each class
+        # defining weights
         #
-        csum = np.cumsum(nsamples)
-        isamples = {class_names[c]: csum[c] for c in range(len(csum))}
-
-        # check if it is possible to have equal share of each class in
-        # subdataset, therefore compute number of samples in each
-        # subdataset's class.
-        #
-        nsamples_subdataset = [min(nsamples_per_class, c)
-                               for c in nsamples]
-        selected_samples_indices = np.zeros(np.sum(np.int64(
-            nsamples_subdataset)), dtype=np.uint)
-
-        # generate unique random numbers between min and max of each
-        # class indices
-        #
-        min_index = 0
-        last_isamples = 0
-        for ccounter, cname in enumerate(isamples):
-            selected_samples_indices[
-                min_index:min_index+nsamples_subdataset[ccounter]] = \
-                    np.random.choice(np.arange(last_isamples, isamples[cname],
-                                               dtype=np.uint),
-                                     nsamples_subdataset[ccounter],
-                                     replace=False)
-            min_index += nsamples_subdataset[ccounter]
-            last_isamples = isamples[cname]
-
-        # Generate a small subset of main dataset, each class has the
-        # same number of samples. If one class doesn't have enough
-        # number of samples, all of them will be used. Therefore,
-        # the number of samples in each class will not be even.
-        #
-        subdataset = utils.data.Subset(dataset,
-                                       selected_samples_indices)
-        
-        # exit gracefully
-        #
-        return class_names, nsamples, subdataset, nsamples_subdataset
-    #
+        train_weights = (max(self.train_nsamples_subdataset) /
+                        torch.Tensor(self.train_nsamples_subdataset))
+        self.train_weights = train_weights / train_weights.sum()
+        dev_weights = (max(self.dev_nsamples_subdataset) /
+                        torch.Tensor(self.dev_nsamples_subdataset))
+        self.dev_weights = dev_weights / dev_weights.sum()
+    
     # end of method
 
     def train(self, initial_model, batch_size, num_epochs, nworkers,
@@ -253,14 +186,18 @@ class MladpTrainCNN:
          this method trains a model using the ResNet pretrained model
         """
 
+        if self.train_subdataset and self.eval_subdataset:
+            self.train_dataset = self.train_subdataset
+            self.eval_dataset = self.eval_subdataset
+
         # making dataloader for dev and train sets
         #
         self.train_dataloader = \
-            torch.utils.data.DataLoader(self.train_subdataset,
+            utils.data.DataLoader(self.train_dataset,
                                         batch_size, shuffle=True,
                                         num_workers=nworkers)
-        self.dev_dataloader = \
-            torch.utils.data.DataLoader(self.dev_subdataset,
+        self.eval_dataloader = \
+            utils.data.DataLoader(self.eval_dataset,
                                         batch_size, shuffle=False,
                                         num_workers=nworkers)
         

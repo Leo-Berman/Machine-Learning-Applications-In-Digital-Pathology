@@ -30,6 +30,12 @@ def load_data(filelist):
     feats_tensor = torch.tensor(data, dtype=torch.float32)
     label_tensor = torch.tensor(labels, dtype=torch.long)
 
+    # np.save('feats.npy', feats_tensor)
+    # np.save('labels.npy', label_tensor)
+
+    print(np.shape(feats_tensor))
+    print(np.shape(label_tensor))
+
     # dataset = utils.data.TensorDataset(feats_tensor,label_tensor)
     # dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
 
@@ -44,7 +50,7 @@ def load_data(filelist):
     model.maxpool = nn.Identity()
 
     # Verify the change
-    print(model)
+    # print(model)
 
     # Adjust your data to match the required input shape
     # Example dummy data

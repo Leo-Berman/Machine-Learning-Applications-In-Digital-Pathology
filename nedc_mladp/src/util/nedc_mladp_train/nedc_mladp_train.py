@@ -13,7 +13,6 @@ import numpy
 # import project specific libraries
 import nedc_mladp_fileio_tools as fileio_tools
 import nedc_mladp_feats_tools as feats_tools
-import nedc_model_cnn as cnn
 
 # import NEDC libraries
 import nedc_file_tools
@@ -21,6 +20,7 @@ import nedc_file_tools
 import sys
 sys.path.append('/home/tul16619/SD1/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/src/functs/nedc_mladp_model_tools')
 import nedc_mladp_model_tools as model_tools
+from nedc_mladp_train_model import modelCNN
 
 def main():
 
@@ -36,32 +36,15 @@ def main():
     model_type=parsed_parameters['model_type']
     feature_data_list=parsed_parameters['data_list']
     output_model_directory=parsed_parameters['model_output_path']
-    if not (output_model_directory.endswith('/')):
-        output_model_directory=output_model_directory + "/"
-    input_type=int(parsed_parameters['input_direction'])
-    # compression=int(parsed_parameters['compression'])
-    # even_data = int(parsed_parameters['even_data'])
+    batch_size = int(parsed_parameters['batch_size'])
+    num_epochs = int(parsed_parameters['num_epochs'])
+    # if not (output_model_directory.endswith('/')):
+    #     output_model_directory=output_model_directory + "/"
     
     # If run parameter is set high then get the feature data list from gen feats
-    run_params = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
-    if run_params['run']==1:
-        feature_data_list=run_params['output_list']
-    
-    # parse the feature files and combine the data
-    #
-    train_list = fileio_tools.read_file_lists(feature_data_list)
-    totaldata = model_tools.parsePCA(train_list) # for PCA features
-
-    # split the data
-    #
-    labels = totaldata[:,0]
-    data = totaldata[:,1:]
-    
-
-    
-    # If even data is set than normalize the number of labels
-    # if even_data == 1:
-    #     mydata,labels = feats_tools.even_data(mydata,labels)
+    # run_params = nedc_file_tools.load_parameters(parameter_file,"gen_feats")
+    # if run_params['run']==1:
+    #     feature_data_list=run_params['output_list']
 
     # Fit the model
     #
@@ -69,7 +52,9 @@ def main():
     if model_type == "RNF":
         model = RNF()
     elif model_type == "CNN":
-        cnn.trainModel(data,labels)
+        model = modelCNN()
+        model.input_data(feature_data_list)
+        model.datasets()
     else:
         print("No model supplied")
         return
@@ -78,12 +63,6 @@ def main():
     # # change the directory to output the model
     # #
     # os.chdir(output_model_directory)
-
-    # # dump the model there
-    # #
-    # joblib.dump(model,'Trained_'+model_type+'.joblib',compress=compression)
-
-    
 
 if __name__ == "__main__":
     main()

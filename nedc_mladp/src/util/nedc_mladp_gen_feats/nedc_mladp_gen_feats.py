@@ -104,9 +104,11 @@ def gen_feats():
             height = int(header['height'])
             width = int(header['width'])
 
+            
             # get labeled regions
             #
             labeled_regions = feats_tools.labeledRegions(coordinates)
+            print("Successfully Parsed Annotations")
             
             # return top left coordinates of frames that have center coordinates in labels
             #
@@ -114,7 +116,7 @@ def gen_feats():
                                                                                  window_size, frame_size,
                                                                                  labeled_regions,
                                                                                  window_region_overlap_threshold)
-
+            print("Successfully Retrieved Classified Frames")
 
             
             # get list of rgba values
@@ -122,11 +124,12 @@ def gen_feats():
             window_RGBs = feats_tools.windowRGBValues(image_file,
                                                       frame_top_left_coordinates,
                                                       window_size)
-            
+            print("Succesfully Retrieved RGB Values")
             
             # perform dct on rgba values
             #
             window_DCTs = feats_tools.windowDCT(window_RGBs)
+            print("Successfully Performed DCTs")
             
             append_dictionary = {
                 "Header":header,
@@ -139,12 +142,11 @@ def gen_feats():
             }
             
             finished_files.append(append_dictionary)
-
             feature_files_written.append(output_directory + header['bname'] + "_FEATS.csv")
             original_files_written.append(annotation_file)
 
             
-            print(f"{header['bname']} DCT Succeeded")
+            print(f"{header['bname']} File Completed")
 
             if existing_PCA == 0:
                 DCTs_for_PCA.extend(window_DCTs)
@@ -162,7 +164,7 @@ def gen_feats():
 
             
         except Exception as e:
-            print(f"{header['bname']} DCT Failed due to: \n{e}\n")
+            print(f"{header['bname']} File Failed due to: \n{e}\n")
 
     if existing_PCA == 0:
         joblib.dump(PCA,output_directory+"PCA.joblib",compress=PCA_compression)

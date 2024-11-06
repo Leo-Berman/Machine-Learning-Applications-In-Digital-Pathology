@@ -1,0 +1,86 @@
+
+Parameter file ./ExampleGenFeatsParameters.txt Parsed Successfully
+
+Output directory /data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_features_output/ successfully created
+
+PCA Successfully Initialized
+
+File 1 of 10 Processing DCT
+00477780_aaaaaagg_s000_0hne_0000_b003_lvl001_t000 DCT Succeeded
+PCA trained on 68
+
+File 2 of 10 Processing DCT
+00477780_aaaaaagg_s000_0hne_0000_b002_lvl001_t000 DCT Succeeded
+PCA trained on 79
+
+File 3 of 10 Processing DCT
+00477780_aaaaaagg_s000_0hne_deep_a005_lvl001_t000 DCT Succeeded
+PCA trained on 128
+
+File 4 of 10 Processing DCT
+00477780_aaaaaagg_s000_0hne_0000_b001_lvl001_t000 DCT Failed due to: 
+TopologyException: side location conflict at 13349 22000 0. This can occur if the input geometry is invalid.
+
+File 5 of 10 Processing DCT
+00477780_aaaaaagg_s000_0hne_0000_a005_lvl001_t000 DCT Succeeded
+PCA trained on 151
+
+File 6 of 10 Processing DCT
+00477780_aaaaaagg_s000_0hne_0000_a004_lvl001_t000 DCT Succeeded
+PCA trained on 176
+
+File 7 of 10 Processing DCT
+00477780_aaaaaagg_s000_0hne_0000_a002_lvl001_t000 DCT Succeeded
+PCA trained on 212
+
+File 8 of 10 Processing DCT
+00477780_aaaaaagg_s000_0hne_0000_a003_lvl001_t000 DCT Succeeded
+PCA trained on 302
+
+File 9 of 10 Processing DCT
+00477780_aaaaaagg_s000_0hne_0000_b004_lvl001_t000 DCT Succeeded
+PCA trained on 314
+
+File 10 of 10 Processing DCT
+00477780_aaaaaagg_s000_0hne_0000_a001_lvl001_t000 DCT Succeeded
+PCA trained on 577
+
+PCA /data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_features_output/PCA.joblib successfully written
+File 1 of 9 Processing PCA
+File 1 of 9 Write Succeeded
+00477780_aaaaaagg_s000_0hne_0000_b003_lvl001_t000 PCA Succeeded
+
+File 2 of 9 Processing PCA
+File 2 of 9 Write Succeeded
+00477780_aaaaaagg_s000_0hne_0000_b002_lvl001_t000 PCA Succeeded
+
+File 3 of 9 Processing PCA
+File 3 of 9 Write Succeeded
+00477780_aaaaaagg_s000_0hne_deep_a005_lvl001_t000 PCA Succeeded
+
+File 4 of 9 Processing PCA
+File 4 of 9 Write Succeeded
+00477780_aaaaaagg_s000_0hne_0000_a005_lvl001_t000 PCA Succeeded
+
+File 5 of 9 Processing PCA
+File 5 of 9 Write Succeeded
+00477780_aaaaaagg_s000_0hne_0000_a004_lvl001_t000 PCA Succeeded
+
+File 6 of 9 Processing PCA
+File 6 of 9 Write Succeeded
+00477780_aaaaaagg_s000_0hne_0000_a002_lvl001_t000 PCA Succeeded
+
+File 7 of 9 Processing PCA
+File 7 of 9 Write Succeeded
+00477780_aaaaaagg_s000_0hne_0000_a003_lvl001_t000 PCA Succeeded
+
+File 8 of 9 Processing PCA
+File 8 of 9 Write Succeeded
+00477780_aaaaaagg_s000_0hne_0000_b004_lvl001_t000 PCA Succeeded
+
+File 9 of 9 Processing PCA
+File 9 of 9 Write Succeeded
+00477780_aaaaaagg_s000_0hne_0000_a001_lvl001_t000 PCA Succeeded
+
+Original list of annotation files /data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_features_output/original_annotations.list written
+Generated list of feature files /data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_features_output/feature_files.list written

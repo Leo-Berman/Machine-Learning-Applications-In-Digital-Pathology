@@ -34,6 +34,7 @@ def main():
     #
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"train_model")
     model_type=parsed_parameters['model_type']
+    model_path=parsed_parameters['model_path']
     feature_data_list=parsed_parameters['data_list']
     output_model_directory=parsed_parameters['model_output_path']
     batch_size = int(parsed_parameters['batch_size'])
@@ -52,9 +53,11 @@ def main():
     if model_type == "RNF":
         model = RNF()
     elif model_type == "CNN":
-        model = modelCNN()
+        model = modelCNN(model_path, num_epochs, batch_size)
         model.input_data(feature_data_list)
-        model.datasets()
+        model.model_prep()
+        model.simple_train_model
+
     else:
         print("No model supplied")
         return

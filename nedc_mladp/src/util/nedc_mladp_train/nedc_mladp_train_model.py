@@ -15,19 +15,16 @@ sys.path.append('/home/tul16619/SD1/Machine-Learning-Applications-In-Digital-Pat
 import nedc_mladp_model_tools as tools
 
 
-# Load model
-model = torch.load('model.pth')
-
 class modelCNN:
-    def __init__(self, model_path, num_epochs, batch_size, device):
+    def __init__(self, num_epochs, batch_size, device=None):
         
-        self.model_path = model_path
+        
         self.num_epochs = num_epochs
         self.batch_size = batch_size
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     def input_data(self, filelist):
-        # get the total data from CSV file(s)
+        # get the to        tal data from CSV file(s)
         totaldata = tools.parsePCA(filelist)          # filelist
         
         # separate the labels and features
@@ -39,23 +36,27 @@ class modelCNN:
         feats_tensor = torch.tensor(feats, dtype=torch.float32)
         label_tensor = torch.tensor(labels, dtype=torch.long)
 
-        self.feats_train, self.feats_dev, self.labels_train, self.labels_dev = train_test_split(
-            feats, labels, test_size=0.2, random_state=42, stratify=labels
-        )
+        # labels contain digits [1-9]
+        self.num_ftrs = labels.max()
+        # decrement the labels by 1 to contain [0:8]
+        labels -= 1
 
-    def model_prep(self):
+        # RETURN TRAIN FEATUERES AND LABELS, return the numftrs too
+        # self.feats_train, self.feats_dev, self.labels_train, self.labels_dev = train_test_split(
+        #     feats, labels, test_size=0.2, random_state=42, stratify=labels
+        # )
 
-        divide_num = 1
+    def prep_model(self):
 
         # Decide number of samples for train data and development data
-        
-        feats_train_samples = self.feats_train.shape[0]//divide_num*divide_num
-        feats_dev_samples = self.feats_dev.shape[0]//divide_num*divide_num
-        labels_train_samples = self.labels_train.shape[0]//divide_num*divide_num
-        labels_dev_samples = self.labels_dev.shape[0]//divide_num*divide_num
+        # '''
+        # feats_train_samples = self.feats_train.shape[0]
+        # feats_dev_samples = self.feats_dev.shape[0]
+        # labels_train_samples = self.labels_train.shape[0]
+        # labels_dev_samples = self.labels_dev.shape[0]
 
-        self.feats_train = self.feats_train[:feats_train_samples,:].reshape(-1,1,40,divide_num)
-        self.feats_dev = self.feats_dev[:feats_dev_samples,:].reshape(-1,1,40,divide_num)
+        self.feats_train = self.feats_train[:self.feats_train.shape[0],:].reshape(-1,1,40,1)
+        self.feats_dev = self.feats_dev[:self.feats_dev.shape[0],:].reshape(-1,1,40,1)
 
         # Convert to tensors
         #
@@ -85,19 +86,25 @@ class modelCNN:
         dev_class_weights = max(dev_class_counts) / dev_class_counts
         dev_class_weights = dev_class_weights / dev_class_weights.sum()  # Normalization
 
+        # CREATE NEW FUNCYION -- build the model
         # Define loss functions with respective class weights
+    def build_model(model)
+        self.model = torch.load(model_path)
+
         self.train_criterion = nn.CrossEntropyLoss(weight=train_class_weights.to(self.device))
         self.dev_criterion = nn.CrossEntropyLoss(weight=dev_class_weights.to(self.device))
 
         # Define optimizer
-        self.optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
+        self.optimizer = optim.SGD(self.model.parameters(), lr=0.001, momentum=0.9)
 
         # Define learning rate scheduler
         self.scheduler = lr_scheduler.StepLR(self.optimizer, step_size=7, gamma=0.1)
 
+        model.fc = nn.Linear(512, num_ftrs)
+
     def simple_train_model(self):
         # Track best model weights and performance
-        best_model_wts = copy.deepcopy(model.state_dict())
+        best_model_wts = copy.deepcopy(self.model.state_dict())
         best_acc = 0.0
         best_loss = float('inf')
 
@@ -107,7 +114,7 @@ class modelCNN:
             print('-' * 10)
 
             # Set model to training mode
-            model.train()
+            self.model.train()
             running_loss = 0.0
             running_corrects = 0
 
@@ -121,13 +128,13 @@ class modelCNN:
                 print(inputs.shape)
                 
                 # Forward pass
-                outputs = model(inputs)
+                outputs = self.model(inputs)
                 _, preds = torch.max(outputs, 1)
 
                 print(outputs.shape)
-                print("Outputs",outputs)
+                # print("Outputs",outputs)
                 print(labels.shape)
-                print("Labels",labels)
+                # print("Labels",labels)
                 loss = self.train_criterion(outputs, labels)
 
                 # Backward pass and optimization
@@ -150,7 +157,7 @@ class modelCNN:
             print(f'Train Loss: {epoch_loss:.4f} Acc: {epoch_acc:.4f}')
 
             # Validation phase
-            model.eval()
+            self.model.eval()
             running_loss = 0.0
             running_corrects = 0
 
@@ -160,7 +167,7 @@ class modelCNN:
                 labels = labels.to(self.device)
 
                 with torch.no_grad():  # No need to track gradients for validation
-                    outputs = model(inputs)
+                    outputs = self.model(inputs)
                     _, preds = torch.max(outputs, 1)
                     #preds = copy.copy(outputs)
                     loss = self.dev_criterion(outputs, labels)
@@ -179,8 +186,8 @@ class modelCNN:
             if epoch_loss < best_loss:
                 best_acc = epoch_acc
                 best_loss = epoch_loss
-                best_model_wts = copy.deepcopy(model.state_dict())
+                best_model_wts = copy.deepcopy(self.model.state_dict())
 
         # Load best model weights
-        model.load_state_dict(best_model_wts)
+        self.model.load_state_dict(best_model_wts)
     

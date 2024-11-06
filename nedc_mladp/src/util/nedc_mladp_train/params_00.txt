@@ -13,12 +13,10 @@ gen_feats{
 train_model{
     model_type="CNN"
     model_path="model.pth"
-    data_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_output/features/feature_files.list"
+    data_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/example_features_output/feature_files.list"
     batch_size=32
     num_epochs=1
     model_output_path="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAINED_MODELS/"
-    input_direction=1
-    compression=0
 }
 
 eval_model{

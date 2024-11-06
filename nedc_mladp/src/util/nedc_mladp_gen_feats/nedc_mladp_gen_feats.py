@@ -133,7 +133,7 @@ def gen_feats():
             
             append_dictionary = {
                 "Header":header,
-                "DCTs":window_DCTs,
+                #"DCTs":window_DCTs,
                 "Labels":frame_labels,
                 "Top Left Coordinates":frame_top_left_coordinates,
                 "Image File":image_file,
@@ -146,7 +146,7 @@ def gen_feats():
             original_files_written.append(annotation_file)
 
             
-            print(f"{header['bname']} File Completed")
+            print(f"{header['bname']} File Completed", flush=True)
 
             if existing_PCA == 0:
                 DCTs_for_PCA.extend(window_DCTs)
@@ -155,20 +155,20 @@ def gen_feats():
                     try:
                         PCA.partial_fit(DCTs_for_PCA)
                         total_windows_PCA_trained_on+=len(DCTs_for_PCA)
-                        print(f"PCA trained on {total_windows_PCA_trained_on}\n")
+                        print(f"PCA trained on {total_windows_PCA_trained_on}\n", flush=True)
                         DCTs_for_PCA = []
                     except Exception as e:
-                        print(f"Incremental PCA training Failed due to: \n{e}\n")
+                        print(f"Incremental PCA training Failed due to: \n{e}\n", flush=True)
 
             
 
             
         except Exception as e:
-            print(f"{header['bname']} File Failed due to: \n{e}\n")
+            print(f"{header['bname']} File Failed due to: \n{e}\n", flush=True)
 
     if existing_PCA == 0:
         joblib.dump(PCA,output_directory+"PCA.joblib",compress=PCA_compression)
-        print(f"PCA {output_directory+'PCA.joblib'} successfully written")
+        print(f"PCA {output_directory+'PCA.joblib'} successfully written", flush=True)
 
     # create feature files schema
     features_header = []
@@ -180,9 +180,48 @@ def gen_feats():
 
             print(f"File {i+1} of {len(finished_files)} Processing PCA")
 
-            finished_file['PCs'] = PCA.transform(finished_file['DCTs'])
+
+            # parse annotations
+            #
+            header, ids, labels, coordinates = fileio_tools.parseAnnotations(finished_file['Annotation File'])
+
+            print(f"File {i+1} of {len(image_files_list)} Processing DCT")
             
-            del finished_file['DCTs']
+            # get height and width of image (in pixels) from the header
+            #
+            height = int(header['height'])
+            width = int(header['width'])
+
+            
+            # get labeled regions
+            #
+            labeled_regions = feats_tools.labeledRegions(coordinates)
+            print("Successfully Parsed Annotations")
+            
+            # return top left coordinates of frames that have center coordinates in labels
+            #
+            frame_top_left_coordinates,frame_labels = feats_tools.classifyFrames(labels,height, width,
+                                                                                 window_size, frame_size,
+                                                                                 labeled_regions,
+                                                                                 window_region_overlap_threshold)
+            print("Successfully Retrieved Classified Frames")
+
+            
+            # get list of rgba values
+            #
+            window_RGBs = feats_tools.windowRGBValues(finished_file['Image File'],
+                                                      frame_top_left_coordinates,
+                                                      window_size)
+            print("Succesfully Retrieved RGB Values")
+            
+            # perform dct on rgba values
+            #
+            window_DCTs = feats_tools.windowDCT(window_RGBs)
+            print("Successfully Performed DCTs")
+            
+            
+            finished_file['PCs'] = PCA.transform(window_DCTs)
+            
             
             if write_features == 1:
 

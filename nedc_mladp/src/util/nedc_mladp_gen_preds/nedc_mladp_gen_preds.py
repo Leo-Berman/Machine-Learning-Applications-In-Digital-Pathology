@@ -5,6 +5,8 @@ import joblib
 import os
 import pandas
 import numpy
+import torch
+
 
 # import project specific libraries
 import nedc_mladp_fileio_tools as fileio_tools
@@ -36,6 +38,7 @@ def gen_preds(feature_files:dict=None, model=None):
         output_directory += "predictions/"            
         original_files_list =  [file['Annotation File'] for file  in feature_files]
     else:
+        model_type = parsed_parameters['model_type']
         output_directory = parsed_parameters['output_directory']
         if not (output_directory.endswith("/")):
             output_directory += "/"
@@ -60,7 +63,7 @@ def gen_preds(feature_files:dict=None, model=None):
             annotation_reader.load(original_file)
             header = annotation_reader.get_header()
             dataframe = dataframe.drop(['Label','TopLeftColumn','TopLeftRow'], axis=1)
-            PCs = dataframe.to_numpy()
+            PCs = dataframe.to_numpy().astype(numpy.float32)
             
             append_dictionary = { 'Frame Decisions':labels,
                                   'Top Left Coordinates':top_left_coordinates,
@@ -76,15 +79,20 @@ def gen_preds(feature_files:dict=None, model=None):
     os.makedirs(frames_output_directory,exist_ok=True)
 
     if model is None:
-        model = joblib.load(model_file)
+        if model_type == "CNN":
+            model = torch.load(model_file)
+        else:
+            model = joblib.load(model_file)
 
              
     region_decision_files = []
     frame_decision_files = []
     for i,feature_file in enumerate(feature_files):
+
+        print(numpy.array(feature_file['PCs'].tolist()).astype(numpy.float32))
         
-        feature_file['Frame Confidences'] = [max(predictions) for predictions in model.predict_proba(numpy.array(feature_file['PCs']))]
-        feature_file['Frame Decisions'] = model.predict(numpy.array(feature_file['PCs']))
+        feature_file['Frame Confidences'] = [max(predictions) for predictions in model.predict_proba(numpy.array(feature_file['PCs']).astype(numpy.float32))]
+        feature_file['Frame Decisions'] = model.predict(numpy.array(feature_file['PCs']).astype(numpy.float32))
         prediction_graph = pred_tools.regionPredictions(feature_file['Frame Decisions'],
                                                         feature_file['Top Left Coordinates'],
                                                         feature_file['Frame Confidences'],

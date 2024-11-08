@@ -16,8 +16,12 @@ Parameters:
 Return:
     shape % resulting shapely.Polygon
 '''
-def generatePolygon(coordinates:list)->shapely.Polygon:
-    shape = shapely.Polygon(coordinates)
+def generatePolygon(pp:list)->shapely.Polygon:
+    # compute centroid
+    cent=(sum([p[0] for p in pp])/len(pp),sum([p[1] for p in pp])/len(pp))
+    # sort by polar angle
+    pp.sort(key=lambda p: math.atan2(p[1]-cent[1],p[0]-cent[0]))
+    shape = shapely.Polygon(pp)
     return shape
 
 '''

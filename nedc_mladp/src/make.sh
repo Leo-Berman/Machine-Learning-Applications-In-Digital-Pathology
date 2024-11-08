@@ -41,3 +41,6 @@ make
 cd ../nedc_mladp_label_enum
 make
 
+# models
+cd ../nedc_mladp_models
+make

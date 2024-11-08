@@ -5,7 +5,12 @@
 import os
 import pandas
 import numpy
-import sklearn.decomposition
+import timeit
+import pympler.asizeof as asizeof
+
+#import sklearn.decomposition
+import dask_ml.decomposition
+import dask.array
 
 # import project-specific libraries
 #
@@ -16,6 +21,9 @@ import nedc_mladp_feats_tools as feats_tools
 #
 import nedc_file_tools
 import joblib
+
+from memory_profiler import profile
+
 
 def gen_feats():
 
@@ -71,7 +79,7 @@ def gen_feats():
     if existing_PCA == 0:
         PCA_components = int(parsed_parameters['PCA_components'])
         PCA_compression = int(parsed_parameters['PCA_compression'])
-        PCA = sklearn.decomposition.IncrementalPCA(n_components=PCA_components)
+        PCA = dask_ml.decomposition.IncrementalPCA(n_components=PCA_components, copy=False)
         print(f"PCA Successfully Initialized\n")
     else:
         PCA_path = parsed_parameters['PCA_path']
@@ -85,87 +93,94 @@ def gen_feats():
     DCTs_for_PCA = [] # List to hold DCTs for the PCA to train on
     total_windows_PCA_trained_on = 0 # Total number of windows PCA has processed
     
+    PCA_fit_size = .5 * 1000000000000 // (window_width*window_height)
+
+    if PCA_components > PCA_fit_size:
+        PCA_fit_size = PCA_components
+    
     # iterate through image files and annotation files and create a dictionary
     # to hold information for each set of files
     #
     for i,image_file,annotation_file in zip(range(len(image_files_list)),
                                             image_files_list,
                                             annotation_files_list):
+        print(f"Processing file {i+1} of {len(image_files_list)}")
         try:
-        
+
             # parse annotations
             #
             header, ids, labels, coordinates = fileio_tools.parseAnnotations(annotation_file)
-
-            print(f"File {i+1} of {len(image_files_list)} Processing DCT")
             
             # get height and width of image (in pixels) from the header
             #
             height = int(header['height'])
             width = int(header['width'])
 
-            
             # get labeled regions
             #
             labeled_regions = feats_tools.labeledRegions(coordinates)
-            print("Successfully Parsed Annotations")
-            
+
             # return top left coordinates of frames that have center coordinates in labels
             #
             frame_top_left_coordinates,frame_labels = feats_tools.classifyFrames(labels,height, width,
                                                                                  window_size, frame_size,
                                                                                  labeled_regions,
                                                                                  window_region_overlap_threshold)
-            print("Successfully Retrieved Classified Frames")
 
-            
             # get list of rgba values
             #
             window_RGBs = feats_tools.windowRGBValues(image_file,
                                                       frame_top_left_coordinates,
                                                       window_size)
-            print("Succesfully Retrieved RGB Values")
-            
+
             # perform dct on rgba values
             #
             window_DCTs = feats_tools.windowDCT(window_RGBs)
-            print("Successfully Performed DCTs")
-            
+            for i,x in enumerate(window_DCTs):
+                window_DCTs[i] = window_DCTs[i].astype(numpy.float32)
+                
+            # store relevant information
+            #
             append_dictionary = {
-                "Header":header,
-                #"DCTs":window_DCTs,
                 "Labels":frame_labels,
                 "Top Left Coordinates":frame_top_left_coordinates,
                 "Image File":image_file,
                 "Annotation File":annotation_file,
-                "Frame Size":(frame_size[0],frame_size[1])
             }
-            
             finished_files.append(append_dictionary)
+
+            # keep track of files to write
             feature_files_written.append(output_directory + header['bname'] + "_FEATS.csv")
             original_files_written.append(annotation_file)
 
-            
-            print(f"{header['bname']} File Completed", flush=True)
-
+            # attempt to incrementally train PCA
             if existing_PCA == 0:
                 DCTs_for_PCA.extend(window_DCTs)
-                
-                if len(DCTs_for_PCA) >= PCA_components:
+                if len(DCTs_for_PCA) >= PCA_fit_size:
                     try:
+                        DCTs_for_PCA = dask.array.from_array(DCTs_for_PCA)
                         PCA.partial_fit(DCTs_for_PCA)
                         total_windows_PCA_trained_on+=len(DCTs_for_PCA)
-                        print(f"PCA trained on {total_windows_PCA_trained_on}\n", flush=True)
                         DCTs_for_PCA = []
                     except Exception as e:
-                        print(f"Incremental PCA training Failed due to: \n{e}\n", flush=True)
-
-            
-
+                        print(f"Incremental PCA training Failed due to: \n{e}", flush=True)
+            print('')
             
         except Exception as e:
             print(f"{header['bname']} File Failed due to: \n{e}\n", flush=True)
 
+    # if any remaining DCTs, incrementally train PCA
+    if existing_PCA == 0:
+        if len(DCTs_for_PCA) >= PCA_components:
+            try:
+                DCTs_for_PCA = dask.array.from_array(DCTs_for_PCA)
+                PCA.partial_fit(DCTs_for_PCA)
+                total_windows_PCA_trained_on+=len(DCTs_for_PCA)
+                DCTs_for_PCA = []
+            except Exception as e:
+                print(f"Incremental PCA training Failed due to: \n{e}\n", flush=True)
+
+    # if not an existing_PCA save the state
     if existing_PCA == 0:
         joblib.dump(PCA,output_directory+"PCA.joblib",compress=PCA_compression)
         print(f"PCA {output_directory+'PCA.joblib'} successfully written", flush=True)
@@ -174,29 +189,23 @@ def gen_feats():
     features_header = []
     for i in range(PCA.n_components):
         features_header.append(f"PCA_From_DCT_Feature{i}")
-        
+
+    # iterate through finished_files
     for i,finished_file in enumerate(finished_files):
         try:
-
-            print(f"File {i+1} of {len(finished_files)} Processing PCA")
-
 
             # parse annotations
             #
             header, ids, labels, coordinates = fileio_tools.parseAnnotations(finished_file['Annotation File'])
-
-            print(f"File {i+1} of {len(image_files_list)} Processing DCT")
             
             # get height and width of image (in pixels) from the header
             #
             height = int(header['height'])
             width = int(header['width'])
-
             
             # get labeled regions
             #
             labeled_regions = feats_tools.labeledRegions(coordinates)
-            print("Successfully Parsed Annotations")
             
             # return top left coordinates of frames that have center coordinates in labels
             #
@@ -204,24 +213,20 @@ def gen_feats():
                                                                                  window_size, frame_size,
                                                                                  labeled_regions,
                                                                                  window_region_overlap_threshold)
-            print("Successfully Retrieved Classified Frames")
-
             
             # get list of rgba values
             #
             window_RGBs = feats_tools.windowRGBValues(finished_file['Image File'],
                                                       frame_top_left_coordinates,
                                                       window_size)
-            print("Succesfully Retrieved RGB Values")
             
             # perform dct on rgba values
             #
             window_DCTs = feats_tools.windowDCT(window_RGBs)
-            print("Successfully Performed DCTs")
+            for i,x in enumerate(window_DCTs):
+                window_DCTs[i] = window_DCTs[i].astype(numpy.float32)
             
-            
-            finished_file['PCs'] = PCA.transform(window_DCTs)
-            
+            PCs = PCA.transform(window_DCTs)
             
             if write_features == 1:
 
@@ -230,41 +235,36 @@ def gen_feats():
                 coordinates_dataframe = pandas.DataFrame(finished_file['Top Left Coordinates'],
                                                          columns=['TopLeftColumn','TopLeftRow'])
 
-                features_dataframe = pandas.DataFrame(finished_file['PCs'],columns=features_header)
+                features_dataframe = pandas.DataFrame(PCs,columns=features_header)
 
                 dataframe=labels_dataframe.join([coordinates_dataframe,features_dataframe])
 
-                file_path = output_directory + finished_file['Header']['bname'] + "_FEATS.csv"
+                file_path = output_directory + header['bname'] + "_FEATS.csv"
                 
                 with open(file_path,'w') as f:
-                    for key,value in finished_file['Header'].items():
+                    for key,value in header.items():
                         f.write(f'{key}:{value}\n')
                     f.write(f'frame_height:{frame_size[0]}\n')
                     f.write(f'frame_width:{frame_size[1]}\n')                    
                     f.write(f'window_height:{window_size[0]}\n')
                     f.write(f'window_width:{window_size[1]}\n')
-                    
-                    
                     dataframe.to_csv(f, index=False, header = True)
 
-            
                 print(f"File {i+1} of {len(finished_files)} Write Succeeded")
 
             print(f"{finished_file['Header']['bname']} PCA Succeeded\n")
             
         except Exception as e:
-            print(f"{finished_file['Header']['bname']} PCA & Write Failed Due To\n{e}\n")
+            print(f"{header['bname']} PCA & Write Failed Due To\n{e}\n")
             
     with open(output_directory +"original_annotations.list",'w') as f:
         f.writelines(line + '\n' for line in original_files_written)
-        print(f"Original list of annotation files {output_directory + 'original_annotations.list'} written")
+        print(f"Original list of annotation files {output_directory + 'original_annotations.list'} written\n")
 
     if write_features == 1:
         with open(output_directory +"feature_files.list",'w') as f:
             f.writelines(line + '\n' for line in feature_files_written)
-        print(f"Generated list of feature files {output_directory+'feature_files.list'} written")
-
-    return finished_files
+        print(f"Generated list of feature files {output_directory+'feature_files.list'} written\n")
         
 if __name__ == "__main__":
     gen_feats()

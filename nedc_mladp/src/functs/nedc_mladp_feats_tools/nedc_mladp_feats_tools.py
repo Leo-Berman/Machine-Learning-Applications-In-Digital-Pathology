@@ -2,12 +2,7 @@
 import numpy
 import scipy
 import shapely
-import sklearn.decomposition
-
-import matplotlib
-import matplotlib.pyplot as plt
-matplotlib.use('Agg')
-
+import math
 # import picones libraries
 #
 import nedc_image_tools
@@ -46,6 +41,7 @@ def generateWindows(coordinates:list, frame_size:tuple,
 
     return windows
 
+
 def classifyFrames(labels:list, height:int, width:int, window_size:tuple,
                    frame_size:tuple, regions:list, overlap_threshold:float):
     
@@ -62,12 +58,12 @@ def classifyFrames(labels:list, height:int, width:int, window_size:tuple,
         for y,z in zip(regions,labels):
             overlap = shapely.intersection(x,y)
             if overlap.area/x.area >= overlap_threshold:
-                plt.plot(*x.exterior.xy)
                 return_labels.append(z)
                 return_top_left_frame_coords.append(w)
                 break
 
     return return_top_left_frame_coords,return_labels
+
 
 def windowRGBValues(image_file:str, frame_top_left_coordinates:list,
                     window_size:tuple):
@@ -105,7 +101,12 @@ def labeledRegions(coordinates:list):
     # generate polygon of regions within the image
     #
     ret_shapes = []
-    for x in coordinates:
-        ret_shapes.append(shapely.Polygon(x))
+    for pp in coordinates:
+        # compute centroid
+        cent=(sum([p[0] for p in pp])/len(pp),sum([p[1] for p in pp])/len(pp))
+        # sort by polar angle
+        pp.sort(key=lambda p: math.atan2(p[1]-cent[1],p[0]-cent[0]))
+        ret_shapes.append(shapely.Polygon(pp))
 
     return ret_shapes
+

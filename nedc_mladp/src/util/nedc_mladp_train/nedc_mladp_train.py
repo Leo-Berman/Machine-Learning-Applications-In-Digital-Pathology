@@ -35,7 +35,8 @@ def main():
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"train_model")
     model_type=parsed_parameters['model_type']
     model_path=parsed_parameters['model_path']
-    feature_data_list=parsed_parameters['data_list']
+    train_data_list=parsed_parameters['data_list_train']
+    eval_data_list=parsed_parameters['data_list_eval']
     output_model_directory=parsed_parameters['model_output_path']
     batch_size = int(parsed_parameters['batch_size'])
     num_epochs = int(parsed_parameters['num_epochs'])
@@ -53,10 +54,26 @@ def main():
     if model_type == "RNF":
         model = RNF()
     elif model_type == "CNN":
-        model = modelCNN(model_path, num_epochs, batch_size)
-        model.input_data(feature_data_list)
-        model.model_prep()
-        model.simple_train_model
+        model = modelCNN(num_epochs, batch_size)
+
+        # dataset 1: train
+        train_feats, train_labels, train_num_ftrs = model.input_data(train_data_list)
+
+        # dataset 2: evaluation
+        eval_feats, eval_labels, eval_num_ftrs = model.input_data(eval_data_list)
+
+        model.prep_model(
+            feats_train=train_feats,
+            labels_train=train_labels,
+            feats_dev=eval_feats,
+            labels_dev=eval_labels
+            )
+        model.build_model(
+            model_path=model_path,
+            train_num_ftrs=train_num_ftrs,
+            eval_num_ftrs=eval_num_ftrs
+            )
+        model.simple_train_model()
 
     else:
         print("No model supplied")

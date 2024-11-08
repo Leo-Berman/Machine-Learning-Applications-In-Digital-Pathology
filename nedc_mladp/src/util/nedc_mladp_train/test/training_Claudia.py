@@ -20,7 +20,7 @@ labels -= 1
 
 
 # Load model
-model = torch.load('model.pth')
+model = torch.load('../model.pth')
 
 model.fc = nn.Linear(512, num_ftrs) # number of input and output features
 

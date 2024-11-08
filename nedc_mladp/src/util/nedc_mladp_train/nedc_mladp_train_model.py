@@ -73,14 +73,18 @@ class modelCNN:
         train_class_weights = max(train_class_counts) / train_class_counts
         self.train_class_weights = train_class_weights / train_class_weights.sum()  # Normalization
 
-        print(train_counts)
+        print("train unique: ", train_unique)
+        print("train counts: ", train_counts)
         # Calculate class weights for validation set
         #
         dev_unique, dev_counts = np.unique(labels_dev, return_counts=True)
         dev_class_counts = torch.tensor(dev_counts, dtype=torch.float32)
         dev_class_weights = max(dev_class_counts) / dev_class_counts
         self.dev_class_weights = dev_class_weights / dev_class_weights.sum()  # Normalization
-        print(dev_counts)
+        
+        print("dev unique: ", dev_unique)
+        print("dev counts: ", dev_counts)
+
         # CREATE NEW FUNCYION -- build the model
         # Define loss functions with respective class weights
 

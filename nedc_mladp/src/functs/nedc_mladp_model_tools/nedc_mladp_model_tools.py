@@ -13,7 +13,7 @@ IMG_EXT = '*.tif'
 DEF_MODEL_FNAME = "model.pckl"
 
 # import project specific libraries
-from nedc_mladp_ann_tools import label_order
+from nedc_mladp_label_enum import label_order
 
 def parsePCA(filelist):
     '''

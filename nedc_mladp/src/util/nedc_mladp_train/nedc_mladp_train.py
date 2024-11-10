@@ -54,13 +54,16 @@ def main():
     if model_type == "RNF":
         model = RNF()
     elif model_type == "CNN":
-        model = modelCNN(num_epochs, batch_size)
+        model = modelCNN(
+            num_epochs=num_epochs,
+            batch_size=batch_size,
+            num_cls=9)
 
         # dataset 1: train
-        train_feats, train_labels, train_num_ftrs = model.input_data(train_data_list)
+        train_feats, train_labels, train_num_cls = model.input_data(train_data_list)
 
         # dataset 2: evaluation
-        eval_feats, eval_labels, eval_num_ftrs = model.input_data(eval_data_list)
+        eval_feats, eval_labels, eval_num_cls = model.input_data(eval_data_list)
 
         model.prep_model(
             feats_train=train_feats,
@@ -70,8 +73,8 @@ def main():
             )
         model.build_model(
             model_path=model_path,
-            train_num_ftrs=train_num_ftrs,
-            eval_num_ftrs=eval_num_ftrs
+            train_num_cls=train_num_cls,
+            dev_num_cls=eval_num_cls
             )
         model.simple_train_model()
 

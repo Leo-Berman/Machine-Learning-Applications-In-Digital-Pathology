@@ -30,7 +30,6 @@ def train_model(feature_files:dict=None):
     #
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"train_model")
     model_type=parsed_parameters['model_type']
-    write_model=int(parsed_parameters['write_model'])
 
     if model_type == "CNN":
         PCA_components = int(parsed_parameters["PCA_components"])
@@ -44,40 +43,23 @@ def train_model(feature_files:dict=None):
         dropout_coefficient = float(parsed_parameters["dropout_coefficient"])
         number_of_epochs = int(parsed_parameters["number_of_epochs"])
         learning_rate = float(parsed_parameters["learning_rate"])
+        
+    output_directory = parsed_parameters['output_directory']
+    if not (output_directory.endswith("/")):
+        output_directory += "/"
+    feature_files = fileio_tools.readLines(parsed_parameters['feature_files_list'])
+    labels = []
+    train_data = None
     
-    run_parameters = nedc_file_tools.load_parameters(parameter_file,"run_pipeline")
-    if int(run_parameters['run']) == 1:
-        output_directory = run_parameters['output_directory']
-        if not (output_directory.endswith("/")):
-            output_directory += "/"
-        output_directory += "model/"
-        labels = []
-        train_data = None
-        for file in feature_files:
-            if train_data is None:
-                train_data = numpy.array(file['PCs']).astype(numpy.float32)
-            else:
-                train_data = numpy.vstack([train_data,numpy.array(file['PCs']).astype(numpy.float32)])
-
-            labels.extend(file['Labels'])
-    else:
-        output_directory = parsed_parameters['output_directory']
-        if not (output_directory.endswith("/")):
-            output_directory += "/"
-        feature_files_list = parsed_parameters['feature_files_list']
-        feature_files = fileio_tools.readLines(feature_files_list)
-        labels = []
-        train_data = None
-
-        for file in feature_files:
-            lines = [line.split(',') for line in fileio_tools.readLines(file) if ':' not in line]
-            dataframe = pandas.DataFrame(lines[1:],columns=lines[0])
-            labels.extend(dataframe['Label'].to_list())
-            dataframe = dataframe.drop(['Label','TopLeftRow','TopLeftColumn'],axis=1)
-            if train_data is None:
-                train_data=dataframe.to_numpy().astype(numpy.float32)
-            else:
-                train_data = numpy.vstack([train_data,dataframe.to_numpy().astype(numpy.float32)])
+    for file in feature_files:
+        lines = [line.split(',') for line in fileio_tools.readLines(file) if ':' not in line]
+        dataframe = pandas.DataFrame(lines[1:],columns=lines[0])
+        labels.extend(dataframe['Label'].to_list())
+        dataframe = dataframe.drop(['Label','TopLeftRow','TopLeftColumn'],axis=1)
+        if train_data is None:
+            train_data=dataframe.to_numpy().astype(numpy.float32)
+        else:
+            train_data = numpy.vstack([train_data,dataframe.to_numpy().astype(numpy.float32)])
                 
     os.makedirs(output_directory,exist_ok=True)
 
@@ -101,19 +83,20 @@ def train_model(feature_files:dict=None):
                     layer_03_kernel_size = layer_03_kernel_size,
                     dropout_coefficient = dropout_coefficient,
                     number_of_epochs = number_of_epochs,
-                    learning_rate = learning_rate)
+                    learning_rate = learning_rate,
+                    model_output_path = output_directory)
     else:
         print("No model supplied")
         return
-    print(train_data)
+
     model.fit(train_data, labels)
 
-    if write_model == 1:
-        if model_type == "CNN":
-            torch.save(model, output_directory+model_type+'.pth')
-        else:
-            compression=int(parsed_parameters['compression'])
-            joblib.dump(model,output_directory+model_type+'.joblib',compress=compression)
+
+    if model_type == "CNN":
+        torch.save(model, output_directory+model_type+'.pth')
+    else:
+        compression=int(parsed_parameters['compression'])
+        joblib.dump(model,output_directory+model_type+'.joblib',compress=compression)
 
     return model
 

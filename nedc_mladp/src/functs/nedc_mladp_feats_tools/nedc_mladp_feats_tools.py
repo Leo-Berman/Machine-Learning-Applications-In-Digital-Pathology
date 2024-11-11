@@ -92,7 +92,7 @@ def windowDCT(window_RGBs:list):
     
     for i,window in enumerate(window_RGBs):
 
-        window_DCTs.append(numpy.array([scipy.fftpack.dctn(color) for color in window]).flatten())
+        window_DCTs.append(numpy.array([scipy.fftpack.dctn(color).astype(numpy.float32) for color in window]).flatten())
 
         
     return window_DCTs

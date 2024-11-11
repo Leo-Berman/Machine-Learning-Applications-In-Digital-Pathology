@@ -3,7 +3,7 @@
 
 # define source and object files
 #
-SRC = nedc_mladp_gen_deveval_feats.py
+SRC = nedc_mladp_gen_PCA.py
 BFILE := $(basename $(SRC))
 
 # define an installation target

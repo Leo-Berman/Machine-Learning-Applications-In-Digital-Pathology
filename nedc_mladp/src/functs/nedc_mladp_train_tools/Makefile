@@ -1,4 +1,4 @@
-# file: $MLADP/functs/nedc_mladp_model_tools/Makefile
+# file: $MLADP/functs/nedc_mladp_train_tools/Makefile
 #
 
 # define source and object files

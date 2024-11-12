@@ -33,14 +33,15 @@ def train_model(feature_files:dict=None):
     model_type=parsed_parameters['model_type']
     model_path=parsed_parameters['model_path']
 
-    # Features list
+    # Features list + other information
     train_data_list=parsed_parameters['data_list_train']
     eval_data_list=parsed_parameters['data_list_eval']
+    number_of_classes = int(parsed_parameters["number_of_classes"])
+    PCA_components = int(parsed_parameters["PCA_components"])
 
     # CNN attributes
     #
     if model_type == "CNN":
-        number_of_classes = int(parsed_parameters["number_of_classes"])
         batch_size = int(parsed_parameters['batch_size'])
         number_of_epochs = int(parsed_parameters['num_epochs'])
         step_size = int(parsed_parameters['step_size'])
@@ -72,26 +73,41 @@ def train_model(feature_files:dict=None):
             lr=learning_rate,
             step_size=step_size,
             momentum=momentum,
-            gamma=gamma)
+            gamma=gamma,
+            input_size=PCA_components
+            )
 
         # dataset 1: train
-        train_feats, train_labels, train_num_cls = model.input_data(train_data_list)
+        train_feats, train_labels, train_num_cls, train_images_count = model.load_data(train_data_list)
+        train_dataloader = model.dataloader(train_feats, train_labels, shuffle_flag=True)
+        train_weights = model.compute_weights(train_labels, train=True)
 
         # dataset 2: evaluation
-        eval_feats, eval_labels, eval_num_cls = model.input_data(eval_data_list)
+        eval_feats, eval_labels, eval_num_cls, eval_images_count = model.load_data(eval_data_list)
+        eval_dataloader = model.dataloader(eval_feats, eval_labels, shuffle_flag=False)
+        eval_weights = model.compute_weights(eval_labels, train=False)
 
-        model.prep_model(
-            feats_train=train_feats,
-            labels_train=train_labels,
-            feats_dev=eval_feats,
-            labels_dev=eval_labels,
+        model.load_info(
             train_num_cls=train_num_cls,
-            dev_num_cls=eval_num_cls
+            train_images_count=train_images_count,
+            train_feats=train_feats,
+            eval_num_cls=eval_num_cls,
+            eval_images_count=eval_images_count,
+            eval_feats=eval_feats
             )
+
         model.build_model(
             model_path=model_path,
+            train_weights=train_weights,
+            eval_weights=eval_weights
             )
-        model.simple_train_model()
+        model.train_model(
+            train_dataloader=train_dataloader,
+            train_weights=train_weights,
+            eval_dataloader=eval_dataloader,
+            eval_weights=eval_weights,
+            validate=True
+            )
         
     else:
         print("No model supplied")

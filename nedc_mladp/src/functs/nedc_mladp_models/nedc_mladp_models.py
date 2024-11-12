@@ -15,7 +15,7 @@ sys.path.append('Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/l
 import nedc_mladp_train_tools as tools
 
 class convolutional_neural_network:
-    def __init__(self, num_epochs, batch_size, num_cls, lr, step_size, momentum, gamma):
+    def __init__(self, num_epochs, batch_size, num_cls, lr, step_size, momentum, gamma, input_size):
 
         self.num_epochs = num_epochs
         self.batch_size = batch_size
@@ -24,88 +24,75 @@ class convolutional_neural_network:
         self.step_size = step_size
         self.momentum = momentum
         self.gamma = gamma
+        self.input_size = input_size
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-
-    def input_data(self, filelist):
+    def load_data(self, filelist):
 
         # get the total data from CSV file(s)
-        totaldata = tools.parsePCA(filelist)          # filelist
-        
-        # separate the labels and features
+        totaldata, image_count = tools.parsePCA(filelist)          # filelist
         labels = totaldata[:,0]
         feats = totaldata[:,1:]
         feats, labels = tools.correctType(feats,labels)
 
         # create the tensors
+        # feats_tensor = torch.tensor(feats, dtype=torch.float32).unsqueeze(1).repeat(1, 3, 1, 1)
         feats_tensor = torch.tensor(feats, dtype=torch.float32)
-        label_tensor = torch.tensor(labels, dtype=torch.long)
+        label_tensor = torch.tensor(labels, dtype=torch.long) - 1
 
         # labels contain digits [1-9]
-        num_cls = len(set(label_tensor.tolist()))
-        # decrement the labels by 1 to contain [0:8]
-        label_tensor -= 1
+        num_cls = len(set(labels))
 
-        return feats_tensor, label_tensor, num_cls
+        return feats_tensor, label_tensor, num_cls, image_count
 
-    def prep_model(self, feats_train, labels_train, feats_dev, labels_dev, train_num_cls, dev_num_cls):
+    def dataloader(self, feats, labels, shuffle_flag):
+        '''
+        arguments:
+            :feats: tensor of features.
+            :labels: tensor of labels.
+        '''
+        reshaped = feats[:feats.shape[0],:].reshape(-1,1,feats.shape[1],1)
+        feats = reshaped.clone().detach().to(torch.float32).repeat(1, 3, 1, 1)
+        dataset = TensorDataset(feats, labels)
+        dataloader = DataLoader(dataset, batch_size=self.batch_size, shuffle=shuffle_flag)
+        return dataloader
 
-        self.feats_train = feats_train
-        self.labels_train = labels_train
-        self.feats_dev = feats_dev
-        self.labels_dev = labels_dev
-        self.train_num_cls = train_num_cls
-        self.dev_num_cls = dev_num_cls
+    def compute_weights(self, labels, train):
+        unique, counts = np.unique(labels, return_counts=True)
+        counts = tools.fillClasses(unique, counts)[1]
+        counts = torch.tensor(counts, dtype=torch.float32)
+        if train:
+            weights = tools.getWeights(counts)
+            weights = weights / weights.sum()
+        else:
+            weights = torch.tensor(np.zeros(9), dtype=torch.float32)
+        return weights
 
-        # Decide number of samples for train data and development data
-        reshaped_feats_train = self.feats_train[:self.feats_train.shape[0],:].reshape(-1,1,self.feats_train.shape[1],1)
-        reshaped_feats_dev = self.feats_dev[:self.feats_dev.shape[0],:].reshape(-1,1,self.feats_dev.shape[1],1)
+    def build_model(self, model_path, train_weights, eval_weights):
 
-        # Convert to tensors
+        # Load the model.
         #
-        feats_train_tensor = reshaped_feats_train.clone().detach().to(torch.float32).repeat(1, 3, 1, 1)
-        labels_train_tensor = self.labels_train.clone().detach().to(torch.long)
-        feats_dev_tensor = reshaped_feats_dev.clone().detach().to(torch.float32).repeat(1, 3, 1, 1)
-        labels_dev_tensor = self.labels_dev.clone().detach().to(torch.long)
-
-        # Create TensorDatasets and DataLoaders
-        #
-        train_dataset = TensorDataset(feats_train_tensor, labels_train_tensor)
-        dev_dataset = TensorDataset(feats_dev_tensor, labels_dev_tensor)
-        self.train_loader = DataLoader(train_dataset, batch_size=self.batch_size, shuffle=True)
-        self.dev_loader = DataLoader(dev_dataset, batch_size=self.batch_size, shuffle=False)
-
-        # Calculate class weights for training set
-        #
-        train_unique, train_counts = np.unique(labels_train, return_counts=True)
-        self.train_unique, train_counts = tools.fillClasses(train_unique, train_counts)
-        train_class_counts = torch.tensor(train_counts, dtype=torch.float32)
-        train_class_weights = max(train_class_counts) / train_class_counts
-        self.train_class_weights = train_class_weights / train_class_weights.sum()  # Normalization
-
-        # Calculate class weights for validation set
-        #
-        dev_unique, dev_counts = np.unique(labels_dev, return_counts=True)
-        self.dev_unique, dev_counts = tools.fillClasses(dev_unique, dev_counts)
-        dev_class_counts = torch.tensor(dev_counts, dtype=torch.float32)
-        dev_class_weights = max(dev_class_counts) / dev_class_counts
-        self.dev_class_weights = dev_class_weights / dev_class_weights.sum()  # Normalization
-
-    def build_model(self, model_path):
-
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.model = torch.load(model_path)
-        self.train_criterion = nn.CrossEntropyLoss(weight=self.train_class_weights.to(self.device))
-        self.dev_criterion = nn.CrossEntropyLoss(weight=self.dev_class_weights.to(self.device))
+        self.model = torch.load(model_path, weights_only=False)
+        self.model.fc = nn.Linear(512, self.num_cls)
 
         # Define hyperparameters
         #
+        self.train_criterion = nn.CrossEntropyLoss(weight=train_weights.to(self.device))
+        self.eval_criterion = nn.CrossEntropyLoss(weight=eval_weights.to(self.device))
         self.optimizer = optim.SGD(self.model.parameters(), lr=self.lr, momentum=self.momentum)
         self.scheduler = lr_scheduler.StepLR(self.optimizer, step_size=self.step_size, gamma=self.gamma)
 
-        # QUESTION: WHICH NUM_FTRS SHOULD I USE
-        self.model.fc = nn.Linear(512, self.num_cls)
+    def load_info(self, train_num_cls, train_images_count, train_feats, eval_num_cls, eval_images_count, eval_feats):
 
-    def simple_train_model(self):
+        # Extra information for printing
+        self.train_num_cls = train_num_cls
+        self.train_images_count = train_images_count
+        self.train_feats = train_feats
+        self.eval_num_cls = eval_num_cls
+        self.eval_images_count = eval_images_count
+        self.eval_feats = eval_feats
+        
+    def train_model(self, train_dataloader, train_weights, eval_dataloader, eval_weights, validate):
 
         # Track best model weights and performance.
         #
@@ -115,130 +102,133 @@ class convolutional_neural_network:
 
         # Print the beginning information.
         #
-        labels = tools.getClasses(self.train_unique)
+        labels = tools.getClasses(set(range(9)))
+        print("Device: ", self.device)
         print("Class names: ", labels)
-        print("Train subdataset weights: ", self.train_class_weights.tolist())
-        print("Dev subdataset weights: ", self.dev_class_weights.tolist())
+        print("Train weights: ", train_weights.tolist())
+        print("Eval weights: ", eval_weights.tolist())
         print("Train data:")
-        print("--> # of images: ", self.feats_train.shape[1])
+        print("--> # of images: ", self.train_images_count)
         print("--> # of classes: ", self.train_num_cls)
-        print("--> # of windows: ", self.feats_train.shape[0])
+        print("--> # of windows: ", self.train_feats.shape[0])
         print("Eval data:")
-        print("--> # of images: ", self.feats_dev.shape[1])
-        print("--> # of classes: ", self.dev_num_cls)
-        print("--> # of windows: ", self.feats_dev.shape[0])
-        print("=============================================")
+        print("--> # of images: ", self.eval_images_count)
+        print("--> # of classes: ", self.eval_num_cls)
+        print("--> # of windows: ", self.eval_feats.shape[0])
+        print("==================================================")
 
         # Lists for storing the accuracy for each epoch.
         #
         train_accuracies = []
-        dev_accuracies = []
+        eval_accuracies = []
 
         # Start the training process
         #
         for epoch in range(self.num_epochs):
 
             print(f'Epoch {epoch + 1}/{self.num_epochs}')
-            print('-' * 10)
+            print("--------------------------------------------------")
+            print("---------------------Training---------------------")
 
             # Set model to training mode
             #
             self.model.train()
-            running_loss = 0.0
-            running_corrects = 0
-
-            # Iterate over first dataset: training
-            #            
-            for inputs, labels in self.train_loader:
-
-                # Start the time for the training process
-                start_time = time.perf_counter()
-
-                inputs = inputs.to(self.device)
-                labels = labels.to(self.device)
-
-                # Zero the gradients
-                self.optimizer.zero_grad()
-
-                # Forward pass
-                outputs = self.model(inputs)
-                _, preds = torch.max(outputs, 1)
-                loss = self.train_criterion(outputs, labels)
-
-                # Backward pass and optimization
-                loss.backward()
-                self.optimizer.step()
-
-                # Track statistics
-                running_loss += loss.item() * inputs.size(0)
-                # TODO: Make it prettier to see (I used 222222).
-                print("**Predictions:\n",preds.tolist())
-                print("**Labels:\n",labels.data.tolist())
-                running_corrects += torch.sum(preds == labels.data)
+            running_loss, running_corrects, train_time = self.run_epoch(train_dataloader, self.train_criterion, train=True)
 
             # Step the scheduler
             #
             self.scheduler.step()
 
-            # End the timer and calculate time elapsed
-            #
-            end_time = time.perf_counter()
-            train_time = end_time - start_time
-
             # Calculate training loss and accuracy
             #
-            train_epoch_loss = running_loss / len(self.train_loader.dataset)
-            train_epoch_acc = running_corrects.double() / len(self.train_loader.dataset)
-            
-            # Validation phase
+            train_loss = running_loss / len(train_dataloader.dataset)
+            train_acc = running_corrects.double() / len(train_dataloader.dataset)
+
+            # Keep track of the accuracy for each epoch
             #
-            self.model.eval()
-            running_loss = 0.0
-            running_corrects = 0
+            train_accuracies.append(train_acc)
+            
+            if validate:
+                print("--------------------Validation--------------------")
 
-            # Iterate over second dataset: validation
-            for inputs, labels in self.dev_loader:
+                # Validation phase
+                #
+                self.model.eval()
+                running_loss, running_corrects, eval_time = self.run_epoch(eval_dataloader, self.eval_criterion, train=False)
 
-                # Start the time for the training process
-                start_time = time.perf_counter()
+                # Calculate validation loss and accuracy
+                #
+                eval_loss = running_loss / len(eval_dataloader.dataset)
+                eval_acc = running_corrects.double() / len(eval_dataloader.dataset)
 
-                inputs = inputs.to(self.device)
-                labels = labels.to(self.device)
+                # Deep copy the model if it is the best one so far
+                #
+                if eval_loss < best_loss:
+                    best_acc = eval_acc
+                    best_loss = eval_loss
+                    best_model_wts = copy.deepcopy(self.model.state_dict())
 
-                # No need to track gradients for validation
-                with torch.no_grad():  
+                # Keep track of the accuracy for each epoch
+                #
+                eval_accuracies.append(eval_acc)
+
+            # Load best model weights
+            self.model.load_state_dict(best_model_wts)
+
+
+        print(f"Train    Elapsed: {train_time:.2f} sec Loss: {train_loss:.4f} Acc: {train_acc:.4f}")
+        if validate == 1:
+            print(f"Eval     Elapsed: {eval_time:.2f} sec Loss: {eval_loss:.4f} Acc: {eval_acc:.4f}")
+
+        if validate:
+            return train_accuracies, eval_accuracies
+
+    def run_epoch(self, dataloader, criterion, train):
+
+        running_loss = 0.0
+        running_corrects = 0
+
+        for inputs, labels in dataloader:
+
+            # Start the time for the epoch
+            start_time = time.perf_counter()
+
+            inputs = inputs.to(self.device)
+            labels = labels.to(self.device)
+
+            # Zero the gradients (only for train)
+            if train:
+                self.optimizer.zero_grad()
+
+                # Forward pass
+                outputs = self.model(inputs)
+                _, preds = torch.max(outputs, 1)
+                loss = criterion(outputs, labels)
+
+                # Backward pass and optimization
+                loss.backward()
+                self.optimizer.step()
+
+            else:
+                with torch.no_grad():
+                    # Forward pass
                     outputs = self.model(inputs)
-                    print(outputs)
                     _, preds = torch.max(outputs, 1)
-                    loss = self.dev_criterion(outputs, labels)
+                    loss = criterion(outputs, labels)
 
-                # Track statistics
-                running_loss += loss.item() * inputs.size(0)
-                running_corrects += torch.sum(preds == labels.data)
+            # Track statistics
+            running_loss += loss.item() * inputs.size(0)
+            running_corrects += torch.sum(preds == labels.data)
+            print("**Predictions:\n",preds.tolist())
+            print("**Labels:\n",labels.data.tolist())
 
             # End the timer and calculate time elapsed
+            #
             end_time = time.perf_counter()
-            dev_time = end_time - start_time
+            run_time = end_time - start_time
 
-            # Calculate validation loss and accuracy
-            dev_epoch_loss = running_loss / len(self.dev_loader.dataset)
-            dev_epoch_acc = running_corrects.double() / len(self.dev_loader.dataset)
+        return running_loss, running_corrects, run_time
+        
 
-            # Deep copy the model if it is the best one so far
-            if dev_epoch_loss < best_loss:
-                best_acc = dev_epoch_acc
-                best_loss = dev_epoch_loss
-                best_model_wts = copy.deepcopy(self.model.state_dict())
-
-            print(f"Train    Elapsed: {train_time:.2f} sec Loss: {train_epoch_loss:.4f} Acc: {train_epoch_acc:.4f}")
-            print(f"Dev      Elapsed: {dev_time:.2f} sec Loss: {dev_epoch_loss:.4f} Acc: {dev_epoch_acc:.4f}")
-
-            train_accuracies.append(train_epoch_acc)
-            dev_accuracies.append(dev_epoch_acc)
-
-        # Load best model weights
-        self.model.load_state_dict(best_model_wts)
-
-        # Final list of accuracies
-        self.train_accuracies = train_accuracies
-        self.dev_accuracies = dev_accuracies
+    def plot_performance(self):
+        pass

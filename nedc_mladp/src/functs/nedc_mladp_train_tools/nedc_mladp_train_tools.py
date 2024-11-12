@@ -1,12 +1,11 @@
 # import system modules
 import os
-import sys
 import numpy as np
 import pandas as pd
-import random
 import PIL
-import torch
 import torch.utils as utils
+import matplotlib.pyplot as plt
+import torch
 
 TRAIN, DEV, EVAL = 'train', 'dev', 'eval'
 IMG_EXT = '*.tif'
@@ -28,6 +27,8 @@ def parsePCA(filelist):
     '''
     all_data = []
 
+    count = 0
+
     with open(filelist, "r") as files:
         for x in files:
             x = x.strip()
@@ -35,11 +36,11 @@ def parsePCA(filelist):
             pca_columns = df.filter(like='PCA')
             df_parsed = pd.concat([df[['Label']], pca_columns], axis=1)
             all_data.append(df_parsed.to_numpy())
-
+            count += 1
         
     totaldata = np.vstack(all_data)
 
-    return totaldata
+    return totaldata, count
 
 def parsePCA_file(file):
     '''
@@ -52,6 +53,7 @@ def parsePCA_file(file):
     return:
         :totaldata: numpy array containing labels, PCA features 0-n
     '''
+    
     all_data = []
 
     df = pd.read_csv(file, skiprows=9)
@@ -61,7 +63,7 @@ def parsePCA_file(file):
         
     totaldata = np.vstack(all_data)
 
-    return totaldata
+    return totaldata 
 
 def randomData(num_frames:int):
 
@@ -140,3 +142,31 @@ def getClasses(digits):
     for d in digits:
         labels.append(label_order(int(d)+1).name)
     return labels
+
+def getWeights(class_counts):
+    total = torch.sum(class_counts)
+    weights = 1 - (class_counts / total)
+
+    return weights
+
+def plotPerformance(perf_train, perf_eval, num_epochs):
+    x_labels = range(len(num_epochs))
+    plt.figure()
+    plt.plot(x_labels, perf_train, label="Train Dataset", linestyle='-', color='blue')
+    plt.plot(x_labels, perf_eval, label="Eval Dataset", linestyle='-', color='red')
+    plt.title('Performance vs. Epochs')
+    plt.xlabel('Number of Epochs')
+    plt.ylabel('Performance')
+    plt.legend()
+
+    # Define the directory where you want to save the plot
+    # output_dir = '/data/isip/exp/tuh_dpath/exp_0289/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/yuans_plots/'  # Replace with your desired directory
+    output_dir = './test_plots'
+
+    # Ensure the directory exists
+    os.makedirs(output_dir, exist_ok=True)
+
+    output_path = os.path.join(output_dir, 'performance_plot.png')
+
+    plt.savefig(output_path)
+    plt.close()

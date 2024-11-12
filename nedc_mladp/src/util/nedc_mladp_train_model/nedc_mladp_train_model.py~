@@ -61,7 +61,7 @@ def train_model(feature_files:dict=None):
         else:
             train_data = numpy.vstack([train_data,dataframe.to_numpy().astype(numpy.float32)])
 
-        print(f"File {i+1} of {len(feature_files)} read",flush=True)
+        print(f"File {i+1} of {len(feature_files)} read")
     os.makedirs(output_directory,exist_ok=True)
 
             

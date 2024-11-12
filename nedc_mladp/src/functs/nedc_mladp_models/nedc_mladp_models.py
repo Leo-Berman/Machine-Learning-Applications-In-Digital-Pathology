@@ -100,7 +100,7 @@ class convolutional_neural_network(torch.nn.Module):
 
     def getDevice(self):
         self.device_type = "cuda" if torch.cuda.is_available() else "cpu"
-        print(f"Training utilizing {'GPU' if self.device_type == 'cuda' else 'CPU'}")
+        print(f"Training utilizing {'GPU' if self.device_type == 'cuda' else 'CPU'}", flush=True)
         self.to(self.device_type)
 
         

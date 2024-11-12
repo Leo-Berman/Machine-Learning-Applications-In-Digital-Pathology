@@ -22,6 +22,8 @@ train_model{
     momentum=0.9
     learning_rate=0.001
     gamma=0.1
+    output_plot_directory=
+    output_plot_name=
     output_directory="/data/isip/exp/tuh_dpath/exp_0289/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/yuans_model_output"
 }
 

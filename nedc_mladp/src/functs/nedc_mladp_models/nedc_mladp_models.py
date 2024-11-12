@@ -128,10 +128,8 @@ class convolutional_neural_network:
 
             print(f'Epoch {epoch + 1}/{self.num_epochs}')
             print("--------------------------------------------------")
-            print("---------------------Training---------------------")
 
-            # Set model to training mode
-            #
+            print("---------------------Training---------------------")
             self.model.train()
             running_loss, running_corrects, train_time = self.run_epoch(train_dataloader, self.train_criterion, train=True)
 
@@ -150,9 +148,6 @@ class convolutional_neural_network:
             
             if validate:
                 print("--------------------Validation--------------------")
-
-                # Validation phase
-                #
                 self.model.eval()
                 running_loss, running_corrects, eval_time = self.run_epoch(eval_dataloader, self.eval_criterion, train=False)
 
@@ -177,11 +172,11 @@ class convolutional_neural_network:
 
 
         print(f"Train    Elapsed: {train_time:.2f} sec Loss: {train_loss:.4f} Acc: {train_acc:.4f}")
-        if validate == 1:
+        if validate:
             print(f"Eval     Elapsed: {eval_time:.2f} sec Loss: {eval_loss:.4f} Acc: {eval_acc:.4f}")
 
         if validate:
-            return train_accuracies, eval_accuracies
+            self.train_accuracies, self.eval_accuracies = train_accuracies, eval_accuracies
 
     def run_epoch(self, dataloader, criterion, train):
 
@@ -230,5 +225,5 @@ class convolutional_neural_network:
         return running_loss, running_corrects, run_time
         
 
-    def plot_performance(self):
-        pass
+    def plot(self, directory, name):
+        tools.plotPerformance(perf_train=self.train_accuracies, perf_eval=self.eval_accuracies, directory=directory, name=name, num_epochs=self.num_epochs)

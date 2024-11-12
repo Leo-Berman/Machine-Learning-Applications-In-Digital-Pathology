@@ -149,7 +149,7 @@ def getWeights(class_counts):
 
     return weights
 
-def plotPerformance(perf_train, perf_eval, num_epochs):
+def plotPerformance(perf_train, perf_eval, directory, name, num_epochs):
     x_labels = range(len(num_epochs))
     plt.figure()
     plt.plot(x_labels, perf_train, label="Train Dataset", linestyle='-', color='blue')
@@ -159,14 +159,9 @@ def plotPerformance(perf_train, perf_eval, num_epochs):
     plt.ylabel('Performance')
     plt.legend()
 
-    # Define the directory where you want to save the plot
-    # output_dir = '/data/isip/exp/tuh_dpath/exp_0289/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/yuans_plots/'  # Replace with your desired directory
-    output_dir = './test_plots'
-
     # Ensure the directory exists
-    os.makedirs(output_dir, exist_ok=True)
-
-    output_path = os.path.join(output_dir, 'performance_plot.png')
+    os.makedirs(directory, exist_ok=True)
+    output_path = os.path.join(directory, name)
 
     plt.savefig(output_path)
     plt.close()

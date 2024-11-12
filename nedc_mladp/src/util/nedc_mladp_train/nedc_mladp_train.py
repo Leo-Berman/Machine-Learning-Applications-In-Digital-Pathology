@@ -55,6 +55,9 @@ def train_model(feature_files:dict=None):
     if not (output_directory.endswith("/")):
         output_directory += "/"         
     os.makedirs(output_directory,exist_ok=True)
+
+    output_plot_directory = parsed_parameters['output_plot_directory']
+    output_plot_name = parsed_parameters['output_plot_name']
  
     # Train model
     #
@@ -108,6 +111,7 @@ def train_model(feature_files:dict=None):
             eval_weights=eval_weights,
             validate=True
             )
+        model.plot(output_plot_directory, output_plot_name)
         
     else:
         print("No model supplied")

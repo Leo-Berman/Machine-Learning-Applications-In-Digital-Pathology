@@ -73,6 +73,7 @@ class convolutional_neural_network:
         # Load the model.
         #
         self.model = torch.load(model_path, weights_only=False)
+        self.model = self.model.to(self.device)
         self.model.fc = nn.Linear(512, self.num_cls)
 
         # Define hyperparameters

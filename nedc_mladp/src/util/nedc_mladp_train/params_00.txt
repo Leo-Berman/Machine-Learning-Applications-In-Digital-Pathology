@@ -11,19 +11,28 @@ gen_feats{
 }
 
 train_model{
+    PCA_components=100
+    number_of_classes=9
     model_type="CNN"
     model_path="/data/isip/exp/tuh_dpath/exp_0289/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/src/functs/nedc_mladp_models/model_paths/model.pth"
-    data_list_train="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/example_features_output/feature_files.list"
-    data_list_eval="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/example_features_output/feature_files.list"
-    number_of_classes=9
+    data_list_train="/data/isip/exp/tuh_dpath/exp_0289/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/example_features_output/feature_files.list"
+    data_list_eval="/data/isip/exp/tuh_dpath/exp_0289/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/example_features_output/feature_files.list"
+    
+    # CNN model architecture
     batch_size=32
-    num_epochs=1
+    num_epochs=3
     step_size=7
     momentum=0.9
     learning_rate=0.001
     gamma=0.1
-    output_plot_directory=
-    output_plot_name=
+
+    # Hyperparameters
+    hidden_layer_1_neurons=128
+    hidden_layer_2_neurons=64
+
+    # Output
+    output_plot_directory="Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/yuans_plots/"
+    output_plot_name="test_plot.png"
     output_directory="/data/isip/exp/tuh_dpath/exp_0289/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/yuans_model_output"
 }
 

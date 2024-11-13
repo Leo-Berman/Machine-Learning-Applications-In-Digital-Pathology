@@ -6,24 +6,26 @@ import torch.optim
 import pandas as pd
 import numpy as np
 from torch.utils.data import TensorDataset, DataLoader, Dataset
-
+import pandas
 
 
 # import project specific libraries
 from nedc_mladp_label_enum import label_order
 import nedc_mladp_fileio_tools as fileio_tools
 
+
+
 class CSVDataset(Dataset):
 
+    
     def my_parse(self,csv_file):
         lines = [line.split(',') for line in fileio_tools.readLines(csv_file) if ':' not in line]
-        dataframe = pd.DataFrame(lines[1:],columns=lines[0])
+        dataframe = pandas.DataFrame(lines[1:],columns=lines[0])
         labels = dataframe['Label'].to_list()
-        dataframe = dataframe.drop(['Label','TopLeftRow','TopLeftColumn'],axis=1).to_numpy().astype(np.float32).tolist()
-        dataframe = [torch.tensor(feature_list) for feature_list in dataframe]
-        return_dict = {'Labels':labels,'Data':dataframe}
-        return return_dict
-
+        dataframe = dataframe.drop(['Label','TopLeftRow','TopLeftColumn'],axis=1)
+        return_point = {'Data':dataframe.to_numpy().astype(np.float32),'Labels':labels}
+        return return_point
+    
     def blocks(self, files, size=65536):
         while True:
             b = files.read(size)
@@ -33,24 +35,22 @@ class CSVDataset(Dataset):
     
     def __init__(self, csv_files, transform = None):
         self.csv_files = csv_files
-        self.data_length = 0
         self.current_file = self.my_parse(csv_files.pop(0))
-        '''for i,csv_file in enumerate(csv_files):
+        self.data_length = 0
+        for i,csv_file in enumerate(csv_files):
             with open(csv_file, 'r', encoding="utf-8", errors='ignore') as f:
                 self.data_length+=sum(bl.count("\n") for bl in self.blocks(f)) - 10
                 print(self.data_length)
                 print(f"{i} of {len(csv_files)} files lines counted")
-        print("Number of features = ",self.data_length)'''
-        self.data_length = 10000
+        print("Number of features = ",self.data_length)
+
     def __len__(self):
         return self.data_length
 
     
     def __getitem__(self, idx):
-        return_point = {'Data':self.current_file['Data'].pop(0), 'Label':self.current_file['Labels'].pop(0)}
-        print(len(self.current_file['Data'].pop(0)))
-        print(len(self.current_file['Labels'].pop(0)))
-        print(f"Datalength = {len(return_point['Data'])}, Labelength = {len(return_point['Label'])}")
+        return_point = {'Data':self.current_file['Data'][0,:], 'Label':self.current_file['Labels'].pop(0)}
+        self.current_file['Data'] = np.delete(self.current_file['Data'],(0), axis = 0)
         if len(self.current_file['Labels']) == 0:
             self.current_file = self.my_parse(self.csv_files.pop(0))
         return return_point
@@ -100,8 +100,18 @@ class convolutional_neural_network(torch.nn.Module):
         self.dropout_01 = torch.nn.Dropout(p = dropout_coefficient)
 
         print("CNN Successfully Initialized")
+
+    def my_collate(self, batch):
+        labels = []
+        data = []
+        for sample in batch:
+            data.append(sample['Data'])
+            labels.append(sample['Label'])
+        return np.vstack(data), labels
+
         
     def forward(self, x):
+
         x = self.convolution_01(x)
 
         x = torch.relu(x)
@@ -112,6 +122,7 @@ class convolutional_neural_network(torch.nn.Module):
 
         x = self.convolution_03(x)
 
+        
         x = torch.relu(x)
 
         x = x.view(x.size(0), -1)
@@ -135,20 +146,19 @@ class convolutional_neural_network(torch.nn.Module):
         optimizer = torch.optim.Adam(self.parameters(), lr = self.learning_rate)
         print("Criterion and Optimizer initialized")
 
-        dataloader = DataLoader(CSVDataset(list_of_files), batch_size = 10)
+        dataloader = DataLoader(CSVDataset(list_of_files), batch_size = 10,collate_fn=self.my_collate)
         
         for epoch in range(self.number_of_epochs):
             print(f"Processing epoch {epoch}")
-            for batch in dataloader:
+            for data, labels in dataloader:
                 #batch_data_gpu = torch.tensor([tmp_data] for tmp_data in data_point['Data']).to(self.device_type)
-                #batch_labels_gpu = labelToTensor(data_point['Label']).to(self.device_type)
-                print("Data length batch = ",len(batch['Data']))
-                print("Label length batch = ",len(batch['Label']))
+                #batch_labels_gpu = labelToTensor(data_point['Label']).to(self.device_type)                                
+
                 optimizer.zero_grad()
 
-
-                outputs = self.forward(batch['Data'])
-                loss = criterion(outputs, batch['Label'])
+                
+                outputs = self.forward(self.dataToTensor(data))
+                loss = criterion(outputs, self.labelToTensor(labels))
                 loss.backward()
                 optimizer.step()
                 
@@ -204,9 +214,8 @@ def main():
         files = [file.strip() for file in f.readlines()]
 
 
-    CNN =convolutional_neural_network(PCA_components = 3872,
-                                      number_of_classes = 9,
-                                      model_output_path = "./models")
+    CNN =convolutional_neural_network(3782, 9, "./models",
+                                      1, 3, 1, 3, 1, 3)
     CNN.fit(files)
         
     

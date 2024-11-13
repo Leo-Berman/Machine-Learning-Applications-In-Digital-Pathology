@@ -48,6 +48,7 @@ def train_model(feature_files:dict=None):
         momentum = float(parsed_parameters["momentum"])
         learning_rate = float(parsed_parameters["learning_rate"])
         gamma = float(parsed_parameters['gamma'])
+        validate = (parsed_parameters['validate'])
 
     # Output
     #
@@ -58,6 +59,7 @@ def train_model(feature_files:dict=None):
 
     output_plot_directory = parsed_parameters['output_plot_directory']
     output_plot_name = parsed_parameters['output_plot_name']
+    output_model_name = parsed_parameters['output_model_name']
  
     # Train model
     #
@@ -109,9 +111,10 @@ def train_model(feature_files:dict=None):
             train_weights=train_weights,
             eval_dataloader=eval_dataloader,
             eval_weights=eval_weights,
-            validate=True
+            validate=validate
             )
         model.plot(output_plot_directory, output_plot_name)
+        model.save_model(output_directory=output_directory, output_model_name=output_model_name)
         
     else:
         print("No model supplied")
@@ -120,11 +123,11 @@ def train_model(feature_files:dict=None):
     # model.fit(train_data, labels)
 
 
-    if model_type == "CNN":
-        torch.save(model, output_directory+model_type+'.pth')
-    else:
-        compression=int(parsed_parameters['compression'])
-        joblib.dump(model,output_directory+model_type+'.joblib',compress=compression)
+    # if model_type == "CNN":
+    #     torch.save(model, output_directory+model_type+'.pth')
+    # else:
+    #     compression=int(parsed_parameters['compression'])
+    #     joblib.dump(model,output_directory+model_type+'.joblib',compress=compression)
 
     return model
 

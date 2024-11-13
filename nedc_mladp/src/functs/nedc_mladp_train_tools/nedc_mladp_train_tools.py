@@ -150,7 +150,7 @@ def getWeights(class_counts):
     return weights
 
 def plotPerformance(perf_train, perf_eval, directory, name, num_epochs):
-    x_labels = range(len(num_epochs))
+    x_labels = list(range(1, num_epochs+1))
     plt.figure()
     plt.plot(x_labels, perf_train, label="Train Dataset", linestyle='-', color='blue')
     plt.plot(x_labels, perf_eval, label="Eval Dataset", linestyle='-', color='red')

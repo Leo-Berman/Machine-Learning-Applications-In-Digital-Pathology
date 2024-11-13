@@ -1,4 +1,5 @@
 import sys
+import os
 import copy
 import numpy as np
 import time
@@ -29,18 +30,20 @@ class convolutional_neural_network:
 
     def load_data(self, filelist):
 
-        # get the total data from CSV file(s)
+        # Get the total data from CSV file(s)
+        #
         totaldata, image_count = tools.parsePCA(filelist)          # filelist
         labels = totaldata[:,0]
         feats = totaldata[:,1:]
         feats, labels = tools.correctType(feats,labels)
 
-        # create the tensors
-        # feats_tensor = torch.tensor(feats, dtype=torch.float32).unsqueeze(1).repeat(1, 3, 1, 1)
+        # Create the tensors
+        #
         feats_tensor = torch.tensor(feats, dtype=torch.float32)
         label_tensor = torch.tensor(labels, dtype=torch.long) - 1
 
-        # labels contain digits [1-9]
+        # Labels contain digits [1-9]
+        #
         num_cls = len(set(labels))
 
         return feats_tensor, label_tensor, num_cls, image_count
@@ -50,7 +53,9 @@ class convolutional_neural_network:
         arguments:
             :feats: tensor of features.
             :labels: tensor of labels.
+            :shuffle_flag: True (Train) or False (Eval)
         '''
+
         reshaped = feats[:feats.shape[0],:].reshape(-1,1,feats.shape[1],1)
         feats = reshaped.clone().detach().to(torch.float32).repeat(1, 3, 1, 1)
         dataset = TensorDataset(feats, labels)
@@ -79,13 +84,15 @@ class convolutional_neural_network:
         # Define hyperparameters
         #
         self.train_criterion = nn.CrossEntropyLoss(weight=train_weights.to(self.device))
-        self.eval_criterion = nn.CrossEntropyLoss(weight=eval_weights.to(self.device))
+        # self.eval_criterion = nn.CrossEntropyLoss(weight=eval_weights.to(self.device))
+        self.eval_criterion = nn.CrossEntropyLoss()
         self.optimizer = optim.SGD(self.model.parameters(), lr=self.lr, momentum=self.momentum)
         self.scheduler = lr_scheduler.StepLR(self.optimizer, step_size=self.step_size, gamma=self.gamma)
 
     def load_info(self, train_num_cls, train_images_count, train_feats, eval_num_cls, eval_images_count, eval_feats):
 
         # Extra information for printing
+        #
         self.train_num_cls = train_num_cls
         self.train_images_count = train_images_count
         self.train_feats = train_feats
@@ -123,6 +130,9 @@ class convolutional_neural_network:
         train_accuracies = []
         eval_accuracies = []
 
+        total_train_time = 0
+        total_eval_time = 0
+
         # Start the training process
         #
         for epoch in range(self.num_epochs):
@@ -143,9 +153,10 @@ class convolutional_neural_network:
             train_loss = running_loss / len(train_dataloader.dataset)
             train_acc = running_corrects.double() / len(train_dataloader.dataset)
 
-            # Keep track of the accuracy for each epoch
+            # Keep track of the accuracy and time for each epoch
             #
             train_accuracies.append(train_acc)
+            total_train_time += train_time
             
             if validate:
                 print("--------------------Validation--------------------")
@@ -167,14 +178,15 @@ class convolutional_neural_network:
                 # Keep track of the accuracy for each epoch
                 #
                 eval_accuracies.append(eval_acc)
+                total_eval_time += eval_time
 
             # Load best model weights
             self.model.load_state_dict(best_model_wts)
 
 
-        print(f"Train    Elapsed: {train_time:.2f} sec Loss: {train_loss:.4f} Acc: {train_acc:.4f}")
+        print(f"Train    Elapsed: {total_train_time:.2f} sec Loss: {train_loss:.4f} Acc: {train_acc:.4f}")
         if validate:
-            print(f"Eval     Elapsed: {eval_time:.2f} sec Loss: {eval_loss:.4f} Acc: {eval_acc:.4f}")
+            print(f"Eval     Elapsed: {total_eval_time:.2f} sec Loss: {eval_loss:.4f} Acc: {eval_acc:.4f}")
 
         if validate:
             self.train_accuracies, self.eval_accuracies = train_accuracies, eval_accuracies
@@ -184,10 +196,10 @@ class convolutional_neural_network:
         running_loss = 0.0
         running_corrects = 0
 
-        for inputs, labels in dataloader:
+        # Start the time for the epoch
+        start_time = time.perf_counter()
 
-            # Start the time for the epoch
-            start_time = time.perf_counter()
+        for inputs, labels in dataloader:
 
             inputs = inputs.to(self.device)
             labels = labels.to(self.device)
@@ -218,13 +230,34 @@ class convolutional_neural_network:
             print("**Predictions:\n",preds.tolist())
             print("**Labels:\n",labels.data.tolist())
 
-            # End the timer and calculate time elapsed
-            #
-            end_time = time.perf_counter()
-            run_time = end_time - start_time
+        # End the timer and calculate time elapsed
+        #
+        end_time = time.perf_counter()
+        run_time = end_time - start_time
 
         return running_loss, running_corrects, run_time
         
 
     def plot(self, directory, name):
-        tools.plotPerformance(perf_train=self.train_accuracies, perf_eval=self.eval_accuracies, directory=directory, name=name, num_epochs=self.num_epochs)
+
+        tools.plotPerformance(
+            perf_train=self.train_accuracies,
+            perf_eval=self.eval_accuracies,
+            directory=directory,
+            name=name,
+            num_epochs=self.num_epochs
+            )
+
+    def save_model(self, output_directory, output_model_name):
+        '''
+        Save the model to the output directory.
+        '''
+
+        if not (output_directory.endswith("/")):
+            output_directory += "/"   
+            os.makedirs(output_directory,exist_ok=True)
+        output_path = os.path.join(output_directory, output_model_name)
+
+        torch.save(self.model.state_dict(), output_path)
+        print("Model saved as: ")
+        print(output_path)

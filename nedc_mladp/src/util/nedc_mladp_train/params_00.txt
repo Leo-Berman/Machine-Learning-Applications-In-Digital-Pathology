@@ -30,10 +30,14 @@ train_model{
     hidden_layer_1_neurons=128
     hidden_layer_2_neurons=64
 
+    # Validate: ('False' if only training)
+    validate=False
+
     # Output
     output_plot_directory="Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/yuans_plots/"
     output_plot_name="test_plot.png"
     output_directory="/data/isip/exp/tuh_dpath/exp_0289/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/yuans_model_output"
+    output_model_name="yuans_model.pth"
 }
 
 eval_model{

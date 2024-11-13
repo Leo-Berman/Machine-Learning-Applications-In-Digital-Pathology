@@ -37,6 +37,7 @@ class CSVDataset(Dataset):
         self.csv_files = csv_files
         self.current_file = self.my_parse(csv_files.pop(0))
         self.data_length = 0
+        self.current_file_index = 0
         for i,csv_file in enumerate(csv_files):
             with open(csv_file, 'r', encoding="utf-8", errors='ignore') as f:
                 self.data_length+=sum(bl.count("\n") for bl in self.blocks(f)) - 10
@@ -52,7 +53,10 @@ class CSVDataset(Dataset):
         return_point = {'Data':self.current_file['Data'][0,:], 'Label':self.current_file['Labels'].pop(0)}
         self.current_file['Data'] = np.delete(self.current_file['Data'],(0), axis = 0)
         if len(self.current_file['Labels']) == 0:
-            self.current_file = self.my_parse(self.csv_files.pop(0))
+            self.current_file_index+=1
+            if self.current_file_index == len(self.csv_files):
+                self.current_file_index = 0
+            self.current_file = self.my_parse(self.csv_files[self.current_file_index])
         return return_point
 
 
@@ -146,7 +150,7 @@ class convolutional_neural_network(torch.nn.Module):
         optimizer = torch.optim.Adam(self.parameters(), lr = self.learning_rate)
         print("Criterion and Optimizer initialized")
 
-        dataloader = DataLoader(CSVDataset(list_of_files), batch_size = 10,collate_fn=self.my_collate)
+        dataloader = DataLoader(CSVDataset(list_of_files), batch_size = 1000,collate_fn=self.my_collate)
         
         for epoch in range(self.number_of_epochs):
             print(f"Processing epoch {epoch}")

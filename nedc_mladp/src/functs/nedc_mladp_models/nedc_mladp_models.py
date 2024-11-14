@@ -154,7 +154,9 @@ class convolutional_neural_network(torch.nn.Module):
         optimizer = torch.optim.Adam(self.parameters(), lr = self.learning_rate)
         print("Criterion and Optimizer initialized")
 
-        dataloader = DataLoader(CSVDataset(list_of_files), batch_size = 64,collate_fn=self.my_collate)
+        batch_size = 64
+        
+        dataloader = DataLoader(CSVDataset(list_of_files), batch_size = batch_size,collate_fn=self.my_collate)
         
         for epoch in range(self.number_of_epochs):
             print(f"Processing epoch {epoch}")
@@ -173,8 +175,8 @@ class convolutional_neural_network(torch.nn.Module):
                 loss.backward()
                 optimizer.step()
                 
-                torch.save(self, self.model_output_path + f"CNN{epoch}.pth")
-                print(f'Epoch {epoch+1}/{self.number_of_epochs}, Loss: {loss.item()}')
+            torch.save(self, self.model_output_path + f"CNN{epoch}.pth")
+            print(f'Epoch {epoch+1}/{self.number_of_epochs}, Loss: {loss.item()}', flush=True)
 
     def getDevice(self):
         self.device_type = "cuda" if torch.cuda.is_available() else "cpu"

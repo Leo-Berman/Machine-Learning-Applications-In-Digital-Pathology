@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import torch
 import torch.nn
 import torch.optim
@@ -7,7 +6,11 @@ import pandas as pd
 import numpy as np
 from torch.utils.data import TensorDataset, DataLoader, Dataset
 import pandas
+import mmap
 
+
+import gc
+gc.enable()
 
 # import project specific libraries
 from nedc_mladp_label_enum import label_order
@@ -26,23 +29,24 @@ class CSVDataset(Dataset):
         return_point = {'Data':dataframe.to_numpy().astype(np.float32),'Labels':labels}
         return return_point
     
-    def blocks(self, files, size=65536):
-        while True:
-            b = files.read(size)
-            if not b: break
-            yield b
-
+    def count_lines_mmap(self,filepath):
+        with open(filepath, 'r+b') as f:
+            mm = mmap.mmap(f.fileno(), 0)
+            lines = 0
+            while mm.readline():
+                lines += 1
+            mm.close()
+            return lines
     
     def __init__(self, csv_files, transform = None):
         self.csv_files = csv_files
-        self.current_file = self.my_parse(csv_files.pop(0))
+        self.current_file = self.my_parse(csv_files[0])
         self.data_length = 0
         self.current_file_index = 0
         for i,csv_file in enumerate(csv_files):
-            with open(csv_file, 'r', encoding="utf-8", errors='ignore') as f:
-                self.data_length+=sum(bl.count("\n") for bl in self.blocks(f)) - 10
-                print(self.data_length)
-                print(f"{i} of {len(csv_files)} files lines counted")
+            self.data_length+=self.count_lines_mmap(csv_file) - 10
+            print(self.data_length)
+            print(f"{i} of {len(csv_files)} files lines counted")
         print("Number of features = ",self.data_length)
 
     def __len__(self):
@@ -150,14 +154,17 @@ class convolutional_neural_network(torch.nn.Module):
         optimizer = torch.optim.Adam(self.parameters(), lr = self.learning_rate)
         print("Criterion and Optimizer initialized")
 
-        dataloader = DataLoader(CSVDataset(list_of_files), batch_size = 1000,collate_fn=self.my_collate)
+        dataloader = DataLoader(CSVDataset(list_of_files), batch_size = 64,collate_fn=self.my_collate)
         
         for epoch in range(self.number_of_epochs):
             print(f"Processing epoch {epoch}")
+            batch_number = 1
             for data, labels in dataloader:
                 #batch_data_gpu = torch.tensor([tmp_data] for tmp_data in data_point['Data']).to(self.device_type)
                 #batch_labels_gpu = labelToTensor(data_point['Label']).to(self.device_type)                                
 
+                print(f"Processing batch {batch_number} of {batch_size}")
+                batch_number+=1
                 optimizer.zero_grad()
 
                 

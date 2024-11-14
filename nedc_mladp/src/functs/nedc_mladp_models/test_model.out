@@ -1,1 +1,3477 @@
 Training utilizing GPU
+CNN Successfully Initialized
+Criterion and Optimizer initialized
+493
+0 of 1636 files lines counted
+1156
+1 of 1636 files lines counted
+1304
+2 of 1636 files lines counted
+2053
+3 of 1636 files lines counted
+2296
+4 of 1636 files lines counted
+3333
+5 of 1636 files lines counted
+4352
+6 of 1636 files lines counted
+5390
+7 of 1636 files lines counted
+5558
+8 of 1636 files lines counted
+5685
+9 of 1636 files lines counted
+5990
+10 of 1636 files lines counted
+6359
+11 of 1636 files lines counted
+6746
+12 of 1636 files lines counted
+7309
+13 of 1636 files lines counted
+7423
+14 of 1636 files lines counted
+7450
+15 of 1636 files lines counted
+7517
+16 of 1636 files lines counted
+7617
+17 of 1636 files lines counted
+7740
+18 of 1636 files lines counted
+7863
+19 of 1636 files lines counted
+7948
+20 of 1636 files lines counted
+8045
+21 of 1636 files lines counted
+8139
+22 of 1636 files lines counted
+8206
+23 of 1636 files lines counted
+8270
+24 of 1636 files lines counted
+8321
+25 of 1636 files lines counted
+8618
+26 of 1636 files lines counted
+9031
+27 of 1636 files lines counted
+9393
+28 of 1636 files lines counted
+9451
+29 of 1636 files lines counted
+9472
+30 of 1636 files lines counted
+9580
+31 of 1636 files lines counted
+9826
+32 of 1636 files lines counted
+10110
+33 of 1636 files lines counted
+10385
+34 of 1636 files lines counted
+10595
+35 of 1636 files lines counted
+10854
+36 of 1636 files lines counted
+11013
+37 of 1636 files lines counted
+11290
+38 of 1636 files lines counted
+11485
+39 of 1636 files lines counted
+11712
+40 of 1636 files lines counted
+11938
+41 of 1636 files lines counted
+12178
+42 of 1636 files lines counted
+12446
+43 of 1636 files lines counted
+12667
+44 of 1636 files lines counted
+12908
+45 of 1636 files lines counted
+13034
+46 of 1636 files lines counted
+13158
+47 of 1636 files lines counted
+14028
+48 of 1636 files lines counted
+15312
+49 of 1636 files lines counted
+16226
+50 of 1636 files lines counted
+17456
+51 of 1636 files lines counted
+17977
+52 of 1636 files lines counted
+18532
+53 of 1636 files lines counted
+20122
+54 of 1636 files lines counted
+21179
+55 of 1636 files lines counted
+22437
+56 of 1636 files lines counted
+22951
+57 of 1636 files lines counted
+23055
+58 of 1636 files lines counted
+24630
+59 of 1636 files lines counted
+24752
+60 of 1636 files lines counted
+24927
+61 of 1636 files lines counted
+25173
+62 of 1636 files lines counted
+25988
+63 of 1636 files lines counted
+26369
+64 of 1636 files lines counted
+27680
+65 of 1636 files lines counted
+28555
+66 of 1636 files lines counted
+28922
+67 of 1636 files lines counted
+29641
+68 of 1636 files lines counted
+29905
+69 of 1636 files lines counted
+30039
+70 of 1636 files lines counted
+30178
+71 of 1636 files lines counted
+31975
+72 of 1636 files lines counted
+34696
+73 of 1636 files lines counted
+37376
+74 of 1636 files lines counted
+38842
+75 of 1636 files lines counted
+44442
+76 of 1636 files lines counted
+44630
+77 of 1636 files lines counted
+47114
+78 of 1636 files lines counted
+49251
+79 of 1636 files lines counted
+51341
+80 of 1636 files lines counted
+60442
+81 of 1636 files lines counted
+62140
+82 of 1636 files lines counted
+63542
+83 of 1636 files lines counted
+64214
+84 of 1636 files lines counted
+65082
+85 of 1636 files lines counted
+65457
+86 of 1636 files lines counted
+66518
+87 of 1636 files lines counted
+67872
+88 of 1636 files lines counted
+69565
+89 of 1636 files lines counted
+69672
+90 of 1636 files lines counted
+71009
+91 of 1636 files lines counted
+71662
+92 of 1636 files lines counted
+75404
+93 of 1636 files lines counted
+80252
+94 of 1636 files lines counted
+83462
+95 of 1636 files lines counted
+84539
+96 of 1636 files lines counted
+84714
+97 of 1636 files lines counted
+85770
+98 of 1636 files lines counted
+86065
+99 of 1636 files lines counted
+86248
+100 of 1636 files lines counted
+86367
+101 of 1636 files lines counted
+86561
+102 of 1636 files lines counted
+86844
+103 of 1636 files lines counted
+87230
+104 of 1636 files lines counted
+87362
+105 of 1636 files lines counted
+87423
+106 of 1636 files lines counted
+97003
+107 of 1636 files lines counted
+97203
+108 of 1636 files lines counted
+103345
+109 of 1636 files lines counted
+103696
+110 of 1636 files lines counted
+104003
+111 of 1636 files lines counted
+104165
+112 of 1636 files lines counted
+104291
+113 of 1636 files lines counted
+104439
+114 of 1636 files lines counted
+104983
+115 of 1636 files lines counted
+105185
+116 of 1636 files lines counted
+105483
+117 of 1636 files lines counted
+105806
+118 of 1636 files lines counted
+106108
+119 of 1636 files lines counted
+107215
+120 of 1636 files lines counted
+107369
+121 of 1636 files lines counted
+107951
+122 of 1636 files lines counted
+108320
+123 of 1636 files lines counted
+108873
+124 of 1636 files lines counted
+109173
+125 of 1636 files lines counted
+110708
+126 of 1636 files lines counted
+112525
+127 of 1636 files lines counted
+114584
+128 of 1636 files lines counted
+114953
+129 of 1636 files lines counted
+118512
+130 of 1636 files lines counted
+119780
+131 of 1636 files lines counted
+126321
+132 of 1636 files lines counted
+129905
+133 of 1636 files lines counted
+132386
+134 of 1636 files lines counted
+133173
+135 of 1636 files lines counted
+133214
+136 of 1636 files lines counted
+134594
+137 of 1636 files lines counted
+135836
+138 of 1636 files lines counted
+137812
+139 of 1636 files lines counted
+138295
+140 of 1636 files lines counted
+138464
+141 of 1636 files lines counted
+138569
+142 of 1636 files lines counted
+138809
+143 of 1636 files lines counted
+139212
+144 of 1636 files lines counted
+139387
+145 of 1636 files lines counted
+140081
+146 of 1636 files lines counted
+140753
+147 of 1636 files lines counted
+141507
+148 of 1636 files lines counted
+141709
+149 of 1636 files lines counted
+141866
+150 of 1636 files lines counted
+141908
+151 of 1636 files lines counted
+142741
+152 of 1636 files lines counted
+143142
+153 of 1636 files lines counted
+144454
+154 of 1636 files lines counted
+145702
+155 of 1636 files lines counted
+146309
+156 of 1636 files lines counted
+146713
+157 of 1636 files lines counted
+151303
+158 of 1636 files lines counted
+151609
+159 of 1636 files lines counted
+161435
+160 of 1636 files lines counted
+167144
+161 of 1636 files lines counted
+167218
+162 of 1636 files lines counted
+167358
+163 of 1636 files lines counted
+179564
+164 of 1636 files lines counted
+209013
+165 of 1636 files lines counted
+210164
+166 of 1636 files lines counted
+262992
+167 of 1636 files lines counted
+290148
+168 of 1636 files lines counted
+307768
+169 of 1636 files lines counted
+312965
+170 of 1636 files lines counted
+313055
+171 of 1636 files lines counted
+314303
+172 of 1636 files lines counted
+315959
+173 of 1636 files lines counted
+318342
+174 of 1636 files lines counted
+318488
+175 of 1636 files lines counted
+320334
+176 of 1636 files lines counted
+321726
+177 of 1636 files lines counted
+327635
+178 of 1636 files lines counted
+328279
+179 of 1636 files lines counted
+330756
+180 of 1636 files lines counted
+335121
+181 of 1636 files lines counted
+337122
+182 of 1636 files lines counted
+339304
+183 of 1636 files lines counted
+344454
+184 of 1636 files lines counted
+347365
+185 of 1636 files lines counted
+349657
+186 of 1636 files lines counted
+349984
+187 of 1636 files lines counted
+351823
+188 of 1636 files lines counted
+353000
+189 of 1636 files lines counted
+355311
+190 of 1636 files lines counted
+358379
+191 of 1636 files lines counted
+359512
+192 of 1636 files lines counted
+361297
+193 of 1636 files lines counted
+378347
+194 of 1636 files lines counted
+379163
+195 of 1636 files lines counted
+389276
+196 of 1636 files lines counted
+390589
+197 of 1636 files lines counted
+433042
+198 of 1636 files lines counted
+454439
+199 of 1636 files lines counted
+472974
+200 of 1636 files lines counted
+473134
+201 of 1636 files lines counted
+473465
+202 of 1636 files lines counted
+473719
+203 of 1636 files lines counted
+474589
+204 of 1636 files lines counted
+475746
+205 of 1636 files lines counted
+475775
+206 of 1636 files lines counted
+477971
+207 of 1636 files lines counted
+483550
+208 of 1636 files lines counted
+490102
+209 of 1636 files lines counted
+508486
+210 of 1636 files lines counted
+522359
+211 of 1636 files lines counted
+536612
+212 of 1636 files lines counted
+540673
+213 of 1636 files lines counted
+541615
+214 of 1636 files lines counted
+541889
+215 of 1636 files lines counted
+542466
+216 of 1636 files lines counted
+544946
+217 of 1636 files lines counted
+545249
+218 of 1636 files lines counted
+545526
+219 of 1636 files lines counted
+546007
+220 of 1636 files lines counted
+546315
+221 of 1636 files lines counted
+546456
+222 of 1636 files lines counted
+546607
+223 of 1636 files lines counted
+549610
+224 of 1636 files lines counted
+552063
+225 of 1636 files lines counted
+558062
+226 of 1636 files lines counted
+561446
+227 of 1636 files lines counted
+563380
+228 of 1636 files lines counted
+568698
+229 of 1636 files lines counted
+568823
+230 of 1636 files lines counted
+569398
+231 of 1636 files lines counted
+569708
+232 of 1636 files lines counted
+569767
+233 of 1636 files lines counted
+569835
+234 of 1636 files lines counted
+569903
+235 of 1636 files lines counted
+570620
+236 of 1636 files lines counted
+570761
+237 of 1636 files lines counted
+571819
+238 of 1636 files lines counted
+572550
+239 of 1636 files lines counted
+573398
+240 of 1636 files lines counted
+573904
+241 of 1636 files lines counted
+574077
+242 of 1636 files lines counted
+575003
+243 of 1636 files lines counted
+575447
+244 of 1636 files lines counted
+575483
+245 of 1636 files lines counted
+575489
+246 of 1636 files lines counted
+575825
+247 of 1636 files lines counted
+576116
+248 of 1636 files lines counted
+576299
+249 of 1636 files lines counted
+576622
+250 of 1636 files lines counted
+577131
+251 of 1636 files lines counted
+577567
+252 of 1636 files lines counted
+577770
+253 of 1636 files lines counted
+577982
+254 of 1636 files lines counted
+578172
+255 of 1636 files lines counted
+578479
+256 of 1636 files lines counted
+580031
+257 of 1636 files lines counted
+581557
+258 of 1636 files lines counted
+582445
+259 of 1636 files lines counted
+582614
+260 of 1636 files lines counted
+583958
+261 of 1636 files lines counted
+584077
+262 of 1636 files lines counted
+586646
+263 of 1636 files lines counted
+588321
+264 of 1636 files lines counted
+588753
+265 of 1636 files lines counted
+589446
+266 of 1636 files lines counted
+591048
+267 of 1636 files lines counted
+592029
+268 of 1636 files lines counted
+593334
+269 of 1636 files lines counted
+596031
+270 of 1636 files lines counted
+596940
+271 of 1636 files lines counted
+598113
+272 of 1636 files lines counted
+601047
+273 of 1636 files lines counted
+602736
+274 of 1636 files lines counted
+604092
+275 of 1636 files lines counted
+607403
+276 of 1636 files lines counted
+610613
+277 of 1636 files lines counted
+614498
+278 of 1636 files lines counted
+616909
+279 of 1636 files lines counted
+619723
+280 of 1636 files lines counted
+622727
+281 of 1636 files lines counted
+629531
+282 of 1636 files lines counted
+633449
+283 of 1636 files lines counted
+637900
+284 of 1636 files lines counted
+640826
+285 of 1636 files lines counted
+642591
+286 of 1636 files lines counted
+643118
+287 of 1636 files lines counted
+644015
+288 of 1636 files lines counted
+644714
+289 of 1636 files lines counted
+645644
+290 of 1636 files lines counted
+646662
+291 of 1636 files lines counted
+647150
+292 of 1636 files lines counted
+648002
+293 of 1636 files lines counted
+648463
+294 of 1636 files lines counted
+650824
+295 of 1636 files lines counted
+651718
+296 of 1636 files lines counted
+652972
+297 of 1636 files lines counted
+655777
+298 of 1636 files lines counted
+657274
+299 of 1636 files lines counted
+660226
+300 of 1636 files lines counted
+661126
+301 of 1636 files lines counted
+663219
+302 of 1636 files lines counted
+664008
+303 of 1636 files lines counted
+665869
+304 of 1636 files lines counted
+668173
+305 of 1636 files lines counted
+668630
+306 of 1636 files lines counted
+670188
+307 of 1636 files lines counted
+671008
+308 of 1636 files lines counted
+671371
+309 of 1636 files lines counted
+672469
+310 of 1636 files lines counted
+673215
+311 of 1636 files lines counted
+676589
+312 of 1636 files lines counted
+677427
+313 of 1636 files lines counted
+678365
+314 of 1636 files lines counted
+679453
+315 of 1636 files lines counted
+679849
+316 of 1636 files lines counted
+680753
+317 of 1636 files lines counted
+681825
+318 of 1636 files lines counted
+682119
+319 of 1636 files lines counted
+682204
+320 of 1636 files lines counted
+683351
+321 of 1636 files lines counted
+683527
+322 of 1636 files lines counted
+683762
+323 of 1636 files lines counted
+684113
+324 of 1636 files lines counted
+687412
+325 of 1636 files lines counted
+688898
+326 of 1636 files lines counted
+689247
+327 of 1636 files lines counted
+691870
+328 of 1636 files lines counted
+693655
+329 of 1636 files lines counted
+694632
+330 of 1636 files lines counted
+695897
+331 of 1636 files lines counted
+696689
+332 of 1636 files lines counted
+698672
+333 of 1636 files lines counted
+699821
+334 of 1636 files lines counted
+700760
+335 of 1636 files lines counted
+709288
+336 of 1636 files lines counted
+710747
+337 of 1636 files lines counted
+712410
+338 of 1636 files lines counted
+712642
+339 of 1636 files lines counted
+716169
+340 of 1636 files lines counted
+717359
+341 of 1636 files lines counted
+718920
+342 of 1636 files lines counted
+719567
+343 of 1636 files lines counted
+721160
+344 of 1636 files lines counted
+722016
+345 of 1636 files lines counted
+724174
+346 of 1636 files lines counted
+724827
+347 of 1636 files lines counted
+729970
+348 of 1636 files lines counted
+732389
+349 of 1636 files lines counted
+733865
+350 of 1636 files lines counted
+733928
+351 of 1636 files lines counted
+736115
+352 of 1636 files lines counted
+738442
+353 of 1636 files lines counted
+740596
+354 of 1636 files lines counted
+742494
+355 of 1636 files lines counted
+744576
+356 of 1636 files lines counted
+745069
+357 of 1636 files lines counted
+745637
+358 of 1636 files lines counted
+745799
+359 of 1636 files lines counted
+746968
+360 of 1636 files lines counted
+748130
+361 of 1636 files lines counted
+749196
+362 of 1636 files lines counted
+749461
+363 of 1636 files lines counted
+750460
+364 of 1636 files lines counted
+750485
+365 of 1636 files lines counted
+750512
+366 of 1636 files lines counted
+751163
+367 of 1636 files lines counted
+757699
+368 of 1636 files lines counted
+758463
+369 of 1636 files lines counted
+762495
+370 of 1636 files lines counted
+767112
+371 of 1636 files lines counted
+767553
+372 of 1636 files lines counted
+768245
+373 of 1636 files lines counted
+768952
+374 of 1636 files lines counted
+770812
+375 of 1636 files lines counted
+771519
+376 of 1636 files lines counted
+772455
+377 of 1636 files lines counted
+772911
+378 of 1636 files lines counted
+774602
+379 of 1636 files lines counted
+775146
+380 of 1636 files lines counted
+777305
+381 of 1636 files lines counted
+777584
+382 of 1636 files lines counted
+777824
+383 of 1636 files lines counted
+777999
+384 of 1636 files lines counted
+778827
+385 of 1636 files lines counted
+781011
+386 of 1636 files lines counted
+781190
+387 of 1636 files lines counted
+782090
+388 of 1636 files lines counted
+783075
+389 of 1636 files lines counted
+783335
+390 of 1636 files lines counted
+783616
+391 of 1636 files lines counted
+783741
+392 of 1636 files lines counted
+784232
+393 of 1636 files lines counted
+784639
+394 of 1636 files lines counted
+785037
+395 of 1636 files lines counted
+785953
+396 of 1636 files lines counted
+786732
+397 of 1636 files lines counted
+787227
+398 of 1636 files lines counted
+788342
+399 of 1636 files lines counted
+793045
+400 of 1636 files lines counted
+794344
+401 of 1636 files lines counted
+796214
+402 of 1636 files lines counted
+797482
+403 of 1636 files lines counted
+797710
+404 of 1636 files lines counted
+797972
+405 of 1636 files lines counted
+799537
+406 of 1636 files lines counted
+799618
+407 of 1636 files lines counted
+800163
+408 of 1636 files lines counted
+800444
+409 of 1636 files lines counted
+800671
+410 of 1636 files lines counted
+801038
+411 of 1636 files lines counted
+801267
+412 of 1636 files lines counted
+801839
+413 of 1636 files lines counted
+802565
+414 of 1636 files lines counted
+805593
+415 of 1636 files lines counted
+807375
+416 of 1636 files lines counted
+807687
+417 of 1636 files lines counted
+808386
+418 of 1636 files lines counted
+809218
+419 of 1636 files lines counted
+809270
+420 of 1636 files lines counted
+811423
+421 of 1636 files lines counted
+813829
+422 of 1636 files lines counted
+815841
+423 of 1636 files lines counted
+816567
+424 of 1636 files lines counted
+817868
+425 of 1636 files lines counted
+818780
+426 of 1636 files lines counted
+819364
+427 of 1636 files lines counted
+819614
+428 of 1636 files lines counted
+820241
+429 of 1636 files lines counted
+820560
+430 of 1636 files lines counted
+821423
+431 of 1636 files lines counted
+821936
+432 of 1636 files lines counted
+822389
+433 of 1636 files lines counted
+822477
+434 of 1636 files lines counted
+822731
+435 of 1636 files lines counted
+822875
+436 of 1636 files lines counted
+823020
+437 of 1636 files lines counted
+823519
+438 of 1636 files lines counted
+826574
+439 of 1636 files lines counted
+826729
+440 of 1636 files lines counted
+827415
+441 of 1636 files lines counted
+828823
+442 of 1636 files lines counted
+829011
+443 of 1636 files lines counted
+829100
+444 of 1636 files lines counted
+829599
+445 of 1636 files lines counted
+830290
+446 of 1636 files lines counted
+838788
+447 of 1636 files lines counted
+839326
+448 of 1636 files lines counted
+840333
+449 of 1636 files lines counted
+841015
+450 of 1636 files lines counted
+841482
+451 of 1636 files lines counted
+842615
+452 of 1636 files lines counted
+844628
+453 of 1636 files lines counted
+846532
+454 of 1636 files lines counted
+846899
+455 of 1636 files lines counted
+847801
+456 of 1636 files lines counted
+848169
+457 of 1636 files lines counted
+848487
+458 of 1636 files lines counted
+849464
+459 of 1636 files lines counted
+849721
+460 of 1636 files lines counted
+850085
+461 of 1636 files lines counted
+851276
+462 of 1636 files lines counted
+852311
+463 of 1636 files lines counted
+852980
+464 of 1636 files lines counted
+854248
+465 of 1636 files lines counted
+854937
+466 of 1636 files lines counted
+855637
+467 of 1636 files lines counted
+856585
+468 of 1636 files lines counted
+856936
+469 of 1636 files lines counted
+857636
+470 of 1636 files lines counted
+858080
+471 of 1636 files lines counted
+858555
+472 of 1636 files lines counted
+861566
+473 of 1636 files lines counted
+864249
+474 of 1636 files lines counted
+867673
+475 of 1636 files lines counted
+872172
+476 of 1636 files lines counted
+876021
+477 of 1636 files lines counted
+877674
+478 of 1636 files lines counted
+880588
+479 of 1636 files lines counted
+884018
+480 of 1636 files lines counted
+888763
+481 of 1636 files lines counted
+895699
+482 of 1636 files lines counted
+916282
+483 of 1636 files lines counted
+927238
+484 of 1636 files lines counted
+933137
+485 of 1636 files lines counted
+938154
+486 of 1636 files lines counted
+939595
+487 of 1636 files lines counted
+940596
+488 of 1636 files lines counted
+944991
+489 of 1636 files lines counted
+953670
+490 of 1636 files lines counted
+956978
+491 of 1636 files lines counted
+957603
+492 of 1636 files lines counted
+959610
+493 of 1636 files lines counted
+960158
+494 of 1636 files lines counted
+964161
+495 of 1636 files lines counted
+964591
+496 of 1636 files lines counted
+965403
+497 of 1636 files lines counted
+966550
+498 of 1636 files lines counted
+967581
+499 of 1636 files lines counted
+967991
+500 of 1636 files lines counted
+968347
+501 of 1636 files lines counted
+968632
+502 of 1636 files lines counted
+968798
+503 of 1636 files lines counted
+968951
+504 of 1636 files lines counted
+969397
+505 of 1636 files lines counted
+970332
+506 of 1636 files lines counted
+970698
+507 of 1636 files lines counted
+971536
+508 of 1636 files lines counted
+971932
+509 of 1636 files lines counted
+973308
+510 of 1636 files lines counted
+974563
+511 of 1636 files lines counted
+975902
+512 of 1636 files lines counted
+976159
+513 of 1636 files lines counted
+976567
+514 of 1636 files lines counted
+976937
+515 of 1636 files lines counted
+977138
+516 of 1636 files lines counted
+977295
+517 of 1636 files lines counted
+977467
+518 of 1636 files lines counted
+977505
+519 of 1636 files lines counted
+983360
+520 of 1636 files lines counted
+983385
+521 of 1636 files lines counted
+984508
+522 of 1636 files lines counted
+985237
+523 of 1636 files lines counted
+987632
+524 of 1636 files lines counted
+987908
+525 of 1636 files lines counted
+988850
+526 of 1636 files lines counted
+992157
+527 of 1636 files lines counted
+996033
+528 of 1636 files lines counted
+1000388
+529 of 1636 files lines counted
+1005365
+530 of 1636 files lines counted
+1009467
+531 of 1636 files lines counted
+1017004
+532 of 1636 files lines counted
+1018068
+533 of 1636 files lines counted
+1019891
+534 of 1636 files lines counted
+1021023
+535 of 1636 files lines counted
+1036430
+536 of 1636 files lines counted
+1037916
+537 of 1636 files lines counted
+1041340
+538 of 1636 files lines counted
+1044317
+539 of 1636 files lines counted
+1045816
+540 of 1636 files lines counted
+1048380
+541 of 1636 files lines counted
+1052179
+542 of 1636 files lines counted
+1055198
+543 of 1636 files lines counted
+1056665
+544 of 1636 files lines counted
+1058245
+545 of 1636 files lines counted
+1059606
+546 of 1636 files lines counted
+1060769
+547 of 1636 files lines counted
+1062397
+548 of 1636 files lines counted
+1064132
+549 of 1636 files lines counted
+1065178
+550 of 1636 files lines counted
+1065898
+551 of 1636 files lines counted
+1066419
+552 of 1636 files lines counted
+1066983
+553 of 1636 files lines counted
+1066996
+554 of 1636 files lines counted
+1070584
+555 of 1636 files lines counted
+1073512
+556 of 1636 files lines counted
+1078551
+557 of 1636 files lines counted
+1079242
+558 of 1636 files lines counted
+1079563
+559 of 1636 files lines counted
+1079916
+560 of 1636 files lines counted
+1081283
+561 of 1636 files lines counted
+1082352
+562 of 1636 files lines counted
+1084592
+563 of 1636 files lines counted
+1086954
+564 of 1636 files lines counted
+1089165
+565 of 1636 files lines counted
+1089781
+566 of 1636 files lines counted
+1090445
+567 of 1636 files lines counted
+1091139
+568 of 1636 files lines counted
+1091476
+569 of 1636 files lines counted
+1092179
+570 of 1636 files lines counted
+1092991
+571 of 1636 files lines counted
+1094417
+572 of 1636 files lines counted
+1095084
+573 of 1636 files lines counted
+1095741
+574 of 1636 files lines counted
+1096257
+575 of 1636 files lines counted
+1097624
+576 of 1636 files lines counted
+1098706
+577 of 1636 files lines counted
+1099035
+578 of 1636 files lines counted
+1099387
+579 of 1636 files lines counted
+1099703
+580 of 1636 files lines counted
+1100589
+581 of 1636 files lines counted
+1101844
+582 of 1636 files lines counted
+1102526
+583 of 1636 files lines counted
+1103082
+584 of 1636 files lines counted
+1103673
+585 of 1636 files lines counted
+1104304
+586 of 1636 files lines counted
+1105494
+587 of 1636 files lines counted
+1108554
+588 of 1636 files lines counted
+1109977
+589 of 1636 files lines counted
+1111604
+590 of 1636 files lines counted
+1112535
+591 of 1636 files lines counted
+1114269
+592 of 1636 files lines counted
+1116965
+593 of 1636 files lines counted
+1117873
+594 of 1636 files lines counted
+1119637
+595 of 1636 files lines counted
+1121108
+596 of 1636 files lines counted
+1122436
+597 of 1636 files lines counted
+1123438
+598 of 1636 files lines counted
+1124381
+599 of 1636 files lines counted
+1125499
+600 of 1636 files lines counted
+1126361
+601 of 1636 files lines counted
+1126982
+602 of 1636 files lines counted
+1127703
+603 of 1636 files lines counted
+1128533
+604 of 1636 files lines counted
+1128967
+605 of 1636 files lines counted
+1129143
+606 of 1636 files lines counted
+1129531
+607 of 1636 files lines counted
+1129914
+608 of 1636 files lines counted
+1133278
+609 of 1636 files lines counted
+1136887
+610 of 1636 files lines counted
+1142205
+611 of 1636 files lines counted
+1147751
+612 of 1636 files lines counted
+1153269
+613 of 1636 files lines counted
+1158883
+614 of 1636 files lines counted
+1159594
+615 of 1636 files lines counted
+1160705
+616 of 1636 files lines counted
+1161583
+617 of 1636 files lines counted
+1162012
+618 of 1636 files lines counted
+1162386
+619 of 1636 files lines counted
+1163181
+620 of 1636 files lines counted
+1163530
+621 of 1636 files lines counted
+1163943
+622 of 1636 files lines counted
+1164861
+623 of 1636 files lines counted
+1165356
+624 of 1636 files lines counted
+1165781
+625 of 1636 files lines counted
+1166603
+626 of 1636 files lines counted
+1167019
+627 of 1636 files lines counted
+1167412
+628 of 1636 files lines counted
+1167995
+629 of 1636 files lines counted
+1168368
+630 of 1636 files lines counted
+1169055
+631 of 1636 files lines counted
+1169881
+632 of 1636 files lines counted
+1170265
+633 of 1636 files lines counted
+1174248
+634 of 1636 files lines counted
+1175505
+635 of 1636 files lines counted
+1176130
+636 of 1636 files lines counted
+1176277
+637 of 1636 files lines counted
+1176365
+638 of 1636 files lines counted
+1176412
+639 of 1636 files lines counted
+1176525
+640 of 1636 files lines counted
+1176773
+641 of 1636 files lines counted
+1177677
+642 of 1636 files lines counted
+1178435
+643 of 1636 files lines counted
+1178818
+644 of 1636 files lines counted
+1179103
+645 of 1636 files lines counted
+1179397
+646 of 1636 files lines counted
+1179687
+647 of 1636 files lines counted
+1181611
+648 of 1636 files lines counted
+1182554
+649 of 1636 files lines counted
+1183327
+650 of 1636 files lines counted
+1184077
+651 of 1636 files lines counted
+1189672
+652 of 1636 files lines counted
+1190040
+653 of 1636 files lines counted
+1192374
+654 of 1636 files lines counted
+1197213
+655 of 1636 files lines counted
+1198611
+656 of 1636 files lines counted
+1200845
+657 of 1636 files lines counted
+1202559
+658 of 1636 files lines counted
+1202948
+659 of 1636 files lines counted
+1203731
+660 of 1636 files lines counted
+1204716
+661 of 1636 files lines counted
+1205183
+662 of 1636 files lines counted
+1206964
+663 of 1636 files lines counted
+1208653
+664 of 1636 files lines counted
+1210110
+665 of 1636 files lines counted
+1211863
+666 of 1636 files lines counted
+1213105
+667 of 1636 files lines counted
+1215429
+668 of 1636 files lines counted
+1217393
+669 of 1636 files lines counted
+1219714
+670 of 1636 files lines counted
+1220786
+671 of 1636 files lines counted
+1223885
+672 of 1636 files lines counted
+1225912
+673 of 1636 files lines counted
+1226832
+674 of 1636 files lines counted
+1228511
+675 of 1636 files lines counted
+1231924
+676 of 1636 files lines counted
+1234897
+677 of 1636 files lines counted
+1236879
+678 of 1636 files lines counted
+1238174
+679 of 1636 files lines counted
+1242891
+680 of 1636 files lines counted
+1245138
+681 of 1636 files lines counted
+1248555
+682 of 1636 files lines counted
+1251287
+683 of 1636 files lines counted
+1251546
+684 of 1636 files lines counted
+1258989
+685 of 1636 files lines counted
+1269888
+686 of 1636 files lines counted
+1275017
+687 of 1636 files lines counted
+1278345
+688 of 1636 files lines counted
+1278651
+689 of 1636 files lines counted
+1281758
+690 of 1636 files lines counted
+1282850
+691 of 1636 files lines counted
+1288876
+692 of 1636 files lines counted
+1292849
+693 of 1636 files lines counted
+1298177
+694 of 1636 files lines counted
+1299847
+695 of 1636 files lines counted
+1303581
+696 of 1636 files lines counted
+1306616
+697 of 1636 files lines counted
+1309140
+698 of 1636 files lines counted
+1315581
+699 of 1636 files lines counted
+1328085
+700 of 1636 files lines counted
+1332571
+701 of 1636 files lines counted
+1338247
+702 of 1636 files lines counted
+1341847
+703 of 1636 files lines counted
+1348292
+704 of 1636 files lines counted
+1353268
+705 of 1636 files lines counted
+1357213
+706 of 1636 files lines counted
+1359492
+707 of 1636 files lines counted
+1366057
+708 of 1636 files lines counted
+1371036
+709 of 1636 files lines counted
+1376359
+710 of 1636 files lines counted
+1377990
+711 of 1636 files lines counted
+1378385
+712 of 1636 files lines counted
+1380873
+713 of 1636 files lines counted
+1381000
+714 of 1636 files lines counted
+1383038
+715 of 1636 files lines counted
+1385460
+716 of 1636 files lines counted
+1386192
+717 of 1636 files lines counted
+1386575
+718 of 1636 files lines counted
+1387232
+719 of 1636 files lines counted
+1387389
+720 of 1636 files lines counted
+1388627
+721 of 1636 files lines counted
+1390733
+722 of 1636 files lines counted
+1391713
+723 of 1636 files lines counted
+1392171
+724 of 1636 files lines counted
+1392300
+725 of 1636 files lines counted
+1393143
+726 of 1636 files lines counted
+1393682
+727 of 1636 files lines counted
+1394474
+728 of 1636 files lines counted
+1395217
+729 of 1636 files lines counted
+1395956
+730 of 1636 files lines counted
+1397528
+731 of 1636 files lines counted
+1400990
+732 of 1636 files lines counted
+1403632
+733 of 1636 files lines counted
+1403663
+734 of 1636 files lines counted
+1404487
+735 of 1636 files lines counted
+1406771
+736 of 1636 files lines counted
+1406813
+737 of 1636 files lines counted
+1406852
+738 of 1636 files lines counted
+1406882
+739 of 1636 files lines counted
+1407928
+740 of 1636 files lines counted
+1409560
+741 of 1636 files lines counted
+1410908
+742 of 1636 files lines counted
+1410942
+743 of 1636 files lines counted
+1411014
+744 of 1636 files lines counted
+1411029
+745 of 1636 files lines counted
+1411146
+746 of 1636 files lines counted
+1411188
+747 of 1636 files lines counted
+1411213
+748 of 1636 files lines counted
+1411271
+749 of 1636 files lines counted
+1416245
+750 of 1636 files lines counted
+1420732
+751 of 1636 files lines counted
+1421383
+752 of 1636 files lines counted
+1421764
+753 of 1636 files lines counted
+1422228
+754 of 1636 files lines counted
+1425743
+755 of 1636 files lines counted
+1427068
+756 of 1636 files lines counted
+1427088
+757 of 1636 files lines counted
+1429742
+758 of 1636 files lines counted
+1431339
+759 of 1636 files lines counted
+1434597
+760 of 1636 files lines counted
+1435076
+761 of 1636 files lines counted
+1435209
+762 of 1636 files lines counted
+1435279
+763 of 1636 files lines counted
+1435369
+764 of 1636 files lines counted
+1438268
+765 of 1636 files lines counted
+1438296
+766 of 1636 files lines counted
+1438310
+767 of 1636 files lines counted
+1438356
+768 of 1636 files lines counted
+1438394
+769 of 1636 files lines counted
+1438412
+770 of 1636 files lines counted
+1438457
+771 of 1636 files lines counted
+1438471
+772 of 1636 files lines counted
+1438474
+773 of 1636 files lines counted
+1438537
+774 of 1636 files lines counted
+1439112
+775 of 1636 files lines counted
+1439193
+776 of 1636 files lines counted
+1439632
+777 of 1636 files lines counted
+1439689
+778 of 1636 files lines counted
+1439713
+779 of 1636 files lines counted
+1439736
+780 of 1636 files lines counted
+1439847
+781 of 1636 files lines counted
+1439864
+782 of 1636 files lines counted
+1440614
+783 of 1636 files lines counted
+1440650
+784 of 1636 files lines counted
+1441000
+785 of 1636 files lines counted
+1449595
+786 of 1636 files lines counted
+1449624
+787 of 1636 files lines counted
+1451914
+788 of 1636 files lines counted
+1460685
+789 of 1636 files lines counted
+1463195
+790 of 1636 files lines counted
+1463921
+791 of 1636 files lines counted
+1464548
+792 of 1636 files lines counted
+1465537
+793 of 1636 files lines counted
+1465708
+794 of 1636 files lines counted
+1465867
+795 of 1636 files lines counted
+1466059
+796 of 1636 files lines counted
+1466167
+797 of 1636 files lines counted
+1466252
+798 of 1636 files lines counted
+1466678
+799 of 1636 files lines counted
+1467287
+800 of 1636 files lines counted
+1467812
+801 of 1636 files lines counted
+1468017
+802 of 1636 files lines counted
+1468264
+803 of 1636 files lines counted
+1468451
+804 of 1636 files lines counted
+1468715
+805 of 1636 files lines counted
+1469164
+806 of 1636 files lines counted
+1469713
+807 of 1636 files lines counted
+1469810
+808 of 1636 files lines counted
+1469828
+809 of 1636 files lines counted
+1469861
+810 of 1636 files lines counted
+1470323
+811 of 1636 files lines counted
+1470792
+812 of 1636 files lines counted
+1471270
+813 of 1636 files lines counted
+1471322
+814 of 1636 files lines counted
+1471373
+815 of 1636 files lines counted
+1471426
+816 of 1636 files lines counted
+1472199
+817 of 1636 files lines counted
+1472861
+818 of 1636 files lines counted
+1473531
+819 of 1636 files lines counted
+1473744
+820 of 1636 files lines counted
+1474146
+821 of 1636 files lines counted
+1474554
+822 of 1636 files lines counted
+1474840
+823 of 1636 files lines counted
+1475132
+824 of 1636 files lines counted
+1476499
+825 of 1636 files lines counted
+1476824
+826 of 1636 files lines counted
+1477183
+827 of 1636 files lines counted
+1477321
+828 of 1636 files lines counted
+1478490
+829 of 1636 files lines counted
+1481930
+830 of 1636 files lines counted
+1482461
+831 of 1636 files lines counted
+1483044
+832 of 1636 files lines counted
+1495112
+833 of 1636 files lines counted
+1495279
+834 of 1636 files lines counted
+1495318
+835 of 1636 files lines counted
+1495798
+836 of 1636 files lines counted
+1497307
+837 of 1636 files lines counted
+1498693
+838 of 1636 files lines counted
+1499191
+839 of 1636 files lines counted
+1499248
+840 of 1636 files lines counted
+1499340
+841 of 1636 files lines counted
+1500782
+842 of 1636 files lines counted
+1501251
+843 of 1636 files lines counted
+1501547
+844 of 1636 files lines counted
+1501821
+845 of 1636 files lines counted
+1501961
+846 of 1636 files lines counted
+1503220
+847 of 1636 files lines counted
+1505774
+848 of 1636 files lines counted
+1507385
+849 of 1636 files lines counted
+1511277
+850 of 1636 files lines counted
+1511900
+851 of 1636 files lines counted
+1511939
+852 of 1636 files lines counted
+1522054
+853 of 1636 files lines counted
+1522094
+854 of 1636 files lines counted
+1522242
+855 of 1636 files lines counted
+1522270
+856 of 1636 files lines counted
+1523395
+857 of 1636 files lines counted
+1525484
+858 of 1636 files lines counted
+1526443
+859 of 1636 files lines counted
+1527166
+860 of 1636 files lines counted
+1528269
+861 of 1636 files lines counted
+1529368
+862 of 1636 files lines counted
+1532311
+863 of 1636 files lines counted
+1533809
+864 of 1636 files lines counted
+1534598
+865 of 1636 files lines counted
+1536085
+866 of 1636 files lines counted
+1538574
+867 of 1636 files lines counted
+1540643
+868 of 1636 files lines counted
+1541170
+869 of 1636 files lines counted
+1541559
+870 of 1636 files lines counted
+1542093
+871 of 1636 files lines counted
+1542558
+872 of 1636 files lines counted
+1542850
+873 of 1636 files lines counted
+1543304
+874 of 1636 files lines counted
+1543610
+875 of 1636 files lines counted
+1543909
+876 of 1636 files lines counted
+1544282
+877 of 1636 files lines counted
+1544483
+878 of 1636 files lines counted
+1544634
+879 of 1636 files lines counted
+1544835
+880 of 1636 files lines counted
+1546969
+881 of 1636 files lines counted
+1548476
+882 of 1636 files lines counted
+1549279
+883 of 1636 files lines counted
+1550568
+884 of 1636 files lines counted
+1551535
+885 of 1636 files lines counted
+1551699
+886 of 1636 files lines counted
+1553562
+887 of 1636 files lines counted
+1555346
+888 of 1636 files lines counted
+1556098
+889 of 1636 files lines counted
+1556433
+890 of 1636 files lines counted
+1556958
+891 of 1636 files lines counted
+1557311
+892 of 1636 files lines counted
+1557585
+893 of 1636 files lines counted
+1557730
+894 of 1636 files lines counted
+1558019
+895 of 1636 files lines counted
+1559501
+896 of 1636 files lines counted
+1560624
+897 of 1636 files lines counted
+1561678
+898 of 1636 files lines counted
+1562360
+899 of 1636 files lines counted
+1563278
+900 of 1636 files lines counted
+1563756
+901 of 1636 files lines counted
+1564443
+902 of 1636 files lines counted
+1565049
+903 of 1636 files lines counted
+1566109
+904 of 1636 files lines counted
+1567756
+905 of 1636 files lines counted
+1572704
+906 of 1636 files lines counted
+1574493
+907 of 1636 files lines counted
+1575727
+908 of 1636 files lines counted
+1576741
+909 of 1636 files lines counted
+1577935
+910 of 1636 files lines counted
+1578322
+911 of 1636 files lines counted
+1578545
+912 of 1636 files lines counted
+1578779
+913 of 1636 files lines counted
+1578902
+914 of 1636 files lines counted
+1579145
+915 of 1636 files lines counted
+1579267
+916 of 1636 files lines counted
+1579684
+917 of 1636 files lines counted
+1579928
+918 of 1636 files lines counted
+1580340
+919 of 1636 files lines counted
+1580563
+920 of 1636 files lines counted
+1580594
+921 of 1636 files lines counted
+1580610
+922 of 1636 files lines counted
+1580735
+923 of 1636 files lines counted
+1580895
+924 of 1636 files lines counted
+1580971
+925 of 1636 files lines counted
+1581043
+926 of 1636 files lines counted
+1581130
+927 of 1636 files lines counted
+1581194
+928 of 1636 files lines counted
+1581266
+929 of 1636 files lines counted
+1581293
+930 of 1636 files lines counted
+1581348
+931 of 1636 files lines counted
+1583796
+932 of 1636 files lines counted
+1587045
+933 of 1636 files lines counted
+1588297
+934 of 1636 files lines counted
+1596310
+935 of 1636 files lines counted
+1599505
+936 of 1636 files lines counted
+1600210
+937 of 1636 files lines counted
+1601676
+938 of 1636 files lines counted
+1601998
+939 of 1636 files lines counted
+1602233
+940 of 1636 files lines counted
+1602497
+941 of 1636 files lines counted
+1603601
+942 of 1636 files lines counted
+1603945
+943 of 1636 files lines counted
+1604168
+944 of 1636 files lines counted
+1604683
+945 of 1636 files lines counted
+1605207
+946 of 1636 files lines counted
+1605457
+947 of 1636 files lines counted
+1606111
+948 of 1636 files lines counted
+1606410
+949 of 1636 files lines counted
+1606899
+950 of 1636 files lines counted
+1607257
+951 of 1636 files lines counted
+1608018
+952 of 1636 files lines counted
+1608302
+953 of 1636 files lines counted
+1611569
+954 of 1636 files lines counted
+1611715
+955 of 1636 files lines counted
+1612381
+956 of 1636 files lines counted
+1612508
+957 of 1636 files lines counted
+1613475
+958 of 1636 files lines counted
+1614060
+959 of 1636 files lines counted
+1614799
+960 of 1636 files lines counted
+1615442
+961 of 1636 files lines counted
+1615994
+962 of 1636 files lines counted
+1617148
+963 of 1636 files lines counted
+1623334
+964 of 1636 files lines counted
+1625379
+965 of 1636 files lines counted
+1628557
+966 of 1636 files lines counted
+1629364
+967 of 1636 files lines counted
+1631978
+968 of 1636 files lines counted
+1634028
+969 of 1636 files lines counted
+1637181
+970 of 1636 files lines counted
+1639004
+971 of 1636 files lines counted
+1640423
+972 of 1636 files lines counted
+1642837
+973 of 1636 files lines counted
+1644683
+974 of 1636 files lines counted
+1646105
+975 of 1636 files lines counted
+1646985
+976 of 1636 files lines counted
+1647858
+977 of 1636 files lines counted
+1648045
+978 of 1636 files lines counted
+1649115
+979 of 1636 files lines counted
+1650024
+980 of 1636 files lines counted
+1650950
+981 of 1636 files lines counted
+1651741
+982 of 1636 files lines counted
+1653049
+983 of 1636 files lines counted
+1653450
+984 of 1636 files lines counted
+1654001
+985 of 1636 files lines counted
+1654502
+986 of 1636 files lines counted
+1659206
+987 of 1636 files lines counted
+1662924
+988 of 1636 files lines counted
+1665552
+989 of 1636 files lines counted
+1667602
+990 of 1636 files lines counted
+1669404
+991 of 1636 files lines counted
+1671193
+992 of 1636 files lines counted
+1671382
+993 of 1636 files lines counted
+1671607
+994 of 1636 files lines counted
+1671887
+995 of 1636 files lines counted
+1671897
+996 of 1636 files lines counted
+1671920
+997 of 1636 files lines counted
+1672223
+998 of 1636 files lines counted
+1679171
+999 of 1636 files lines counted
+1679427
+1000 of 1636 files lines counted
+1680860
+1001 of 1636 files lines counted
+1681787
+1002 of 1636 files lines counted
+1682835
+1003 of 1636 files lines counted
+1682958
+1004 of 1636 files lines counted
+1683104
+1005 of 1636 files lines counted
+1683250
+1006 of 1636 files lines counted
+1683671
+1007 of 1636 files lines counted
+1683965
+1008 of 1636 files lines counted
+1684145
+1009 of 1636 files lines counted
+1684273
+1010 of 1636 files lines counted
+1684466
+1011 of 1636 files lines counted
+1684704
+1012 of 1636 files lines counted
+1684776
+1013 of 1636 files lines counted
+1684841
+1014 of 1636 files lines counted
+1684907
+1015 of 1636 files lines counted
+1685242
+1016 of 1636 files lines counted
+1685723
+1017 of 1636 files lines counted
+1687360
+1018 of 1636 files lines counted
+1689463
+1019 of 1636 files lines counted
+1690722
+1020 of 1636 files lines counted
+1692556
+1021 of 1636 files lines counted
+1692891
+1022 of 1636 files lines counted
+1692990
+1023 of 1636 files lines counted
+1693233
+1024 of 1636 files lines counted
+1693859
+1025 of 1636 files lines counted
+1694355
+1026 of 1636 files lines counted
+1694614
+1027 of 1636 files lines counted
+1695741
+1028 of 1636 files lines counted
+1695864
+1029 of 1636 files lines counted
+1698974
+1030 of 1636 files lines counted
+1701279
+1031 of 1636 files lines counted
+1702845
+1032 of 1636 files lines counted
+1704595
+1033 of 1636 files lines counted
+1705541
+1034 of 1636 files lines counted
+1707130
+1035 of 1636 files lines counted
+1708722
+1036 of 1636 files lines counted
+1710677
+1037 of 1636 files lines counted
+1712649
+1038 of 1636 files lines counted
+1712794
+1039 of 1636 files lines counted
+1714237
+1040 of 1636 files lines counted
+1715670
+1041 of 1636 files lines counted
+1716462
+1042 of 1636 files lines counted
+1717284
+1043 of 1636 files lines counted
+1718300
+1044 of 1636 files lines counted
+1718796
+1045 of 1636 files lines counted
+1720767
+1046 of 1636 files lines counted
+1726006
+1047 of 1636 files lines counted
+1726296
+1048 of 1636 files lines counted
+1726670
+1049 of 1636 files lines counted
+1727219
+1050 of 1636 files lines counted
+1731074
+1051 of 1636 files lines counted
+1731396
+1052 of 1636 files lines counted
+1731682
+1053 of 1636 files lines counted
+1731984
+1054 of 1636 files lines counted
+1733624
+1055 of 1636 files lines counted
+1733984
+1056 of 1636 files lines counted
+1734136
+1057 of 1636 files lines counted
+1734308
+1058 of 1636 files lines counted
+1734882
+1059 of 1636 files lines counted
+1735146
+1060 of 1636 files lines counted
+1735278
+1061 of 1636 files lines counted
+1735507
+1062 of 1636 files lines counted
+1735810
+1063 of 1636 files lines counted
+1736429
+1064 of 1636 files lines counted
+1737146
+1065 of 1636 files lines counted
+1737439
+1066 of 1636 files lines counted
+1740281
+1067 of 1636 files lines counted
+1741702
+1068 of 1636 files lines counted
+1742506
+1069 of 1636 files lines counted
+1742673
+1070 of 1636 files lines counted
+1742940
+1071 of 1636 files lines counted
+1743149
+1072 of 1636 files lines counted
+1743757
+1073 of 1636 files lines counted
+1744904
+1074 of 1636 files lines counted
+1745820
+1075 of 1636 files lines counted
+1747482
+1076 of 1636 files lines counted
+1749517
+1077 of 1636 files lines counted
+1750799
+1078 of 1636 files lines counted
+1752072
+1079 of 1636 files lines counted
+1754078
+1080 of 1636 files lines counted
+1754264
+1081 of 1636 files lines counted
+1754836
+1082 of 1636 files lines counted
+1755573
+1083 of 1636 files lines counted
+1761353
+1084 of 1636 files lines counted
+1761755
+1085 of 1636 files lines counted
+1763558
+1086 of 1636 files lines counted
+1764714
+1087 of 1636 files lines counted
+1764842
+1088 of 1636 files lines counted
+1765479
+1089 of 1636 files lines counted
+1765750
+1090 of 1636 files lines counted
+1765964
+1091 of 1636 files lines counted
+1766148
+1092 of 1636 files lines counted
+1767294
+1093 of 1636 files lines counted
+1767481
+1094 of 1636 files lines counted
+1767548
+1095 of 1636 files lines counted
+1767592
+1096 of 1636 files lines counted
+1769722
+1097 of 1636 files lines counted
+1771970
+1098 of 1636 files lines counted
+1774025
+1099 of 1636 files lines counted
+1774198
+1100 of 1636 files lines counted
+1774460
+1101 of 1636 files lines counted
+1774793
+1102 of 1636 files lines counted
+1775287
+1103 of 1636 files lines counted
+1775816
+1104 of 1636 files lines counted
+1776367
+1105 of 1636 files lines counted
+1777676
+1106 of 1636 files lines counted
+1779338
+1107 of 1636 files lines counted
+1780345
+1108 of 1636 files lines counted
+1781188
+1109 of 1636 files lines counted
+1782433
+1110 of 1636 files lines counted
+1785379
+1111 of 1636 files lines counted
+1787050
+1112 of 1636 files lines counted
+1788444
+1113 of 1636 files lines counted
+1788591
+1114 of 1636 files lines counted
+1788709
+1115 of 1636 files lines counted
+1788879
+1116 of 1636 files lines counted
+1789061
+1117 of 1636 files lines counted
+1789429
+1118 of 1636 files lines counted
+1789502
+1119 of 1636 files lines counted
+1789562
+1120 of 1636 files lines counted
+1790158
+1121 of 1636 files lines counted
+1790282
+1122 of 1636 files lines counted
+1791152
+1123 of 1636 files lines counted
+1791983
+1124 of 1636 files lines counted
+1792267
+1125 of 1636 files lines counted
+1792416
+1126 of 1636 files lines counted
+1793221
+1127 of 1636 files lines counted
+1794052
+1128 of 1636 files lines counted
+1795866
+1129 of 1636 files lines counted
+1796878
+1130 of 1636 files lines counted
+1798364
+1131 of 1636 files lines counted
+1799265
+1132 of 1636 files lines counted
+1800129
+1133 of 1636 files lines counted
+1801726
+1134 of 1636 files lines counted
+1802849
+1135 of 1636 files lines counted
+1804746
+1136 of 1636 files lines counted
+1806002
+1137 of 1636 files lines counted
+1807123
+1138 of 1636 files lines counted
+1808582
+1139 of 1636 files lines counted
+1809022
+1140 of 1636 files lines counted
+1813076
+1141 of 1636 files lines counted
+1814575
+1142 of 1636 files lines counted
+1815807
+1143 of 1636 files lines counted
+1817878
+1144 of 1636 files lines counted
+1819490
+1145 of 1636 files lines counted
+1822512
+1146 of 1636 files lines counted
+1824209
+1147 of 1636 files lines counted
+1825681
+1148 of 1636 files lines counted
+1827715
+1149 of 1636 files lines counted
+1827989
+1150 of 1636 files lines counted
+1830293
+1151 of 1636 files lines counted
+1831506
+1152 of 1636 files lines counted
+1831688
+1153 of 1636 files lines counted
+1835492
+1154 of 1636 files lines counted
+1835620
+1155 of 1636 files lines counted
+1835793
+1156 of 1636 files lines counted
+1835886
+1157 of 1636 files lines counted
+1836150
+1158 of 1636 files lines counted
+1836266
+1159 of 1636 files lines counted
+1836975
+1160 of 1636 files lines counted
+1838017
+1161 of 1636 files lines counted
+1838518
+1162 of 1636 files lines counted
+1838748
+1163 of 1636 files lines counted
+1845726
+1164 of 1636 files lines counted
+1845786
+1165 of 1636 files lines counted
+1845986
+1166 of 1636 files lines counted
+1848980
+1167 of 1636 files lines counted
+1853812
+1168 of 1636 files lines counted
+1853938
+1169 of 1636 files lines counted
+1854221
+1170 of 1636 files lines counted
+1854750
+1171 of 1636 files lines counted
+1855162
+1172 of 1636 files lines counted
+1857026
+1173 of 1636 files lines counted
+1858304
+1174 of 1636 files lines counted
+1859185
+1175 of 1636 files lines counted
+1863211
+1176 of 1636 files lines counted
+1863948
+1177 of 1636 files lines counted
+1864281
+1178 of 1636 files lines counted
+1864445
+1179 of 1636 files lines counted
+1868994
+1180 of 1636 files lines counted
+1881275
+1181 of 1636 files lines counted
+1882939
+1182 of 1636 files lines counted
+1889658
+1183 of 1636 files lines counted
+1889682
+1184 of 1636 files lines counted
+1895926
+1185 of 1636 files lines counted
+1904599
+1186 of 1636 files lines counted
+1905809
+1187 of 1636 files lines counted
+1907597
+1188 of 1636 files lines counted
+1908900
+1189 of 1636 files lines counted
+1909387
+1190 of 1636 files lines counted
+1909732
+1191 of 1636 files lines counted
+1910465
+1192 of 1636 files lines counted
+1912732
+1193 of 1636 files lines counted
+1914214
+1194 of 1636 files lines counted
+1916194
+1195 of 1636 files lines counted
+1917182
+1196 of 1636 files lines counted
+1921319
+1197 of 1636 files lines counted
+1921416
+1198 of 1636 files lines counted
+1922938
+1199 of 1636 files lines counted
+1924060
+1200 of 1636 files lines counted
+1925394
+1201 of 1636 files lines counted
+1926816
+1202 of 1636 files lines counted
+1927179
+1203 of 1636 files lines counted
+1927493
+1204 of 1636 files lines counted
+1927967
+1205 of 1636 files lines counted
+1931888
+1206 of 1636 files lines counted
+1932837
+1207 of 1636 files lines counted
+1934160
+1208 of 1636 files lines counted
+1934760
+1209 of 1636 files lines counted
+1936232
+1210 of 1636 files lines counted
+1936364
+1211 of 1636 files lines counted
+1937284
+1212 of 1636 files lines counted
+1938780
+1213 of 1636 files lines counted
+1939746
+1214 of 1636 files lines counted
+1940852
+1215 of 1636 files lines counted
+1941017
+1216 of 1636 files lines counted
+1941368
+1217 of 1636 files lines counted
+1941409
+1218 of 1636 files lines counted
+1941473
+1219 of 1636 files lines counted
+1941792
+1220 of 1636 files lines counted
+1943353
+1221 of 1636 files lines counted
+1944032
+1222 of 1636 files lines counted
+1944555
+1223 of 1636 files lines counted
+1945196
+1224 of 1636 files lines counted
+1946042
+1225 of 1636 files lines counted
+1946263
+1226 of 1636 files lines counted
+1946810
+1227 of 1636 files lines counted
+1947467
+1228 of 1636 files lines counted
+1947607
+1229 of 1636 files lines counted
+1948989
+1230 of 1636 files lines counted
+1949951
+1231 of 1636 files lines counted
+1950673
+1232 of 1636 files lines counted
+1951113
+1233 of 1636 files lines counted
+1952260
+1234 of 1636 files lines counted
+1952931
+1235 of 1636 files lines counted
+1954455
+1236 of 1636 files lines counted
+1959028
+1237 of 1636 files lines counted
+1961025
+1238 of 1636 files lines counted
+1964894
+1239 of 1636 files lines counted
+1967584
+1240 of 1636 files lines counted
+1970983
+1241 of 1636 files lines counted
+1972575
+1242 of 1636 files lines counted
+1975481
+1243 of 1636 files lines counted
+1979003
+1244 of 1636 files lines counted
+1980334
+1245 of 1636 files lines counted
+1980435
+1246 of 1636 files lines counted
+1981224
+1247 of 1636 files lines counted
+1982594
+1248 of 1636 files lines counted
+1984083
+1249 of 1636 files lines counted
+1984848
+1250 of 1636 files lines counted
+1985274
+1251 of 1636 files lines counted
+1985724
+1252 of 1636 files lines counted
+1986362
+1253 of 1636 files lines counted
+1987038
+1254 of 1636 files lines counted
+1987784
+1255 of 1636 files lines counted
+1987811
+1256 of 1636 files lines counted
+1988166
+1257 of 1636 files lines counted
+1988244
+1258 of 1636 files lines counted
+1990722
+1259 of 1636 files lines counted
+1993284
+1260 of 1636 files lines counted
+1994019
+1261 of 1636 files lines counted
+1996371
+1262 of 1636 files lines counted
+1998689
+1263 of 1636 files lines counted
+2000742
+1264 of 1636 files lines counted
+2004967
+1265 of 1636 files lines counted
+2005182
+1266 of 1636 files lines counted
+2005681
+1267 of 1636 files lines counted
+2006207
+1268 of 1636 files lines counted
+2006582
+1269 of 1636 files lines counted
+2007043
+1270 of 1636 files lines counted
+2007394
+1271 of 1636 files lines counted
+2008875
+1272 of 1636 files lines counted
+2010273
+1273 of 1636 files lines counted
+2012353
+1274 of 1636 files lines counted
+2015848
+1275 of 1636 files lines counted
+2017512
+1276 of 1636 files lines counted
+2017893
+1277 of 1636 files lines counted
+2018415
+1278 of 1636 files lines counted
+2018664
+1279 of 1636 files lines counted
+2019395
+1280 of 1636 files lines counted
+2020000
+1281 of 1636 files lines counted
+2020368
+1282 of 1636 files lines counted
+2020862
+1283 of 1636 files lines counted
+2021121
+1284 of 1636 files lines counted
+2021461
+1285 of 1636 files lines counted
+2021555
+1286 of 1636 files lines counted
+2021935
+1287 of 1636 files lines counted
+2022026
+1288 of 1636 files lines counted
+2022319
+1289 of 1636 files lines counted
+2022560
+1290 of 1636 files lines counted
+2022744
+1291 of 1636 files lines counted
+2022930
+1292 of 1636 files lines counted
+2023270
+1293 of 1636 files lines counted
+2023522
+1294 of 1636 files lines counted
+2023559
+1295 of 1636 files lines counted
+2023641
+1296 of 1636 files lines counted
+2023830
+1297 of 1636 files lines counted
+2023951
+1298 of 1636 files lines counted
+2023990
+1299 of 1636 files lines counted
+2024051
+1300 of 1636 files lines counted
+2025363
+1301 of 1636 files lines counted
+2026580
+1302 of 1636 files lines counted
+2026620
+1303 of 1636 files lines counted
+2026673
+1304 of 1636 files lines counted
+2026724
+1305 of 1636 files lines counted
+2027507
+1306 of 1636 files lines counted
+2028277
+1307 of 1636 files lines counted
+2028928
+1308 of 1636 files lines counted
+2030599
+1309 of 1636 files lines counted
+2032325
+1310 of 1636 files lines counted
+2034023
+1311 of 1636 files lines counted
+2035392
+1312 of 1636 files lines counted
+2036855
+1313 of 1636 files lines counted
+2038302
+1314 of 1636 files lines counted
+2038429
+1315 of 1636 files lines counted
+2038527
+1316 of 1636 files lines counted
+2038621
+1317 of 1636 files lines counted
+2038724
+1318 of 1636 files lines counted
+2038831
+1319 of 1636 files lines counted
+2039424
+1320 of 1636 files lines counted
+2040016
+1321 of 1636 files lines counted
+2040674
+1322 of 1636 files lines counted
+2041356
+1323 of 1636 files lines counted
+2042643
+1324 of 1636 files lines counted
+2044071
+1325 of 1636 files lines counted
+2044820
+1326 of 1636 files lines counted
+2045464
+1327 of 1636 files lines counted
+2045673
+1328 of 1636 files lines counted
+2046073
+1329 of 1636 files lines counted
+2046434
+1330 of 1636 files lines counted
+2046724
+1331 of 1636 files lines counted
+2046950
+1332 of 1636 files lines counted
+2047066
+1333 of 1636 files lines counted
+2047625
+1334 of 1636 files lines counted
+2048623
+1335 of 1636 files lines counted
+2050578
+1336 of 1636 files lines counted
+2051731
+1337 of 1636 files lines counted
+2052812
+1338 of 1636 files lines counted
+2053006
+1339 of 1636 files lines counted
+2054087
+1340 of 1636 files lines counted
+2055453
+1341 of 1636 files lines counted
+2056681
+1342 of 1636 files lines counted
+2059147
+1343 of 1636 files lines counted
+2059904
+1344 of 1636 files lines counted
+2061324
+1345 of 1636 files lines counted
+2061623
+1346 of 1636 files lines counted
+2061742
+1347 of 1636 files lines counted
+2062828
+1348 of 1636 files lines counted
+2063184
+1349 of 1636 files lines counted
+2063401
+1350 of 1636 files lines counted
+2069824
+1351 of 1636 files lines counted
+2071888
+1352 of 1636 files lines counted
+2071974
+1353 of 1636 files lines counted
+2074335
+1354 of 1636 files lines counted
+2074865
+1355 of 1636 files lines counted
+2075557
+1356 of 1636 files lines counted
+2076873
+1357 of 1636 files lines counted
+2077580
+1358 of 1636 files lines counted
+2079095
+1359 of 1636 files lines counted
+2080722
+1360 of 1636 files lines counted
+2080725
+1361 of 1636 files lines counted
+2082511
+1362 of 1636 files lines counted
+2085021
+1363 of 1636 files lines counted
+2087132
+1364 of 1636 files lines counted
+2090607
+1365 of 1636 files lines counted
+2093373
+1366 of 1636 files lines counted
+2097062
+1367 of 1636 files lines counted
+2099975
+1368 of 1636 files lines counted
+2100276
+1369 of 1636 files lines counted
+2101691
+1370 of 1636 files lines counted
+2103273
+1371 of 1636 files lines counted
+2104078
+1372 of 1636 files lines counted
+2105078
+1373 of 1636 files lines counted
+2105264
+1374 of 1636 files lines counted
+2105609
+1375 of 1636 files lines counted
+2107720
+1376 of 1636 files lines counted
+2108214
+1377 of 1636 files lines counted
+2108727
+1378 of 1636 files lines counted
+2109624
+1379 of 1636 files lines counted
+2111371
+1380 of 1636 files lines counted
+2111864
+1381 of 1636 files lines counted
+2112473
+1382 of 1636 files lines counted
+2112859
+1383 of 1636 files lines counted
+2113240
+1384 of 1636 files lines counted
+2114265
+1385 of 1636 files lines counted
+2115381
+1386 of 1636 files lines counted
+2116788
+1387 of 1636 files lines counted
+2118073
+1388 of 1636 files lines counted
+2119479
+1389 of 1636 files lines counted
+2120324
+1390 of 1636 files lines counted
+2120586
+1391 of 1636 files lines counted
+2121121
+1392 of 1636 files lines counted
+2123210
+1393 of 1636 files lines counted
+2123341
+1394 of 1636 files lines counted
+2124342
+1395 of 1636 files lines counted
+2124652
+1396 of 1636 files lines counted
+2124971
+1397 of 1636 files lines counted
+2125040
+1398 of 1636 files lines counted
+2125836
+1399 of 1636 files lines counted
+2126634
+1400 of 1636 files lines counted
+2127038
+1401 of 1636 files lines counted
+2127699
+1402 of 1636 files lines counted
+2128032
+1403 of 1636 files lines counted
+2128404
+1404 of 1636 files lines counted
+2129230
+1405 of 1636 files lines counted
+2130334
+1406 of 1636 files lines counted
+2131204
+1407 of 1636 files lines counted
+2132216
+1408 of 1636 files lines counted
+2132443
+1409 of 1636 files lines counted
+2132592
+1410 of 1636 files lines counted
+2133141
+1411 of 1636 files lines counted
+2133736
+1412 of 1636 files lines counted
+2134198
+1413 of 1636 files lines counted
+2134689
+1414 of 1636 files lines counted
+2137325
+1415 of 1636 files lines counted
+2138144
+1416 of 1636 files lines counted
+2139021
+1417 of 1636 files lines counted
+2139695
+1418 of 1636 files lines counted
+2142019
+1419 of 1636 files lines counted
+2145556
+1420 of 1636 files lines counted
+2147056
+1421 of 1636 files lines counted
+2147187
+1422 of 1636 files lines counted
+2147473
+1423 of 1636 files lines counted
+2147618
+1424 of 1636 files lines counted
+2147985
+1425 of 1636 files lines counted
+2148254
+1426 of 1636 files lines counted
+2148395
+1427 of 1636 files lines counted
+2148768
+1428 of 1636 files lines counted
+2149058
+1429 of 1636 files lines counted
+2149670
+1430 of 1636 files lines counted
+2151991
+1431 of 1636 files lines counted
+2153138
+1432 of 1636 files lines counted
+2155649
+1433 of 1636 files lines counted
+2155720
+1434 of 1636 files lines counted
+2155787
+1435 of 1636 files lines counted
+2155854
+1436 of 1636 files lines counted
+2156754
+1437 of 1636 files lines counted
+2157472
+1438 of 1636 files lines counted
+2157850
+1439 of 1636 files lines counted
+2158443
+1440 of 1636 files lines counted
+2158795
+1441 of 1636 files lines counted
+2159231
+1442 of 1636 files lines counted
+2160012
+1443 of 1636 files lines counted
+2160299
+1444 of 1636 files lines counted
+2200775
+1445 of 1636 files lines counted
+2222376
+1446 of 1636 files lines counted
+2251777
+1447 of 1636 files lines counted
+2252276
+1448 of 1636 files lines counted
+2252917
+1449 of 1636 files lines counted
+2253396
+1450 of 1636 files lines counted
+2267263
+1451 of 1636 files lines counted
+2276157
+1452 of 1636 files lines counted
+2296149
+1453 of 1636 files lines counted
+2325379
+1454 of 1636 files lines counted
+2349300
+1455 of 1636 files lines counted
+2367781
+1456 of 1636 files lines counted
+2367812
+1457 of 1636 files lines counted
+2367844
+1458 of 1636 files lines counted
+2367910
+1459 of 1636 files lines counted
+2368449
+1460 of 1636 files lines counted
+2369087
+1461 of 1636 files lines counted
+2369805
+1462 of 1636 files lines counted
+2370274
+1463 of 1636 files lines counted
+2370744
+1464 of 1636 files lines counted
+2370836
+1465 of 1636 files lines counted
+2371414
+1466 of 1636 files lines counted
+2372263
+1467 of 1636 files lines counted
+2372623
+1468 of 1636 files lines counted
+2375625
+1469 of 1636 files lines counted
+2378005
+1470 of 1636 files lines counted
+2381217
+1471 of 1636 files lines counted
+2382115
+1472 of 1636 files lines counted
+2383252
+1473 of 1636 files lines counted
+2384084
+1474 of 1636 files lines counted
+2384749
+1475 of 1636 files lines counted
+2386013
+1476 of 1636 files lines counted
+2386822
+1477 of 1636 files lines counted
+2388261
+1478 of 1636 files lines counted
+2388733
+1479 of 1636 files lines counted
+2390180
+1480 of 1636 files lines counted
+2391313
+1481 of 1636 files lines counted
+2392217
+1482 of 1636 files lines counted
+2393156
+1483 of 1636 files lines counted
+2394762
+1484 of 1636 files lines counted
+2395917
+1485 of 1636 files lines counted
+2402729
+1486 of 1636 files lines counted
+2404739
+1487 of 1636 files lines counted
+2406041
+1488 of 1636 files lines counted
+2407515
+1489 of 1636 files lines counted
+2411778
+1490 of 1636 files lines counted
+2412930
+1491 of 1636 files lines counted
+2413730
+1492 of 1636 files lines counted
+2415045
+1493 of 1636 files lines counted
+2415531
+1494 of 1636 files lines counted
+2415615
+1495 of 1636 files lines counted
+2416145
+1496 of 1636 files lines counted
+2417942
+1497 of 1636 files lines counted
+2419863
+1498 of 1636 files lines counted
+2420232
+1499 of 1636 files lines counted
+2420880
+1500 of 1636 files lines counted
+2421692
+1501 of 1636 files lines counted
+2422251
+1502 of 1636 files lines counted
+2422423
+1503 of 1636 files lines counted
+2422920
+1504 of 1636 files lines counted
+2423369
+1505 of 1636 files lines counted
+2423681
+1506 of 1636 files lines counted
+2424095
+1507 of 1636 files lines counted
+2424195
+1508 of 1636 files lines counted
+2425878
+1509 of 1636 files lines counted
+2427764
+1510 of 1636 files lines counted
+2429024
+1511 of 1636 files lines counted
+2429649
+1512 of 1636 files lines counted
+2430355
+1513 of 1636 files lines counted
+2431701
+1514 of 1636 files lines counted
+2432150
+1515 of 1636 files lines counted
+2432976
+1516 of 1636 files lines counted
+2433237
+1517 of 1636 files lines counted
+2434077
+1518 of 1636 files lines counted
+2434971
+1519 of 1636 files lines counted
+2439187
+1520 of 1636 files lines counted
+2441205
+1521 of 1636 files lines counted
+2443410
+1522 of 1636 files lines counted
+2452805
+1523 of 1636 files lines counted
+2452826
+1524 of 1636 files lines counted
+2452864
+1525 of 1636 files lines counted
+2459384
+1526 of 1636 files lines counted
+2459513
+1527 of 1636 files lines counted
+2478603
+1528 of 1636 files lines counted
+2503383
+1529 of 1636 files lines counted
+2503597
+1530 of 1636 files lines counted
+2511047
+1531 of 1636 files lines counted
+2512589
+1532 of 1636 files lines counted
+2516379
+1533 of 1636 files lines counted
+2517667
+1534 of 1636 files lines counted
+2519736
+1535 of 1636 files lines counted
+2536936
+1536 of 1636 files lines counted
+2558173
+1537 of 1636 files lines counted
+2588091
+1538 of 1636 files lines counted
+2612343
+1539 of 1636 files lines counted
+2612439
+1540 of 1636 files lines counted
+2635832
+1541 of 1636 files lines counted
+2640447
+1542 of 1636 files lines counted
+2640628
+1543 of 1636 files lines counted
+2640812
+1544 of 1636 files lines counted
+2641043
+1545 of 1636 files lines counted
+2649483
+1546 of 1636 files lines counted
+2666218
+1547 of 1636 files lines counted
+2677213
+1548 of 1636 files lines counted
+2678757
+1549 of 1636 files lines counted
+2679990
+1550 of 1636 files lines counted
+2698017
+1551 of 1636 files lines counted
+2704269
+1552 of 1636 files lines counted
+2736242
+1553 of 1636 files lines counted
+2753443
+1554 of 1636 files lines counted
+2774099
+1555 of 1636 files lines counted
+2781000
+1556 of 1636 files lines counted
+2781246
+1557 of 1636 files lines counted
+2781695
+1558 of 1636 files lines counted
+2783092
+1559 of 1636 files lines counted
+2783783
+1560 of 1636 files lines counted
+2793865
+1561 of 1636 files lines counted
+2794669
+1562 of 1636 files lines counted
+2794763
+1563 of 1636 files lines counted
+2794997
+1564 of 1636 files lines counted
+2811680
+1565 of 1636 files lines counted
+2834887
+1566 of 1636 files lines counted
+2857444
+1567 of 1636 files lines counted
+2862442
+1568 of 1636 files lines counted
+2868105
+1569 of 1636 files lines counted
+2868163
+1570 of 1636 files lines counted
+2868241
+1571 of 1636 files lines counted
+2875939
+1572 of 1636 files lines counted
+2875975
+1573 of 1636 files lines counted
+2876029
+1574 of 1636 files lines counted
+2876055
+1575 of 1636 files lines counted
+2882620
+1576 of 1636 files lines counted
+2882666
+1577 of 1636 files lines counted
+2882676
+1578 of 1636 files lines counted
+2886200
+1579 of 1636 files lines counted
+2886289
+1580 of 1636 files lines counted
+2886400
+1581 of 1636 files lines counted
+2886406
+1582 of 1636 files lines counted
+2886447
+1583 of 1636 files lines counted
+2886498
+1584 of 1636 files lines counted
+2886553
+1585 of 1636 files lines counted
+2886573
+1586 of 1636 files lines counted
+2886717
+1587 of 1636 files lines counted
+2886752
+1588 of 1636 files lines counted
+2886956
+1589 of 1636 files lines counted
+2887424
+1590 of 1636 files lines counted
+2887448
+1591 of 1636 files lines counted
+2904983
+1592 of 1636 files lines counted
+2924000
+1593 of 1636 files lines counted
+2929677
+1594 of 1636 files lines counted
+2935335
+1595 of 1636 files lines counted
+2938331
+1596 of 1636 files lines counted
+2940293
+1597 of 1636 files lines counted
+2956790
+1598 of 1636 files lines counted
+2963429
+1599 of 1636 files lines counted
+2983838
+1600 of 1636 files lines counted
+2990208
+1601 of 1636 files lines counted
+3006033
+1602 of 1636 files lines counted
+3017572
+1603 of 1636 files lines counted
+3029727
+1604 of 1636 files lines counted
+3039732
+1605 of 1636 files lines counted
+3062233
+1606 of 1636 files lines counted
+3113774
+1607 of 1636 files lines counted
+3127835
+1608 of 1636 files lines counted
+3146964
+1609 of 1636 files lines counted
+3155428
+1610 of 1636 files lines counted
+3171071
+1611 of 1636 files lines counted
+3189359
+1612 of 1636 files lines counted
+3192023
+1613 of 1636 files lines counted
+3213002
+1614 of 1636 files lines counted
+3220061
+1615 of 1636 files lines counted
+3230672
+1616 of 1636 files lines counted
+3246066
+1617 of 1636 files lines counted
+3256582
+1618 of 1636 files lines counted
+3275782
+1619 of 1636 files lines counted
+3309457
+1620 of 1636 files lines counted
+3322455
+1621 of 1636 files lines counted
+3322934
+1622 of 1636 files lines counted
+3323003
+1623 of 1636 files lines counted
+3323071
+1624 of 1636 files lines counted
+3323755
+1625 of 1636 files lines counted
+3323993
+1626 of 1636 files lines counted
+3324058
+1627 of 1636 files lines counted
+3324342
+1628 of 1636 files lines counted
+3324417
+1629 of 1636 files lines counted
+3324484
+1630 of 1636 files lines counted
+3324502
+1631 of 1636 files lines counted
+3324553
+1632 of 1636 files lines counted
+3324790
+1633 of 1636 files lines counted
+3325070
+1634 of 1636 files lines counted
+3325166
+1635 of 1636 files lines counted
+Number of features =  3325166
+Processing epoch 0
+Epoch 1/20, Loss: 2.095815420150757
+Epoch 1/20, Loss: 2.4039456844329834
+Epoch 1/20, Loss: 2.3633615970611572
+Epoch 1/20, Loss: 2.330779790878296
+Epoch 1/20, Loss: 2.329387903213501
+Epoch 1/20, Loss: 2.414642333984375
+Epoch 1/20, Loss: 2.3322031497955322
+Epoch 1/20, Loss: 2.406075954437256
+Epoch 1/20, Loss: 2.323336124420166
+Epoch 1/20, Loss: 2.3491482734680176
+Epoch 1/20, Loss: 2.3202004432678223
+Epoch 1/20, Loss: 2.3198537826538086
+Epoch 1/20, Loss: 2.188394069671631
+Epoch 1/20, Loss: 2.381502628326416
+Epoch 1/20, Loss: 2.48868989944458
+Epoch 1/20, Loss: 2.487682580947876
+Epoch 1/20, Loss: 2.4865036010742188
+Epoch 1/20, Loss: 2.4852023124694824
+Epoch 1/20, Loss: 2.4838080406188965
+Epoch 1/20, Loss: 2.48233962059021
+Epoch 1/20, Loss: 2.480811834335327
+Epoch 1/20, Loss: 2.4792332649230957
+Epoch 1/20, Loss: 2.4776151180267334
+Epoch 1/20, Loss: 2.4759621620178223
+Epoch 1/20, Loss: 2.3532748222351074
+Epoch 1/20, Loss: 2.5517473220825195
+Epoch 1/20, Loss: 2.7312700748443604
+Epoch 1/20, Loss: 2.7335727214813232
+Epoch 1/20, Loss: 2.494346857070923
+Epoch 1/20, Loss: 2.544034719467163
+Epoch 1/20, Loss: 2.725428581237793
+Epoch 1/20, Loss: 2.5360937118530273
+Epoch 1/20, Loss: 2.72351336479187
+Epoch 1/20, Loss: 2.527587413787842
+Epoch 1/20, Loss: 2.703918218612671
+Epoch 1/20, Loss: 2.7187564373016357
+Epoch 1/20, Loss: 2.4946701526641846
+Epoch 1/20, Loss: 2.708240509033203
+Epoch 1/20, Loss: 2.7136311531066895
+Epoch 1/20, Loss: 2.711845636367798
+Epoch 1/20, Loss: 2.5036377906799316
+Epoch 1/20, Loss: 2.457206964492798
+Epoch 1/20, Loss: 2.472012519836426
+Epoch 1/20, Loss: 2.5301425457000732
+Epoch 1/20, Loss: 2.4650697708129883
+Epoch 1/20, Loss: 2.104665756225586
+Epoch 1/20, Loss: 2.0991921424865723
+Epoch 1/20, Loss: 2.109147548675537
+Epoch 1/20, Loss: 2.1298928260803223
+Epoch 1/20, Loss: 2.1193721294403076
+Epoch 1/20, Loss: 2.1574556827545166
+Epoch 1/20, Loss: 2.3590517044067383
+Epoch 1/20, Loss: 2.447388172149658
+Epoch 1/20, Loss: 2.446483850479126
+Epoch 1/20, Loss: 2.4454448223114014
+Epoch 1/20, Loss: 2.444288730621338
+Epoch 1/20, Loss: 2.434527635574341
+Epoch 1/20, Loss: 2.356016159057617
+Epoch 1/20, Loss: 2.3724515438079834
+Epoch 1/20, Loss: 2.1598594188690186
+Epoch 1/20, Loss: 2.2683048248291016
+Epoch 1/20, Loss: 2.436241388320923
+Epoch 1/20, Loss: 2.4348390102386475
+Epoch 1/20, Loss: 2.433368444442749
+Epoch 1/20, Loss: 2.4318363666534424
+Epoch 1/20, Loss: 2.4302525520324707
+Epoch 1/20, Loss: 2.4286234378814697
+Epoch 1/20, Loss: 2.426954746246338
+Epoch 1/20, Loss: 2.4252514839172363
+Epoch 1/20, Loss: 2.4235188961029053
+Epoch 1/20, Loss: 2.421760320663452
+Epoch 1/20, Loss: 2.054274559020996
+Epoch 1/20, Loss: 2.0608630180358887
+Epoch 1/20, Loss: 2.0599193572998047
+Epoch 1/20, Loss: 2.0587916374206543
+Epoch 1/20, Loss: 2.057508707046509
+Epoch 1/20, Loss: 2.056098699569702
+Epoch 1/20, Loss: 2.0545804500579834
+Epoch 1/20, Loss: 2.0529730319976807
+Epoch 1/20, Loss: 2.05129075050354
+Epoch 1/20, Loss: 2.0495457649230957
+Epoch 1/20, Loss: 2.047748327255249
+Epoch 1/20, Loss: 2.0459063053131104
+Epoch 1/20, Loss: 1.9500049352645874
+Epoch 1/20, Loss: 2.125972032546997
+Epoch 1/20, Loss: 2.0675106048583984
+Epoch 1/20, Loss: 1.8017889261245728
+Epoch 1/20, Loss: 2.129237413406372
+Epoch 1/20, Loss: 2.4044957160949707
+Epoch 1/20, Loss: 2.4038631916046143
+Epoch 1/20, Loss: 2.403083562850952
+Epoch 1/20, Loss: 2.402172088623047
+Epoch 1/20, Loss: 2.40114426612854
+Epoch 1/20, Loss: 2.4000132083892822
+Epoch 1/20, Loss: 2.398791790008545
+Epoch 1/20, Loss: 2.397489070892334
+Epoch 1/20, Loss: 2.3961145877838135
+Epoch 1/20, Loss: 2.451266050338745
+Epoch 1/20, Loss: 2.393216609954834
+Epoch 1/20, Loss: 2.3917009830474854
+Epoch 1/20, Loss: 2.3901400566101074
+Epoch 1/20, Loss: 2.3885369300842285
+Epoch 1/20, Loss: 2.3894846439361572
+Epoch 1/20, Loss: 1.9966002702713013
+Epoch 1/20, Loss: 1.9499809741973877
+Epoch 1/20, Loss: 1.7764779329299927
+Epoch 1/20, Loss: 2.6988449096679688
+Epoch 1/20, Loss: 2.0247788429260254
+Epoch 1/20, Loss: 1.7742480039596558
+Epoch 1/20, Loss: 2.1227540969848633
+Epoch 1/20, Loss: 2.0682778358459473
+Epoch 1/20, Loss: 2.0253961086273193
+Epoch 1/20, Loss: 2.0939817428588867
+Epoch 1/20, Loss: 2.216813802719116
+Epoch 1/20, Loss: 2.163064956665039
+Epoch 1/20, Loss: 2.506680488586426
+Epoch 1/20, Loss: 2.843559503555298
+Epoch 1/20, Loss: 2.8424947261810303
+Epoch 1/20, Loss: 2.6202332973480225
+Epoch 1/20, Loss: 2.3705127239227295
+Epoch 1/20, Loss: 2.3696482181549072
+Epoch 1/20, Loss: 2.3686726093292236
+Epoch 1/20, Loss: 2.36759614944458
+Epoch 1/20, Loss: 2.366431951522827
+Epoch 1/20, Loss: 2.3651883602142334
+Epoch 1/20, Loss: 2.363872766494751
+Epoch 1/20, Loss: 2.362496852874756
+Epoch 1/20, Loss: 2.361065149307251
+Epoch 1/20, Loss: 2.3595845699310303
+Epoch 1/20, Loss: 2.3580594062805176
+Epoch 1/20, Loss: 2.356497049331665
+Epoch 1/20, Loss: 2.3490371704101562
+Epoch 1/20, Loss: 2.2558772563934326
+Epoch 1/20, Loss: 2.4475603103637695
+Epoch 1/20, Loss: 2.3502728939056396
+Epoch 1/20, Loss: 2.3487305641174316
+Epoch 1/20, Loss: 2.3471531867980957
+Epoch 1/20, Loss: 2.298523187637329
+Epoch 1/20, Loss: 2.0149741172790527
+Epoch 1/20, Loss: 2.206693410873413
+Epoch 1/20, Loss: 2.3410451412200928
+Epoch 1/20, Loss: 2.364325523376465
+Epoch 1/20, Loss: 2.7061517238616943
+Epoch 1/20, Loss: 2.336650848388672
+Epoch 1/20, Loss: 2.591979742050171
+Epoch 1/20, Loss: 2.7024776935577393
+Epoch 1/20, Loss: 2.0675289630889893
+Epoch 1/20, Loss: 2.6669552326202393
+Epoch 1/20, Loss: 2.6663131713867188
+Epoch 1/20, Loss: 2.6653759479522705
+Epoch 1/20, Loss: 2.6641910076141357
+Epoch 1/20, Loss: 2.377074718475342
+Epoch 1/20, Loss: 2.3267369270324707
+Epoch 1/20, Loss: 2.325791835784912
+Epoch 1/20, Loss: 2.324749231338501
+Epoch 1/20, Loss: 2.3236215114593506
+Epoch 1/20, Loss: 2.322415828704834
+Epoch 1/20, Loss: 2.3211402893066406
+Epoch 1/20, Loss: 2.619619607925415
+Epoch 1/20, Loss: 2.654096841812134
+Epoch 1/20, Loss: 2.6528079509735107
+Epoch 1/20, Loss: 2.651334285736084
+Epoch 1/20, Loss: 2.5114848613739014
+Epoch 1/20, Loss: 2.647988796234131
+Epoch 1/20, Loss: 2.6461527347564697
+Epoch 1/20, Loss: 2.6442151069641113
+Epoch 1/20, Loss: 2.6421892642974854
+Epoch 1/20, Loss: 2.477750539779663
+Epoch 1/20, Loss: 2.406636953353882
+Epoch 1/20, Loss: 2.3100152015686035
+Epoch 1/20, Loss: 2.3091776371002197
+Epoch 1/20, Loss: 2.3082315921783447
+Epoch 1/20, Loss: 2.307188034057617
+Epoch 1/20, Loss: 2.3060567378997803
+Epoch 1/20, Loss: 2.304847478866577
+Epoch 1/20, Loss: 2.303567886352539
+Epoch 1/20, Loss: 2.302227020263672
+Epoch 1/20, Loss: 2.300830602645874
+Epoch 1/20, Loss: 2.2993850708007812
+Epoch 1/20, Loss: 2.297895669937134
+Traceback (most recent call last):
+  File "/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/src/functs/nedc_mladp_models/./nedc_mladp_models.py", line 227, in <module>
+    main()
+  File "/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/src/functs/nedc_mladp_models/./nedc_mladp_models.py", line 223, in main
+    CNN.fit(files)
+  File "/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/src/functs/nedc_mladp_models/./nedc_mladp_models.py", line 157, in fit
+    for data, labels in dataloader:
+  File "/home/tuo54571/venv/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+    data = self._next_data()
+  File "/home/tuo54571/venv/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 757, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/home/tuo54571/venv/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/home/tuo54571/venv/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 52, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/src/functs/nedc_mladp_models/./nedc_mladp_models.py", line 54, in __getitem__
+    self.current_file['Data'] = np.delete(self.current_file['Data'],(0), axis = 0)
+  File "/home/tuo54571/venv/lib/python3.9/site-packages/numpy/lib/_function_base_impl.py", line 5549, in delete
+    new = empty(newshape, arr.dtype, arrorder)
+numpy._core._exceptions.MemoryError: Unable to allocate 411. MiB for an array with shape (28495, 3782) and data type float32

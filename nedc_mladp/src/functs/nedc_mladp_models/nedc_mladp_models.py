@@ -165,7 +165,6 @@ class convolutional_neural_network(torch.nn.Module):
                 #batch_data_gpu = torch.tensor([tmp_data] for tmp_data in data_point['Data']).to(self.device_type)
                 #batch_labels_gpu = labelToTensor(data_point['Label']).to(self.device_type)                                
 
-                print(f"Processing batch {batch_number} of {batch_size}")
                 batch_number+=1
                 optimizer.zero_grad()
 

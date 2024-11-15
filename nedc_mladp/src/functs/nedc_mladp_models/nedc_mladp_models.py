@@ -46,7 +46,7 @@ class CSVDataset(Dataset):
         for i,csv_file in enumerate(csv_files):
             self.data_length+=self.count_lines_mmap(csv_file) - 10
             print(self.data_length)
-            print(f"{i} of {len(csv_files)} files lines counted")
+            print(f"{i} of {len(csv_files)} files lines counted",flush=True)
         print("Number of features = ",self.data_length)
 
     def __len__(self):
@@ -155,8 +155,9 @@ class convolutional_neural_network(torch.nn.Module):
         print("Criterion and Optimizer initialized")
 
         batch_size = 64
-        
-        dataloader = DataLoader(CSVDataset(list_of_files), batch_size = batch_size,collate_fn=self.my_collate)
+        dataset = CSVDataset(list_of_files)
+        number_of_batches = len(dataset)//batch_size
+        dataloader = DataLoader(dataset, batch_size = batch_size,collate_fn=self.my_collate)
         
         for epoch in range(self.number_of_epochs):
             print(f"Processing epoch {epoch}")
@@ -173,7 +174,7 @@ class convolutional_neural_network(torch.nn.Module):
                 loss = criterion(outputs, self.labelToTensor(labels))
                 loss.backward()
                 optimizer.step()
-                
+                print(f"Batch {batch_number} of {number_of_batches}")
             torch.save(self, self.model_output_path + f"CNN{epoch}.pth")
             print(f'Epoch {epoch+1}/{self.number_of_epochs}, Loss: {loss.item()}', flush=True)
 

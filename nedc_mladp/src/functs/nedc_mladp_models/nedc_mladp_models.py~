@@ -155,8 +155,9 @@ class convolutional_neural_network(torch.nn.Module):
         print("Criterion and Optimizer initialized")
 
         batch_size = 64
-        
-        dataloader = DataLoader(CSVDataset(list_of_files), batch_size = batch_size,collate_fn=self.my_collate)
+        dataset = CSVDataset(list_of_files)
+        number_of_batches = len(dataset)//batch_size
+        dataloader = DataLoader(dataset, batch_size = batch_size,collate_fn=self.my_collate)
         
         for epoch in range(self.number_of_epochs):
             print(f"Processing epoch {epoch}")
@@ -165,7 +166,6 @@ class convolutional_neural_network(torch.nn.Module):
                 #batch_data_gpu = torch.tensor([tmp_data] for tmp_data in data_point['Data']).to(self.device_type)
                 #batch_labels_gpu = labelToTensor(data_point['Label']).to(self.device_type)                                
 
-                print(f"Processing batch {batch_number} of {batch_size}")
                 batch_number+=1
                 optimizer.zero_grad()
 
@@ -174,9 +174,9 @@ class convolutional_neural_network(torch.nn.Module):
                 loss = criterion(outputs, self.labelToTensor(labels))
                 loss.backward()
                 optimizer.step()
-                
+                print(f"Batch {batch_number} of {number_of_batches}")
             torch.save(self, self.model_output_path + f"CNN{epoch}.pth")
-            print(f'Epoch {epoch+1}/{self.number_of_epochs}, Loss: {loss.item()}')
+            print(f'Epoch {epoch+1}/{self.number_of_epochs}, Loss: {loss.item()}', flush=True)
 
     def getDevice(self):
         self.device_type = "cuda" if torch.cuda.is_available() else "cpu"

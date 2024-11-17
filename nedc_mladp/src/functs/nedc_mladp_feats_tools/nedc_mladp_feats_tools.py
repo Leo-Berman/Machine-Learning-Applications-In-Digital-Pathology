@@ -1,81 +1,111 @@
 # import python libraries
-#
 import numpy
 import scipy
+import shapely
+import sklearn.decomposition
+
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use('Agg')
+
+# import picones libraries
+#
+import nedc_image_tools
+
+def generateTopLeftFrameCoordinates(height:int, width:int,
+                                    frame_size:tuple)->list:
+    return_list = []
+    for x in range(0,width,frame_size[0]):
+        for y in range(0,height,frame_size[1]):
+            return_list.append( (x,y) )
+    return return_list
+
+def generateWindows(coordinates:list, frame_size:tuple,
+                    window_size:tuple)->list:
+
+    windows = []
+
+    window_width_offset = (window_size[0]-frame_size[0])//2
+    window_height_offset = (window_size[1]-frame_size[1])//2
+    
+    for x in coordinates:
+
+        up_most = x[1] - window_height_offset
+        down_most = x[1] + frame_size[0] + window_height_offset
+
+        right_most = x[0] + frame_size[1] + window_width_offset
+        left_most = x[0] - window_width_offset
+
+        top_left = [left_most, up_most]
+        top_right = [right_most, up_most]
+        bottom_right = [right_most, down_most]
+        bottom_left = [left_most, down_most]
+
+        windows.append(shapely.Polygon([top_left,top_right,
+                                        bottom_right,bottom_left]))
+
+    return windows
+
+def classifyFrames(labels:list, height:int, width:int, window_size:tuple,
+                   frame_size:tuple, regions:list, overlap_threshold:float):
+    
+    return_labels = []
+
+    top_left_frame_coords = generateTopLeftFrameCoordinates(height, width,
+                                                            frame_size)
+    
+    windows = generateWindows(top_left_frame_coords,frame_size, window_size)
+
+    return_top_left_frame_coords = []
+
+    for w,x in zip(top_left_frame_coords,windows):
+        for y,z in zip(regions,labels):
+            overlap = shapely.intersection(x,y)
+            if overlap.area/x.area >= overlap_threshold:
+                plt.plot(*x.exterior.xy)
+                return_labels.append(z)
+                return_top_left_frame_coords.append(w)
+                break
+
+    return return_top_left_frame_coords,return_labels
+
+def windowRGBValues(image_file:str, frame_top_left_coordinates:list,
+                    window_size:tuple):
+    
+    # open the imagefile
+    # 
+    image_reader = nedc_image_tools.Nil()
+    image_reader.open(image_file)
+
+    # read all of the windows into memory
+    #
+    windows = image_reader.read_data_multithread(frame_top_left_coordinates,
+                                                 npixy = window_size[1],
+                                                 npixx = window_size[0],
+                                                 color_mode="RGB")
+    
+    # return list of lists of rgba values
+    #
+    return windows
+
 
 # perform discrete cosine transform on rgba values
 #
-def rgba_to_dct(framelist:list,frame_coord_list:list,framesize:int,windowsize:int):
-
-    # list of final rows to return
-    #
-    list_of_rows = []
-
-    # frame correction
-    #
-    correction = (windowsize-framesize)//2
+def windowDCT(window_RGBs:list):
+    window_DCTs = []
     
-    # iterate through each frame
+    for i,window in enumerate(window_RGBs):
+
+        window_DCTs.append(numpy.array([scipy.fftpack.dctn(color) for color in window]).flatten())
+
+        
+    return window_DCTs
+
+def labeledRegions(coordinates:list):
+    # generate polygon of regions within the image
     #
-    for i,framevalues in enumerate(framelist):        
-        red = []
-        green = []
-        blue = []
-        alpha = []
+    ret_shapes = []
+    for x in coordinates:
+        ret_shapes.append(shapely.Polygon(x))
 
-        # Append corresponding list values in separate RGBA lists
-        #
-        for j in range(1,len(framevalues)-1,4):
-            red.append(framevalues[j])
-            green.append(framevalues[j+1])
-            blue.append(framevalues[j+2])
-            alpha.append(framevalues[j+3])
-
-        # concatenate the dcts of each vector
-        # probably need to index each DCT for the most
-        # signifcant terms
-        #
-        vector = []
-        vector.extend(scipy.fftpack.dct(red)[0:10])
-        vector.extend(scipy.fftpack.dct(green)[0:10])
-        vector.extend(scipy.fftpack.dct(blue)[0:10])
-        vector.extend(scipy.fftpack.dct(alpha)[0:10])
-
-        # Convert vector to numpy array to a list for a reason I'm not sure of
-        #
-        vector_numpy = numpy.array(vector).tolist()
-
-        # insert the framesize, x and y coordinates, and the dct coefficients
-        #
-        vector_numpy.insert(0,framesize)
-        vector_numpy.insert(0,frame_coord_list[i][1]+correction)
-        vector_numpy.insert(0,frame_coord_list[i][0]+correction)
-        vector_numpy.insert(0,framevalues[0])
-
-        # append that to the final row list
-        #
-        list_of_rows.append(vector_numpy)
-
-    # return that list of rows
-    #
-    return list_of_rows
-
-def even_data(indata,inlabels):
-    retdata = []
-    retlabels = []
-
-    inlabels=list(inlabels)
-    imbalanced_label = max(set(inlabels), key=inlabels.count)
-    mycount = int((len(inlabels) - inlabels.count(imbalanced_label)))
-    for x,y in list(zip(inlabels,indata)):
-        if x == imbalanced_label and mycount > 0:
-            retdata.append(y)
-            retlabels.append(x)
-            mycount-=1
-
-        elif x != imbalanced_label:
-            retdata.append(y)
-            retlabels.append(x)
-        else:
-            pass
-    return retdata,retlabels
+    return ret_shapes

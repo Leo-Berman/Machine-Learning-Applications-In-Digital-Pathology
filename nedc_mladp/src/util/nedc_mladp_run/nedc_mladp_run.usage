@@ -1,1 +1,2 @@
-Usage: nedc_run [options] file(s)
+Usage:
+	./nedc_mladp_run.py -p <Parameter file>

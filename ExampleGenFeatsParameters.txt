@@ -1,8 +1,3 @@
-Usage:
-        ./nedc_mladp_gen_feats.py -p <parameter file>
-
-Parameter File:
-
 # version=param_v1.0.0
 
 run_pipeline{
@@ -21,10 +16,10 @@ gen_feats{
 	frame_height=250
 
 	# Set to a txt file where each new line is the absolute path to a svs file
-	image_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/example_images.list"
+	image_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/ExampleImages.list"
 
 	# Set to a txt file where each new line is the absolute path to the corresponding xml file of the svs files above
-	annotation_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/example_annotations.list"
+	annotation_files_list="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/ExampleAnnotations.list"
 
 	# This is where the feature files, corresponding list of generated feature_files, and PCA joblib file will be output
 	output_directory="/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/example_features_output"

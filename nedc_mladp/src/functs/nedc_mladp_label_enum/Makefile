@@ -1,4 +1,4 @@
-# file: $MLADP/functs/nedc_mladp_fileio_tools/Makefile
+# file: $MLADP/functs/nedc_mladp_ann_tools/Makefile
 #
 
 # define source and object files
@@ -8,7 +8,7 @@ SRC = $(wildcard *.py)
 # define an installation target
 #
 install:
-	cd $(MLADP)/nedc_mladp/lib; 
+	cd $(MLADP)/nedc_mladp/lib
 	cp -f $(SRC) $(MLADP)/nedc_mladp/lib/
 	cd $(MLADP)/nedc_mladp/lib; chmod u+rw,g+rw,o+r $(SRC)
 

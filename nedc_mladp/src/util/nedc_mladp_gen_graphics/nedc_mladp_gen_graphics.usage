@@ -1,1 +1,2 @@
-./gen_graphics -p <parameter file>
+Usage:
+	./nedc_mladp+gen_graphics.py -p <parameter file>

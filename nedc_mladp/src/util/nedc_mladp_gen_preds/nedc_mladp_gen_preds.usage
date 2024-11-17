@@ -1,0 +1,3 @@
+usage:
+	./nedc_mlad_gen_preds.py -p <parameter file>
+	

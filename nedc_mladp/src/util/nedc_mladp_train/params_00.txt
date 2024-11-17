@@ -1,0 +1,61 @@
+# version=param_v1.0.0
+
+gen_feats{
+    run=1
+    windowsize=250
+    framesize=200
+    imagefile_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_DATA/test_img.list"
+    labelfile_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_DATA/test_ann.list"
+    output_dir="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_OUTPUT"
+    output_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_OUTPUT/dcts.list"
+}
+
+train_model{
+    PCA_components=100
+    number_of_classes=9
+    model_type="CNN"
+    model_path="/data/isip/exp/tuh_dpath/exp_0289/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/src/functs/nedc_mladp_models/model_paths/model.pth"
+    data_list_train="/data/isip/exp/tuh_dpath/exp_0289/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/example_features_output/feature_files.list"
+    data_list_eval="/data/isip/exp/tuh_dpath/exp_0289/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/example_features_output/feature_files.list"
+    
+    # CNN model architecture
+    batch_size=32
+    num_epochs=3
+    step_size=7
+    momentum=0.9
+    learning_rate=0.001
+    gamma=0.1
+
+    # Hyperparameters
+    hidden_layer_1_neurons=128
+    hidden_layer_2_neurons=64
+
+    # Validate: ('False' if only training)
+    validate=False
+
+    # Output
+    output_plot_directory="Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/yuans_plots/"
+    output_plot_name="test_plot.png"
+    output_directory="/data/isip/exp/tuh_dpath/exp_0289/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/yuan_test/yuans_model_output"
+    output_model_name="yuans_model.pth"
+}
+
+eval_model{
+    data_list="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TEST_TRAIN_OUTPUT/dcts.list"
+    model="/data/isip/exp/tuh_dpath/exp_0280/nedc_mladp/data/TRAINED_MODELS/Trained_QDA.joblib"
+    confusion_matrix=0
+    output_graphics_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/CONFUSION_MATRIXES/RNFConfusionMatrix.png"
+    decisions=0
+    output_decisions_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TEST/testdecision.csv"
+}
+
+gen_graphics{
+    framesize=6000
+    imagefile="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/00000739_aaaaaadc/s000_2017_08_01/breast/00000739_aaaaaadc_s000_0hne_0000_a001_lvl001_t000.svs"
+    labelfile="/data/isip/data/tuh_dpath_breast/deidentified/v3.0.0/svs/eval/00000739_aaaaaadc/s000_2017_08_01/breast/00000739_aaaaaadc_s000_0hne_0000_a001_lvl001_t000.csv"
+    output_file="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TEST/test.png"
+    showframes=1
+    compression=40
+    decisions=1
+    decisions_path="/home/tuo54571/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/dat/TEST/testdecision.csv"
+}

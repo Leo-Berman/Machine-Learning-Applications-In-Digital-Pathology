@@ -18,7 +18,7 @@ from nedc_mladp_models import *
 import nedc_file_tools
 import nedc_dpath_ann_tools
 
-@ray.remote(num_cpus=8, num_gpus=1)
+@ray.remote(num_cpus=4, num_gpus=1)
 def predict_file(input_feature_file:str, annotation_file:str, model, regions_output_directory:str, PCA_components:int, index):
 
     try:        

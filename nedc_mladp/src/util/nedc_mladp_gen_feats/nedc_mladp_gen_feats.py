@@ -20,7 +20,7 @@ import nedc_file_tools
 import joblib
 
 
-@ray.remote(num_cpus=16)
+@ray.remote(num_cpus=30)
 def my_parallel(i, image_file, annotation_file, frame_size, window_size, PCA, window_region_overlap_threshold, features_header, output_directory, scaler):
     try:
         
@@ -71,9 +71,9 @@ def my_parallel(i, image_file, annotation_file, frame_size, window_size, PCA, wi
             f.write(f'window_height:{window_size[0]}\n')
             f.write(f'window_width:{window_size[1]}\n')
             dataframe.to_csv(f, index=False, header = True)    
-        print(f"File {i} processed")
+        print(f"File {i} processed", flush=True)
 
-        return file_path
+        return (file_path + '\n',annotation_file)
     except Exception as e:
         print(f"{header['bname']} Write Failed Due To\n{e}\n")
         return None
@@ -120,26 +120,14 @@ def gen_feats():
     ray_PCA = ray.put(PCA)
     ray_scaler = ray.put(scaler)
     
-    batch_size = 88//16
-    
-    for i in range(0,len(image_files_list),batch_size):
-
-        start_index = i
-        end_index = i + batch_size
-
-        if end_index > len(image_files_list):
-            end_index = len(image_files_list) - 1
-        
-        paths = ray.get([my_parallel.remote(j+start_index, image_file, annotation_file, frame_size, window_size,
-                                    ray_PCA, window_region_overlap_threshold, features_header, output_directory,
-                                    ray_scaler) for j,image_file,annotation_file in zip(range(len(image_files_list[start_index:end_index])), image_files_list, annotation_files_list[start_index:end_index])])
+    paths = ray.get([my_parallel.remote(j, image_file, annotation_file, frame_size, window_size,
+                                        ray_PCA, window_region_overlap_threshold, features_header, output_directory,
+                                        ray_scaler) for j,image_file,annotation_file in zip(range(len(image_files_list)), image_files_list, annotation_files_list)])
             
-        for path,original_path in zip(paths,annotation_files_list[start_index:end_index]):
-            if path is not None:
-                feature_files.append(path)
-                original_annotation_files.append(original_path)
-
-        del paths
+    for path_tuple in paths:
+        if path_tuple is not None:
+            feature_files.append(path_tuple[0])
+            original_annotation_files.append(path_tuple[1])    
                 
         print(f"{i+batch_size} of {len(image_files_list)} files processed")
         

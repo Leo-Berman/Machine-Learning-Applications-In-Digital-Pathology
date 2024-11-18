@@ -7,8 +7,8 @@ import numpy as np
 from torch.utils.data import TensorDataset, DataLoader, Dataset
 import pandas
 import mmap
-
-
+import ray
+import math
 import gc
 gc.enable()
 
@@ -26,27 +26,33 @@ class CSVDataset(Dataset):
         dataframe = pandas.DataFrame(lines[1:],columns=lines[0])
         labels = dataframe['Label'].to_list()
         dataframe = dataframe.drop(['Label','TopLeftRow','TopLeftColumn'],axis=1)
-        return_point = {'Data':dataframe.to_numpy().astype(np.float32),'Labels':labels}
+        array = dataframe.to_numpy()
+        array_columns = array.shape[1]
+        return_point = {'Data':array[:,array_columns-self.PCA_count:array_columns].astype(np.float32),'Labels':labels}
         return return_point
-    
-    def count_lines_mmap(self,filepath):
+
+    @ray.remote(num_cpus=1)
+    def count_lines_mmap(self,file_number,filepath):
         with open(filepath, 'r+b') as f:
             mm = mmap.mmap(f.fileno(), 0)
             lines = 0
             while mm.readline():
                 lines += 1
             mm.close()
-            return lines
+            print(file_number,"Completed")
+            return lines - 10
     
-    def __init__(self, csv_files, transform = None):
+    def __init__(self, csv_files, PCA_count=3782, transform = None):
         self.csv_files = csv_files
+        self.PCA_count = PCA_count
         self.current_file = self.my_parse(csv_files[0])
-        self.data_length = 0
         self.current_file_index = 0
-        for i,csv_file in enumerate(csv_files):
-            self.data_length+=self.count_lines_mmap(csv_file) - 10
-            print(self.data_length)
-            print(f"{i} of {len(csv_files)} files lines counted",flush=True)
+        
+        ray.init()
+        print(f"Counting lines in {len(self.csv_files)}")
+        lines = ray.get([self.count_lines_mmap.remote(self,i,csv_file) for i,csv_file in enumerate(self.csv_files)])
+        self.data_length = sum(lines)
+        ray.shutdown()
         print("Number of features = ",self.data_length)
 
     def __len__(self):
@@ -81,7 +87,6 @@ class convolutional_neural_network(torch.nn.Module):
         self.learning_rate = learning_rate
         self.number_of_epochs = number_of_epochs
         self.model_output_path = model_output_path
-        
         self.convolution_01 = torch.nn.Conv1d(1,
                                               layer_01_output_channels,
                                               layer_01_kernel_size)
@@ -115,11 +120,10 @@ class convolutional_neural_network(torch.nn.Module):
         for sample in batch:
             data.append(sample['Data'])
             labels.append(sample['Label'])
-        return np.vstack(data), labels
+        return np.vstack(data), labels 
 
         
     def forward(self, x):
-
         x = self.convolution_01(x)
 
         x = torch.relu(x)
@@ -145,7 +149,7 @@ class convolutional_neural_network(torch.nn.Module):
 
         return x
 
-    def fit(self, list_of_files):
+    def fit(self, list_of_files, batch_size = 4096):
         #if (self.device_type == "gpu"):
         #    data = data.to(self.device_type)
         #    labels = labels.to(self.device_type)
@@ -154,10 +158,9 @@ class convolutional_neural_network(torch.nn.Module):
         optimizer = torch.optim.Adam(self.parameters(), lr = self.learning_rate)
         print("Criterion and Optimizer initialized")
 
-        batch_size = 64
-        dataset = CSVDataset(list_of_files)
-        number_of_batches = len(dataset)//batch_size
-        dataloader = DataLoader(dataset, batch_size = batch_size,collate_fn=self.my_collate)
+        dataset = CSVDataset(list_of_files, self.PCA_components)
+        number_of_batches = math.ceil(len(dataset)/batch_size)
+        dataloader = DataLoader(dataset, batch_size = batch_size, collate_fn=self.my_collate)
         
         for epoch in range(self.number_of_epochs):
             print(f"Processing epoch {epoch}")
@@ -166,7 +169,6 @@ class convolutional_neural_network(torch.nn.Module):
                 #batch_data_gpu = torch.tensor([tmp_data] for tmp_data in data_point['Data']).to(self.device_type)
                 #batch_labels_gpu = labelToTensor(data_point['Label']).to(self.device_type)                                
 
-                batch_number+=1
                 optimizer.zero_grad()
 
                 
@@ -174,52 +176,49 @@ class convolutional_neural_network(torch.nn.Module):
                 loss = criterion(outputs, self.labelToTensor(labels))
                 loss.backward()
                 optimizer.step()
-                print(f"Batch {batch_number} of {number_of_batches}")
+                print(f"Batch {batch_number} of {number_of_batches}", flush=True)
+                batch_number+=1
             torch.save(self, self.model_output_path + f"CNN{epoch}.pth")
             print(f'Epoch {epoch+1}/{self.number_of_epochs}, Loss: {loss.item()}', flush=True)
 
     def getDevice(self):
         self.device_type = "cuda" if torch.cuda.is_available() else "cpu"
+        if self.device_type == "cuda":
+            self.cuda()
         print(f"Training utilizing {'GPU' if self.device_type == 'cuda' else 'CPU'}", flush=True)
-        self.to(self.device_type)
 
         
     def predict(self, data):
         self.eval()
-        tensor_features = self.dataToTensor(data)
+        tensor_features = self.dataToTensor(data).to(self.device_type)
         with torch.no_grad():
             predictions = self.forward(tensor_features)
 
         _, predicted_classes = torch.max(predictions,1)
-        class_names = [label_order(label).name for label in predicted_classes.tolist()]
+        class_names = [label_order(label+1).name for label in predicted_classes.tolist()]
 
         return class_names
 
     def predict_proba(self, data):
         self.eval()
-        tensor_features = self.dataToTensor(data)
+        tensor_features = self.dataToTensor(data).to(self.device_type)
         with torch.no_grad():
-            predictions = self.forward(tensor_features)
+            predictions = self.forward(tensor_features).to(self.device_type)
 
-        probabilities = torch.nn.functional.softmax(predictions, dim=1)
-
+            probabilities = torch.nn.functional.softmax(predictions, dim=1).tolist()
+        
         return probabilities
 
     # takes in a list of windows where each window is represented by a list of PCs
     def dataToTensor(self, data):
         data = [[window] for window in data.tolist()]
-        tensors = torch.tensor(data)
+        tensors = torch.tensor(data).to(self.device_type)
         return tensors
 
     # takes in a list of labels where each label is represented by a string
     def labelToTensor(self, labels):
         int_labels = [label_order[label].value-1 for label in labels]
-        return torch.tensor(int_labels)
-
-    def createDataloader(self, data, labels):
-        data_set = TensorDataset(data,labels)
-        data_loader = DataLoader(data_set, batch_size=100)
-        return data_loader
+        return torch.tensor(int_labels).to(self.device_type)
     
 def main():
     list_of_csv_files = "/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/tuh_exp/example_features_output/feature_files.list"
@@ -229,7 +228,9 @@ def main():
 
     CNN =convolutional_neural_network(3782, 9, "./models",
                                       1, 3, 1, 3, 1, 3)
-    CNN.fit(files)
+    CNN = CNN.to(CNN.getDevice())
+    
+    CNN.fit(files, batch_size = 512)
         
     
 if __name__ == "__main__":

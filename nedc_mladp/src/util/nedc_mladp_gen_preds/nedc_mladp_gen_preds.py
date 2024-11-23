@@ -18,7 +18,7 @@ from nedc_mladp_models import *
 import nedc_file_tools
 import nedc_dpath_ann_tools
 
-@ray.remote(num_cpus=8, num_gpus=1)
+@ray.remote(num_cpus=1, num_gpus=1)
 def predict_file(input_feature_file:str, annotation_file:str, model, regions_output_directory:str, PCA_components:int, index):
 
     try:        
@@ -71,12 +71,13 @@ def gen_preds(feature_files:dict=None, model=None):
     args_usage = "nedc_mladp_gen_preds.usage"
     args_help = "nedc_mladp_gen_preds.help"
     parameter_file = fileio_tools.parseArguments(args_usage,args_help)
-
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"gen_preds")
-
+    number_of_cpus = float(parsed_parameters['number_of_cpus'])
+    number_of_gpus = float(parsed_parameters['number_of_gpus'])
     write_region_decisions = int(parsed_parameters['write_region_decisions'])
     write_frame_decisions = int(parsed_parameters['write_frame_decisions'])
-
+    memory_per_cpu = float(parsed_parameters['memory_per_cpu'])
+    object_memory = float(parsed_parameters['object_memory'])
     run_parameters = nedc_file_tools.load_parameters(parameter_file,"run_pipeline")
 
     if int(run_parameters['run']) == 1:
@@ -105,7 +106,6 @@ def gen_preds(feature_files:dict=None, model=None):
 
     if model is None:
         if model_type == "CNN":
-            #model = nedc_mladp_models.convolutional_neural_network(3872,9,'no output hopefully')
             model = torch.load(model_file)
             model.getDevice()
         else:
@@ -115,11 +115,11 @@ def gen_preds(feature_files:dict=None, model=None):
              
     region_decision_files = []
     original_annotations = []
-    ray.init()
-    ray.put(model)
-    ray.put(regions_output_directory)
+    ray.init(object_store_memory=object_memory * 1024 * 1024 * 1024)
+    ray_model = ray.put(model)
+    ray_output_directory = ray.put(regions_output_directory)
+    prediction_lists = ray.get([predict_file.options(num_cpus=number_of_cpus, num_gpus=number_of_gpus, memory=memory_per_cpu*1024*1024*1024).remote(feature_file, original_file, ray_model, ray_output_directory, PCA_components, i) for i,(feature_file,original_file) in enumerate(zip(feature_files_list,original_files_list))])
 
-    prediction_lists = ray.get([predict_file.remote(feature_file, original_file, model, regions_output_directory, PCA_components, i) for i,(feature_file,original_file) in enumerate(zip(feature_files_list,original_files_list))])
     ray.shutdown()
     for pair in prediction_lists:
         if pair is not None:

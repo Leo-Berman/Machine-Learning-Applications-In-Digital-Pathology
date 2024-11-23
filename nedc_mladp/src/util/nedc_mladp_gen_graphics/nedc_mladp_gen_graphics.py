@@ -122,9 +122,9 @@ def main():
             x,y = geometry_tools.getBorder(z)
 
             y = [reference_height - z for z in y]
-            
-            plt.plot(x,y,color = reference_labels_dictionary[reference_labels[i]])
-            plt.text(reference_coordinates[i][0][0],reference_height - reference_coordinates[i][0][1],'R'+reference_labels[i],color='blue',label='reference')
+            axis.add_patch(z, facecolor = reference_labels_dictionary[reference_labels[i]],edgecolor = reference_labels_dictionary[reference_labels[i]])
+            #plt.fill(x,y,edgecolor = reference_labels_dictionary[reference_labels[i]], facecolor = reference_labels_dictionary[reference_labels[i]])
+            #plt.text(reference_coordinates[i][0][0],reference_height - reference_coordinates[i][0][1],'R'+reference_labels[i],color='blue',label='reference')
             
     if show_hypothesis_annotations == 1:
 

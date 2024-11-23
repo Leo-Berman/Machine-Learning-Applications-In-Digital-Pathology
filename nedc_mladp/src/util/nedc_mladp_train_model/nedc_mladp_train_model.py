@@ -47,15 +47,21 @@ def train_model(feature_files:dict=None):
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"train_model")
     model_type=parsed_parameters['model_type']
     PCA_components = int(parsed_parameters["PCA_components"])
+    number_of_cpus = float(parsed_parameters["number_of_cpus"])
+    memory_per_cpu = float(parsed_parameters["memory_per_cpu"])
+    
     
     if model_type == "CNN":
         number_of_classes = int(parsed_parameters["number_of_classes"])
-        layer_01_output_channels = int(parsed_parameters["layer_01_output_channels"])
-        layer_01_kernel_size = int(parsed_parameters["layer_01_kernel_size"])
-        layer_02_output_channels = int(parsed_parameters["layer_02_output_channels"])
-        layer_02_kernel_size = int(parsed_parameters["layer_02_kernel_size"])
-        layer_03_output_channels = int(parsed_parameters["layer_03_output_channels"])
-        layer_03_kernel_size = int(parsed_parameters["layer_03_kernel_size"])
+        layer_01_convolution_output_channels = int(parsed_parameters["layer_01_convolution_output_channels"])
+        layer_01_convolution_kernel_size = int(parsed_parameters["layer_01_convolution_kernel_size"])
+        layer_01_max_pooling_kernel_size = int(parsed_parameters["layer_01_max_pooling_kernel_size"])
+        layer_02_convolution_output_channels = int(parsed_parameters["layer_02_convolution_output_channels"])
+        layer_02_convolution_kernel_size = int(parsed_parameters["layer_02_convolution_kernel_size"])
+        layer_02_max_pooling_kernel_size = int(parsed_parameters["layer_02_max_pooling_kernel_size"])
+        layer_03_convolution_output_channels = int(parsed_parameters["layer_03_convolution_output_channels"])
+        layer_03_convolution_kernel_size = int(parsed_parameters["layer_03_convolution_kernel_size"])
+        layer_03_max_pooling_kernel_size = int(parsed_parameters["layer_03_max_pooling_kernel_size"])
         dropout_coefficient = float(parsed_parameters["dropout_coefficient"])
         number_of_epochs = int(parsed_parameters["number_of_epochs"])
         learning_rate = float(parsed_parameters["learning_rate"])
@@ -71,7 +77,7 @@ def train_model(feature_files:dict=None):
         ray.init()
         train_data = []
         labels = []
-        tmp_data = ray.get([parse.remote(feature_file, file_number+1, PCA_components) for file_number, feature_file in enumerate(feature_files)])
+        tmp_data = ray.get([parse.options(num_cpus=number_of_cpus, num_gpus=0, memory = memory_per_cpu * 1024 * 1024 * 1024).remote(feature_file, file_number+1, PCA_components) for file_number, feature_file in enumerate(feature_files)])
         ray.shutdown()
         for data in tmp_data:
             train_data.extend(data[1])
@@ -79,7 +85,7 @@ def train_model(feature_files:dict=None):
 
         train_data = numpy.vstack(train_data)
 
-    
+        print('Data parsed',flush=True)
     os.makedirs(output_directory,exist_ok=True)
 
             
@@ -89,17 +95,24 @@ def train_model(feature_files:dict=None):
     if model_type == "QDA":
         model = QDA()
     elif model_type == "RNF":
-        model = RNF()
+        model = RNF(n_jobs=-1, max_depth=10, min_samples_leaf = 3, n_estimators=300)
     elif model_type == "SVM":
         model = SVM()
     elif model_type == "CNN":
         model = CNN(PCA_components, number_of_classes,
-                    layer_01_output_channels = layer_01_output_channels,
-                    layer_01_kernel_size = layer_01_kernel_size,
-                    layer_02_output_channels = layer_02_output_channels,
-                    layer_02_kernel_size = layer_02_kernel_size,
-                    layer_03_output_channels = layer_03_output_channels,
-                    layer_03_kernel_size = layer_03_kernel_size,
+
+                    layer_01_convolution_output_channels = layer_01_convolution_output_channels,
+                    layer_01_convolution_kernel_size = layer_01_convolution_kernel_size,
+                    layer_01_max_pooling_kernel_size = layer_01_max_pooling_kernel_size,
+
+                    layer_02_convolution_output_channels = layer_02_convolution_output_channels,
+                    layer_02_convolution_kernel_size = layer_02_convolution_kernel_size,
+                    layer_02_max_pooling_kernel_size = layer_02_max_pooling_kernel_size,
+
+                    layer_03_convolution_output_channels = layer_03_convolution_output_channels,
+                    layer_03_convolution_kernel_size = layer_03_convolution_kernel_size,
+                    layer_03_max_pooling_kernel_size = layer_03_max_pooling_kernel_size,
+
                     dropout_coefficient = dropout_coefficient,
                     number_of_epochs = number_of_epochs,
                     learning_rate = learning_rate,

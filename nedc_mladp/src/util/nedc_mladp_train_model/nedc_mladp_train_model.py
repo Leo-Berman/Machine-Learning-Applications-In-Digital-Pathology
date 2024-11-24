@@ -17,8 +17,7 @@ import ray
 
 # import project specific libraries
 import nedc_mladp_fileio_tools as fileio_tools
-from nedc_mladp_models import convolutional_neural_network as CNN
-
+import nedc_mladp_models as models
 
 # import NEDC libraries
 import nedc_file_tools
@@ -46,12 +45,14 @@ def train_model(feature_files:dict=None):
     #
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"train_model")
     model_type=parsed_parameters['model_type']
-    PCA_components = int(parsed_parameters["PCA_components"])
-    number_of_cpus = float(parsed_parameters["number_of_cpus"])
-    memory_per_cpu = float(parsed_parameters["memory_per_cpu"])
+
+    if model_type != "CNN_2D":
+        PCA_components = int(parsed_parameters["PCA_components"])
+        number_of_cpus = float(parsed_parameters["number_of_cpus"])
+        memory_per_cpu = float(parsed_parameters["memory_per_cpu"])
+        feature_files = fileio_tools.readLines(parsed_parameters['feature_files_list'])
     
-    
-    if model_type == "CNN":
+    if model_type == "CNN_1D":
         number_of_classes = int(parsed_parameters["number_of_classes"])
         layer_01_convolution_output_channels = int(parsed_parameters["layer_01_convolution_output_channels"])
         layer_01_convolution_kernel_size = int(parsed_parameters["layer_01_convolution_kernel_size"])
@@ -66,15 +67,63 @@ def train_model(feature_files:dict=None):
         number_of_epochs = int(parsed_parameters["number_of_epochs"])
         learning_rate = float(parsed_parameters["learning_rate"])
         batch_size = int(parsed_parameters["batch_size"])
+
+    elif model_type == "CNN_2D":
+        number_of_classes = int(parsed_parameters["number_of_classes"])
+        layer_01_convolution_output_channels = int(parsed_parameters["layer_01_convolution_output_channels"])
+        layer_01_convolution_kernel_size = int(parsed_parameters["layer_01_convolution_kernel_size"])
+        layer_01_max_pooling_kernel_size = int(parsed_parameters["layer_01_max_pooling_kernel_size"])
+        layer_01_max_pooling_stride = int(parsed_parameters["layer_01_max_pooling_stride"])
+        layer_02_convolution_output_channels = int(parsed_parameters["layer_02_convolution_output_channels"])
+        layer_02_convolution_kernel_size = int(parsed_parameters["layer_02_convolution_kernel_size"])
+        layer_02_max_pooling_kernel_size = int(parsed_parameters["layer_02_max_pooling_kernel_size"])
+        layer_02_max_pooling_stride = int(parsed_parameters["layer_02_max_pooling_stride"])
+        layer_03_convolution_output_channels = int(parsed_parameters["layer_03_convolution_output_channels"])
+        layer_03_convolution_kernel_size = int(parsed_parameters["layer_03_convolution_kernel_size"])
+        layer_03_max_pooling_kernel_size = int(parsed_parameters["layer_03_max_pooling_kernel_size"])
+        layer_03_max_pooling_stride = int(parsed_parameters["layer_03_max_pooling_stride"])
+        dropout_coefficient = float(parsed_parameters["dropout_coefficient"])
+        number_of_epochs = int(parsed_parameters["number_of_epochs"])
+        learning_rate = float(parsed_parameters["learning_rate"])
+        batch_size = int(parsed_parameters["batch_size"])
+        frame_size = ( int(parsed_parameters["frame_width"]),int(parsed_parameters["frame_height"]) )
+        window_size = ( int(parsed_parameters["window_width"]),int(parsed_parameters["window_height"]) )
+        image_files = parsed_parameters["image_files"]
+        annotation_files = parsed_parameters["annotation_files"]
+        overlap_threshold = float(parsed_parameters["overlap_threshold"])
+        cpus_per_batch = float(parsed_parameters["cpus_per_batch"])
+        memory_per_batch = float(parsed_parameters["memory_per_batch"]) * 1024 * 1024 * 1024
+        image_cache_size = int(parsed_parameters["image_cache_size"])
+
+    elif model_type == "CNN_2D_claudia":
+        number_of_classes = int(parsed_parameters["number_of_classes"])
+        layer_01_convolution_output_channels = int(parsed_parameters["layer_01_convolution_output_channels"])
+        layer_01_convolution_kernel_size = int(parsed_parameters["layer_01_convolution_kernel_size"])
+        layer_01_max_pooling_kernel_size = int(parsed_parameters["layer_01_max_pooling_kernel_size"])
+        layer_01_max_pooling_stride = int(parsed_parameters["layer_01_max_pooling_stride"])
+        layer_02_convolution_output_channels = int(parsed_parameters["layer_02_convolution_output_channels"])
+        layer_02_convolution_kernel_size = int(parsed_parameters["layer_02_convolution_kernel_size"])
+        layer_02_max_pooling_kernel_size = int(parsed_parameters["layer_02_max_pooling_kernel_size"])
+        layer_02_max_pooling_stride = int(parsed_parameters["layer_02_max_pooling_stride"])
+        dropout_coefficient = float(parsed_parameters["dropout_coefficient"])
+        number_of_epochs = int(parsed_parameters["number_of_epochs"])
+        learning_rate = float(parsed_parameters["learning_rate"])
+        batch_size = int(parsed_parameters["batch_size"])
+        frame_size = ( int(parsed_parameters["frame_width"]),int(parsed_parameters["frame_height"]) )
+        window_size = ( int(parsed_parameters["window_width"]),int(parsed_parameters["window_height"]) )
+        image_files = parsed_parameters["image_files"]
+        annotation_files = parsed_parameters["annotation_files"]
+        overlap_threshold = float(parsed_parameters["overlap_threshold"])
+        cpus_per_batch = float(parsed_parameters["cpus_per_batch"])
+        memory_per_batch = float(parsed_parameters["memory_per_batch"]) * 1024 * 1024 * 1024
+        image_cache_size = int(parsed_parameters["image_cache_size"])
+        
     output_directory = parsed_parameters['output_directory']
     if not (output_directory.endswith("/")):
         output_directory += "/"
-    feature_files = fileio_tools.readLines(parsed_parameters['feature_files_list'])
 
-    
-
-    if model_type != "CNN":
-        ray.init()
+    if model_type != "CNN_1D" and model_type != "CNN_2D":
+        ray.init(ignore_reinit_error=True)
         train_data = []
         labels = []
         tmp_data = ray.get([parse.options(num_cpus=number_of_cpus, num_gpus=0, memory = memory_per_cpu * 1024 * 1024 * 1024).remote(feature_file, file_number+1, PCA_components) for file_number, feature_file in enumerate(feature_files)])
@@ -98,39 +147,78 @@ def train_model(feature_files:dict=None):
         model = RNF(n_jobs=-1, max_depth=10, min_samples_leaf = 3, n_estimators=300)
     elif model_type == "SVM":
         model = SVM()
-    elif model_type == "CNN":
-        model = CNN(PCA_components, number_of_classes,
+    elif model_type == "CNN_1D":
+        model = models.CNN(PCA_components, number_of_classes,
 
-                    layer_01_convolution_output_channels = layer_01_convolution_output_channels,
-                    layer_01_convolution_kernel_size = layer_01_convolution_kernel_size,
-                    layer_01_max_pooling_kernel_size = layer_01_max_pooling_kernel_size,
-
-                    layer_02_convolution_output_channels = layer_02_convolution_output_channels,
-                    layer_02_convolution_kernel_size = layer_02_convolution_kernel_size,
-                    layer_02_max_pooling_kernel_size = layer_02_max_pooling_kernel_size,
-
-                    layer_03_convolution_output_channels = layer_03_convolution_output_channels,
-                    layer_03_convolution_kernel_size = layer_03_convolution_kernel_size,
-                    layer_03_max_pooling_kernel_size = layer_03_max_pooling_kernel_size,
-
-                    dropout_coefficient = dropout_coefficient,
-                    number_of_epochs = number_of_epochs,
-                    learning_rate = learning_rate,
-                    model_output_path = output_directory)
+                           layer_01_convolution_output_channels = layer_01_convolution_output_channels,
+                           layer_01_convolution_kernel_size = layer_01_convolution_kernel_size,
+                           layer_01_max_pooling_kernel_size = layer_01_max_pooling_kernel_size,
+                           
+                           layer_02_convolution_output_channels = layer_02_convolution_output_channels,
+                           layer_02_convolution_kernel_size = layer_02_convolution_kernel_size,
+                           layer_02_max_pooling_kernel_size = layer_02_max_pooling_kernel_size,
+                           
+                           layer_03_convolution_output_channels = layer_03_convolution_output_channels,
+                           layer_03_convolution_kernel_size = layer_03_convolution_kernel_size,
+                           layer_03_max_pooling_kernel_size = layer_03_max_pooling_kernel_size,
+                           
+                           dropout_coefficient = dropout_coefficient,
+                           number_of_epochs = number_of_epochs,
+                           learning_rate = learning_rate,
+                           model_output_path = output_directory)
         model = model.to(model.getDevice())
+
+    elif model_type == "CNN_2D":
+        model = models.CNN_2D(number_of_classes,
+                              layer_01_convolution_output_channels,
+                              layer_01_convolution_kernel_size,
+                              layer_01_max_pooling_kernel_size,
+                              layer_01_max_pooling_stride,
+                              layer_02_convolution_output_channels,
+                              layer_02_convolution_kernel_size,
+                              layer_02_max_pooling_kernel_size,
+                              layer_02_max_pooling_stride,
+                              layer_03_convolution_output_channels,
+                              layer_03_convolution_kernel_size,
+                              layer_03_max_pooling_kernel_size,
+                              layer_03_max_pooling_stride,
+                              dropout_coefficient,
+                              window_size)
+    elif model_type == "CNN_2D_claudia":
+        model = models.CNN_2D_claudia(number_of_classes,
+                              layer_01_convolution_output_channels,
+                              layer_01_convolution_kernel_size,
+                              layer_01_max_pooling_kernel_size,
+                              layer_01_max_pooling_stride,
+                              layer_02_convolution_output_channels,
+                              layer_02_convolution_kernel_size,
+                              layer_02_max_pooling_kernel_size,
+                              layer_02_max_pooling_stride,
+                              dropout_coefficient,
+                              window_size)
     else:
         print("No model supplied")
         return
 
-    if model_type != "CNN":
+    
+    if model_type == "CNN_2D" or model_tpye == "CNN_2D_claudia":
+        model.fit(image_files, annotation_files,
+                  number_of_epochs, learning_rate, batch_size,
+                  overlap_threshold, frame_size, output_directory,
+                  cpus_per_batch=cpus_per_batch,
+                  memory_per_batch=memory_per_batch,
+                  image_cache_size = image_cache_size)
+        torch.save(model, output_directory+model_type+'.pth')
+
+    elif model_type == "CNN_1D":
+        model.fit(feature_files, batch_size = batch_size)
+        torch.save(model, output_directory+model_type+'.pth')
+
+    else:
         model.fit(train_data, labels)
         compression=int(parsed_parameters['compression'])
         joblib.dump(model,output_directory+model_type+'.joblib',compress=compression)
-
-    else:
-        model.fit(feature_files, batch_size = batch_size)
-        torch.save(model, output_directory+model_type+'.pth')
-        
+    
     return model
 
 if __name__ == "__main__":

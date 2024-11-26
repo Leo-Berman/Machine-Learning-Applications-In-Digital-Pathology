@@ -46,7 +46,7 @@ def train_model(feature_files:dict=None):
     parsed_parameters = nedc_file_tools.load_parameters(parameter_file,"train_model")
     model_type=parsed_parameters['model_type']
 
-    if model_type != "CNN_2D":
+    if model_type != "CNN_2D" and model_type != "CNN_2D_claudia":
         PCA_components = int(parsed_parameters["PCA_components"])
         number_of_cpus = float(parsed_parameters["number_of_cpus"])
         memory_per_cpu = float(parsed_parameters["memory_per_cpu"])
@@ -117,12 +117,15 @@ def train_model(feature_files:dict=None):
         cpus_per_batch = float(parsed_parameters["cpus_per_batch"])
         memory_per_batch = float(parsed_parameters["memory_per_batch"]) * 1024 * 1024 * 1024
         image_cache_size = int(parsed_parameters["image_cache_size"])
-        
+        object_store_memory = float(parsed_parameters["object_store_memory"])
     output_directory = parsed_parameters['output_directory']
     if not (output_directory.endswith("/")):
         output_directory += "/"
 
-    if model_type != "CNN_1D" and model_type != "CNN_2D":
+    print(f"Model type = {model_type}")
+        
+    if model_type != "CNN_1D" and model_type != "CNN_2D" and model_type != "CNN_2D_claudia":
+        print('Parsing data into memory', flush=True)
         ray.init(ignore_reinit_error=True)
         train_data = []
         labels = []
@@ -201,13 +204,14 @@ def train_model(feature_files:dict=None):
         return
 
     
-    if model_type == "CNN_2D" or model_tpye == "CNN_2D_claudia":
+    if model_type == "CNN_2D" or model_type == "CNN_2D_claudia":
         model.fit(image_files, annotation_files,
                   number_of_epochs, learning_rate, batch_size,
                   overlap_threshold, frame_size, output_directory,
                   cpus_per_batch=cpus_per_batch,
                   memory_per_batch=memory_per_batch,
-                  image_cache_size = image_cache_size)
+                  image_cache_size = image_cache_size,
+                  object_store_memory = object_store_memory)
         torch.save(model, output_directory+model_type+'.pth')
 
     elif model_type == "CNN_1D":

@@ -11,6 +11,7 @@ import pandas
 import mmap
 import ray
 import math
+import json
 import gc
 gc.enable()
 
@@ -357,13 +358,14 @@ class ImageDataset(Dataset):
                  overlap_threshold,
                  cpus_per_batch=1,
                  gpus_per_batch=0,
-                 memory=1,
+                 memory_per_batch=1,
                  image_cache_size=50,
                  feature_cache_threshold=1200,
-                 prediction_bool=False):
+                 prediction_bool=False,
+                 object_store_memory:float=20):
         self.image_files = image_files
         self.annotation_files = annotation_files
-        self.memory = memory*1024 * 1024 * 1024
+        self.memory_per_batch = memory_per_batch
         self.cpus_per_batch = cpus_per_batch
         self.gpus_per_batch = 0
         self.image_cache_size = image_cache_size
@@ -375,19 +377,24 @@ class ImageDataset(Dataset):
         self.prediction_bool=prediction_bool
         self.frame_top_left_coordinates = None
         # initialize ray 
-        ray.init(ignore_reinit_error=True)
+        ray.init(ignore_reinit_error=True, object_store_memory=object_store_memory*1024*1024*1024,
+                 _system_config={
+                     "object_spilling_config": json.dumps(
+                         {"type": "filesystem", "params": {"directory_path": "./spill"}},
+                     )
+                 })
 
         # Count the number of labelled windows
         print(f"Counting labelled windows in {len(self.image_files)} images")
         ray_process = [self.countFrames.options(num_cpus=cpus_per_batch,
                                                num_gpus=gpus_per_batch,
-                                               memory = memory).remote(self, annotation_file, image_file) for annotation_file, image_file in zip(self.annotation_files, self.image_files)]
+                                                memory = memory_per_batch).remote(self, annotation_file, image_file) for annotation_file, image_file in zip(self.annotation_files, self.image_files)]
 
         # Fill the cache with feature vectors
         print(f"Filling cache")
         self.current_process = [self.readFrames.options(num_cpus=cpus_per_batch,
                                                         num_gpus=gpus_per_batch,
-                                                        memory = memory).remote(self, annotation_file, image_file, self.prediction_bool) for annotation_file, image_file in zip(self.annotation_files[0:self.image_cache_size], self.image_files[0:image_cache_size])]
+                                                        memory = memory_per_batch).remote(self, annotation_file, image_file, self.prediction_bool) for annotation_file, image_file in zip(self.annotation_files[0:self.image_cache_size], self.image_files[0:image_cache_size])]
 
         # Get the number of features
         frames_per_image = ray.get(ray_process)
@@ -410,7 +417,7 @@ class ImageDataset(Dataset):
         # Start the process for the next part of the cache
         self.current_process = [self.readFrames.options(num_cpus=cpus_per_batch,
                                                         num_gpus=gpus_per_batch,
-                                                        memory = memory).remote(self, annotation_file, image_file, self.prediction_bool) for annotation_file, image_file in zip(self.annotation_files[0:self.image_cache_size], self.image_files[0:image_cache_size])]
+                                                        memory = memory_per_batch).remote(self, annotation_file, image_file, self.prediction_bool) for annotation_file, image_file in zip(self.annotation_files[0:self.image_cache_size], self.image_files[0:image_cache_size])]
         
         # Set the current file index
         self.current_file_index += 2 * self.image_cache_size    
@@ -449,7 +456,7 @@ class ImageDataset(Dataset):
             # start the next reading process
             self.current_process = [self.readFrames.options(num_cpus=self.cpus_per_batch,
                                                             num_gpus=self.gpus_per_batch,
-                                                            memory=self.memory).remote(self, annotation_file, image_file, self.prediction_bool) for annotation_file, image_file in zip(self.annotation_files[self.current_file_index:self.current_file_index+to_add], self.image_files[self.current_file_index:self.current_file_index+to_add])]
+                                                            memory=self.memory_per_batch).remote(self, annotation_file, image_file, self.prediction_bool) for annotation_file, image_file in zip(self.annotation_files[self.current_file_index:self.current_file_index+to_add], self.image_files[self.current_file_index:self.current_file_index+to_add])]
 
             # Append the values and clean up
             for RGBs, labels in windows:
@@ -480,12 +487,14 @@ class CNN_2D_internal(torch.nn.Module):
                  layer_03_max_pooling_kernel_size:int=3,
                  layer_03_max_pooling_stride:int=1,
                  dropout_coefficient:float=.5,
-                 window_size:tuple = (256,256)):
+                 window_size:tuple = (256,256),
+                 object_store_memory:float = 20):
     
 
 
         super(CNN_2D_internal, self).__init__()
         os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+        os.environ["TUNE_MAX_PENDING_TRIALS_PG"] = "1"
         ''' declare first convolutional layer
         3 input channels for R, G, and B
         '''
@@ -587,7 +596,8 @@ class CNN_2D_internal(torch.nn.Module):
 
         return x
 
-
+    
+    
 def frameCollate(batch):
 
     # create lists to hold data and labels
@@ -696,7 +706,9 @@ class CNN_2D:
     def fit(self, image_files:list, annotation_files:list,
             epochs:int, learning_rate:float, batch_size:int,
             overlap_threshold:float, frame_size:tuple,
-            output_directory:str,cpus_per_batch:float, memory:float):
+            output_directory:str,cpus_per_batch:float,
+            memory_per_batch:float, image_cache_size:int,
+            object_store_memory:float):
 
         # Check outupt directory
         if not (output_directory.endswith("/")):
@@ -711,8 +723,10 @@ class CNN_2D:
         # Declare dataset and dataloader
         dataset = ImageDataset(image_files, annotation_files, frame_size,
                                self.window_size, overlap_threshold,
-                               cpus_per_batch,
-                               memory)
+                               cpus_per_batch = cpus_per_batch,
+                               memory_per_batch = memory_per_batch,
+                               image_cache_size = image_cache_size,
+                               object_store_memory = object_store_memory)
         dataloader = DataLoader(dataset, batch_size = batch_size, collate_fn=frameCollate)
 
 
@@ -760,7 +774,287 @@ class CNN_2D:
 
             # print epoch information
             print(f'Epoch {epoch+1}/{epochs}, Loss: {loss.item()}, Accuracy: {labels_correct/total_labels}', flush=True)
+
+def frameCollateResize(batch):
+
+    # create lists to hold data and labels
+    labels = []
+    data = []
+    
+    # normalize uint8 to float32
+    transform_1 = transforms.ToTensor()
+    transform_2 = transforms.Resize((128,128))
+    # iterate through batch fillings lists
+    for sample in batch:
+        data.append(transform_2(transform_1(sample['Data'])))
+        labels.append(sample['Label'])
         
+    # convert to tensors
+    tensors = torch.stack(data)
+    tensor_labels = torch.tensor([label_order[label].value for label in labels])
+    return tensors, tensor_labels
+
+class CNN_2D_internal_claudia(torch.nn.Module):
+
+    def __init__(self, number_of_classes:int,
+                 
+                 layer_01_convolution_output_channels:int=32,
+                 layer_01_convolution_kernel_size:int=3,
+                 layer_01_max_pooling_kernel_size:int=3,
+                 layer_01_max_pooling_stride:int=1,
+                 
+                 
+                 layer_02_convolution_output_channels:int=64,
+                 layer_02_convolution_kernel_size:int=3,
+                 layer_02_max_pooling_kernel_size:int=3,
+                 layer_02_max_pooling_stride:int=1,
+                 dropout_coefficient:float=.5,                 
+                 window_size:tuple = (256,256)):
+
+    
+
+
+        super(CNN_2D_internal_claudia, self).__init__()
+        os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+        os.environ["TUNE_MAX_PENDING_TRIALS_PG"] = "1"
+        ''' declare first convolutional layer
+        3 input channels for R, G, and B
+        '''
+        self.convolution_01 = torch.nn.Conv2d(in_channels = 3,
+                                              out_channels=layer_01_convolution_output_channels,
+                                              kernel_size = layer_01_convolution_kernel_size)
+
+        # Calculate shape based on kernel size
+        shape = (128 + 1 - layer_01_convolution_kernel_size, 128 + 1 - layer_01_convolution_kernel_size)
+
+        # declare first max pooling layer
+        self.max_pooling_01 = torch.nn.MaxPool2d(kernel_size = layer_01_max_pooling_kernel_size,
+                                                 stride = layer_01_max_pooling_stride)
+
+        # Calculate shape based on kernel size and stride
+        max_pooling_0_steps = (shape[0] -  layer_01_max_pooling_kernel_size ) // layer_01_max_pooling_stride + 1
+        max_pooling_1_steps = (shape[1] -  layer_01_max_pooling_kernel_size ) // layer_01_max_pooling_stride + 1
+        shape = (max_pooling_0_steps, max_pooling_1_steps)
+                
+        # declare second convolutional layer
+        self.convolution_02 = torch.nn.Conv2d(in_channels =layer_01_convolution_output_channels,
+                                              out_channels=layer_02_convolution_output_channels,
+                                              kernel_size = layer_02_convolution_kernel_size)
+
+        # Calculate shape based on kernel size
+        shape = (shape[0] + 1 - layer_02_convolution_kernel_size, shape[1] + 1 - layer_02_convolution_kernel_size)
+
+
+        # declare second max pooling layer
+        self.max_pooling_02 = torch.nn.MaxPool2d(kernel_size = layer_02_max_pooling_kernel_size,
+                                                 stride = layer_02_max_pooling_stride)
+
+        # Calculate shape based on kernel size and stride
+        max_pooling_0_steps = (shape[0] -  layer_02_max_pooling_kernel_size ) // layer_02_max_pooling_stride + 1
+        max_pooling_1_steps = (shape[1] -  layer_02_max_pooling_kernel_size ) // layer_02_max_pooling_stride + 1
+        shape = (max_pooling_0_steps, max_pooling_1_steps)
+        
+        # Calculate fully_connected_input_size
+        fully_connected_input_size = shape[0] * shape[1] * layer_02_convolution_output_channels
+
+        # condense flattened vector down
+        self.fully_connected_01 = torch.nn.Linear(fully_connected_input_size,
+                                                  layer_02_convolution_output_channels)
+
+        # dropout layer
+        self.dropout_01 = torch.nn.Dropout(p = dropout_coefficient)
+
+        # condense to class predictions
+        self.fully_connected_02 = torch.nn.Linear(layer_02_convolution_output_channels,
+                                                  number_of_classes)
+
+        # sofmax layer
+        self.softmax = torch.nn.Softmax(dim=1)
+        
+        
+        print("CNN Successfully Initialized")
+
+    def forward(self, x):
+
+        x = self.convolution_01(x)
+
+        x = torch.relu(x)
+        
+        x = self.max_pooling_01(x)
+        
+        x = self.convolution_02(x)
+
+        x = torch.relu(x)
+        
+        x = self.max_pooling_02(x)
+                
+        x = x.view(x.size(0), -1)
+
+        x = self.fully_connected_01(x)
+
+        x = torch.relu(x)
+
+        x = self.dropout_01(x)
+
+        x = self.fully_connected_02(x)
+
+        x = self.softmax(x)
+        
+        return x
+
+
+
+class CNN_2D_claudia:
+    
+    def predict(self, image_file:str, annotation_file:str, frame_size:tuple, overlap_threshold:float):
+        self.model.eval()
+        # Declare dataset and dataloader
+        print(image_file, annotation_file)
+        dataset = ImageDataset([image_file], [annotation_file], frame_size,
+                               self.window_size, overlap_threshold, cpus_per_batch = .25,
+                               memory = .5)
+        
+        dataloader = DataLoader(dataset, batch_size = len(dataset), collate_fn=frameCollateResize)
+
+        # iterate through the batches
+        for data, labels in dataloader:
+            
+            # send the data and labls to the proper device
+            device_data = data.to(self.device)
+            device_labels = labels.to(self.device)
+            
+            # get the class predictions
+            outputs = self.model(device_data)
+
+            # track for epoch accuracy
+            confidences, predicted_classes = torch.max(outputs,1)
+            total = predicted_classes.size(0)
+            correct = sum([(predicted == actual) for predicted,actual in zip(predicted_classes,device_labels)])
+            labels_correct=correct
+            total_labels=total
+            print(confidences, predicted_classes)
+    
+    def getDevice(self):
+        # Get the device
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+        # If there is more than 1 GPU, parallelize
+        if torch.cuda.device_count() > 1:
+            print("Using", torch.cuda.device_count(), "GPUs!")
+            self.model = torch.nn.DataParallel(self.model)
+
+        # Send the model to the appropriate device
+        self.model = self.model.to(self.device)
+    
+    def __init__(self, number_of_classes:int,
+                 layer_01_convolution_output_channels:int,
+                 layer_01_convolution_kernel_size:int,
+                 layer_01_max_pooling_kernel_size:int,
+                 layer_01_max_pooling_stride:int,
+                 layer_02_convolution_output_channels:int,
+                 layer_02_convolution_kernel_size:int,
+                 layer_02_max_pooling_kernel_size:int,
+                 layer_02_max_pooling_stride:int,
+                 dropout_coefficient:float,
+                 window_size:tuple):
+        
+        self.model = CNN_2D_internal_claudia(number_of_classes,
+                                             layer_01_convolution_output_channels,
+                                             layer_01_convolution_kernel_size,
+                                             layer_01_max_pooling_kernel_size,
+                                             layer_01_max_pooling_stride,
+                                             
+                 
+                                             layer_02_convolution_output_channels,
+                                             layer_02_convolution_kernel_size,
+                                             layer_02_max_pooling_kernel_size,
+                                             layer_02_max_pooling_stride,
+                                             
+                                             dropout_coefficient,
+                                             window_size)
+
+        self.getDevice()
+        
+        self.window_size = window_size
+        
+
+
+        
+    
+        
+    def fit(self, image_files:list, annotation_files:list,
+            epochs:int, learning_rate:float, batch_size:int,
+            overlap_threshold:float, frame_size:tuple,
+            output_directory:str,cpus_per_batch:float,
+            memory_per_batch:float, image_cache_size:int,
+            object_store_memory:float):
+
+        # Check outupt directory
+        if not (output_directory.endswith("/")):
+            output_directory += "/"
+        
+        # read the lists of files
+        with open(image_files, "r") as f:
+            image_files = [file.strip() for file in f.readlines()]
+        with open(annotation_files, "r") as f:
+            annotation_files = [file.strip() for file in f.readlines()]
+        
+        # Declare dataset and dataloader
+        dataset = ImageDataset(image_files, annotation_files, frame_size,
+                               self.window_size, overlap_threshold,
+                               cpus_per_batch = cpus_per_batch,
+                               memory_per_batch = memory_per_batch,
+                               image_cache_size = image_cache_size,
+                               object_store_memory = object_store_memory)
+        dataloader = DataLoader(dataset, batch_size = batch_size, collate_fn=frameCollateResize)
+
+
+        # Set the criterion and optimizer
+        criterion = torch.nn.CrossEntropyLoss()
+        optimizer = torch.optim.Adam(self.model.parameters(), lr = learning_rate)
+
+        # find the number of batches
+        number_of_batches = math.ceil(len(dataset)/batch_size)
+
+        # iterate through the epochs
+        for epoch in range(epochs):
+            batch_number = 1
+            total_labels = 0
+            labels_correct = 0
+            
+            # iterate through the batches
+            for data, labels in dataloader:
+
+                # send the data and labls to the proper device
+                device_data = data.to(self.device)
+                device_labels = labels.to(self.device)
+
+                # get the class predictions
+                outputs = self.model(device_data)
+
+                # perform lsos and optimization
+                loss = criterion(outputs,device_labels)
+                loss.backward()
+                optimizer.step()
+
+                # track for epoch accuracy
+                _, predicted_classes = torch.max(outputs,1)
+                total = predicted_classes.size(0)
+                correct = sum([(predicted == actual) for predicted,actual in zip(predicted_classes,device_labels)])
+                labels_correct+=correct
+                total_labels+=total
+
+                # update on batch
+                print(f"Batch {batch_number} of {number_of_batches}", flush=True)
+                batch_number+=1
+
+            # save the model
+            torch.save(self.model, f"{output_directory}CNN_2D{epoch}.pth")
+
+            # print epoch information
+            print(f'Epoch {epoch+1}/{epochs}, Loss: {loss.item()}, Accuracy: {labels_correct/total_labels}', flush=True)
+
+            
 def CNN_2D_main():
     
     '''image_files = "/data/isip/exp/tuh_dpath/exp_0288/Machine-Learning-Applications-In-Digital-Pathology/nedc_mladp/data/tuh_exp/train/train_images.list"
@@ -778,10 +1072,6 @@ def CNN_2D_main():
     layer_02_convolution_kernel_size = 3
     layer_02_max_pooling_kernel_size = 3
     layer_02_max_pooling_stride = 1
-    layer_03_convolution_output_channels = 128
-    layer_03_convolution_kernel_size = 3
-    layer_03_max_pooling_kernel_size = 3
-    layer_03_max_pooling_stride = 1
     dropout_coefficient = 0.5
     overlap_threshold = .5
     frame_size = (128,128)
@@ -791,25 +1081,22 @@ def CNN_2D_main():
     batch_size = 300
     output_directory = "./"
     
-    model = CNN_2D(number_of_classes,
-                   layer_01_convolution_output_channels,
-                   layer_01_convolution_kernel_size,
-                   layer_01_max_pooling_kernel_size,
-                   layer_01_max_pooling_stride,
-                   layer_02_convolution_output_channels,
-                   layer_02_convolution_kernel_size,
-                   layer_02_max_pooling_kernel_size,
-                   layer_02_max_pooling_stride,
-                   layer_03_convolution_output_channels,
-                   layer_03_convolution_kernel_size,
-                   layer_03_max_pooling_kernel_size,
-                   layer_03_max_pooling_stride,
-                   dropout_coefficient,
-                   window_size)
-
+    model = CNN_2D_claudia(number_of_classes,
+                           layer_01_convolution_output_channels,
+                           layer_01_convolution_kernel_size,
+                           layer_01_max_pooling_kernel_size,
+                           layer_01_max_pooling_stride,
+                           layer_02_convolution_output_channels,
+                           layer_02_convolution_kernel_size,
+                           layer_02_max_pooling_kernel_size,
+                           layer_02_max_pooling_stride,    
+                           dropout_coefficient,
+                           window_size)
+    
     model.fit(image_files, annotation_files,
               number_of_epochs, learning_rate, batch_size,
-              overlap_threshold, frame_size, output_directory)
+              overlap_threshold, frame_size, output_directory,
+              .5,.5, 10)
     
     
 if __name__ == "__main__":

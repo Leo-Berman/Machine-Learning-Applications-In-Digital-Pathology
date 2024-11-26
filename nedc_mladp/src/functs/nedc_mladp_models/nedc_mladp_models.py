@@ -11,6 +11,7 @@ import pandas
 import mmap
 import ray
 import math
+import json
 import gc
 gc.enable()
 
@@ -360,7 +361,8 @@ class ImageDataset(Dataset):
                  memory_per_batch=1,
                  image_cache_size=50,
                  feature_cache_threshold=1200,
-                 prediction_bool=False):
+                 prediction_bool=False,
+                 object_store_memory:float=20):
         self.image_files = image_files
         self.annotation_files = annotation_files
         self.memory_per_batch = memory_per_batch
@@ -375,7 +377,12 @@ class ImageDataset(Dataset):
         self.prediction_bool=prediction_bool
         self.frame_top_left_coordinates = None
         # initialize ray 
-        ray.init(ignore_reinit_error=True)
+        ray.init(ignore_reinit_error=True, object_store_memory=object_store_memory*1024*1024*1024,
+                 _system_config={
+                     "object_spilling_config": json.dumps(
+                         {"type": "filesystem", "params": {"directory_path": "./spill"}},
+                     )
+                 })
 
         # Count the number of labelled windows
         print(f"Counting labelled windows in {len(self.image_files)} images")
@@ -480,12 +487,14 @@ class CNN_2D_internal(torch.nn.Module):
                  layer_03_max_pooling_kernel_size:int=3,
                  layer_03_max_pooling_stride:int=1,
                  dropout_coefficient:float=.5,
-                 window_size:tuple = (256,256)):
+                 window_size:tuple = (256,256),
+                 object_store_memory:float = 20):
     
 
 
         super(CNN_2D_internal, self).__init__()
         os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+        os.environ["TUNE_MAX_PENDING_TRIALS_PG"] = "1"
         ''' declare first convolutional layer
         3 input channels for R, G, and B
         '''
@@ -698,7 +707,8 @@ class CNN_2D:
             epochs:int, learning_rate:float, batch_size:int,
             overlap_threshold:float, frame_size:tuple,
             output_directory:str,cpus_per_batch:float,
-            memory_per_batch:float, image_cache_size:int):
+            memory_per_batch:float, image_cache_size:int,
+            object_store_memory:float):
 
         # Check outupt directory
         if not (output_directory.endswith("/")):
@@ -715,7 +725,9 @@ class CNN_2D:
                                self.window_size, overlap_threshold,
                                cpus_per_batch = cpus_per_batch,
                                memory_per_batch = memory_per_batch,
-                               image_cache_size = image_cache_size)
+                               image_cache_size = image_cache_size,
+                               object_store_memory = object_store_memory,
+                               feature_cache_threshold = 8 * batch_size)
         dataloader = DataLoader(dataset, batch_size = batch_size, collate_fn=frameCollate)
 
 
@@ -805,6 +817,7 @@ class CNN_2D_internal_claudia(torch.nn.Module):
 
         super(CNN_2D_internal_claudia, self).__init__()
         os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+        os.environ["TUNE_MAX_PENDING_TRIALS_PG"] = "1"
         ''' declare first convolutional layer
         3 input channels for R, G, and B
         '''
@@ -974,7 +987,8 @@ class CNN_2D_claudia:
             epochs:int, learning_rate:float, batch_size:int,
             overlap_threshold:float, frame_size:tuple,
             output_directory:str,cpus_per_batch:float,
-            memory_per_batch:float, image_cache_size:int):
+            memory_per_batch:float, image_cache_size:int,
+            object_store_memory:float):
 
         # Check outupt directory
         if not (output_directory.endswith("/")):
@@ -991,7 +1005,8 @@ class CNN_2D_claudia:
                                self.window_size, overlap_threshold,
                                cpus_per_batch = cpus_per_batch,
                                memory_per_batch = memory_per_batch,
-                               image_cache_size = image_cache_size)
+                               image_cache_size = image_cache_size,
+                               object_store_memory = object_store_memory)
         dataloader = DataLoader(dataset, batch_size = batch_size, collate_fn=frameCollateResize)
 
 

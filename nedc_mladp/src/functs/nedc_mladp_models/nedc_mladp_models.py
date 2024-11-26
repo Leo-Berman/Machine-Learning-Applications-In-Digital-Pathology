@@ -957,22 +957,26 @@ class CNN_2D_claudia:
                  layer_02_max_pooling_kernel_size:int,
                  layer_02_max_pooling_stride:int,
                  dropout_coefficient:float,
-                 window_size:tuple):
-        
-        self.model = CNN_2D_internal_claudia(number_of_classes,
-                                             layer_01_convolution_output_channels,
-                                             layer_01_convolution_kernel_size,
-                                             layer_01_max_pooling_kernel_size,
-                                             layer_01_max_pooling_stride,
-                                             
-                 
-                                             layer_02_convolution_output_channels,
-                                             layer_02_convolution_kernel_size,
-                                             layer_02_max_pooling_kernel_size,
-                                             layer_02_max_pooling_stride,
-                                             
-                                             dropout_coefficient,
-                                             window_size)
+                 window_size:tuple,
+                 load_model_path:str=None):
+        if load_model_path != None:
+            self.model = torch.load(load_model_path)
+            print("Model Loaded",flush=True)
+        else:
+            self.model = CNN_2D_internal_claudia(number_of_classes,
+                                                 layer_01_convolution_output_channels,
+                                                 layer_01_convolution_kernel_size,
+                                                 layer_01_max_pooling_kernel_size,
+                                                 layer_01_max_pooling_stride,
+                                                 
+                                                 
+                                                 layer_02_convolution_output_channels,
+                                                 layer_02_convolution_kernel_size,
+                                                 layer_02_max_pooling_kernel_size,
+                                                 layer_02_max_pooling_stride,
+                                                 
+                                                 dropout_coefficient,
+                                                 window_size)
 
         self.getDevice()
         
@@ -1013,7 +1017,7 @@ class CNN_2D_claudia:
         # Set the criterion and optimizer
         criterion = torch.nn.CrossEntropyLoss()
         optimizer = torch.optim.Adam(self.model.parameters(), lr = learning_rate)
-
+        
         # find the number of batches
         number_of_batches = math.ceil(len(dataset)/batch_size)
 
@@ -1022,7 +1026,7 @@ class CNN_2D_claudia:
             batch_number = 1
             total_labels = 0
             labels_correct = 0
-            
+            epoch_loss = 0
             # iterate through the batches
             for data, labels in dataloader:
 
@@ -1037,7 +1041,8 @@ class CNN_2D_claudia:
                 loss = criterion(outputs,device_labels)
                 loss.backward()
                 optimizer.step()
-
+                epoch_loss += loss.item()
+                
                 # track for epoch accuracy
                 _, predicted_classes = torch.max(outputs,1)
                 total = predicted_classes.size(0)
@@ -1053,7 +1058,7 @@ class CNN_2D_claudia:
             torch.save(self.model, f"{output_directory}CNN_2D{epoch}.pth")
 
             # print epoch information
-            print(f'Epoch {epoch+1}/{epochs}, Loss: {loss.item()}, Accuracy: {labels_correct/total_labels}', flush=True)
+            print(f'Epoch {epoch+1}/{epochs}, Loss: {total_loss/number_of_batches}, Accuracy: {labels_correct/total_labels}', flush=True)
 
             
 def CNN_2D_main():

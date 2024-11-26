@@ -118,6 +118,9 @@ def train_model(feature_files:dict=None):
         memory_per_batch = float(parsed_parameters["memory_per_batch"]) * 1024 * 1024 * 1024
         image_cache_size = int(parsed_parameters["image_cache_size"])
         object_store_memory = float(parsed_parameters["object_store_memory"])
+        load_model=int(parsed_parameters["load_model"])
+        if load_model == 1:
+            load_model_path = parsed_parameters["load_model_path"]
     output_directory = parsed_parameters['output_directory']
     if not (output_directory.endswith("/")):
         output_directory += "/"
@@ -188,17 +191,31 @@ def train_model(feature_files:dict=None):
                               dropout_coefficient,
                               window_size)
     elif model_type == "CNN_2D_claudia":
-        model = models.CNN_2D_claudia(number_of_classes,
-                              layer_01_convolution_output_channels,
-                              layer_01_convolution_kernel_size,
-                              layer_01_max_pooling_kernel_size,
-                              layer_01_max_pooling_stride,
-                              layer_02_convolution_output_channels,
-                              layer_02_convolution_kernel_size,
-                              layer_02_max_pooling_kernel_size,
-                              layer_02_max_pooling_stride,
-                              dropout_coefficient,
-                              window_size)
+        if load_model == 0:
+            model = models.CNN_2D_claudia(number_of_classes,
+                                          layer_01_convolution_output_channels,
+                                          layer_01_convolution_kernel_size,
+                                          layer_01_max_pooling_kernel_size,
+                                          layer_01_max_pooling_stride,
+                                          layer_02_convolution_output_channels,
+                                          layer_02_convolution_kernel_size,
+                                          layer_02_max_pooling_kernel_size,
+                                          layer_02_max_pooling_stride,
+                                          dropout_coefficient,
+                                          window_size)
+        else:
+            model = models.CNN_2D_claudia(number_of_classes,
+                                          layer_01_convolution_output_channels,
+                                          layer_01_convolution_kernel_size,
+                                          layer_01_max_pooling_kernel_size,
+                                          layer_01_max_pooling_stride,
+                                          layer_02_convolution_output_channels,
+                                          layer_02_convolution_kernel_size,
+                                          layer_02_max_pooling_kernel_size,
+                                          layer_02_max_pooling_stride,
+                                          dropout_coefficient,
+                                          window_size,
+                                          load_model_path=load_model_path)
     else:
         print("No model supplied")
         return

@@ -27,7 +27,7 @@ def RGB_predictFile(image_file:str, annotation_file:str, model,
     try:
         dataset = ImageDataset([image_file], [annotation_file], frame_size,
                                window_size, overlap_threshold, cpus_per_batch = .25,
-                               memory = .5, prediction_bool=True)
+                               memory_per_batch = .5, prediction_bool=True)
 
         coordinates = dataset.returnCoordinates()
         
@@ -43,7 +43,7 @@ def RGB_predictFile(image_file:str, annotation_file:str, model,
             
         # Send the model to the appropriate device
         model = model.to(device)
-    
+        model.eval()
         # iterate through the batches
         for data, labels in dataloader:
         
@@ -60,9 +60,9 @@ def RGB_predictFile(image_file:str, annotation_file:str, model,
             correct = sum([(predicted == actual) for predicted,actual in zip(predicted_classes,device_labels)])
             labels_correct=correct
             total_labels=total
-            probabilities = outputs.softmax(dim=1)
+            #probabilities = outputs.softmax(dim=1)
             predicted_classes = torch.argmax(probabilities, dim=1)
-            confidences = torch.max(probabilities, dim=1).values
+            confidences = torch.max(confidences, dim=1).values
 
         predicted_classes = predicted_classes.cpu().tolist()
         confidences = confidences.cpu().tolist()
